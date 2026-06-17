@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interaktives KI‑Portal</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      background: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background: #004b8d;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      background: #006bb6;
+      color: white;
+    }
+    nav a {
+      color: white;
+      padding: 0.8rem 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover, nav a:focus {
+      background: #005692;
+    }
+    main {
+      padding: 2rem;
+    }
+    .accordion {
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .accordion h3 {
+      margin: 0;
+      padding: 0.8rem;
+      background: #006bb6;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+    }
+    .accordion h3:hover {
+      background: #005692;
+    }
+    .accordion-content {
+      padding: 1rem;
+      display: none;
+      background: #fff;
+      border-top: 1px solid #ccc;
+    }
+    .accordion-content p {
+      margin-top: 0;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    .category-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    .category-list li {
+      margin-bottom: 0.5rem;
+    }
+    .learning-path, .interactive, .admin-panel, .help-section {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 1rem;
+      background: #fff;
+      margin-top: 1rem;
+    }
+    .learning-path h3, .interactive h3, .admin-panel h3, .help-section h3 {
+      margin-top: 0;
+    }
+    footer {
+      background: #004b8d;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>KI‑Lernportal</h1>
+    <p>Ihre Einstiegshilfe in die Welt der künstlichen Intelligenz – Schritt für Schritt, verständlich und motivierend.</p>
+  </header>
+  <nav>
+    <a href="#kategorien">Modelle &amp; Kategorien</a>
+    <a href="#lernen">Lernpfad</a>
+    <a href="#features">Interaktive Funktionen</a>
+    <a href="#admin">Admin &amp; Monetarisierung</a>
+    <a href="#hilfe">Hilfe &amp; Kontakt</a>
+  </nav>
+  <main>
+    <section id="kategorien">
+      <h2>Modelle &amp; Kategorien</h2>
+      <p>Wählen Sie eine Kategorie aus, um die entsprechenden Modelle, Anwendungsfälle und Hinweise zu sehen. Klicken Sie auf die Überschriften, um mehr zu erfahren.</p>
+      <!-- Category: LLM & Code -->
+      <div class="accordion">
+        <h3>LLMs &amp; Codegenerierung</h3>
+        <div class="accordion-content">
+          <p>Diese Modelle eignen sich zur Text‑ und Codegenerierung, Unterstützung bei Programmieraufgaben und allgemeinen Assistentenfunktionen.</p>
+          <ul class="category-list">
+            <li><strong>Mixtral 8×7B‑Instruct</strong> – MoE‑Modell für kreativen Text, Code und multilinguale Antworten.</li>
+            <li><strong>GLM‑5.1</strong> – Flagship‑MoE für langfristige Agenten‑Aufgaben und robuste Codegenerierung.</li>
+            <li><strong>Llama‑3‑Biege &amp; Qwen‑Modelle</strong> – Verschiedene Größen zur Auswahl; ideal zum feinen Tuning von Chat‑Assistenten.</li>
+            <li><strong>Kleinere Modelle (Mistral 7B, Yi 6B)</strong> – Geringerer Ressourcenverbrauch, gut für Prototypen und On‑Device‑Tests.</li>
+          </ul>
+          <p>❤️ <em>Hinweis:</em> Wenn Sie noch keine Erfahrung haben, beginnen Sie mit kleineren Modellen wie Mistral 7B, um ein Gefühl für die Funktionsweise zu bekommen. Benötigen Sie Unterstützung? Unser <a href="#hilfe">Hilfebereich</a> ist für Sie da.</p>
+        </div>
+      </div>
+      <!-- Category: Embeddings & RAG -->
+      <div class="accordion">
+        <h3>Embeddings &amp; RAG (Abruf Augmented Generation)</h3>
+        <div class="accordion-content">
+          <p>Embedding‑Modelle transformieren Text in Vektor­repräsentationen, um relevante Informationen aus großen Datenmengen zu finden. RAG-Modelle kombinieren Retrieval und Generierung.</p>
+          <ul class="category-list">
+            <li><strong>NV‑Embed QA &amp; Code</strong> – Hochperformante Embeddings für Frage‑Antwort‑Systeme und Code‑Suche.</li>
+            <li><strong>Llama‑Nemotron Reranker</strong> – Kombination aus Llama und Nemotron, um RAG‑Ergebnisse neu zu sortieren.</li>
+            <li><strong>NV‑Embed Retrival (r22)</strong> – Speziell für Dokumente; ideal für Chatbots mit firmeneigenen Unterlagen.</li>
+            <li><strong>NV‑Embed Lexis</strong> – Optimiert für Rechts‑ und Finanztexte.</li>
+          </ul>
+          <p>💡 <em>Tipp:</em> Nutzen Sie diese Modelle in Kombination mit Ihrem eigenen Dokumentenspeicher, um ein mächtiges Frage‑Antwort‑System aufzubauen. Mehr dazu finden Sie im <a href="#lernen">Lernpfad</a>.</p>
+        </div>
+      </div>
+      <!-- Category: Sprache & Audio -->
+      <div class="accordion">
+        <h3>Sprach‑ &amp; Audio‑Modelle</h3>
+        <div class="accordion-content">
+          <p>Diese Kategorie umfasst Übersetzung, Spracherkennung (ASR) und Sprachsynthese (TTS).</p>
+          <ul class="category-list">
+            <li><strong>Riva‑Translate 4B</strong> – Unterstützt mehrere Sprachen (z. B. Deutsch, Englisch, Chinesisch, Spanisch). Ideal zur Übersetzung und Lokalisierung.</li>
+            <li><strong>Parakeet CTC‑ASR</strong> – Hochwertige automatische Spracherkennung mit verschiedenen Modelgrößen.</li>
+            <li><strong>Elster‑TTS &amp; Magpie‑TTS</strong> – Natürlich klingende Sprachsynthese mit mehreren Stimmen und Tonlagen.</li>
+          </ul>
+          <p>🎵 <em>Hinweis:</em> Kombinieren Sie ASR- und TTS‑Modelle, um eine vollständige Sprachschnittstelle zu erstellen. Falls Sie nicht weiterkommen, hilft unser <a href="#hilfe">Assistent</a>.</p>
+        </div>
+      </div>
+      <!-- Category: Vision, 3D & Images -->
+      <div class="accordion">
+        <h3>Vision, 3D &amp; Bilder</h3>
+        <div class="accordion-content">
+          <p>Modelle für Bild‑ und Video‑Generierung, 3D‑Rekonstruktion und OCR.</p>
+          <ul class="category-list">
+            <li><strong>Flux 1.1 &amp; StableDiffusion 3</strong> – Generative Bildmodelle (bitte beachten: aufgrund unserer Richtlinien werden hier keine realen Marken oder Personen dargestellt).</li>
+            <li><strong>Kosmos 2.5 &amp; R2</strong> – Vision‑LLMs für multimodale Eingaben (Text + Bild) und 3D‑Rekonstruktion.</li>
+            <li><strong>Nemo‑Retriever OCR &amp; Table OCR</strong> – Extrahiert Text und Tabellen aus gescannten Dokumenten und Bildern.</li>
+          </ul>
+          <p>📸 <em>Hinweis:</em> OCR‑Modelle helfen Ihnen, Informationen aus PDFs und Bildern zu extrahieren. Achten Sie auf die Dateigröße und Qualität – eine klare Abbildung liefert die besten Ergebnisse.</p>
+        </div>
+      </div>
+      <!-- Category: Biowissenschaften & Medikamentenforschung -->
+      <div class="accordion">
+        <h3>Biowissenschaften &amp; Drug Discovery</h3>
+        <div class="accordion-content">
+          <p>Diese Modelle unterstützen die Erforschung von Proteinstrukturen, Molekülinteraktionen und die Entwicklung neuer Wirkstoffe.</p>
+          <ul class="category-list">
+            <li><strong>OpenFold 2.3 &amp; AlphaFold</strong> – Sagen Proteinstrukturen auf Basis von Aminosäuresequenzen vorher.</li>
+            <li><strong>DiffDock</strong> – Generatives Modell zur Vorhersage von Ligand‑Protein‑Bindungen; laut Forschung kann es klassische Docking‑Methoden ergänzen【423428044006654†L44-L50】【423428044006654†L95-L104】.</li>
+            <li><strong>MolMIM &amp; GenMol</strong> – Für die Generierung neuer Moleküle und die Optimierung chemischer Eigenschaften.</li>
+          </ul>
+          <p>🧬 <em>Wichtig:</em> Diese Modelle sind hochspezialisiert; ihre Ergebnisse sollten stets von Fachexperten überprüft werden. Sie eignen sich nicht für produktive Diagnosen.</p>
+        </div>
+      </div>
+      <!-- Category: Optimierung & Robotik -->
+      <div class="accordion">
+        <h3>Optimierung &amp; Robotik</h3>
+        <div class="accordion-content">
+          <p>Modelle und Engines zur Routenoptimierung, Verkehrsplanung und Simulation.</p>
+          <ul class="category-list">
+            <li><strong>CuOpt &amp; cuOpt GSL</strong> – GPU‑beschleunigte Optimierungsengine, die in Tests Tausende Pakete in Sekunden optimiert und dadurch Reisezeit und Kraftstoffverbrauch um ~15 % reduziert【229412295989125†L43-L62】.</li>
+            <li><strong>RoboSim &amp; Isaac OR</strong> – Simulationstools für Robotik und autonome Fahrzeugplanung.</li>
+            <li><strong>USD‑Code</strong> – API zur Programmierschnittstelle für Digital Twins auf Basis von Universal Scene Description (USD).</li>
+          </ul>
+          <p>🚚 <em>Tipp:</em> Nutzen Sie diese Modelle im Zusammenspiel mit eigenen Daten (z. B. Routen und Ressourcen), um schnell Optimierungsszenarien zu simulieren und zu vergleichen.</p>
+        </div>
+      </div>
+      <!-- Category: Dokumentenextraktion & Sicherheit -->
+      <div class="accordion">
+        <h3>Dokumentenextraktion &amp; Sicherheit</h3>
+        <div class="accordion-content">
+          <p>Modelle zur Extraktion strukturierter Daten und Sicherstellung von Inhalts‑ sowie Promptsicherheit.</p>
+          <ul class="category-list">
+            <li><strong>Nemotron‑3 Content Safety</strong> – Multimodales Modell zur Erkennung toxischer Inhalte; verfügt über 128K Kontext und unterstützt über 140 Sprachen【765079001264259†L118-L124】.</li>
+            <li><strong>Nemoguard (Llama‑3.1‑8B Safety)</strong> – Feinabstimmung basierend auf Meta‑Llama; bewertet Prompt und Antwort, weist Kategorien zu und gibt Safe/Unsafe‑Flags aus【9442137881854†L108-L117】.</li>
+            <li><strong>Nemo‑Docparser &amp; Doc QA</strong> – Extrahiert Informationen aus komplexen Geschäftsdokumenten (z. B. Rechnungen, Verträge) und erlaubt anschließende Abfragen über Ihre Daten.</li>
+          </ul>
+          <p>🛡️ <em>Hinweis:</em> Sicherheit ist entscheidend. Verwenden Sie diese Modelle, um Nutzerinhalte zu überprüfen, bevor sie an LLMs weitergeleitet werden, um Missbrauch zu verhindern.</p>
+        </div>
+      </div>
+    </section>
+    <!-- Lernpfad -->
+    <section id="lernen">
+      <h2>Lernpfad</h2>
+      <p>Folgen Sie diesem strukturierten Weg, um KI‑Fähigkeiten aufzubauen. Jeder Abschnitt führt Sie zu den entsprechenden Kategorien und Modulen.</p>
+      <div class="learning-path">
+        <h3>1. Einsteigen</h3>
+        <p>Beginnen Sie mit unseren grundlegenden Modulen zum Verständnis von KI‑Begriffen und Modellen. Lernen Sie einfache Prompts zu formulieren und testen Sie kleine Modelle wie Mistral 7B. Sehen Sie sich unsere Einsteiger‑Videos mit deutschem Untertitel an.</p>
+      </div>
+      <div class="learning-path">
+        <h3>2. Erforschen</h3>
+        <p>Vertiefen Sie Ihr Wissen mit Embedding‑ und RAG‑Techniken. Erstellen Sie mit NV‑Embed ein Frage‑Antwort‑System und erfahren Sie, wie RAG die Qualität von Antworten verbessert.</p>
+      </div>
+      <div class="learning-path">
+        <h3>3. Anwenden</h3>
+        <p>Setzen Sie Sprach‑ und Vision‑Modelle ein, um Spracherkennung und Bildanalyse zu integrieren. Experimentieren Sie mit TTS und ASR für interaktive Chatbots und nutzen Sie OCR‑Modelle zur Extraktion aus PDFs.</p>
+      </div>
+      <div class="learning-path">
+        <h3>4. Vertiefen &amp; Skalieren</h3>
+        <p>Arbeiten Sie mit spezialisierten Modellen (z. B. DiffDock oder CuOpt), implementieren Sie Optimierungsaufgaben und erweitern Sie Ihr System durch eigenständiges Hosting der NIM‑Container für Enterprise‑Anwendungen.</p>
+      </div>
+    </section>
+    <!-- Interaktive Funktionen -->
+    <section id="features">
+      <h2>Interaktive Funktionen</h2>
+      <div class="interactive">
+        <h3>Hilfs‑Assistent</h3>
+        <p>Unser integrierter Chat‑Assistent hilft Ihnen in Echtzeit. Er beantwortet Fragen, erklärt Begriffe und leitet Sie an die richtige Stelle im Portal weiter. Ideal für Anfänger mit Berührungsängsten.</p>
+      </div>
+      <div class="interactive">
+        <h3>Quiz &amp; Tests</h3>
+        <p>Kurze Quizfragen nach jedem Modul stärken Ihr Wissen und zeigen Ihnen den Fortschritt. Sie erhalten sofort Feedback und können bei Bedarf zum Lernstoff zurückspringen.</p>
+      </div>
+      <div class="interactive">
+        <h3>Glossar &amp; Übersetzungen</h3>
+        <p>Ein integriertes Glossar übersetzt Fachbegriffe ins Deutsche und erklärt sie in einfacher Sprache. So bleiben Sie immer im Verständnis, auch bei komplizierten Begriffen.</p>
+      </div>
+    </section>
+    <!-- Admin & Monetarisierung -->
+    <section id="admin">
+      <h2>Admin &amp; Monetarisierung</h2>
+      <div class="admin-panel">
+        <h3>Administrator‑Bereich</h3>
+        <p>Als Eigentümer oder Admin haben Sie Zugriff auf ein umfassendes Dashboard:</p>
+        <ul>
+          <li>Nutzerverwaltung: Rollen zuweisen, Passwörter generieren und den Lernfortschritt überwachen.</li>
+          <li>Kurs‑ und Inhaltserstellung: Neue Module hinzufügen oder bestehende überarbeiten, Glossar erweitern.</li>
+          <li>Auswertungen &amp; Statistik: Analyse der Nutzung, Performance der Modelle und Feedback der Nutzer.</li>
+          <li>Daten‑ und Sicherheitsverwaltung: DSGVO‑konforme Einstellungen und Protokolle.</li>
+          <li>Upsell‑Optionen: Premium‑Pakete freischalten, Affiliate‑Links zu GPU‑Anbietern verwalten.</li>
+        </ul>
+      </div>
+      <div class="admin-panel">
+        <h3>Monetarisierungsstrategien</h3>
+        <p>Das Portal kann über mehrere Kanäle Erlöse generieren:</p>
+        <ul>
+          <li>Freemium‑Modell: Kostenlose Grundfunktionen mit Premium‑Upgrade für erweiterte Modelle und Zertifikate.</li>
+          <li>White‑Label‑Angebote: Firmenlizenz mit eigenem Branding und interner Nutzung.</li>
+          <li>Partnerprogramme &amp; Affiliate: Verweise zu Hardware‑Anbietern, Kursplattformen oder NIM‑Enterprise‑Lizenzen.</li>
+          <li>Kundenspezifische Beratung &amp; Schulung: Individuelle Trainings für Firmenkunden.</li>
+        </ul>
+      </div>
+    </section>
+    <!-- Hilfe & Kontakt -->
+    <section id="hilfe">
+      <h2>Hilfe &amp; Kontakt</h2>
+      <div class="help-section">
+        <h3>Benötigen Sie Unterstützung?</h3>
+        <p>Wir wissen, dass der Einstieg in KI schwierig sein kann. Nutzen Sie unsere Hilfe‑Funktionen:</p>
+        <ul>
+          <li>Nutzen Sie den Chat‑Assistenten für konkrete Fragen oder Unklarheiten.</li>
+          <li>Besuchen Sie unser Glossar mit übersetzten Begriffen und einfachen Erklärungen.</li>
+          <li>Sehen Sie sich Video‑Tutorials mit deutschem Untertitel an.</li>
+          <li>Kontaktieren Sie uns per E‑Mail für individuelle Beratung und Support.</li>
+        </ul>
+        <p>🙌 <em>Wir begleiten Sie gerne Schritt für Schritt auf Ihrem Weg in die KI‑Welt!</em></p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2026 KI‑Portal. Dieses Portal respektiert barrierefreie Standards【923489389058200†L268-L297】 und basiert auf dem AI‑Literacy‑Framework【781101117421768†L218-L233】. Fragen? Schreiben Sie uns!</p>
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var headers = document.querySelectorAll('.accordion h3');
+      headers.forEach(function (header) {
+        header.addEventListener('click', function () {
+          var content = header.nextElementSibling;
+          var isOpen = content.style.display === 'block';
+          document.querySelectorAll('.accordion-content').forEach(function (el) {
+            el.style.display = 'none';
+          });
+          if (!isOpen) {
+            content.style.display = 'block';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
