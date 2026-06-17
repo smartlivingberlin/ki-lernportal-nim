@@ -29,24 +29,21 @@ export default function Home() {
         <section className="grid md:grid-cols-3 gap-8 mb-16">
           <div className="border border-gray-200 rounded-lg p-8 hover:shadow-lg transition-shadow">
             <h3 className="text-2xl font-bold mb-4 text-blue-800">Für Anfänger</h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-600">
               Lernen Sie die Grundlagen der KI ohne Fachchinesisch. Starten Sie mit einfachen Übungen und entdecken Sie, wie KI Ihren Alltag erleichtern kann.
             </p>
-            <button className="text-blue-600 font-semibold hover:underline">Mehr erfahren →</button>
           </div>
           <div className="border border-gray-200 rounded-lg p-8 hover:shadow-lg transition-shadow">
             <h3 className="text-2xl font-bold mb-4 text-blue-800">Für Fortgeschrittene</h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-600">
               Vertiefen Sie Ihr Wissen über verschiedene KI-Modelle und lernen Sie, wie Sie komplexe Aufgaben mit Hilfe von KI-Agenten automatisieren können.
             </p>
-            <button className="text-blue-600 font-semibold hover:underline">Mehr erfahren →</button>
           </div>
           <div className="border border-gray-200 rounded-lg p-8 hover:shadow-lg transition-shadow">
             <h3 className="text-2xl font-bold mb-4 text-blue-800">Für Unternehmer & Träger</h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-600">
               Entdecken Sie Potenziale für Ihr Unternehmen oder Ihre Bildungseinrichtung. Wir zeigen Ihnen Wege zur sicheren und effizienten Implementierung.
             </p>
-            <button className="text-blue-600 font-semibold hover:underline">Mehr erfahren →</button>
           </div>
         </section>
 
