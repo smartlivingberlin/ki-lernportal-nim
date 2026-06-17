@@ -1,0 +1,9 @@
+{
+  "name": "ki-lernportal-nim",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter \"./apps/*\" --filter \"./services/*\" dev",
+    "build": "pnpm --filter \"./apps/*\" --filter \"./services/*\" build",
+    "lint": "pnpm --filter \"./apps/*\" --filter \"./services/*\" lint"
+  }
+}
