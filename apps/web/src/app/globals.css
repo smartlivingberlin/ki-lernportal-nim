@@ -1,26 +1,100 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --nim-primary: #005fb8;
+  --nim-secondary: #64748b;
+  --nim-accent: #3b82f6;
+  --nim-success: #10b981;
+  --nim-card-bg: rgba(255, 255, 255, 0.8);
+  --nim-border: rgba(226, 232, 240, 0.8);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-nim-primary: var(--nim-primary);
+  --color-nim-secondary: var(--nim-secondary);
+  --color-nim-accent: var(--nim-accent);
+  --color-nim-success: var(--nim-success);
+
+  --shadow-glass: 0 4px 16px 0 rgba(31, 38, 135, 0.05);
+  --shadow-premium: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f172a;
+    --foreground: #f8fafc;
+    --nim-card-bg: rgba(30, 41, 59, 0.7);
+    --nim-border: rgba(51, 65, 85, 0.8);
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 18px; /* NIM-Modern-Light: min 18px base */
+  line-height: 1.6;
+}
+
+/* Custom Utilities */
+.glass-card {
+  background: var(--nim-card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--nim-border);
+  box-shadow: var(--shadow-glass);
+}
+
+.depth-card {
+  background: var(--nim-card-bg);
+  border: 1px solid var(--nim-border);
+  box-shadow: var(--shadow-premium);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.depth-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.sidebar-gradient {
+  background: linear-gradient(180deg, #004b8d 0%, #003366 100%);
+}
+
+.premium-gradient {
+  background: linear-gradient(135deg, var(--nim-primary) 0%, var(--nim-accent) 100%);
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--nim-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--nim-primary);
 }
