@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "KI-Lernportal NIM",
-  description: "Adaptives, barrierearmes KI-Lernportal für Einsteiger",
+  description: "Adaptives KI-Lernportal für Einsteiger",
 };
 
 export default function RootLayout({
