@@ -15,7 +15,7 @@ export default function Home() {
     { icon: '🧭', label: 'Navigator', id: 'navigator' },
     { icon: '📚', label: 'Lernpfad', id: 'lernpfad' },
     { icon: '📦', label: 'Modellkatalog', id: 'modellkatalog' },
-    { icon: '📖', label: 'Glossar', id: 'glossary' },
+    { icon: '📖', label: 'Glossar', id: 'glossar' },
     { icon: '🔭', label: 'Monitoring', id: 'monitoring' },
     { icon: '🛡️', label: 'Admin-Cockpit', id: 'admin' },
   ];
@@ -38,7 +38,7 @@ export default function Home() {
             <div className="w-10 h-10 rounded-full bg-nim-accent flex items-center justify-center font-bold shadow-inner text-sm">DU</div>
             <div>
               <p className="text-sm font-semibold">Demo-Zugang</p>
-              <p className="text-[11px] opacity-60">Status: Aktiv</p>
+                <p className="text-[11px] opacity-60">Status: Demo-Modus</p>
             </div>
           </div>
         </div>
@@ -115,7 +115,7 @@ export default function Home() {
                 <a href="#lernpfad" className="bg-white text-nim-primary px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 text-sm">
                   Lernpfad fortsetzen
                 </a>
-                <a href="#glossary" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-6 py-3 rounded-xl font-bold hover:bg-white/20 transition-all text-sm">
+                <a href="#glossar" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-6 py-3 rounded-xl font-bold hover:bg-white/20 transition-all text-sm">
                   Glossar öffnen
                 </a>
               </div>
@@ -193,14 +193,14 @@ export default function Home() {
                     type="Sprachmodell"
                     useCase="Code & Text"
                     difficulty="Fortgeschritten"
-                    privacy="DSGVO-konform"
+                    privacy="DSGVO-Check: Demo"
                   />
                   <ModelDetailCard
                     name="Llama 3.1 8B"
                     type="Sprachmodell"
                     useCase="Chat & Hilfe"
                     difficulty="Einsteiger"
-                    privacy="Sicherer Prompt"
+                    privacy="Demo-Status"
                   />
                 </div>
                 <div className="mt-4 p-4 rounded-2xl bg-blue-50/50 border border-blue-100 text-sm">
@@ -221,20 +221,20 @@ export default function Home() {
                     type="Embedding"
                     useCase="Wissenssuche"
                     difficulty="Experte"
-                    privacy="Interne Daten"
+                    privacy="Demo-Quelle"
                   />
                   <ModelDetailCard
                     name="Llama-Reranker"
                     type="Reranking"
                     useCase="Suche-Optimierung"
                     difficulty="Experte"
-                    privacy="Verschlüsselt"
+                    privacy="Sicherheitsprüfung: später"
                   />
                 </div>
               </Accordion>
 
               <Accordion
-                id="glossary"
+                id="glossar"
                 title="Glossar: Einfache Sprache"
                 icon="📖"
                 activeId={activeAccordion}
@@ -298,13 +298,13 @@ export default function Home() {
                 <tbody className="text-sm">
                   <tr className="border-b border-nim-border/50 hover:bg-slate-50/30 transition-colors">
                     <td className="px-6 py-4 font-semibold">NVIDIA NIM API (Simuliert)</td>
-                    <td className="px-6 py-4"><span className="inline-flex items-center text-nim-success">● <span className="ml-2">Online</span></span></td>
+                    <td className="px-6 py-4"><span className="inline-flex items-center text-nim-success">● <span className="ml-2">Online (Simuliert)</span></span></td>
                     <td className="px-6 py-4 text-nim-secondary italic text-xs">Demo-Stand</td>
                     <td className="px-6 py-4 text-nim-secondary">—</td>
                   </tr>
                   <tr className="border-b border-nim-border/50 hover:bg-slate-50/30 transition-colors">
                     <td className="px-6 py-4 font-semibold">Lern-Fortschritt-Dienst</td>
-                    <td className="px-6 py-4"><span className="inline-flex items-center text-nim-success">● <span className="ml-2">Aktiv</span></span></td>
+                    <td className="px-6 py-4"><span className="inline-flex items-center text-nim-success">● <span className="ml-2">Aktiv (Simuliert)</span></span></td>
                     <td className="px-6 py-4 text-nim-secondary italic text-xs">Demo-Stand</td>
                     <td className="px-6 py-4 text-nim-secondary">—</td>
                   </tr>
@@ -330,7 +330,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <AdminCard title="Inhaltsprüfung" value="12" status="Offen" icon="📝" />
               <AdminCard title="Quellenstatus" value="98%" status="Optimal" icon="📡" color="text-nim-success" />
-              <AdminCard title="Privacy-Check" value="Pass" status="DSGVO Konform" icon="🛡️" color="text-nim-success" />
+              <AdminCard title="Privacy-Check" value="Geplant" status="DSGVO-Check: Demo" icon="🛡️" color="text-nim-success" />
               <AdminCard title="System-Review" value="2" status="Aufgaben" icon="⚖️" color="text-amber-500" />
             </div>
           </section>
@@ -391,7 +391,7 @@ function Accordion({ id, title, icon, children, activeId, onToggle }: { id: stri
   const isOpen = activeId === id;
   const contentId = `accordion-content-${id}`;
   return (
-    <div className="depth-card rounded-2xl overflow-hidden">
+    <div id={id} className="depth-card rounded-2xl overflow-hidden scroll-mt-20">
       <button
         onClick={() => onToggle(id)}
         className="w-full flex items-center justify-between p-5 text-left transition-colors hover:bg-slate-50/50"
@@ -483,7 +483,7 @@ function PathStep({ number, title, status }: { number: number, title: string, st
       </div>
       <span className="font-bold text-sm leading-tight">{title}</span>
       <span className="text-[10px] uppercase font-black tracking-widest">
-        {status === 'completed' ? 'Fertig' : status === 'current' ? 'Aktiv' : 'Gesperrt'}
+        {status === 'completed' ? 'Fertig' : status === 'current' ? 'In Bearbeitung' : 'Gesperrt'}
       </span>
     </div>
   );
