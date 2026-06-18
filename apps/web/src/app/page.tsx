@@ -54,7 +54,9 @@ export default function Home() {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="p-2 rounded-lg bg-gray-50 border border-gray-100 text-nim-primary"
-            aria-label="Menü öffnen"
+            aria-label={isMobileMenuOpen ? "Menü schließen" : "Menü öffnen"}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
           >
             {isMobileMenuOpen ? '✕' : '☰'}
           </button>
@@ -62,7 +64,11 @@ export default function Home() {
 
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm transition-opacity" onClick={() => setIsMobileMenuOpen(false)}>
+          <div
+            id="mobile-menu"
+            className="lg:hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
             <div className="absolute left-0 top-0 bottom-0 w-72 sidebar-gradient p-6 flex flex-col shadow-2xl animate-fade-in" onClick={e => e.stopPropagation()}>
               <div className="flex justify-between items-center mb-8">
                 <h2 className="text-xl font-bold text-white">Navigation</h2>
@@ -87,9 +93,14 @@ export default function Home() {
               <span className="text-[120px] font-bold">NIM</span>
             </div>
             <div className="relative z-10 space-y-6">
-              <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10">
-                <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
-                <span className="text-xs font-bold uppercase tracking-widest">MVP Phase 1</span>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 w-fit">
+                  <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
+                  <span className="text-xs font-bold uppercase tracking-widest">MVP Phase 1</span>
+                </div>
+                <div className="text-[11px] font-bold text-yellow-200/90 uppercase tracking-tight bg-black/20 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-yellow-200/20">
+                  ⚠️ MVP-Demo — noch kein echtes KI-System, keine echte Personalisierung und kein Live-Monitoring angeschlossen.
+                </div>
               </div>
               <div className="max-w-2xl space-y-4">
                 <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
@@ -122,19 +133,19 @@ export default function Home() {
             />
             <DashboardCard
               title="AI Navigator"
-              value="Empfehlung"
-              description="Nächster Schritt: Einführung in LLMs & Codegenerierung."
+              value="Demo-Vorschlag"
+              description="Beispiel: Einführung in LLMs & Codegenerierung."
               icon="🧭"
               color="text-nim-primary"
-              footer={<button className="text-sm font-bold text-nim-primary hover:underline">Jetzt starten →</button>}
+              footer={<button className="text-sm font-bold text-nim-primary hover:underline">Vorschau öffnen →</button>}
             />
             <DashboardCard
               title="Trend-Watcher"
-              value="Neu"
-              description="Erfahren Sie mehr über die neuen NV-Embed Modelle."
+              value="Vorschau"
+              description="Beispiel-Inhalt: Neue NV-Embed Modelle."
               icon="🔭"
               color="text-nim-success"
-              footer={<span className="text-xs bg-nim-success/10 text-nim-success px-2 py-1 rounded font-bold">Aktualisiert: Heute</span>}
+              footer={<span className="text-xs bg-nim-success/10 text-nim-success px-2 py-1 rounded font-bold">Demo-Stand</span>}
             />
           </section>
 
@@ -144,11 +155,11 @@ export default function Home() {
               <div className="space-y-2">
                 <div className="flex items-center space-x-2 text-nim-accent">
                   <span className="text-xl">✨</span>
-                  <h3 className="font-bold uppercase tracking-wider text-sm">Persönliche Empfehlung</h3>
+                  <h3 className="font-bold uppercase tracking-wider text-sm">Demo-Empfehlung</h3>
                 </div>
-                <h4 className="text-2xl font-bold">Vertiefen Sie Ihr Wissen über RAG</h4>
+                <h4 className="text-2xl font-bold">Nächster sinnvoller Lernschritt (Beispiel)</h4>
                 <p className="text-nim-secondary max-w-xl">
-                  Basierend auf Ihrem Fortschritt empfehlen wir das Modul <span className="font-semibold text-foreground italic">&quot;Abruf Augmented Generation (RAG) für Anfänger&quot;</span>.
+                  Als nächsten Schritt in dieser Demo schlagen wir das Modul <span className="font-semibold text-foreground italic">&quot;Abruf Augmented Generation (RAG) für Anfänger&quot;</span> vor.
                 </p>
               </div>
               <button className="bg-nim-primary text-white px-8 py-4 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all whitespace-nowrap">
@@ -160,7 +171,10 @@ export default function Home() {
           {/* Model Catalog & Interactive Sections */}
           <section className="space-y-8">
             <div className="flex items-center justify-between">
-              <h3 className="text-2xl font-bold tracking-tight">Modellkatalog & Ressourcen</h3>
+              <div>
+                <h3 className="text-2xl font-bold tracking-tight">Modellkatalog & Ressourcen</h3>
+                <p className="text-xs text-nim-secondary mt-1">⚠️ Demo-Inhalte: Keine Live-Integrationen</p>
+              </div>
               <button className="text-sm font-bold text-nim-primary hover:underline">Alle anzeigen</button>
             </div>
 
@@ -247,10 +261,10 @@ export default function Home() {
               <p className="font-bold text-nim-primary">KI‑Lernportal NIM</p>
               <p className="text-sm text-nim-secondary mt-1">Ein Projekt zur Förderung der KI-Literacy in Deutschland.</p>
             </div>
-            <div className="flex gap-8 text-sm font-semibold text-nim-secondary">
-              <a href="#" className="hover:text-nim-primary transition-colors">Impressum</a>
-              <a href="#" className="hover:text-nim-primary transition-colors">Datenschutz</a>
-              <a href="#" className="hover:text-nim-primary transition-colors">Barrierefreiheit</a>
+            <div className="flex flex-wrap justify-center gap-6 text-sm font-semibold text-nim-secondary">
+              <span className="opacity-50">Impressum (später)</span>
+              <span className="opacity-50">Datenschutz (später)</span>
+              <span className="opacity-50">Barrierefreiheit (später)</span>
             </div>
             <div className="text-xs text-nim-secondary opacity-50">
               &copy; {new Date().getFullYear()} smartlivingberlin
@@ -293,11 +307,14 @@ function ProgressBar({ percent }: { percent: number }) {
 
 function Accordion({ id, title, icon, children, activeId, onToggle }: { id: string, title: string, icon: string, children: React.ReactNode, activeId: string | null, onToggle: (id: string) => void }) {
   const isOpen = activeId === id;
+  const contentId = `accordion-content-${id}`;
   return (
     <div className="depth-card rounded-2xl overflow-hidden">
       <button
         onClick={() => onToggle(id)}
         className="w-full flex items-center justify-between p-5 text-left transition-colors hover:bg-slate-50/50"
+        aria-expanded={isOpen}
+        aria-controls={contentId}
       >
         <div className="flex items-center space-x-4">
           <span className="text-2xl">{icon}</span>
@@ -305,7 +322,11 @@ function Accordion({ id, title, icon, children, activeId, onToggle }: { id: stri
         </div>
         <span className={`text-nim-secondary transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>▼</span>
       </button>
-      <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
+      <div
+        id={contentId}
+        className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
+        role="region"
+      >
         <div className="p-6 pt-0 border-t border-nim-border/50">
           {children}
         </div>
