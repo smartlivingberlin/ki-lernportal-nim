@@ -1,6 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
+import { seedLearningPaths } from '../data/learning-paths';
+import { seedGlossary } from '../data/glossary';
+import { seedModelCards } from '../data/model-cards';
+import { seedSources } from '../data/sources';
+import { TrustLevel, ReviewStatus, ModelCard, LearningPath } from '../data/types';
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -19,6 +24,8 @@ export default function Home() {
     { icon: '🔭', label: 'Monitoring', id: 'monitoring' },
     { icon: '🛡️', label: 'Admin-Cockpit', id: 'admin' },
   ];
+
+  const primaryPath = seedLearningPaths[0]; // KI-Start für absolute Anfänger
 
   return (
     <div className="flex min-h-screen bg-background font-sans antialiased text-foreground">
@@ -100,23 +107,23 @@ export default function Home() {
                   <span className="text-[10px] font-bold uppercase tracking-widest">MVP Phase 1</span>
                 </div>
                 <div className="text-[10px] font-bold text-white/80 uppercase tracking-widest bg-white/5 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10">
-                  ⚠️ MVP-Demo: Mock-System ohne Live-Daten
+                  ⚠️ Demo: Statische Inhalte
                 </div>
               </div>
               <div className="max-w-2xl space-y-3">
                 <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-                  Ihr KI‑Lern‑Dashboard
+                  Willkommen im KI‑Lernportal
                 </h2>
                 <p className="text-base md:text-lg text-white/80 leading-relaxed font-medium">
-                  Willkommen im adaptiven Portal für KI-Literacy. Entdecken Sie die Möglichkeiten moderner Sprachmodelle in verständlicher Sprache.
+                  Ihr Einstieg in die Welt der künstlichen Intelligenz. Starten Sie jetzt mit unserem Grundkurs für absolute Anfänger.
                 </p>
               </div>
               <div className="flex flex-wrap gap-4 pt-2">
                 <a href="#lernpfad" className="bg-white text-nim-primary px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 text-sm">
-                  Lernpfad fortsetzen
+                  Jetzt kostenlos starten
                 </a>
-                <a href="#glossar" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-6 py-3 rounded-xl font-bold hover:bg-white/20 transition-all text-sm">
-                  Glossar öffnen
+                <a href="#navigator" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-6 py-3 rounded-xl font-bold hover:bg-white/20 transition-all text-sm">
+                  Mein Lernziel wählen
                 </a>
               </div>
             </div>
@@ -126,25 +133,25 @@ export default function Home() {
           <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <DashboardCard
               title="Lernfortschritt"
-              value="35%"
-              description="Sie haben 3 von 8 Modulen abgeschlossen."
+              value="0%"
+              description="Starten Sie Ihre erste Lektion heute!"
               icon="📈"
               color="text-nim-accent"
-              footer={<ProgressBar percent={35} />}
+              footer={<ProgressBar percent={0} />}
             />
             <DashboardCard
               title="AI Navigator"
-              value="Demo-Vorschlag"
-              description="Beispiel: Einführung in LLMs & Codegenerierung."
+              value="Empfehlung"
+              description={`${primaryPath.lessons[0].title}`}
               icon="🧭"
               color="text-nim-primary"
               footer={<a href="#navigator" className="text-sm font-bold text-nim-primary hover:underline">Details ansehen →</a>}
             />
             <DashboardCard
-              title="Monitoring"
-              value="Demo-Vorschau"
-              description="Aktueller Status der simulierten Systeme."
-              icon="🔭"
+              title="Quellen"
+              value={`${seedSources.length}`}
+              description="Verifizierte & im Review befindliche Quellen."
+              icon="📚"
               color="text-nim-success"
               footer={<a href="#monitoring" className="text-sm font-bold text-nim-success hover:underline">Zum Monitoring →</a>}
             />
@@ -156,16 +163,30 @@ export default function Home() {
               <div className="space-y-2">
                 <div className="flex items-center space-x-2 text-nim-accent">
                   <span className="text-xl">✨</span>
-                  <h3 className="font-bold uppercase tracking-wider text-sm">Demo-Empfehlung</h3>
+                  <h3 className="font-bold uppercase tracking-wider text-sm">Nächster Schritt</h3>
                 </div>
-                <h4 className="text-2xl font-bold">Nächster sinnvoller Lernschritt (Beispiel)</h4>
+                <h4 className="text-2xl font-bold">{primaryPath.lessons[0].title}</h4>
                 <p className="text-nim-secondary max-w-xl">
-                  Als nächsten Schritt in dieser Demo schlagen wir das Modul <span className="font-semibold text-foreground italic">&quot;Abruf Augmented Generation (RAG) für Anfänger&quot;</span> vor.
+                  {primaryPath.lessons[0].description}
+                  <span className="block mt-2 text-xs font-bold text-amber-600">⚠️ Wichtig: Geben Sie niemals private Daten wie Passwörter in KI-Systeme ein.</span>
                 </p>
               </div>
-              <a href="#modellkatalog" className="bg-nim-primary text-white px-8 py-4 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all whitespace-nowrap text-center">
-                Modul-Vorschau
+              <a href="#lernpfad" className="bg-nim-primary text-white px-8 py-4 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all whitespace-nowrap text-center">
+                Lektion starten (5 Min)
               </a>
+            </div>
+          </section>
+
+          {/* Learning Paths Preview */}
+          <section id="lernpfad" className="space-y-6">
+            <div className="flex items-center justify-between">
+               <h3 className="text-2xl font-bold tracking-tight">Lernpfade für Einsteiger</h3>
+               <span className="text-xs font-bold text-nim-secondary uppercase bg-slate-100 px-3 py-1 rounded-full">6 Pfade verfügbar</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {seedLearningPaths.map((path) => (
+                <PathCard key={path.id} path={path} />
+              ))}
             </div>
           </section>
 
@@ -174,37 +195,22 @@ export default function Home() {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-2xl font-bold tracking-tight">Modellkatalog & Ressourcen</h3>
-                <p className="text-xs text-nim-secondary mt-1">⚠️ Beispiel-Inhalte: Keine Live-Integration</p>
+                <p className="text-xs text-nim-secondary mt-1">NVIDIA NIM-Inferenz-Services & Frameworks</p>
               </div>
-              <button className="text-sm font-bold text-nim-primary hover:underline">Modul-Archiv (später)</button>
             </div>
 
             <div className="space-y-4">
               <Accordion
                 id="llm"
-                title="LLMs & Codegenerierung"
+                title="Sprachmodelle (LLMs)"
                 icon="📝"
                 activeId={activeAccordion}
                 onToggle={toggleAccordion}
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <ModelDetailCard
-                    name="Mixtral 8x7B"
-                    type="Sprachmodell"
-                    useCase="Code & Text"
-                    difficulty="Fortgeschritten"
-                    privacy="DSGVO-Check: Demo"
-                  />
-                  <ModelDetailCard
-                    name="Llama 3.1 8B"
-                    type="Sprachmodell"
-                    useCase="Chat & Hilfe"
-                    difficulty="Einsteiger"
-                    privacy="Demo-Status"
-                  />
-                </div>
-                <div className="mt-4 p-4 rounded-2xl bg-blue-50/50 border border-blue-100 text-sm">
-                  <span className="font-bold text-blue-800 italic">Hinweis:</span> Diese Modelle sind im Demo-Modus simuliert. In der finalen Version erfolgt eine direkte NVIDIA NIM Anbindung.
+                  {seedModelCards.filter(m => m.type === 'Sprachmodell').map(model => (
+                    <ModelDetailCard key={model.id} model={model} />
+                  ))}
                 </div>
               </Accordion>
 
@@ -216,64 +222,40 @@ export default function Home() {
                 onToggle={toggleAccordion}
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <ModelDetailCard
-                    name="NV-Embed v2"
-                    type="Embedding"
-                    useCase="Wissenssuche"
-                    difficulty="Experte"
-                    privacy="Demo-Quelle"
-                  />
-                  <ModelDetailCard
-                    name="Llama-Reranker"
-                    type="Reranking"
-                    useCase="Suche-Optimierung"
-                    difficulty="Experte"
-                    privacy="Sicherheitsprüfung: später"
-                  />
+                  {seedModelCards.filter(m => m.type !== 'Sprachmodell').map(model => (
+                    <ModelDetailCard key={model.id} model={model} />
+                  ))}
                 </div>
               </Accordion>
 
               <Accordion
                 id="glossar"
-                title="Glossar: Einfache Sprache"
+                title="Glossar: KI einfach erklärt"
                 icon="📖"
                 activeId={activeAccordion}
                 onToggle={toggleAccordion}
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <GlossaryEntry
-                    term="Prompt"
-                    explanation="Die Anweisung oder Frage, die du der KI stellst."
-                    example="Stell dir vor, du gibst einem Koch ein Rezept. Der Prompt ist dein Wunsch: 'Bitte backe einen Schokokuchen'."
-                  />
-                  <GlossaryEntry
-                    term="LLM (Sprachmodell)"
-                    explanation="Ein Computerprogramm, das wie ein Mensch Texte lesen und schreiben kann."
-                    example="Es ist wie ein extrem belesener Assistent, der fast alle Bücher der Welt kennt und dir nun beim Schreiben hilft."
-                  />
-                  <GlossaryEntry
-                    term="RAG (Wissens-Abruf)"
-                    explanation="Die KI schaut erst in deinen eigenen Dokumenten nach, bevor sie antwortet."
-                    example="Wie ein Schüler, der bei einer Prüfung in seinem eigenen Heft nachschlagen darf, um keine Fehler zu machen."
-                  />
-                  <GlossaryEntry
-                    term="Halluzination"
-                    explanation="Wenn die KI Fakten erfindet, die gar nicht stimmen, aber sehr überzeugend klingen."
-                    example="Die KI behauptet, es gäbe ein fliegendes Auto in Berlin, obwohl das (noch) gar nicht wahr ist."
-                  />
+                  {seedGlossary.filter(g => g.priority === 1).map(term => (
+                    <GlossaryEntry
+                      key={term.id}
+                      term={term.term}
+                      explanation={term.definition}
+                      example={term.example}
+                    />
+                  ))}
+                </div>
+                <div className="mt-8 pt-6 border-t border-nim-border">
+                   <h5 className="text-xs font-bold text-nim-secondary uppercase tracking-widest mb-4">Weitere Fachbegriffe</h5>
+                   <div className="flex flex-wrap gap-2">
+                      {seedGlossary.filter(g => g.priority > 1).map(term => (
+                        <span key={term.id} className="px-3 py-1 bg-slate-50 border border-slate-200 rounded-full text-xs font-semibold text-nim-primary" title={term.definition}>
+                          {term.term}
+                        </span>
+                      ))}
+                   </div>
                 </div>
               </Accordion>
-            </div>
-          </section>
-
-          {/* Learning Paths Preview */}
-          <section id="lernpfad" className="space-y-6">
-            <h3 className="text-2xl font-bold tracking-tight">Ihr individueller Lernpfad</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <PathStep number={1} title="Grundlagen" status="completed" />
-              <PathStep number={2} title="Einfache Prompts" status="completed" />
-              <PathStep number={3} title="LLM verstehen" status="current" />
-              <PathStep number={4} title="RAG & Daten" status="locked" />
             </div>
           </section>
 
@@ -281,57 +263,56 @@ export default function Home() {
           <section id="monitoring" className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-2xl font-bold tracking-tight">Monitoring & Trend-Watcher</h3>
-                <p className="text-xs text-nim-secondary mt-1">⚠️ Demo-Status: Keine Live-Überwachung</p>
+                <h3 className="text-2xl font-bold tracking-tight">Source Registry & Monitoring</h3>
+                <p className="text-xs text-nim-secondary mt-1">Status der verwendeten Referenzdaten & Standards</p>
               </div>
             </div>
             <div className="glass-card rounded-2xl overflow-hidden overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead className="bg-slate-50/50 text-[10px] uppercase font-bold text-nim-secondary tracking-widest border-b border-nim-border">
                   <tr>
-                    <th className="px-6 py-4">Quelle</th>
-                    <th className="px-6 py-4">Status</th>
-                    <th className="px-6 py-4">Letzte Prüfung</th>
-                    <th className="px-6 py-4">Review</th>
+                    <th className="px-6 py-4">Quelle / Standard</th>
+                    <th className="px-6 py-4">Typ</th>
+                    <th className="px-6 py-4">Review-Status</th>
+                    <th className="px-6 py-4">Vertrauen</th>
                   </tr>
                 </thead>
                 <tbody className="text-sm">
-                  <tr className="border-b border-nim-border/50 hover:bg-slate-50/30 transition-colors">
-                    <td className="px-6 py-4 font-semibold">NVIDIA NIM API (Simuliert)</td>
-                    <td className="px-6 py-4"><span className="inline-flex items-center text-nim-success">● <span className="ml-2">Online (Simuliert)</span></span></td>
-                    <td className="px-6 py-4 text-nim-secondary italic text-xs">Demo-Stand</td>
-                    <td className="px-6 py-4 text-nim-secondary">—</td>
-                  </tr>
-                  <tr className="border-b border-nim-border/50 hover:bg-slate-50/30 transition-colors">
-                    <td className="px-6 py-4 font-semibold">Lern-Fortschritt-Dienst</td>
-                    <td className="px-6 py-4"><span className="inline-flex items-center text-nim-success">● <span className="ml-2">Aktiv (Simuliert)</span></span></td>
-                    <td className="px-6 py-4 text-nim-secondary italic text-xs">Demo-Stand</td>
-                    <td className="px-6 py-4 text-nim-secondary">—</td>
-                  </tr>
-                  <tr className="hover:bg-slate-50/30 transition-colors text-amber-600">
-                    <td className="px-6 py-4 font-semibold">Glossar-Synchronisation</td>
-                    <td className="px-6 py-4"><span className="inline-flex items-center">● <span className="ml-2">Wartend</span></span></td>
-                    <td className="px-6 py-4 text-nim-secondary italic text-xs">Demo-Stand</td>
-                    <td className="px-6 py-4 font-bold text-xs">Review nötig</td>
-                  </tr>
+                  {seedSources.map((source) => (
+                    <tr key={source.id} className="border-b border-nim-border/50 hover:bg-slate-50/30 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="font-semibold text-nim-primary">{source.name}</div>
+                        <div className="text-[10px] text-nim-secondary truncate max-w-xs">{source.url}</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="text-[10px] font-bold bg-slate-100 px-2 py-0.5 rounded uppercase tracking-tighter">{source.sourceType}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <ReviewBadge status={source.reviewStatus} />
+                      </td>
+                      <td className="px-6 py-4">
+                        <TrustBadge level={source.trustLevel} />
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
           </section>
 
           {/* Admin / Owner Cockpit Section */}
-          <section id="admin" className="space-y-6 pb-12">
+          <section id="admin" className="space-y-6 pb-12 opacity-80 hover:opacity-100 transition-opacity">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-2xl font-bold tracking-tight">Admin & Owner Cockpit</h3>
-                <p className="text-xs text-nim-secondary mt-1">⚠️ Preview-Modus für Administratoren</p>
+                <p className="text-xs text-nim-secondary mt-1">Review-Pipeline & Inhaltsverwaltung (Vorschau)</p>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <AdminCard title="Inhaltsprüfung" value="12" status="Offen" icon="📝" />
-              <AdminCard title="Quellenstatus" value="98%" status="Optimal" icon="📡" color="text-nim-success" />
-              <AdminCard title="Privacy-Check" value="Geplant" status="DSGVO-Check: Demo" icon="🛡️" color="text-nim-success" />
-              <AdminCard title="System-Review" value="2" status="Aufgaben" icon="⚖️" color="text-amber-500" />
+              <AdminCard title="Offene Reviews" value={`${seedSources.filter(s => s.reviewStatus === ReviewStatus.NeedsReview || s.reviewStatus === ReviewStatus.SourceAttached).length}`} status="Aktion nötig" icon="📝" />
+              <AdminCard title="Quellen-Abdeckung" value="Demo" status="Review offen" icon="📡" color="text-nim-success" />
+              <AdminCard title="Glossar-Stand" value={`${seedGlossary.length}`} status="Begriffe" icon="🛡️" color="text-nim-primary" />
+              <AdminCard title="Lern-Pfade" value={`${seedLearningPaths.length}`} status="Aktiv/Geplant" icon="⚖️" color="text-amber-500" />
             </div>
           </section>
         </main>
@@ -341,12 +322,11 @@ export default function Home() {
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-center md:text-left">
               <p className="font-bold text-nim-primary">KI‑Lernportal NIM</p>
-              <p className="text-sm text-nim-secondary mt-1">Ein Projekt zur Förderung der KI-Literacy in Deutschland.</p>
+              <p className="text-sm text-nim-secondary mt-1">Ein Projekt zur Förderung der KI-Literacy.</p>
             </div>
             <div className="flex flex-wrap justify-center gap-6 text-sm font-semibold text-nim-secondary">
-              <span className="opacity-50">Impressum (später)</span>
-              <span className="opacity-50">Datenschutz (später)</span>
-              <span className="opacity-50">Barrierefreiheit (später)</span>
+              <span className="opacity-50 italic">Keine DSGVO-Haftung in dieser Demo</span>
+              <span className="opacity-50 italic">Vermeiden Sie PII-Eingaben</span>
             </div>
             <div className="text-xs text-nim-secondary opacity-50">
               &copy; {new Date().getFullYear()} smartlivingberlin
@@ -406,7 +386,7 @@ function Accordion({ id, title, icon, children, activeId, onToggle }: { id: stri
       </button>
       <div
         id={contentId}
-        className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
+        className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}`}
         role="region"
       >
         <div className="p-6 pt-0 border-t border-nim-border/50">
@@ -430,25 +410,59 @@ function GlossaryEntry({ term, explanation, example }: { term: string, explanati
   );
 }
 
-function ModelDetailCard({ name, type, useCase, difficulty, privacy }: { name: string, type: string, useCase: string, difficulty: string, privacy: string }) {
+function ModelDetailCard({ model }: { model: ModelCard }) {
   return (
     <div className="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm space-y-3">
       <div className="flex justify-between items-start">
-        <h5 className="font-black text-nim-primary">{name}</h5>
-        <span className="text-[9px] font-bold bg-slate-100 px-2 py-0.5 rounded uppercase tracking-widest text-slate-500">{type}</span>
+        <h5 className="font-black text-nim-primary">{model.name}</h5>
+        <span className="text-[9px] font-bold bg-slate-100 px-2 py-0.5 rounded uppercase tracking-widest text-slate-500">{model.type}</span>
       </div>
       <div className="grid grid-cols-2 gap-2 text-[11px]">
         <div>
           <p className="text-nim-secondary font-bold uppercase tracking-tighter">Einsatz</p>
-          <p className="font-semibold">{useCase}</p>
+          <p className="font-semibold">{model.useCase}</p>
         </div>
         <div>
           <p className="text-nim-secondary font-bold uppercase tracking-tighter">Niveau</p>
-          <p className="font-semibold">{difficulty}</p>
+          <p className="font-semibold">{model.difficulty}</p>
         </div>
       </div>
+      {model.riskNote && (
+         <p className="text-[10px] text-amber-600 bg-amber-50 p-2 rounded-lg border border-amber-100 leading-tight">
+            <span className="font-bold">Hinweis:</span> {model.riskNote}
+         </p>
+      )}
       <div className="pt-2 border-t border-slate-50 flex items-center text-[10px] text-nim-success font-bold uppercase tracking-widest">
-        <span className="mr-1.5">🛡️</span> {privacy}
+        <span className="mr-1.5">🛡️</span> {model.privacyNote}
+      </div>
+    </div>
+  );
+}
+
+function PathCard({ path }: { path: LearningPath }) {
+  const isLocked = path.status === 'locked';
+  const isPlanned = path.status === 'planned';
+
+  return (
+    <div className={`depth-card rounded-3xl p-6 flex flex-col justify-between space-y-4 ${isLocked ? 'opacity-50 grayscale' : ''}`}>
+      <div className="space-y-3">
+        <div className="flex justify-between items-center">
+           <span className="text-[10px] font-bold bg-slate-100 px-2 py-0.5 rounded uppercase tracking-widest text-slate-500">{path.difficulty}</span>
+           {path.status === 'active' && <span className="w-2 h-2 rounded-full bg-nim-success animate-pulse"></span>}
+        </div>
+        <h4 className="text-xl font-bold leading-tight">{path.title}</h4>
+        <p className="text-sm text-nim-secondary leading-relaxed">{path.description}</p>
+      </div>
+
+      <div className="pt-4 border-t border-nim-border flex items-center justify-between">
+         <span className="text-xs font-bold text-nim-primary">
+           {isPlanned ? 'Geplant' : isLocked ? 'Gesperrt' : `${path.lessons.length} Lektionen`}
+         </span>
+         {!isLocked && !isPlanned && (
+           <button className="text-xs font-black uppercase tracking-widest bg-nim-primary text-white px-3 py-1.5 rounded-lg hover:scale-105 transition-transform">
+             Start
+           </button>
+         )}
       </div>
     </div>
   );
@@ -469,22 +483,34 @@ function AdminCard({ title, value, status, icon, color = "text-nim-primary" }: {
   );
 }
 
-function PathStep({ number, title, status }: { number: number, title: string, status: 'completed' | 'current' | 'locked' }) {
-  const styles = {
-    completed: 'bg-nim-success/10 border-nim-success/20 text-nim-success',
-    current: 'bg-nim-accent text-white border-nim-accent shadow-lg shadow-nim-accent/20',
-    locked: 'bg-slate-50 border-slate-100 text-slate-300 opacity-60'
+function ReviewBadge({ status }: { status: ReviewStatus }) {
+  const config = {
+    [ReviewStatus.Draft]: { label: 'Entwurf', class: 'bg-slate-100 text-slate-500' },
+    [ReviewStatus.NeedsReview]: { label: 'Review offen', class: 'bg-amber-100 text-amber-700' },
+    [ReviewStatus.SourceAttached]: { label: 'Quelle vorhanden', class: 'bg-blue-100 text-blue-700' },
+    [ReviewStatus.Approved]: { label: 'Geprüft', class: 'bg-nim-success/20 text-nim-success' },
+    [ReviewStatus.Published]: { label: 'Live', class: 'bg-nim-primary/20 text-nim-primary' },
   };
-
+  const item = config[status] || config[ReviewStatus.Draft];
   return (
-    <div className={`p-6 rounded-3xl border-2 flex flex-col items-center text-center space-y-3 transition-all duration-300 ${styles[status]}`}>
-      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold border-2 ${status === 'current' ? 'bg-white text-nim-accent border-white' : 'border-current'}`}>
-        {status === 'completed' ? '✓' : number}
-      </div>
-      <span className="font-bold text-sm leading-tight">{title}</span>
-      <span className="text-[10px] uppercase font-black tracking-widest">
-        {status === 'completed' ? 'Fertig' : status === 'current' ? 'In Bearbeitung' : 'Gesperrt'}
-      </span>
+    <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-tighter ${item.class}`}>
+      {item.label}
+    </span>
+  );
+}
+
+function TrustBadge({ level }: { level: TrustLevel }) {
+  const config = {
+    [TrustLevel.Low]: { icon: '⚪', label: 'Basis' },
+    [TrustLevel.Medium]: { icon: '🟡', label: 'Glaubwürdig' },
+    [TrustLevel.High]: { icon: '🟢', label: 'Hoch' },
+    [TrustLevel.Verified]: { icon: '🛡️', label: 'Verifiziert' },
+  };
+  const item = config[level] || config[TrustLevel.Low];
+  return (
+    <div className="flex items-center space-x-1" title={item.label}>
+       <span className="text-xs">{item.icon}</span>
+       <span className="text-[10px] font-bold text-nim-secondary">{item.label}</span>
     </div>
   );
 }
