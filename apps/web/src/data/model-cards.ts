@@ -7,7 +7,7 @@ export const seedModelCards: ModelCard[] = [
     type: 'Sprachmodell',
     useCase: 'Code & Text',
     difficulty: DifficultyLevel.Intermediate,
-    privacyNote: 'DSGVO-Check: Demo',
+    privacyNote: 'Datenschutz-Hinweis: Demo, nicht geprüft',
     trustLevel: TrustLevel.High,
     displayAllowed: true,
     riskNote: 'Kann bei komplexen Fakten halluzinieren.'

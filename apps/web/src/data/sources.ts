@@ -23,8 +23,8 @@ export const seedSources: Source[] = [
   },
   {
     id: 'eu-ai-act',
-    name: 'European Commission AI Act overview',
-    url: 'https://artificialintelligenceact.eu/',
+    name: 'European Commission AI Act official overview',
+    url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai',
     sourceType: SourceType.Regulation,
     reviewStatus: ReviewStatus.SourceAttached,
     approvalStatus: ApprovalStatus.ReviewRequired,

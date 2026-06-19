@@ -23,7 +23,7 @@ export enum TrustLevel {
   Low = 'Niedrig',
   Medium = 'Mittel',
   High = 'Hoch',
-  Verified = 'Verifiziert'
+  Verified = 'Hochwertige Quelle'
 }
 
 export enum SourceType {

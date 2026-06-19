@@ -310,7 +310,7 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <AdminCard title="Offene Reviews" value={`${seedSources.filter(s => s.reviewStatus === ReviewStatus.NeedsReview || s.reviewStatus === ReviewStatus.SourceAttached).length}`} status="Aktion nötig" icon="📝" />
-              <AdminCard title="Quellen-Abdeckung" value="100%" status="Optimiert" icon="📡" color="text-nim-success" />
+              <AdminCard title="Quellen-Abdeckung" value="Demo" status="Review offen" icon="📡" color="text-nim-success" />
               <AdminCard title="Glossar-Stand" value={`${seedGlossary.length}`} status="Begriffe" icon="🛡️" color="text-nim-primary" />
               <AdminCard title="Lern-Pfade" value={`${seedLearningPaths.length}`} status="Aktiv/Geplant" icon="⚖️" color="text-amber-500" />
             </div>
