@@ -33,7 +33,7 @@ export default function Home() {
       <aside className="hidden lg:flex flex-col w-72 sidebar-gradient text-white fixed inset-y-0 left-0 z-50">
         <div className="p-8">
           <h1 className="text-2xl font-bold tracking-tight">KI‑Lernportal NIM</h1>
-          <p className="text-[10px] opacity-70 mt-1 uppercase tracking-widest font-semibold">Premium AI Learning Suite</p>
+          <p className="text-[10px] opacity-70 mt-1 uppercase tracking-widest font-semibold">KI-Kompetenz einfach lernen</p>
         </div>
         <nav className="flex-1 px-4 space-y-1.5 mt-4">
           {navItems.map((item) => (
@@ -120,7 +120,7 @@ export default function Home() {
               </div>
               <div className="flex flex-wrap gap-4 pt-2">
                 <a href="#lernpfad" className="bg-white text-nim-primary px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 text-sm">
-                  Jetzt kostenlos starten
+                  Demo-Lernpfad ansehen
                 </a>
                 <a href="#navigator" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-6 py-3 rounded-xl font-bold hover:bg-white/20 transition-all text-sm">
                   Mein Lernziel wählen
@@ -150,7 +150,7 @@ export default function Home() {
             <DashboardCard
               title="Quellen"
               value={`${seedSources.length}`}
-              description="Verifizierte & im Review befindliche Quellen."
+              description="Quellen mit Review-Status."
               icon="📚"
               color="text-nim-success"
               footer={<a href="#monitoring" className="text-sm font-bold text-nim-success hover:underline">Zum Monitoring →</a>}
@@ -325,7 +325,7 @@ export default function Home() {
               <p className="text-sm text-nim-secondary mt-1">Ein Projekt zur Förderung der KI-Literacy.</p>
             </div>
             <div className="flex flex-wrap justify-center gap-6 text-sm font-semibold text-nim-secondary">
-              <span className="opacity-50 italic">Keine DSGVO-Haftung in dieser Demo</span>
+              <span className="opacity-50 italic">Demo-Hinweis: keine rechtliche Datenschutzprüfung.</span>
               <span className="opacity-50 italic">Vermeiden Sie PII-Eingaben</span>
             </div>
             <div className="text-xs text-nim-secondary opacity-50">
@@ -504,7 +504,7 @@ function TrustBadge({ level }: { level: TrustLevel }) {
     [TrustLevel.Low]: { icon: '⚪', label: 'Basis' },
     [TrustLevel.Medium]: { icon: '🟡', label: 'Glaubwürdig' },
     [TrustLevel.High]: { icon: '🟢', label: 'Hoch' },
-    [TrustLevel.Verified]: { icon: '🛡️', label: 'Verifiziert' },
+    [TrustLevel.Verified]: { icon: '🛡️', label: 'Hochwertige Quelle' },
   };
   const item = config[level] || config[TrustLevel.Low];
   return (
