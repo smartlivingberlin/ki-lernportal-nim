@@ -39,3 +39,6 @@ jobs:
 
       - name: Lint web app
         run: pnpm --filter web lint
+
+      - name: Content quality check
+        run: pnpm content:check
