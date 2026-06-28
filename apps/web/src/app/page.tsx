@@ -19,6 +19,7 @@ export default function Home() {
     { icon: '🏠', label: 'Dashboard', id: 'dashboard' },
     { icon: '🧭', label: 'Navigator', id: 'navigator' },
     { icon: '📚', label: 'Lernpfad', id: 'lernpfad' },
+    { icon: '📖', label: 'Lektionen', id: 'lektionen' },
     { icon: '📦', label: 'Modellkatalog', id: 'modellkatalog' },
     { icon: '📖', label: 'Glossar', id: 'glossar' },
     { icon: '🔭', label: 'Monitoring', id: 'monitoring' },
@@ -171,7 +172,7 @@ export default function Home() {
                   <span className="block mt-2 text-xs font-bold text-amber-600">⚠️ Wichtig: Geben Sie niemals private Daten wie Passwörter in KI-Systeme ein.</span>
                 </p>
               </div>
-              <a href="#lernpfad" className="bg-nim-primary text-white px-8 py-4 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all whitespace-nowrap text-center">
+              <a href="#lektionen" className="bg-nim-primary text-white px-8 py-4 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all whitespace-nowrap text-center">
                 Lektion starten (5 Min)
               </a>
             </div>
