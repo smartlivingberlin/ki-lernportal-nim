@@ -205,7 +205,11 @@ export default function Home() {
             </div>
             <div className="space-y-4">
               {primaryPath.lessons.map((lesson) => (
-                <LessonContentCard key={lesson.id} lesson={lesson} />
+                <LessonContentCard
+                  key={lesson.id}
+                  lesson={lesson}
+                  defaultOpen={lesson.order === 1}
+                />
               ))}
             </div>
           </section>
@@ -459,7 +463,10 @@ function ModelDetailCard({ model }: { model: ModelCard }) {
   );
 }
 
-function LessonContentCard({ lesson }: { lesson: Lesson }) {
+function LessonContentCard({ lesson, defaultOpen = false }: { lesson: Lesson; defaultOpen?: boolean }) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const contentId = `lesson-content-${lesson.id}`;
+
   return (
     <article className="depth-card rounded-3xl p-6 space-y-4 border-l-4 border-l-nim-accent">
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-3">
@@ -475,14 +482,32 @@ function LessonContentCard({ lesson }: { lesson: Lesson }) {
         </span>
       </div>
 
-      {lesson.content ? (
-        <div className="whitespace-pre-line text-sm leading-7 text-foreground bg-slate-50 border border-slate-100 rounded-2xl p-4">
-          {lesson.content}
-        </div>
-      ) : (
-        <p className="text-sm text-amber-700 bg-amber-50 border border-amber-100 rounded-2xl p-4">
-          Für diese Lektion ist noch kein Inhalt hinterlegt.
-        </p>
+      <button
+        type="button"
+        className="inline-flex w-fit items-center rounded-full bg-nim-primary px-4 py-2 text-xs font-bold text-white transition hover:opacity-90"
+        aria-expanded={isOpen}
+        aria-controls={contentId}
+        onClick={() => setIsOpen((current) => !current)}
+      >
+        {isOpen ? 'Lektion schließen' : 'Lektion öffnen'}
+      </button>
+
+      {isOpen && (
+        lesson.content ? (
+          <div
+            id={contentId}
+            className="whitespace-pre-line text-sm leading-7 text-foreground bg-slate-50 border border-slate-100 rounded-2xl p-4"
+          >
+            {lesson.content}
+          </div>
+        ) : (
+          <p
+            id={contentId}
+            className="text-sm text-amber-700 bg-amber-50 border border-amber-100 rounded-2xl p-4"
+          >
+            Für diese Lektion ist noch kein Inhalt hinterlegt.
+          </p>
+        )
       )}
     </article>
   );
