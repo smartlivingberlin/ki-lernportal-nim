@@ -5,7 +5,7 @@ import { seedLearningPaths } from '../data/learning-paths';
 import { seedGlossary } from '../data/glossary';
 import { seedModelCards } from '../data/model-cards';
 import { seedSources } from '../data/sources';
-import { TrustLevel, ReviewStatus, ModelCard, LearningPath } from '../data/types';
+import { TrustLevel, ReviewStatus, ModelCard, LearningPath, Lesson } from '../data/types';
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -186,6 +186,26 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {seedLearningPaths.map((path) => (
                 <PathCard key={path.id} path={path} />
+              ))}
+            </div>
+          </section>
+
+          {/* Visible Lesson Content */}
+          <section id="lektionen" className="space-y-6">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
+              <div>
+                <h3 className="text-2xl font-bold tracking-tight">Aktive Lektionen</h3>
+                <p className="text-sm text-nim-secondary mt-1">
+                  Die Inhalte aus dem Anfängerpfad sind hier als lesbare Lernkarten sichtbar.
+                </p>
+              </div>
+              <span className="text-xs font-bold text-nim-secondary uppercase bg-slate-100 px-3 py-1 rounded-full w-fit">
+                {primaryPath.lessons.length} Lektionen
+              </span>
+            </div>
+            <div className="space-y-4">
+              {primaryPath.lessons.map((lesson) => (
+                <LessonContentCard key={lesson.id} lesson={lesson} />
               ))}
             </div>
           </section>
@@ -436,6 +456,35 @@ function ModelDetailCard({ model }: { model: ModelCard }) {
         <span className="mr-1.5">🛡️</span> {model.privacyNote}
       </div>
     </div>
+  );
+}
+
+function LessonContentCard({ lesson }: { lesson: Lesson }) {
+  return (
+    <article className="depth-card rounded-3xl p-6 space-y-4 border-l-4 border-l-nim-accent">
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-3">
+        <div className="space-y-1">
+          <div className="text-[10px] font-bold text-nim-secondary uppercase tracking-widest">
+            Lektion {lesson.order}
+          </div>
+          <h4 className="text-xl font-black text-nim-primary leading-tight">{lesson.title}</h4>
+          <p className="text-sm text-nim-secondary leading-relaxed">{lesson.description}</p>
+        </div>
+        <span className="text-xs font-bold bg-slate-100 px-3 py-1 rounded-full text-nim-secondary whitespace-nowrap">
+          {lesson.estimatedMinutes} Min
+        </span>
+      </div>
+
+      {lesson.content ? (
+        <div className="whitespace-pre-line text-sm leading-7 text-foreground bg-slate-50 border border-slate-100 rounded-2xl p-4">
+          {lesson.content}
+        </div>
+      ) : (
+        <p className="text-sm text-amber-700 bg-amber-50 border border-amber-100 rounded-2xl p-4">
+          Für diese Lektion ist noch kein Inhalt hinterlegt.
+        </p>
+      )}
+    </article>
   );
 }
 
