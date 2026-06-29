@@ -186,7 +186,7 @@ export default function Home() {
           <section id="lernpfad" className="space-y-6">
             <div className="flex items-center justify-between">
                <h3 className="text-2xl font-bold tracking-tight">Lernpfade für Einsteiger</h3>
-               <span className="text-xs font-bold text-nim-secondary uppercase bg-slate-100 px-3 py-1 rounded-full">6 Pfade verfügbar</span>
+               <span className="text-xs font-bold text-nim-secondary uppercase bg-slate-100 px-3 py-1 rounded-full">{publicLearningPaths.length} Pfade verfügbar</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {publicLearningPaths.map((path) => (
