@@ -18,7 +18,11 @@ export default function Home() {
   const navItems = [
     { icon: '🏠', label: 'Start', id: 'dashboard' },
     { icon: '🧭', label: 'KI-Lotse', id: 'navigator' },
-    { icon: '✅', label: 'Quellen & Vertrauen', id: 'monitoring' },
+    { icon: '📚', label: 'Lernpfad', id: 'lernpfad' },
+    { icon: '📖', label: 'Lektionen', id: 'lektionen' },
+    { icon: '📦', label: 'Modellkatalog', id: 'modellkatalog' },
+    { icon: '📖', label: 'Glossar', id: 'glossar' },
+    { icon: '🔭', label: 'Quellen & Vertrauen', id: 'monitoring' },
   ];
 
   const primaryPath = seedLearningPaths[0]; // KI-Start für absolute Anfänger
@@ -54,15 +58,6 @@ export default function Home() {
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 rounded-lg premium-gradient flex items-center justify-center text-white font-black text-xs shadow-sm">N</div>
             <h2 className="font-bold text-nim-primary tracking-tight">KI‑Lernportal</h2>
-                <p className="mt-4 max-w-3xl text-lg md:text-xl text-white/90">
-                  Der KI-Lotse für alle: von den Grundlagen bis zur sicheren Nutzung im Alltag. Ohne Kreditkarte, ohne Konto und ohne Fachchinesisch.
-                </p>
-                <div className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-4 text-sm">
-                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Kostenlos & offen</span>
-                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Erste Lektionen ohne Login</span>
-                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Quellen mit Review-Status</span>
-                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Orientierung, keine Rechtsberatung</span>
-                </div>
           </div>
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -120,6 +115,12 @@ export default function Home() {
                 <p className="text-base md:text-lg text-white/80 leading-relaxed font-medium">
                   Ihr Einstieg in die Welt der künstlichen Intelligenz. Starten Sie jetzt mit unserem Grundkurs für absolute Anfänger.
                 </p>
+                <div className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-4 text-sm">
+                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Kostenlos & offen</span>
+                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Erste Lektionen ohne Login</span>
+                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Quellen mit Review-Status</span>
+                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Orientierung, keine Rechtsberatung</span>
+                </div>
               </div>
               <div className="flex flex-wrap gap-4 pt-2">
                 <a href="#lernpfad" className="bg-white text-nim-primary px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 text-sm">
