@@ -26,6 +26,7 @@ export default function Home() {
   ];
 
   const primaryPath = seedLearningPaths[0]; // KI-Start für absolute Anfänger
+  const publicLearningPaths = seedLearningPaths.filter((path) => path.id !== 'path-admin');
 
   return (
     <div className="flex min-h-screen bg-background font-sans antialiased text-foreground">
@@ -188,7 +189,7 @@ export default function Home() {
                <span className="text-xs font-bold text-nim-secondary uppercase bg-slate-100 px-3 py-1 rounded-full">6 Pfade verfügbar</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {seedLearningPaths.map((path) => (
+              {publicLearningPaths.map((path) => (
                 <PathCard key={path.id} path={path} />
               ))}
             </div>
@@ -328,22 +329,6 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Admin / Owner Cockpit Section */}
-          <section id="admin" className="space-y-6 pb-12 opacity-80 hover:opacity-100 transition-opacity">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-2xl font-bold tracking-tight">Interne Roadmap</h3>
-                <p className="text-xs text-nim-secondary mt-1">Interne Vorschau – nicht öffentlich produktiv</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <AdminCard title="Offene Reviews" value={`${seedSources.filter(s => s.reviewStatus === ReviewStatus.NeedsReview || s.reviewStatus === ReviewStatus.SourceAttached).length}`} status="Aktion nötig" icon="📝" />
-              <AdminCard title="Quellen-Abdeckung" value="Demo" status="Review offen" icon="📡" color="text-nim-success" />
-              <AdminCard title="Glossar-Stand" value={`${seedGlossary.length}`} status="Begriffe" icon="🛡️" color="text-nim-primary" />
-              <AdminCard title="Lern-Pfade" value={`${seedLearningPaths.length}`} status="Aktiv/Geplant" icon="⚖️" color="text-amber-500" />
-            </div>
-          </section>
-        </main>
 
         {/* Footer */}
         <footer className="mt-auto border-t border-nim-border bg-white p-8">
@@ -546,21 +531,6 @@ function PathCard({ path }: { path: LearningPath }) {
              Start
            </button>
          )}
-      </div>
-    </div>
-  );
-}
-
-function AdminCard({ title, value, status, icon, color = "text-nim-primary" }: { title: string, value: string, status: string, icon: string, color?: string }) {
-  return (
-    <div className="glass-card rounded-2xl p-5 space-y-3 border-t-2 border-t-nim-primary/20">
-      <div className="flex justify-between items-center">
-        <span className="text-xl">{icon}</span>
-        <span className={`text-[10px] font-black uppercase tracking-tighter ${color}`}>{status}</span>
-      </div>
-      <div>
-        <div className="text-xl font-bold">{value}</div>
-        <p className="text-[11px] font-bold text-nim-secondary uppercase tracking-widest">{title}</p>
       </div>
     </div>
   );
