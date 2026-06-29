@@ -185,9 +185,9 @@ export default function Home() {
             <div className="mt-8 pt-6 border-t border-nim-border/70">
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-5">
                 <div>
-                  <h4 className="text-xl font-black text-nim-primary">Ausgewählte Start-Ressourcen</h4>
+                  <h4 className="text-xl font-black text-nim-primary">Wohin du als Nächstes schauen kannst</h4>
                   <p className="text-sm text-nim-secondary mt-1">
-                    Externe Lern- und Orientierungsseiten mit Kosten-, Konto- und Datenschutzhinweis.
+                    Ausgewählte externe Angebote mit Kosten-, Konto- und Datenschutzhinweis.
                   </p>
                 </div>
                 <span className="text-xs font-bold text-nim-secondary uppercase bg-slate-100 px-3 py-1 rounded-full w-fit">
@@ -477,7 +477,12 @@ function ResourceCardItem({ resource }: { resource: ResourceCard }) {
         </span>
       </div>
 
-      <p className="text-sm leading-relaxed text-nim-secondary">{resource.benefit}</p>
+      <div className="space-y-2">
+        <p className="text-sm leading-relaxed text-nim-secondary">{resource.benefit}</p>
+        <p className="text-xs leading-relaxed text-nim-secondary bg-slate-50 border border-slate-100 rounded-xl p-3">
+          <span className="font-bold text-nim-primary">Besonders geeignet:</span> {resource.targetAudience}
+        </p>
+      </div>
 
       <div className="flex flex-wrap gap-2 text-[10px] font-bold uppercase tracking-tighter">
         <span className={`${costClass} px-2 py-1 rounded`}>{resource.costStatus}</span>

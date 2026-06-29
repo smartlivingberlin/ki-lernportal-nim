@@ -27,7 +27,7 @@ export enum TrustLevel {
 }
 
 export enum SourceType {
-  Framework = 'Framework',
+  Framework = 'Kompetenzrahmen',
   Regulation = 'Verordnung',
   Documentation = 'Dokumentation',
   Guideline = 'Leitlinie',
@@ -89,9 +89,9 @@ export interface ModelCard {
 
 export enum ResourceType {
   Course = 'Kurs',
-  Platform = 'Plattform',
+  Platform = 'Lernangebot',
   Official = 'Offizielle Quelle',
-  ToolHelp = 'Toolhilfe',
+  ToolHelp = 'Hilfeseite',
   Framework = 'Framework',
   Technical = 'Technik'
 }
