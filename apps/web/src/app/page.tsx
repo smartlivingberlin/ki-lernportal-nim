@@ -35,7 +35,7 @@ export default function Home() {
       <aside className="hidden lg:flex flex-col w-72 sidebar-gradient text-white fixed inset-y-0 left-0 z-50">
         <div className="p-8">
           <h1 className="text-2xl font-bold tracking-tight">KI‑Lernportal NIM</h1>
-          <p className="text-[10px] opacity-70 mt-1 uppercase tracking-widest font-semibold">KI-Kompetenz verständlich aufbauen</p>
+          <p className="text-xs opacity-80 mt-1 font-semibold">KI-Kompetenz verständlich aufbauen</p>
         </div>
         <nav className="flex-1 px-4 space-y-1.5 mt-4">
           {navItems.map((item) => (
@@ -47,7 +47,7 @@ export default function Home() {
             <div className="w-10 h-10 rounded-full bg-nim-accent flex items-center justify-center font-bold shadow-inner text-sm">DU</div>
             <div>
               <p className="text-sm font-semibold">Demo-Zugang</p>
-                <p className="text-[11px] opacity-60">Status: Demo-Modus</p>
+                <p className="text-xs opacity-75">Status: Demo-Modus</p>
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@ export default function Home() {
           </div>
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 rounded-lg bg-gray-50 border border-gray-100 text-nim-primary"
+            className="p-3 rounded-lg bg-gray-50 border border-gray-100 text-nim-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nim-accent"
             aria-label={isMobileMenuOpen ? "Menü schließen" : "Menü öffnen"}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
@@ -82,7 +82,7 @@ export default function Home() {
             <div className="absolute left-0 top-0 bottom-0 w-72 sidebar-gradient p-6 flex flex-col shadow-2xl animate-fade-in" onClick={e => e.stopPropagation()}>
               <div className="flex justify-between items-center mb-8">
                 <h2 className="text-xl font-bold text-white">Navigation</h2>
-                <button onClick={() => setIsMobileMenuOpen(false)} className="text-white/70 hover:text-white">✕</button>
+                <button type="button" aria-label="Menü schließen" onClick={() => setIsMobileMenuOpen(false)} className="rounded-lg px-3 py-2 text-white/80 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">✕</button>
               </div>
               <nav className="flex-1 space-y-2">
                 {navItems.map((item) => (
@@ -125,10 +125,10 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex flex-wrap gap-4 pt-2">
-                <a href="#lernpfad" className="bg-white text-nim-primary px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 text-sm">
+                <a href="#lernpfad" className="bg-white text-nim-primary px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-gray-50 transition-all active:scale-95 text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
                   Demo-Lernpfad ansehen
                 </a>
-                <a href="#navigator" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-6 py-3 rounded-xl font-bold hover:bg-white/20 transition-all text-sm">
+                <a href="#navigator" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-6 py-3 rounded-xl font-bold hover:bg-white/20 transition-all text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
                   Passenden Einstieg finden
                 </a>
               </div>
@@ -244,7 +244,7 @@ export default function Home() {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-2xl font-bold tracking-tight">Modellkatalog & Ressourcen</h3>
-                <p className="text-xs text-nim-secondary mt-1">NVIDIA NIM-Inferenz-Services & Frameworks</p>
+                <p className="text-xs text-nim-secondary mt-1">Einfacher Überblick zu KI-Modellen, Suche und Technikbegriffen</p>
               </div>
             </div>
 
@@ -414,7 +414,7 @@ function Accordion({ id, title, icon, children, activeId, onToggle }: { id: stri
     <div id={id} className="depth-card rounded-2xl overflow-hidden scroll-mt-20">
       <button
         onClick={() => onToggle(id)}
-        className="w-full flex items-center justify-between p-5 text-left transition-colors hover:bg-slate-50/50"
+        className="w-full flex items-center justify-between p-5 text-left transition-colors hover:bg-slate-50/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nim-accent"
         aria-expanded={isOpen}
         aria-controls={contentId}
       >
@@ -505,7 +505,7 @@ function ResourceCardItem({ resource }: { resource: ResourceCard }) {
           href={resource.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex justify-center rounded-xl bg-nim-primary px-4 py-2 text-xs font-black text-white hover:bg-nim-primary/90 transition-colors"
+          className="inline-flex justify-center rounded-xl bg-nim-primary px-4 py-3 text-sm font-black text-white hover:bg-nim-primary/90 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nim-accent"
         >
           Ressource öffnen →
         </a>
@@ -564,7 +564,7 @@ function LessonContentCard({ lesson, defaultOpen = false }: { lesson: Lesson; de
 
       <button
         type="button"
-        className="inline-flex w-fit items-center rounded-full bg-nim-primary px-4 py-2 text-xs font-bold text-white transition hover:opacity-90"
+        className="inline-flex w-fit items-center rounded-full bg-nim-primary px-4 py-3 text-sm font-bold text-white transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nim-accent"
         aria-expanded={isOpen}
         aria-controls={contentId}
         onClick={() => setIsOpen((current) => !current)}
@@ -613,7 +613,7 @@ function PathCard({ path }: { path: LearningPath }) {
            {isPlanned ? 'Geplant' : isLocked ? 'Gesperrt' : `${path.lessons.length} Lektionen`}
          </span>
          {!isLocked && !isPlanned && (
-           <button className="text-xs font-black uppercase tracking-widest bg-nim-primary text-white px-3 py-1.5 rounded-lg hover:scale-105 transition-transform">
+           <button className="text-sm font-black bg-nim-primary text-white px-4 py-2 rounded-lg transition-transform focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nim-accent">
              Start
            </button>
          )}
@@ -658,7 +658,7 @@ function NavItem({ icon, label, targetId, active = false }: { icon: string, labe
   return (
     <a
       href={`#${targetId}`}
-      className={`flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all duration-200 group ${
+      className={`flex items-center space-x-3 px-4 py-3.5 rounded-xl transition-all duration-200 group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
         active
           ? 'bg-white/20 text-white shadow-[0_4px_12px_rgba(0,0,0,0.1)] border border-white/10'
           : 'text-white/70 hover:text-white hover:bg-white/5'
