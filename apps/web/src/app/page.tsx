@@ -330,6 +330,8 @@ export default function Home() {
           </section>
 
 
+        </main>
+
         {/* Footer */}
         <footer className="mt-auto border-t border-nim-border bg-white p-8">
           <div className="max-w-6xl mx-auto grid gap-6 md:grid-cols-[1.5fr_1fr] text-sm text-nim-secondary">
