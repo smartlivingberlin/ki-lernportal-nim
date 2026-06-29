@@ -16,14 +16,9 @@ export default function Home() {
   };
 
   const navItems = [
-    { icon: '🏠', label: 'Dashboard', id: 'dashboard' },
-    { icon: '🧭', label: 'Navigator', id: 'navigator' },
-    { icon: '📚', label: 'Lernpfad', id: 'lernpfad' },
-    { icon: '📖', label: 'Lektionen', id: 'lektionen' },
-    { icon: '📦', label: 'Modellkatalog', id: 'modellkatalog' },
-    { icon: '📖', label: 'Glossar', id: 'glossar' },
-    { icon: '🔭', label: 'Monitoring', id: 'monitoring' },
-    { icon: '🛡️', label: 'Admin-Cockpit', id: 'admin' },
+    { icon: '🏠', label: 'Start', id: 'dashboard' },
+    { icon: '🧭', label: 'KI-Lotse', id: 'navigator' },
+    { icon: '✅', label: 'Quellen & Vertrauen', id: 'monitoring' },
   ];
 
   const primaryPath = seedLearningPaths[0]; // KI-Start für absolute Anfänger
@@ -59,6 +54,15 @@ export default function Home() {
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 rounded-lg premium-gradient flex items-center justify-center text-white font-black text-xs shadow-sm">N</div>
             <h2 className="font-bold text-nim-primary tracking-tight">KI‑Lernportal</h2>
+                <p className="mt-4 max-w-3xl text-lg md:text-xl text-white/90">
+                  Der KI-Lotse für alle: von den Grundlagen bis zur sicheren Nutzung im Alltag. Ohne Kreditkarte, ohne Konto und ohne Fachchinesisch.
+                </p>
+                <div className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-4 text-sm">
+                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Kostenlos & offen</span>
+                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Erste Lektionen ohne Login</span>
+                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Quellen mit Review-Status</span>
+                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Orientierung, keine Rechtsberatung</span>
+                </div>
           </div>
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -105,16 +109,14 @@ export default function Home() {
               <div className="flex flex-wrap items-center gap-3">
                 <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 w-fit">
                   <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse"></span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest">MVP Phase 1</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Kostenlos starten</span>
                 </div>
                 <div className="text-[10px] font-bold text-white/80 uppercase tracking-widest bg-white/5 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10">
                   ⚠️ Demo: Statische Inhalte
                 </div>
               </div>
               <div className="max-w-2xl space-y-3">
-                <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">
-                  Willkommen im KI‑Lernportal
-                </h2>
+                <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">Kostenlos KI lernen – einfach, sicher und verständlich.</h2>
                 <p className="text-base md:text-lg text-white/80 leading-relaxed font-medium">
                   Ihr Einstieg in die Welt der künstlichen Intelligenz. Starten Sie jetzt mit unserem Grundkurs für absolute Anfänger.
                 </p>
@@ -141,12 +143,12 @@ export default function Home() {
               footer={<ProgressBar percent={0} />}
             />
             <DashboardCard
-              title="AI Navigator"
+              title="KI-Lotse"
               value="Empfehlung"
               description={`${primaryPath.lessons[0].title}`}
               icon="🧭"
               color="text-nim-primary"
-              footer={<a href="#navigator" className="text-sm font-bold text-nim-primary hover:underline">Details ansehen →</a>}
+              footer={<a href="#navigator" className="text-sm font-bold text-nim-primary hover:underline">KI-Lotse ansehen →</a>}
             />
             <DashboardCard
               title="Quellen"
@@ -154,11 +156,11 @@ export default function Home() {
               description="Quellen mit Review-Status."
               icon="📚"
               color="text-nim-success"
-              footer={<a href="#monitoring" className="text-sm font-bold text-nim-success hover:underline">Zum Monitoring →</a>}
+              footer={<a href="#monitoring" className="text-sm font-bold text-nim-success hover:underline">Quellen ansehen →</a>}
             />
           </section>
 
-          {/* AI Navigator Recommendation Panel */}
+          {/* KI-Lotse Recommendation Panel */}
           <section id="navigator" className="glass-card rounded-3xl p-8 border-l-4 border-l-nim-accent shadow-sm">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="space-y-2">
@@ -288,7 +290,7 @@ export default function Home() {
           <section id="monitoring" className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-2xl font-bold tracking-tight">Source Registry & Monitoring</h3>
+                <h3 className="text-2xl font-bold tracking-tight">Quellen & Vertrauen</h3>
                 <p className="text-xs text-nim-secondary mt-1">Status der verwendeten Referenzdaten & Standards</p>
               </div>
             </div>
@@ -329,8 +331,8 @@ export default function Home() {
           <section id="admin" className="space-y-6 pb-12 opacity-80 hover:opacity-100 transition-opacity">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-2xl font-bold tracking-tight">Admin & Owner Cockpit</h3>
-                <p className="text-xs text-nim-secondary mt-1">Review-Pipeline & Inhaltsverwaltung (Vorschau)</p>
+                <h3 className="text-2xl font-bold tracking-tight">Interne Roadmap</h3>
+                <p className="text-xs text-nim-secondary mt-1">Interne Vorschau – nicht öffentlich produktiv</p>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -344,17 +346,22 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="mt-auto border-t border-nim-border bg-white p-8">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="text-center md:text-left">
-              <p className="font-bold text-nim-primary">KI‑Lernportal NIM</p>
-              <p className="text-sm text-nim-secondary mt-1">Ein Projekt zur Förderung der KI-Literacy.</p>
+          <div className="max-w-6xl mx-auto grid gap-6 md:grid-cols-[1.5fr_1fr] text-sm text-nim-secondary">
+            <div>
+              <h3 className="font-black text-nim-primary text-lg">KI-Lernportal NIM</h3>
+              <p className="mt-2 leading-relaxed">
+                Kostenloses Lern- und Orientierungsportal für KI-Grundlagen, sichere Nutzung und Quellenkompetenz.
+                Inhalte werden mit Quellen und Review-Status angezeigt. Keine Garantie auf Vollständigkeit.
+              </p>
+              <p className="mt-2 text-xs">
+                Keine Rechtsberatung. Keine Förderzusage. Keine Zertifizierung. Externe Links führen aus dem Portal heraus.
+              </p>
             </div>
-            <div className="flex flex-wrap justify-center gap-6 text-sm font-semibold text-nim-secondary">
-              <span className="opacity-50 italic">Demo-Hinweis: keine rechtliche Datenschutzprüfung.</span>
-              <span className="opacity-50 italic">Vermeiden Sie PII-Eingaben</span>
-            </div>
-            <div className="text-xs text-nim-secondary opacity-50">
-              &copy; {new Date().getFullYear()} smartlivingberlin
+            <div className="flex flex-col gap-2 md:items-end">
+              <a href="#dashboard" className="font-bold text-nim-primary hover:underline">Start</a>
+              <a href="#navigator" className="font-bold text-nim-primary hover:underline">KI-Lotse</a>
+              <a href="#monitoring" className="font-bold text-nim-primary hover:underline">Quellen & Vertrauen</a>
+              <span className="text-xs opacity-70">Impressum, Datenschutz und Fehler-melden-Seite vor Live-Schaltung finalisieren.</span>
             </div>
           </div>
         </footer>
@@ -563,7 +570,7 @@ function ReviewBadge({ status }: { status: ReviewStatus }) {
     [ReviewStatus.Draft]: { label: 'Entwurf', class: 'bg-slate-100 text-slate-500' },
     [ReviewStatus.NeedsReview]: { label: 'Review offen', class: 'bg-amber-100 text-amber-700' },
     [ReviewStatus.SourceAttached]: { label: 'Quelle vorhanden', class: 'bg-blue-100 text-blue-700' },
-    [ReviewStatus.Approved]: { label: 'Geprüft', class: 'bg-nim-success/20 text-nim-success' },
+    [ReviewStatus.Approved]: { label: 'Review abgeschlossen', class: 'bg-nim-success/20 text-nim-success' },
     [ReviewStatus.Published]: { label: 'Live', class: 'bg-nim-primary/20 text-nim-primary' },
   };
   const item = config[status] || config[ReviewStatus.Draft];
