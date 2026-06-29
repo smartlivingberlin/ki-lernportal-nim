@@ -185,9 +185,9 @@ export default function Home() {
             <div className="mt-8 pt-6 border-t border-nim-border/70">
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-5">
                 <div>
-                  <h4 className="text-xl font-black text-nim-primary">Geprüfte Start-Ressourcen</h4>
+                  <h4 className="text-xl font-black text-nim-primary">Ausgewählte Start-Ressourcen</h4>
                   <p className="text-sm text-nim-secondary mt-1">
-                    Externe Lern- und Orientierungsseiten mit Kosten-, Konto- und Datenschutz-Hinweis.
+                    Externe Lern- und Orientierungsseiten mit Kosten-, Konto- und Datenschutzhinweis.
                   </p>
                 </div>
                 <span className="text-xs font-bold text-nim-secondary uppercase bg-slate-100 px-3 py-1 rounded-full w-fit">
