@@ -27,7 +27,7 @@ export enum TrustLevel {
 }
 
 export enum SourceType {
-  Framework = 'Kompetenzrahmen',
+  Framework = 'Framework',
   Regulation = 'Verordnung',
   Documentation = 'Dokumentation',
   Guideline = 'Leitlinie',
@@ -92,7 +92,7 @@ export enum ResourceType {
   Platform = 'Lernangebot',
   Official = 'Offizielle Quelle',
   ToolHelp = 'Hilfeseite',
-  Framework = 'Framework',
+  Framework = 'Kompetenzrahmen',
   Technical = 'Technik'
 }
 
