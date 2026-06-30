@@ -89,7 +89,7 @@ export const seedResources: ResourceCard[] = [
     id: 'bmftr-ki',
     title: 'Künstliche Intelligenz – offizielle deutsche Informationsseite',
     provider: 'Bundesministerium für Forschung, Technologie und Raumfahrt',
-    url: 'https://www.bmftr.bund.de/DE/Forschung/Schluesseltechnologien/KuenstlicheIntelligenz/kuenstlicheintelligenz.html',
+    url: 'https://www.bmftr.bund.de/DE/Forschung/Schluesseltechnologien/KuenstlicheIntelligenz/kuenstlicheintelligenz_node.html',
     resourceType: ResourceType.Official,
     languages: ['de'],
     costStatus: CostStatus.Free,
