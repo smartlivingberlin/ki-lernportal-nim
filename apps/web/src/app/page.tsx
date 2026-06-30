@@ -369,7 +369,9 @@ export default function Home() {
               <a href="#dashboard" className="font-bold text-nim-primary hover:underline">Start</a>
               <a href="#navigator" className="font-bold text-nim-primary hover:underline">KI-Lotse</a>
               <a href="#monitoring" className="font-bold text-nim-primary hover:underline">Quellen & Vertrauen</a>
-              <span className="text-xs opacity-70">Impressum, Datenschutz und Fehler-melden-Seite vor Live-Schaltung finalisieren.</span>
+              <a href="/impressum" className="font-bold text-nim-primary hover:underline">Impressum</a>
+              <a href="/datenschutz" className="font-bold text-nim-primary hover:underline">Datenschutz</a>
+              <a href="/kontakt" className="font-bold text-nim-primary hover:underline">Kontakt & Fehler melden</a>
             </div>
           </div>
         </footer>
