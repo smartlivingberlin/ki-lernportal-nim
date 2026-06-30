@@ -35,7 +35,7 @@ export default function Home() {
       <aside className="hidden lg:flex flex-col w-72 sidebar-gradient text-white fixed inset-y-0 left-0 z-50">
         <div className="p-8">
           <h1 className="text-2xl font-bold tracking-tight">KI‑Lernportal NIM</h1>
-          <p className="text-[10px] opacity-70 mt-1 uppercase tracking-widest font-semibold">KI-Kompetenz einfach lernen</p>
+          <p className="text-[10px] opacity-70 mt-1 uppercase tracking-widest font-semibold">KI-Kompetenz verständlich aufbauen</p>
         </div>
         <nav className="flex-1 px-4 space-y-1.5 mt-4">
           {navItems.map((item) => (
@@ -113,14 +113,14 @@ export default function Home() {
                 </div>
               </div>
               <div className="max-w-2xl space-y-3">
-                <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">Kostenlos KI lernen – einfach, sicher und verständlich.</h2>
+                <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-tight">KI verstehen und nutzen – für Alltag, Beruf, Kreativität und Unternehmen.</h2>
                 <p className="text-base md:text-lg text-white/80 leading-relaxed font-medium">
-                  Ihr Einstieg in die Welt der künstlichen Intelligenz. Starten Sie jetzt mit unserem Grundkurs für absolute Anfänger.
+                  Lernen Sie Schritt für Schritt, wie KI praktisch hilft: beim Verstehen, Schreiben, Recherchieren, Präsentieren, Gestalten und verantwortungsvollen Nutzen – ohne Konto und ohne Fachchinesisch.
                 </p>
                 <div className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-4 text-sm">
-                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Kostenlos & offen</span>
-                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Erste Lektionen ohne Login</span>
-                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Quellen mit Review-Status</span>
+                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Kostenlos & ohne Konto starten</span>
+                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Alltag, Beruf & Kreativität</span>
+                  <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Tools verstehen, Risiken einordnen</span>
                   <span className="rounded-xl bg-white/10 border border-white/15 px-3 py-2 font-semibold">✅ Orientierung, keine Rechtsberatung</span>
                 </div>
               </div>
@@ -129,7 +129,7 @@ export default function Home() {
                   Demo-Lernpfad ansehen
                 </a>
                 <a href="#navigator" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-6 py-3 rounded-xl font-bold hover:bg-white/20 transition-all text-sm">
-                  Mein Lernziel wählen
+                  Passenden Einstieg finden
                 </a>
               </div>
             </div>
@@ -205,7 +205,7 @@ export default function Home() {
           {/* Learning Paths Preview */}
           <section id="lernpfad" className="space-y-6">
             <div className="flex items-center justify-between">
-               <h3 className="text-2xl font-bold tracking-tight">Lernpfade für Einsteiger</h3>
+               <h3 className="text-2xl font-bold tracking-tight">Lernpfade für den Einstieg</h3>
                <span className="text-xs font-bold text-nim-secondary uppercase bg-slate-100 px-3 py-1 rounded-full">{publicLearningPaths.length} Pfade verfügbar</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -221,7 +221,7 @@ export default function Home() {
               <div>
                 <h3 className="text-2xl font-bold tracking-tight">Aktive Lektionen</h3>
                 <p className="text-sm text-nim-secondary mt-1">
-                  Die Inhalte aus dem Anfängerpfad sind hier als lesbare Lernkarten sichtbar.
+                  Die Inhalte aus dem Startpfad sind hier als lesbare Lernkarten sichtbar.
                 </p>
               </div>
               <span className="text-xs font-bold text-nim-secondary uppercase bg-slate-100 px-3 py-1 rounded-full w-fit">
@@ -358,7 +358,7 @@ export default function Home() {
             <div>
               <h3 className="font-black text-nim-primary text-lg">KI-Lernportal NIM</h3>
               <p className="mt-2 leading-relaxed">
-                Kostenloses Lern- und Orientierungsportal für KI-Grundlagen, sichere Nutzung und Quellenkompetenz.
+                Lern- und Orientierungsportal für KI-Kompetenz in Alltag, Beruf, Kreativarbeit und Organisationen.
                 Inhalte werden mit Quellen und Review-Status angezeigt. Keine Garantie auf Vollständigkeit.
               </p>
               <p className="mt-2 text-xs">
