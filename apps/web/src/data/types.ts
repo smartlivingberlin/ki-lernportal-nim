@@ -86,3 +86,47 @@ export interface ModelCard {
   displayAllowed: boolean;
   riskNote?: string;
 }
+
+export enum ResourceType {
+  Course = 'Kurs',
+  Platform = 'Lernangebot',
+  Official = 'Offizielle Quelle',
+  ToolHelp = 'Hilfeseite',
+  Framework = 'Kompetenzrahmen',
+  Technical = 'Technik'
+}
+
+export enum CostStatus {
+  Free = 'Kostenlos',
+  Freemium = 'Freemium',
+  Paid = 'Kostenpflichtig',
+  Unknown = 'Unklar'
+}
+
+export enum AccountRequirement {
+  No = 'Nein',
+  Optional = 'Optional',
+  Yes = 'Ja',
+  Unknown = 'Unklar'
+}
+
+export interface ResourceCard {
+  id: string;
+  title: string;
+  provider: string;
+  url: string;
+  resourceType: ResourceType;
+  languages: string[];
+  costStatus: CostStatus;
+  accountRequired: AccountRequirement;
+  targetAudience: string;
+  difficulty: DifficultyLevel;
+  benefit: string;
+  riskNote?: string;
+  privacyNote: string;
+  reviewStatus: ReviewStatus;
+  trustLevel: TrustLevel;
+  lastReviewed: string;
+  tags: string[];
+}
+

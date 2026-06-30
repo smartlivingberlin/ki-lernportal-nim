@@ -5,7 +5,8 @@ import { seedLearningPaths } from '../data/learning-paths';
 import { seedGlossary } from '../data/glossary';
 import { seedModelCards } from '../data/model-cards';
 import { seedSources } from '../data/sources';
-import { TrustLevel, ReviewStatus, ModelCard, LearningPath, Lesson } from '../data/types';
+import { seedResources } from '../data/resources';
+import { TrustLevel, ReviewStatus, ModelCard, LearningPath, Lesson, ResourceCard, CostStatus, AccountRequirement } from '../data/types';
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -179,6 +180,25 @@ export default function Home() {
               <a href="#lektionen" className="bg-nim-primary text-white px-8 py-4 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all whitespace-nowrap text-center">
                 Lektion starten (5 Min)
               </a>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-nim-border/70">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-5">
+                <div>
+                  <h4 className="text-xl font-black text-nim-primary">Wohin du als Nächstes schauen kannst</h4>
+                  <p className="text-sm text-nim-secondary mt-1">
+                    Ausgewählte externe Angebote mit Kosten-, Konto- und Datenschutzhinweis.
+                  </p>
+                </div>
+                <span className="text-xs font-bold text-nim-secondary uppercase bg-slate-100 px-3 py-1 rounded-full w-fit">
+                  {seedResources.length} Ressourcen
+                </span>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {seedResources.map((resource) => (
+                  <ResourceCardItem key={resource.id} resource={resource} />
+                ))}
+              </div>
             </div>
           </section>
 
@@ -427,6 +447,70 @@ function GlossaryEntry({ term, explanation, example }: { term: string, explanati
         {example}
       </div>
     </div>
+  );
+}
+
+function ResourceCardItem({ resource }: { resource: ResourceCard }) {
+  const costClass = {
+    [CostStatus.Free]: 'bg-nim-success/10 text-nim-success',
+    [CostStatus.Freemium]: 'bg-amber-100 text-amber-700',
+    [CostStatus.Paid]: 'bg-rose-100 text-rose-700',
+    [CostStatus.Unknown]: 'bg-slate-100 text-slate-600'
+  }[resource.costStatus];
+
+  const accountClass = {
+    [AccountRequirement.No]: 'bg-nim-success/10 text-nim-success',
+    [AccountRequirement.Optional]: 'bg-blue-100 text-blue-700',
+    [AccountRequirement.Yes]: 'bg-amber-100 text-amber-700',
+    [AccountRequirement.Unknown]: 'bg-slate-100 text-slate-600'
+  }[resource.accountRequired];
+
+  return (
+    <article className="rounded-2xl border border-nim-border bg-white/80 p-5 shadow-sm hover:shadow-md transition-all space-y-4">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-widest text-nim-secondary">{resource.provider}</p>
+          <h5 className="text-lg font-black text-nim-primary mt-1">{resource.title}</h5>
+        </div>
+        <span className="shrink-0 text-[10px] font-bold bg-slate-100 px-2 py-1 rounded uppercase tracking-tighter">
+          {resource.resourceType}
+        </span>
+      </div>
+
+      <div className="space-y-2">
+        <p className="text-sm leading-relaxed text-nim-secondary">{resource.benefit}</p>
+        <p className="text-xs leading-relaxed text-nim-secondary bg-slate-50 border border-slate-100 rounded-xl p-3">
+          <span className="font-bold text-nim-primary">Besonders geeignet:</span> {resource.targetAudience}
+        </p>
+      </div>
+
+      <div className="flex flex-wrap gap-2 text-[10px] font-bold uppercase tracking-tighter">
+        <span className={`${costClass} px-2 py-1 rounded`}>{resource.costStatus}</span>
+        <span className={`${accountClass} px-2 py-1 rounded`}>Konto: {resource.accountRequired}</span>
+        <span className="bg-slate-100 text-slate-600 px-2 py-1 rounded">{resource.difficulty}</span>
+        <span className="bg-slate-100 text-slate-600 px-2 py-1 rounded">{resource.languages.join(' / ').toUpperCase()}</span>
+      </div>
+
+      <div className="rounded-xl bg-amber-50 border border-amber-100 p-3 text-xs text-amber-800 leading-relaxed">
+        <span className="font-bold">Hinweis:</span> {resource.privacyNote}
+        {resource.riskNote && <span className="block mt-1">{resource.riskNote}</span>}
+      </div>
+
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
+        <div className="flex items-center gap-2">
+          <ReviewBadge status={resource.reviewStatus} />
+          <TrustBadge level={resource.trustLevel} />
+        </div>
+        <a
+          href={resource.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex justify-center rounded-xl bg-nim-primary px-4 py-2 text-xs font-black text-white hover:bg-nim-primary/90 transition-colors"
+        >
+          Ressource öffnen →
+        </a>
+      </div>
+    </article>
   );
 }
 
