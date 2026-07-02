@@ -153,7 +153,7 @@ export const seedResources: ResourceCard[] = [
     accountRequired: AccountRequirement.Optional,
     targetAudience: 'Fortgeschrittene, die später tiefer in KI-Technik und Modelle einsteigen möchten.',
     difficulty: DifficultyLevel.Advanced,
-    benefit: 'Kurse und Materialien zu Modellen, LLMs, Agents und Open-Source-KI.',
+    benefit: 'Kurse und Materialien zu KI-Modellen, KI-Helfern und frei verfügbaren KI-Werkzeugen.',
     privacyNote: 'Du verlässt unser Portal. Für eigene Experimente oder Uploads gelten die Regeln des externen Anbieters.',
     riskNote: 'Für Anfänger schnell zu technisch; zuerst Grundlagen lernen.',
     reviewStatus: ReviewStatus.SourceAttached,
