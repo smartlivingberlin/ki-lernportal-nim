@@ -64,8 +64,10 @@ export default function ImpressumPage() {
           <a className="font-medium text-slate-950 underline" href="mailto:gadyri@icloud.com">
             gadyri@icloud.com
           </a>
-          <br />
-          Telefon: 0171 152 6327
+        </p>
+        <p className="text-xs text-slate-500">
+          Telefonische Kontaktaufnahme ist im aktuellen privaten Demo-Stand
+          nicht vorgesehen. Rückmeldungen zur Demo bitte per E-Mail senden.
         </p>
       </Section>
 
