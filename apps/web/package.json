@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "sh -c 'if [ -f .next/standalone/server.js ]; then node .next/standalone/server.js; elif [ -f .next/standalone/apps/web/server.js ]; then node .next/standalone/apps/web/server.js; else echo \"Standalone server.js not found\"; find .next/standalone -maxdepth 6 -name server.js -print; exit 1; fi'",
     "lint": "eslint"
   },
   "dependencies": {

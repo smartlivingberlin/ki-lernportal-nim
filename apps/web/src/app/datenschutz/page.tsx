@@ -94,13 +94,15 @@ export default function DatenschutzPage() {
 
       <Section title="3. Hosting">
         <p>
-          Als Hosting-Kandidat ist Railway vorgesehen. Die finale Hosting-Region,
-          Serverstandorte, Logdaten, Aufbewahrungsfristen und Fragen zur
-          Auftragsverarbeitung sind noch zu prüfen.
+          Für die private Demo ist Railway als Hosting-Ziel vorgesehen. Die finale
+          Hosting-Region, Serverstandorte, Logdaten, Aufbewahrungsfristen
+          und Fragen zur Auftragsverarbeitung müssen vor einer öffentlichen
+          Veröffentlichung erneut geprüft werden.
         </p>
         <p>
-          Bis diese Punkte geprüft sind, bleibt dieser Text auf den privaten
-          Demo-Stand begrenzt.
+          Bis diese Punkte final geprüft sind, bleibt dieser Text auf den privaten
+          Demo-Stand begrenzt und ist nicht als öffentliche Launch-Freigabe zu
+          verstehen.
         </p>
       </Section>
 
