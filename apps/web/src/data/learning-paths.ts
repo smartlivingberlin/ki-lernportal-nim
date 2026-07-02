@@ -28,8 +28,8 @@ export const seedLearningPaths: LearningPath[] = [
   },
   {
     id: 'path-sources-rag',
-    title: 'Quellen, RAG und Vertrauen',
-    description: 'Wie KI mit echten Daten arbeitet.',
+    title: 'Quellen prüfen und Vertrauen aufbauen',
+    description: 'Wie du KI-Antworten mit Quellen besser einordnest.',
     difficulty: DifficultyLevel.Intermediate,
     lessons: [],
     status: 'locked'

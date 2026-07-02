@@ -40,14 +40,14 @@ export const seedGlossary: GlossaryTerm[] = [
   // Priority 2
   {
     id: 'llm',
-    term: 'LLM (Large Language Model)',
-    definition: 'Ein "Großes Sprachmodell", das auf riesigen Textmengen trainiert wurde, um menschliche Sprache zu verstehen und zu erzeugen.',
-    example: 'Modelle wie Llama, Mixtral oder GPT sind Beispiele für LLMs.',
+    term: 'Großes Sprachmodell',
+    definition: 'Ein KI-Sprachsystem, das mit sehr vielen Texten trainiert wurde und dadurch Fragen beantworten, Texte schreiben und Sprache erkennen kann.',
+    example: 'ChatGPT oder ähnliche Systeme sind Beispiele für große Sprachmodelle.',
     priority: 2
   },
   {
     id: 'rag',
-    term: 'RAG (Retrieval-Augmented Generation)',
+    term: 'Antworten mit Quellenbezug',
     definition: 'Eine Methode, bei der die KI erst in verlässlichen Dokumenten nachschaut, bevor sie eine Antwort gibt.',
     example: 'Ein Firmen-Chatbot, der erst im internen Handbuch liest, wie der Urlaubsantrag funktioniert, bevor er dir antwortet.',
     priority: 2
@@ -62,16 +62,16 @@ export const seedGlossary: GlossaryTerm[] = [
   // Priority 3
   {
     id: 'embedding',
-    term: 'Embedding',
-    definition: 'Eine Art "Zahlen-Code", mit dem der Computer die Bedeutung von Wörtern vergleicht.',
-    example: 'Der Computer merkt durch Embeddings, dass "Hund" und "Welpe" eine ähnliche Bedeutung haben.',
+    term: 'Bedeutung als Zahlen-Code',
+    definition: 'Eine Methode, mit der ein Computer Wörter oder Texte so umwandelt, dass er ihre Bedeutung vergleichen kann.',
+    example: 'Der Computer kann erkennen, dass "Hund" und "Welpe" eine ähnliche Bedeutung haben.',
     priority: 3
   },
   {
     id: 'reranking',
-    term: 'Reranking',
-    definition: 'Ein zweiter Prüfschritt, um die besten Suchergebnisse noch einmal nach ihrer Wichtigkeit zu sortieren.',
-    example: 'Von 10 gefundenen Antworten wählt das Reranking die 3 aus, die wirklich am besten passen.',
+    term: 'Suchergebnisse neu sortieren',
+    definition: 'Ein zweiter Prüfschritt, bei dem gefundene Antworten oder Quellen noch einmal nach ihrer Wichtigkeit sortiert werden.',
+    example: 'Von 10 gefundenen Antworten werden die 3 ausgewählt, die wirklich am besten zur Frage passen.',
     priority: 3
   }
 ];

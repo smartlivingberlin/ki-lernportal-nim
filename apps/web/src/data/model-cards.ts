@@ -25,7 +25,7 @@ export const seedModelCards: ModelCard[] = [
   {
     id: 'm3',
     name: 'NV-Embed v2',
-    type: 'Embedding',
+    type: 'Bedeutungsvergleich',
     useCase: 'Wissenssuche',
     difficulty: DifficultyLevel.Advanced,
     privacyNote: 'Demo-Quelle',
@@ -35,7 +35,7 @@ export const seedModelCards: ModelCard[] = [
   {
     id: 'm4',
     name: 'Llama-Reranker',
-    type: 'Reranking',
+    type: 'Ergebnis-Sortierung',
     useCase: 'Suche-Optimierung',
     difficulty: DifficultyLevel.Advanced,
     privacyNote: 'Sicherheitsprüfung: später',
