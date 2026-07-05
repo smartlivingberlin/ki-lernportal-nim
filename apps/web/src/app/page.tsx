@@ -440,7 +440,7 @@ function LessonWorkspace({
       <div className="grid gap-5 p-6 md:p-8 xl:grid-cols-[1fr_280px]">
         <div className="space-y-5">
           <LearningBlock title="1. Ziel" text="Verstehe diese Lektion so gut, dass du sie einer anderen Person in einfachen Worten erklären kannst." />
-          <LearningBlock title="2. Kurz erklärt" text={lesson.content} large />
+          <LearningBlock title="2. Kurz erklärt" text={lesson.content ?? lesson.description ?? "Diese Lektion wird gerade vorbereitet."} large />
           <LearningBlock title="3. Mini-Aufgabe" text="Formuliere in einem Satz: Was ist die wichtigste Idee dieser Lektion? Schreibe sie für dich auf, bevor du weitergehst." />
           <LearningBlock title="4. Checkfrage" text="Würdest du diese KI-Antwort blind übernehmen oder erst prüfen? Begründe deine Entscheidung kurz." />
         </div>
