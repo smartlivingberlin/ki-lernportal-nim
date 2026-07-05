@@ -74,8 +74,8 @@ Einfach erklärt:
 Eine sichere KI-Frage ist klar, aber enthält keine privaten oder vertraulichen Daten. Du musst also nicht deinen Namen, deine Adresse, Telefonnummern, Passwörter, Kundendaten oder ganze Dokumente eingeben.
 
 Mini-Beispiel:
-Unsicher: "Schreibe Max Müller aus der Musterstraße wegen seiner Schulden an."
-Sicherer: "Formuliere eine freundliche Zahlungserinnerung an Person A, ohne Namen oder Adresse."
+Unsicher: "Schreibe eine Nachricht mit echtem Namen, Adresse und privatem Zahlungsgrund."
+Sicherer: "Formuliere eine freundliche Erinnerung an Person A, ohne Namen, Adresse oder private Details."
 
 Sicher arbeiten:
 Ersetze Namen durch neutrale Platzhalter. Beschreibe die Aufgabe allgemein. Teile nur so viel Kontext, wie wirklich nötig ist.
@@ -293,7 +293,7 @@ Einfach erklärt:
 Ein Prompt kann persönliche oder vertrauliche Daten enthalten. Dazu gehören Namen, Adressen, Telefonnummern, Passwörter, Kundendaten, Gesundheitsdaten oder Vertragsdetails.
 
 Mini-Beispiel:
-Statt "Max Müller, Musterstraße 4, schuldet mir 1.200 Euro" schreibst du: "Person A schuldet Person B einen Betrag. Formuliere eine neutrale Erinnerung."
+Statt eine echte Person mit Adresse und Betrag zu nennen, schreibst du: "Person A schuldet Person B einen Betrag. Formuliere eine neutrale Erinnerung ohne Namen, Adresse oder Vertragsdetails."
 
 Sicher arbeiten:
 Entferne Namen und ersetze sie durch Platzhalter. Kürze Dokumente auf das Nötigste. Gib keine Passwörter, Zugangsdaten oder Bankdaten ein.
