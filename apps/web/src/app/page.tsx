@@ -85,21 +85,29 @@ const learningModules = [
   {
     title: "Modul 1: Verstehen",
     description: "Du verstehst, was KI ist, wo sie hilft und wie du sicher anfängst.",
+    outcome: "Ziel: KI einfach einordnen und eine erste sichere Frage stellen.",
+    duration: "ca. 18 Minuten",
     lessonIds: ["l1", "l2", "l3"],
   },
   {
     title: "Modul 2: Fragen stellen",
     description: "Du lernst Prompts, bessere Formulierungen und sichere Textarbeit.",
+    outcome: "Ziel: bessere Prompts schreiben und Texte bewusster prüfen.",
+    duration: "ca. 20 Minuten",
     lessonIds: ["l4", "l5", "l6"],
   },
   {
     title: "Modul 3: Prüfen",
     description: "Du sortierst Ideen, erkennst Halluzinationen und prüfst Quellen.",
+    outcome: "Ziel: KI-Antworten nicht blind übernehmen, sondern wichtige Aussagen prüfen.",
+    duration: "ca. 21 Minuten",
     lessonIds: ["l7", "l8", "l9"],
   },
   {
     title: "Modul 4: Sicher nutzen",
     description: "Du schützt Daten, erkennst Grenzen und machst den Abschluss-Check.",
+    outcome: "Ziel: klare Vorsichtsbereiche erkennen und den eigenen Einstieg überprüfen.",
+    duration: "ca. 20 Minuten",
     lessonIds: ["l10", "l11", "l12"],
   },
 ];
@@ -117,7 +125,8 @@ export default function Home() {
   const completedLessons = 0;
   const totalLessons = allLessons.length;
   const currentLesson = allLessons.find((lesson) => lesson.id === openLessonId) ?? allLessons[0];
-  const nextLesson = currentLesson ?? allLessons[0];
+  const currentLessonIndex = currentLesson ? allLessons.findIndex((lesson) => lesson.id === currentLesson.id) : -1;
+  const followingLesson = currentLessonIndex >= 0 ? allLessons[currentLessonIndex + 1] ?? null : allLessons[0] ?? null;
   const progressText = `${completedLessons}/${totalLessons || 12}`;
   const beginnerResources = seedResources.slice(0, 4);
   const beginnerGlossary = seedGlossary.slice(0, 6);
@@ -214,7 +223,7 @@ export default function Home() {
                 </h2>
                 <p className="mt-3 max-w-2xl text-base leading-8 text-nim-secondary">
                   Starte mit kleinen Schritten. Der aktuelle Demo-Stand speichert noch keinen Fortschritt,
-                  zeigt dir aber bereits die komplette Lernreise.
+                  zeigt dir aber bereits die komplette Lernreise und den nächsten sinnvollen Klick.
                 </p>
               </div>
               <div className="rounded-3xl border border-nim-border bg-white p-5 text-center shadow-sm">
@@ -230,24 +239,27 @@ export default function Home() {
 
             <div className="mt-7 grid gap-4 md:grid-cols-3">
               <DashboardStat title="Lernpfad" value={`${totalLessons || 12} Lektionen`} text="kompletter Anfängerpfad" />
-              <DashboardStat title="Status" value="Private Demo" text="ohne Login und Tracking" />
-              <DashboardStat title="Nächster Schritt" value={nextLesson?.title ?? "Was ist KI?"} text="direkt weiterlernen" />
+              <DashboardStat title="Aktuelle Station" value={currentLesson ? `Lektion ${currentLesson.order}` : "Lektion 1"} text={currentLesson?.title ?? "Was ist KI?"} />
+              <DashboardStat title="Danach" value={followingLesson ? `Lektion ${followingLesson.order}` : "Abschluss"} text={followingLesson?.title ?? "Pfad wiederholen oder Quellen prüfen"} />
             </div>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <a
-                href={nextLesson ? `#lesson-${nextLesson.id}` : "#lernreise"}
-                onClick={() => nextLesson && setOpenLessonId(nextLesson.id)}
+                href={currentLesson ? `#lesson-${currentLesson.id}` : "#lernreise"}
+                onClick={() => currentLesson && setOpenLessonId(currentLesson.id)}
                 className="inline-flex justify-center rounded-2xl bg-nim-primary px-6 py-4 text-sm font-black text-white transition hover:bg-nim-primary/90"
               >
-                Weiterlernen
+                {currentLesson ? `Lektion ${currentLesson.order} öffnen` : "Lernreise öffnen"}
               </a>
-              <a
-                href="#zehn-minuten"
-                className="inline-flex justify-center rounded-2xl border border-nim-border bg-white px-6 py-4 text-sm font-black text-nim-primary transition hover:border-nim-primary/30"
-              >
-                5-Minuten-Hilfe öffnen
-              </a>
+              {followingLesson && (
+                <a
+                  href={`#lesson-${followingLesson.id}`}
+                  onClick={() => setOpenLessonId(followingLesson.id)}
+                  className="inline-flex justify-center rounded-2xl border border-nim-border bg-white px-6 py-4 text-sm font-black text-nim-primary transition hover:border-nim-primary/30"
+                >
+                  Nächste Lektion ansehen
+                </a>
+              )}
             </div>
           </article>
 
@@ -262,12 +274,23 @@ export default function Home() {
             <div className="mt-5 rounded-2xl bg-white/70 p-4 text-sm font-semibold leading-7 text-blue-950">
               Erst verstehen. Dann ausprobieren. Danach prüfen, bevor du etwas übernimmst.
             </div>
-            <a
-              href={currentLesson ? `#lesson-${currentLesson.id}` : "#lernreise"}
-              className="mt-5 inline-flex rounded-2xl bg-blue-950 px-5 py-4 text-sm font-black text-white transition hover:bg-blue-900"
-            >
-              Aktive Lektion öffnen
-            </a>
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={currentLesson ? `#lesson-${currentLesson.id}` : "#lernreise"}
+                className="inline-flex justify-center rounded-2xl bg-blue-950 px-5 py-4 text-sm font-black text-white transition hover:bg-blue-900"
+              >
+                Aktive Lektion öffnen
+              </a>
+              {followingLesson && (
+                <a
+                  href={`#lesson-${followingLesson.id}`}
+                  onClick={() => setOpenLessonId(followingLesson.id)}
+                  className="inline-flex justify-center rounded-2xl border border-blue-200 bg-white/70 px-5 py-4 text-sm font-black text-blue-950 transition hover:bg-white"
+                >
+                  Danach: Lektion {followingLesson.order}
+                </a>
+              )}
+            </div>
           </article>
         </section>
 
@@ -401,30 +424,46 @@ export default function Home() {
           <SectionIntro
             eyebrow="Lernreise"
             title="12 Lektionen für den sicheren KI-Einstieg"
-            description="Die Lektionen sind in vier einfache Module gegliedert. Öffne die Karte, die du gerade brauchst, oder gehe Schritt für Schritt vor."
+            description="Die Lektionen sind in vier einfache Module gegliedert. Jedes Modul zeigt Ziel, ungefähre Dauer und die nächsten Lernkarten."
           />
 
           <div className="grid gap-5">
-            {learningModules.map((module) => {
+            {learningModules.map((module, moduleIndex) => {
               const moduleLessons = allLessons.filter((lesson) => module.lessonIds.includes(lesson.id));
+              const firstModuleLesson = moduleLessons[0];
               return (
                 <article key={module.title} className="rounded-[2rem] border border-nim-border bg-white p-5 shadow-sm md:p-6">
-                  <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                  <div className="grid gap-4 lg:grid-cols-[1fr_0.55fr] lg:items-start">
                     <div>
                       <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">{module.title}</p>
                       <h3 className="mt-2 text-2xl font-black text-nim-primary">{module.description}</h3>
+                      <p className="mt-3 text-sm font-semibold leading-7 text-nim-secondary">{module.outcome}</p>
                     </div>
-                    <span className="w-fit rounded-full bg-slate-100 px-3 py-2 text-xs font-black uppercase tracking-widest text-nim-secondary">
-                      {moduleLessons.length} Lektionen
-                    </span>
+                    <div className="rounded-3xl bg-slate-50 p-4">
+                      <div className="grid gap-3 text-sm font-bold text-nim-primary sm:grid-cols-3 lg:grid-cols-1">
+                        <span>{moduleLessons.length} Lektionen</span>
+                        <span>{module.duration}</span>
+                        <span>Modul {moduleIndex + 1} von {learningModules.length}</span>
+                      </div>
+                      {firstModuleLesson && (
+                        <a
+                          href={`#lesson-${firstModuleLesson.id}`}
+                          onClick={() => setOpenLessonId(firstModuleLesson.id)}
+                          className="mt-4 inline-flex rounded-2xl bg-nim-primary px-4 py-3 text-sm font-black text-white transition hover:bg-nim-primary/90"
+                        >
+                          Modul starten
+                        </a>
+                      )}
+                    </div>
                   </div>
 
                   <div className="mt-5 grid gap-4">
-                    {moduleLessons.map((lesson) => (
+                    {moduleLessons.map((lesson, index) => (
                       <LessonAccordion
                         key={lesson.id}
                         lesson={lesson}
                         lessonNumber={lesson.order}
+                        moduleLessonNumber={index + 1}
                         open={openLessonId === lesson.id}
                         onToggle={() => setOpenLessonId(openLessonId === lesson.id ? null : lesson.id)}
                       />
@@ -618,11 +657,13 @@ function PathCard({ path }: { path: LearningPathItem }) {
 function LessonAccordion({
   lesson,
   lessonNumber,
+  moduleLessonNumber,
   open,
   onToggle,
 }: {
   lesson: LessonItem;
   lessonNumber: number;
+  moduleLessonNumber: number;
   open: boolean;
   onToggle: () => void;
 }) {
@@ -643,6 +684,9 @@ function LessonAccordion({
             {lessonNumber}
           </span>
           <span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-nim-secondary">
+              Lernkarte {moduleLessonNumber} im Modul
+            </span>
             <span className="block text-lg font-black text-nim-primary">{lesson.title}</span>
             <span className="mt-1 block text-sm leading-6 text-nim-secondary">{lesson.description}</span>
           </span>
@@ -652,8 +696,9 @@ function LessonAccordion({
 
       {open && (
         <div id={contentId} className="border-t border-nim-border p-5">
-          <div className="whitespace-pre-line rounded-2xl bg-slate-50 p-5 text-sm leading-8 text-foreground">
-            {lesson.content}
+          <div className="rounded-2xl bg-slate-50 p-5 text-sm leading-8 text-foreground">
+            <p className="mb-3 text-xs font-black uppercase tracking-widest text-nim-secondary">Lektionskarte</p>
+            <div className="whitespace-pre-line">{lesson.content}</div>
           </div>
         </div>
       )}
