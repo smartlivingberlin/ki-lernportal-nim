@@ -13,37 +13,37 @@ type ResourceItem = (typeof seedResources)[number];
 const entryOptions = [
   {
     id: "neu",
-    label: "Ich bin neu und brauche Orientierung",
-    title: "Wir fangen ganz ruhig an",
+    label: "Ich bin ganz neu bei KI",
+    title: "Wir fangen ohne Vorwissen an",
     description:
-      "Du bekommst einfache Erklärungen, kurze Beispiele und einen ersten sicheren Schritt mit KI.",
+      "Du bekommst einfache Erklärungen, kurze Beispiele und eine erste sichere Übung mit KI.",
     target: "Für Menschen ohne KI-Vorkenntnisse",
     href: "#zehn-minuten",
   },
   {
     id: "alltag",
-    label: "Ich möchte etwas einfach erklärt bekommen",
-    title: "Ein Thema in normaler Sprache verstehen",
+    label: "Ich möchte KI im Alltag nutzen",
+    title: "KI für einfache Aufgaben im Alltag",
     description:
-      "Für Begriffe, Texte, Fragen, E-Mails, Recherchen und Situationen, die du besser verstehen möchtest.",
+      "Für E-Mails, kurze Texte, Planung, Ideen und einfache Erklärungen, die du besser verstehen möchtest.",
     target: "Für Alltag, Familie, Organisation und persönliche Aufgaben",
     href: "#lernpfade",
   },
   {
     id: "beruf",
-    label: "Ich will KI im Alltag oder Beruf ausprobieren",
-    title: "Ausprobieren, ohne dich zu verrennen",
+    label: "Ich möchte KI im Beruf ausprobieren",
+    title: "Beruflich ausprobieren, ohne dich zu verrennen",
     description:
-      "Du lernst, wobei KI helfen kann, welche Grenzen wichtig sind und wie du Antworten prüfst.",
+      "Für bessere Formulierungen, Vorbereitung, Struktur, Recherche und Organisation — mit klaren Grenzen.",
     target: "Für Beruf, Selbstständigkeit und Organisationen",
     href: "#lernpfade",
   },
   {
     id: "prompts",
-    label: "Ich will bessere Fragen an KI stellen",
+    label: "Ich will bessere Fragen stellen",
     title: "Besser fragen, verständlichere Antworten bekommen",
     description:
-      "Du lernst, wie du KI klare Aufgaben gibst, ohne komplizierte Fachsprache zu brauchen.",
+      "Du lernst, wie ein guter Prompt aufgebaut ist und wie du Antworten gezielter steuerst.",
     target: "Für alle, die KI-Antworten gezielter steuern möchten",
     href: "#lektionen",
   },
@@ -52,7 +52,7 @@ const entryOptions = [
     label: "Ich habe nur ein paar Minuten",
     title: "Ein kleiner Anfang reicht",
     description:
-      "Ein kleiner Anfang: eine Idee verstehen, eine Frage stellen und eine Antwort prüfen.",
+      "Starte mit einer kurzen Übung und nimm einen sicheren ersten Schritt mit.",
     target: "Für schnelle Orientierung ohne langen Kursstart",
     href: "#zehn-minuten",
   },
@@ -66,10 +66,19 @@ const tenMinuteSteps = [
   "Antwort prüfen: Was stimmt, was muss kontrolliert werden?",
 ];
 
-const trustNotes = [
-  "Keine Passwörter, Kundendaten, Gesundheitsdaten oder Vertragsdetails in KI-Systeme eingeben.",
-  "KI-Antworten können überzeugend klingen und trotzdem falsch sein.",
-  "Wichtige Fakten immer mit geeigneten Quellen oder Fachpersonen prüfen.",
+const trustRules = [
+  {
+    title: "Keine sensiblen Daten eingeben",
+    text: "Gib keine Passwörter, Bankdaten, Gesundheitsdaten, Kundendaten oder vertraulichen Dokumente in KI-Systeme ein.",
+  },
+  {
+    title: "Antworten nicht blind übernehmen",
+    text: "KI kann überzeugend klingen und trotzdem falsch liegen. Prüfe wichtige Aussagen immer nach.",
+  },
+  {
+    title: "Bei wichtigen Entscheidungen Fachquellen nutzen",
+    text: "Recht, Medizin, Finanzen, Steuern und Verträge brauchen geeignete Quellen oder fachliche Prüfung.",
+  },
 ];
 
 export default function Home() {
@@ -126,7 +135,7 @@ export default function Home() {
       <main id="inhalt" className="mx-auto max-w-7xl space-y-14 px-5 py-8 md:px-8 md:py-12">
         <section className="relative overflow-hidden rounded-[2rem] premium-gradient px-6 py-10 text-white shadow-2xl md:px-12 md:py-16">
           <div className="absolute right-6 top-6 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white/80">
-            Privater Demo-Stand
+            Private Demo — noch kein öffentlicher Launch
           </div>
 
           <div className="max-w-3xl space-y-6">
@@ -135,19 +144,19 @@ export default function Home() {
             </div>
 
             <h1 className="text-4xl font-black leading-tight tracking-tight md:text-6xl">
-              KI verstehen, ohne dich überfordert zu fühlen.
+              KI verstehen — und deinen ersten sicheren Schritt machen.
             </h1>
 
             <p className="max-w-2xl text-lg font-medium leading-8 text-white/85 md:text-xl">
-              Dieses kostenlose Begleitportal holt dich dort ab, wo du gerade stehst. Du bekommst einfache Erklärungen,
-              kleine Schritte, praktische Beispiele und klare Hinweise, worauf du bei KI achten solltest.
+              Dieses kostenlose Begleitportal erklärt KI in einfacher Sprache. Du lernst, wofür KI hilfreich ist,
+              wo ihre Grenzen liegen und wie du eine erste Frage so stellst, dass du keine sensiblen Daten preisgibst.
             </p>
 
             <div className="grid gap-3 text-sm font-semibold sm:grid-cols-2 lg:grid-cols-4">
               <span className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">Ohne Konto starten</span>
-              <span className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">Einfache Beispiele</span>
-              <span className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">Kurze Übungen</span>
-              <span className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">Risiken mitdenken</span>
+              <span className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">In 5 Minuten orientieren</span>
+              <span className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">Mit Beispielen üben</span>
+              <span className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">Antworten sicher prüfen</span>
             </div>
 
             <div className="flex flex-col gap-3 pt-2 sm:flex-row">
@@ -161,7 +170,7 @@ export default function Home() {
                 href="#einstieg"
                 className="inline-flex justify-center rounded-2xl border border-white/20 bg-white/10 px-6 py-4 text-base font-black text-white transition hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
-                Passende Hilfe wählen
+                Mein Thema auswählen
               </a>
             </div>
           </div>
@@ -224,6 +233,18 @@ export default function Home() {
             description="Eine kurze Hilfe, die nicht überfordert: erst verstehen, dann ausprobieren, dann prüfen."
           />
 
+          <div className="rounded-[2rem] border border-nim-border bg-white p-6 shadow-sm md:p-8">
+            <h3 className="text-2xl font-black text-nim-primary">Nach 5 Minuten kannst du drei Dinge besser:</h3>
+            <ol className="mt-5 grid gap-3 text-sm font-semibold leading-7 text-nim-secondary md:grid-cols-3">
+              <li className="rounded-2xl bg-slate-50 p-4">Du kannst in einfachen Worten erklären, was KI ist.</li>
+              <li className="rounded-2xl bg-slate-50 p-4">Du weißt, wofür KI nützlich ist — und wo du vorsichtig sein musst.</li>
+              <li className="rounded-2xl bg-slate-50 p-4">Du kannst eine erste sichere Frage stellen, ohne private Daten einzugeben.</li>
+            </ol>
+            <p className="mt-5 text-sm leading-7 text-slate-600">
+              Du musst danach kein Experte sein. Ziel ist nur: sicher anfangen, nicht alles auf einmal verstehen.
+            </p>
+          </div>
+
           <div className="grid gap-4 md:grid-cols-5">
             {tenMinuteSteps.map((step, index) => (
               <div key={step} className="depth-card rounded-3xl p-5">
@@ -240,12 +261,13 @@ export default function Home() {
 
         <section id="begleiter" className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] scroll-mt-28">
           <div className="rounded-[2rem] bg-nim-primary p-8 text-white">
-            <p className="text-xs font-black uppercase tracking-widest text-white/70">Der Lernbegleiter</p>
+            <p className="text-xs font-black uppercase tracking-widest text-white/70">Der Lernbegleiter-Gedanke</p>
             <h2 className="mt-3 text-3xl font-black leading-tight">
-              Nicht Belehrung. Sondern freundliche Begleitung.
+              Erst verstehen. Dann ausprobieren. Dann prüfen.
             </h2>
             <p className="mt-5 leading-8 text-white/80">
-              Der KI-Begleiter soll dir helfen, Dinge einfacher zu verstehen, Antworten einzuordnen und den nächsten kleinen Schritt zu finden.
+              Das Portal ist so aufgebaut, dass es dich Schritt für Schritt begleitet. Ein echter interaktiver
+              KI-Begleiter ist für spätere Ausbaustufen vorgesehen.
             </p>
           </div>
 
@@ -258,7 +280,7 @@ export default function Home() {
             <InfoCard
               icon="🧭"
               title="Gibt nächste Schritte"
-              text="Du bekommst nicht alles auf einmal, sondern eine sinnvolle Reihenfolge."
+              text="Du bekommst kleine, machbare Schritte statt einer großen Theorieübersicht."
             />
             <InfoCard
               icon="🛡️"
@@ -325,9 +347,13 @@ export default function Home() {
         <section id="ressourcen" className="space-y-6 scroll-mt-28">
           <SectionIntro
             eyebrow="Mehr Hilfe finden"
-            title="Nützliche externe Angebote"
-            description="Manchmal helfen externe Angebote weiter. Prüfe dort aber selbst Konto-, Kosten- und Datenschutzhinweise."
+            title="Seriöse Quellen und Lernangebote zum Weiterlernen"
+            description="Diese Links führen zu externen Angeboten. Prüfe dort immer selbst, ob ein Konto nötig ist, ob Kosten entstehen und welche Datenschutzregeln gelten."
           />
+
+          <div className="rounded-3xl border border-blue-100 bg-blue-50 p-5 text-sm font-semibold leading-7 text-blue-900">
+            Tipp: Starte nicht mit zu vielen Quellen. Wähle erst ein Angebot, das zu deinem aktuellen Ziel passt.
+          </div>
 
           <div className="grid gap-4 md:grid-cols-2">
             {beginnerResources.map((resource) => (
@@ -339,14 +365,15 @@ export default function Home() {
         <section id="vertrauen" className="space-y-6 scroll-mt-28">
           <SectionIntro
             eyebrow="Vertrauen & Grenzen"
-            title="Sicherer werden heißt: Grenzen kennen"
+            title="Sicherer Umgang mit KI beginnt mit drei Regeln"
             description="KI kann helfen. Trotzdem solltest du wichtige Antworten prüfen und sensible Daten schützen."
           />
 
           <div className="grid gap-4 md:grid-cols-3">
-            {trustNotes.map((note) => (
-              <div key={note} className="rounded-3xl border border-amber-100 bg-amber-50 p-5 text-sm font-semibold leading-7 text-amber-800">
-                {note}
+            {trustRules.map((rule) => (
+              <div key={rule.title} className="rounded-3xl border border-amber-100 bg-amber-50 p-5 text-sm leading-7 text-amber-800">
+                <h3 className="font-black text-amber-950">{rule.title}</h3>
+                <p className="mt-2 font-semibold">{rule.text}</p>
               </div>
             ))}
           </div>
@@ -379,8 +406,8 @@ export default function Home() {
           <div>
             <h2 className="text-lg font-black text-nim-primary">KI-Lernportal NIM</h2>
             <p className="mt-2 max-w-2xl leading-7">
-              Lern- und Orientierungsportal für KI-Kompetenz in Alltag, Beruf, Kreativarbeit und Organisationen.
-              Aktueller Stand: private Demo mit statischen Inhalten.
+              Lern- und Orientierungsportal für KI-Kompetenz in Alltag, Beruf und Organisation. Aktueller Stand:
+              private Demo mit statischen Inhalten und ohne Nutzerkonto.
             </p>
             <p className="mt-2 text-xs leading-6">
               Inhalte sorgfältig prüfen. Externe Links führen aus dem Portal heraus.
