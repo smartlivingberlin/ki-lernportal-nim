@@ -11,6 +11,7 @@ type LessonItem = LearningPathItem["lessons"][number];
 type ResourceItem = (typeof seedResources)[number];
 
 const progressStorageKey = "ki-lernportal-nim:local-progress:v1";
+const emptyLessons: LessonItem[] = [];
 
 const entryOptions = [
   {
@@ -83,6 +84,22 @@ const trustRules = [
   },
 ];
 
+function readStoredProgress() {
+  if (typeof window === "undefined") return [];
+
+  try {
+    const stored = window.localStorage.getItem(progressStorageKey);
+    if (!stored) return [];
+
+    const parsed = JSON.parse(stored) as unknown;
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed.filter((id): id is string => typeof id === "string");
+  } catch {
+    return [];
+  }
+}
+
 const learningModules = [
   {
     title: "Modul 1: Verstehen",
@@ -119,13 +136,12 @@ export default function Home() {
   const [openLessonId, setOpenLessonId] = useState<string | null>(
     seedLearningPaths[0]?.lessons[0]?.id ?? null,
   );
-  const [completedLessonIds, setCompletedLessonIds] = useState<string[]>([]);
-  const [progressLoaded, setProgressLoaded] = useState(false);
+  const [completedLessonIds, setCompletedLessonIds] = useState<string[]>(readStoredProgress);
 
   const selectedEntry = entryOptions.find((entry) => entry.id === selectedEntryId) ?? entryOptions[0];
   const primaryPath = seedLearningPaths[0];
   const publicLearningPaths = seedLearningPaths.filter((path) => path.id !== "path-admin");
-  const allLessons = primaryPath?.lessons ?? [];
+  const allLessons = primaryPath?.lessons ?? emptyLessons;
   const lessonIds = useMemo(() => allLessons.map((lesson) => lesson.id), [allLessons]);
   const validCompletedLessonIds = useMemo(
     () => completedLessonIds.filter((id, index, list) => lessonIds.includes(id) && list.indexOf(id) === index),
@@ -145,25 +161,11 @@ export default function Home() {
 
   useEffect(() => {
     try {
-      const stored = window.localStorage.getItem(progressStorageKey);
-      if (stored) {
-        const parsed = JSON.parse(stored) as unknown;
-        if (Array.isArray(parsed)) {
-          setCompletedLessonIds(parsed.filter((id): id is string => typeof id === "string" && lessonIds.includes(id)));
-        }
-      }
+      window.localStorage.setItem(progressStorageKey, JSON.stringify(validCompletedLessonIds));
     } catch {
-      setCompletedLessonIds([]);
-    } finally {
-      setProgressLoaded(true);
+      // Progress still works in memory when localStorage is unavailable.
     }
-  }, [lessonIds]);
-
-  useEffect(() => {
-    if (!progressLoaded) return;
-
-    window.localStorage.setItem(progressStorageKey, JSON.stringify(validCompletedLessonIds));
-  }, [progressLoaded, validCompletedLessonIds]);
+  }, [validCompletedLessonIds]);
 
   const markLessonDone = (lessonId: string) => {
     setCompletedLessonIds((previous) => {
