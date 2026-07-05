@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { seedGlossary } from "../data/glossary";
 import { seedLearningPaths } from "../data/learning-paths";
 import { seedResources } from "../data/resources";
@@ -9,6 +9,8 @@ import { seedSources } from "../data/sources";
 type LearningPathItem = (typeof seedLearningPaths)[number];
 type LessonItem = LearningPathItem["lessons"][number];
 type ResourceItem = (typeof seedResources)[number];
+
+const progressStorageKey = "ki-lernportal-nim:local-progress:v1";
 
 const entryOptions = [
   {
@@ -117,20 +119,63 @@ export default function Home() {
   const [openLessonId, setOpenLessonId] = useState<string | null>(
     seedLearningPaths[0]?.lessons[0]?.id ?? null,
   );
+  const [completedLessonIds, setCompletedLessonIds] = useState<string[]>([]);
+  const [progressLoaded, setProgressLoaded] = useState(false);
 
   const selectedEntry = entryOptions.find((entry) => entry.id === selectedEntryId) ?? entryOptions[0];
   const primaryPath = seedLearningPaths[0];
   const publicLearningPaths = seedLearningPaths.filter((path) => path.id !== "path-admin");
   const allLessons = primaryPath?.lessons ?? [];
-  const completedLessons = 0;
+  const lessonIds = useMemo(() => allLessons.map((lesson) => lesson.id), [allLessons]);
+  const validCompletedLessonIds = useMemo(
+    () => completedLessonIds.filter((id, index, list) => lessonIds.includes(id) && list.indexOf(id) === index),
+    [completedLessonIds, lessonIds],
+  );
+  const completedLessons = validCompletedLessonIds.length;
   const totalLessons = allLessons.length;
   const currentLesson = allLessons.find((lesson) => lesson.id === openLessonId) ?? allLessons[0];
   const currentLessonIndex = currentLesson ? allLessons.findIndex((lesson) => lesson.id === currentLesson.id) : -1;
   const followingLesson = currentLessonIndex >= 0 ? allLessons[currentLessonIndex + 1] ?? null : allLessons[0] ?? null;
+  const nextOpenLesson = allLessons.find((lesson) => !validCompletedLessonIds.includes(lesson.id)) ?? allLessons[0];
   const progressText = `${completedLessons}/${totalLessons || 12}`;
+  const progressPercent = totalLessons ? Math.round((completedLessons / totalLessons) * 100) : 0;
   const beginnerResources = seedResources.slice(0, 4);
   const beginnerGlossary = seedGlossary.slice(0, 6);
   const reviewedSources = seedSources.slice(0, 5);
+
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem(progressStorageKey);
+      if (stored) {
+        const parsed = JSON.parse(stored) as unknown;
+        if (Array.isArray(parsed)) {
+          setCompletedLessonIds(parsed.filter((id): id is string => typeof id === "string" && lessonIds.includes(id)));
+        }
+      }
+    } catch {
+      setCompletedLessonIds([]);
+    } finally {
+      setProgressLoaded(true);
+    }
+  }, [lessonIds]);
+
+  useEffect(() => {
+    if (!progressLoaded) return;
+
+    window.localStorage.setItem(progressStorageKey, JSON.stringify(validCompletedLessonIds));
+  }, [progressLoaded, validCompletedLessonIds]);
+
+  const markLessonDone = (lessonId: string) => {
+    setCompletedLessonIds((previous) => {
+      if (previous.includes(lessonId)) return previous.filter((id) => id !== lessonId);
+      return [...previous, lessonId];
+    });
+  };
+
+  const resetProgress = () => {
+    setCompletedLessonIds([]);
+    setOpenLessonId(allLessons[0]?.id ?? null);
+  };
 
   return (
     <div className="min-h-screen bg-background font-sans antialiased text-foreground">
@@ -209,7 +254,7 @@ export default function Home() {
               </div>
             </div>
 
-            <PortalStatusCard totalLessons={totalLessons} progressText={progressText} />
+            <PortalStatusCard totalLessons={totalLessons} progressText={progressText} progressPercent={progressPercent} />
           </div>
         </section>
 
@@ -222,44 +267,44 @@ export default function Home() {
                   {primaryPath?.title ?? "KI-Start für absolute Anfänger"}
                 </h2>
                 <p className="mt-3 max-w-2xl text-base leading-8 text-nim-secondary">
-                  Starte mit kleinen Schritten. Der aktuelle Demo-Stand speichert noch keinen Fortschritt,
-                  zeigt dir aber bereits die komplette Lernreise und den nächsten sinnvollen Klick.
+                  Dein Fortschritt wird nur lokal in diesem Browser gespeichert. Es gibt kein Konto,
+                  keine Datenbank und keine Übertragung an einen Server.
                 </p>
               </div>
               <div className="rounded-3xl border border-nim-border bg-white p-5 text-center shadow-sm">
                 <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Fortschritt</p>
                 <p className="mt-2 text-4xl font-black text-nim-primary">{progressText}</p>
-                <p className="mt-1 text-xs font-semibold text-nim-secondary">0 von {totalLessons || 12} Lektionen erledigt</p>
+                <p className="mt-1 text-xs font-semibold text-nim-secondary">
+                  {completedLessons} von {totalLessons || 12} Lektionen erledigt
+                </p>
               </div>
             </div>
 
             <div className="mt-7 h-3 overflow-hidden rounded-full bg-slate-100" aria-hidden="true">
-              <div className="h-full w-0 rounded-full bg-nim-primary" />
+              <div className="h-full rounded-full bg-nim-primary transition-all" style={{ width: `${progressPercent}%` }} />
             </div>
 
             <div className="mt-7 grid gap-4 md:grid-cols-3">
               <DashboardStat title="Lernpfad" value={`${totalLessons || 12} Lektionen`} text="kompletter Anfängerpfad" />
               <DashboardStat title="Aktuelle Station" value={currentLesson ? `Lektion ${currentLesson.order}` : "Lektion 1"} text={currentLesson?.title ?? "Was ist KI?"} />
-              <DashboardStat title="Danach" value={followingLesson ? `Lektion ${followingLesson.order}` : "Abschluss"} text={followingLesson?.title ?? "Pfad wiederholen oder Quellen prüfen"} />
+              <DashboardStat title="Erledigt" value={`${progressPercent}%`} text="nur lokal gespeichert" />
             </div>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <a
-                href={currentLesson ? `#lesson-${currentLesson.id}` : "#lernreise"}
-                onClick={() => currentLesson && setOpenLessonId(currentLesson.id)}
+                href={nextOpenLesson ? `#lesson-${nextOpenLesson.id}` : "#lernreise"}
+                onClick={() => nextOpenLesson && setOpenLessonId(nextOpenLesson.id)}
                 className="inline-flex justify-center rounded-2xl bg-nim-primary px-6 py-4 text-sm font-black text-white transition hover:bg-nim-primary/90"
               >
-                {currentLesson ? `Lektion ${currentLesson.order} öffnen` : "Lernreise öffnen"}
+                {nextOpenLesson ? `Weiterlernen: Lektion ${nextOpenLesson.order}` : "Lernreise öffnen"}
               </a>
-              {followingLesson && (
-                <a
-                  href={`#lesson-${followingLesson.id}`}
-                  onClick={() => setOpenLessonId(followingLesson.id)}
-                  className="inline-flex justify-center rounded-2xl border border-nim-border bg-white px-6 py-4 text-sm font-black text-nim-primary transition hover:border-nim-primary/30"
-                >
-                  Nächste Lektion ansehen
-                </a>
-              )}
+              <button
+                type="button"
+                onClick={resetProgress}
+                className="inline-flex justify-center rounded-2xl border border-nim-border bg-white px-6 py-4 text-sm font-black text-nim-primary transition hover:border-nim-primary/30"
+              >
+                Fortschritt zurücksetzen
+              </button>
             </div>
           </article>
 
@@ -272,7 +317,7 @@ export default function Home() {
               {currentLesson?.description ?? "Eine einfache Einführung in die Welt der künstlichen Intelligenz."}
             </p>
             <div className="mt-5 rounded-2xl bg-white/70 p-4 text-sm font-semibold leading-7 text-blue-950">
-              Erst verstehen. Dann ausprobieren. Danach prüfen, bevor du etwas übernimmst.
+              Erst verstehen. Dann ausprobieren. Danach abhaken, wenn du die Lektion nachvollziehen kannst.
             </div>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <a
@@ -424,13 +469,14 @@ export default function Home() {
           <SectionIntro
             eyebrow="Lernreise"
             title="12 Lektionen für den sicheren KI-Einstieg"
-            description="Die Lektionen sind in vier einfache Module gegliedert. Jedes Modul zeigt Ziel, ungefähre Dauer und die nächsten Lernkarten."
+            description="Die Lektionen sind in vier einfache Module gegliedert. Du kannst jede Lektion lokal als erledigt markieren und den Fortschritt jederzeit zurücksetzen."
           />
 
           <div className="grid gap-5">
             {learningModules.map((module, moduleIndex) => {
               const moduleLessons = allLessons.filter((lesson) => module.lessonIds.includes(lesson.id));
-              const firstModuleLesson = moduleLessons[0];
+              const firstOpenModuleLesson = moduleLessons.find((lesson) => !validCompletedLessonIds.includes(lesson.id)) ?? moduleLessons[0];
+              const moduleCompletedCount = moduleLessons.filter((lesson) => validCompletedLessonIds.includes(lesson.id)).length;
               return (
                 <article key={module.title} className="rounded-[2rem] border border-nim-border bg-white p-5 shadow-sm md:p-6">
                   <div className="grid gap-4 lg:grid-cols-[1fr_0.55fr] lg:items-start">
@@ -441,17 +487,17 @@ export default function Home() {
                     </div>
                     <div className="rounded-3xl bg-slate-50 p-4">
                       <div className="grid gap-3 text-sm font-bold text-nim-primary sm:grid-cols-3 lg:grid-cols-1">
-                        <span>{moduleLessons.length} Lektionen</span>
+                        <span>{moduleCompletedCount}/{moduleLessons.length} erledigt</span>
                         <span>{module.duration}</span>
                         <span>Modul {moduleIndex + 1} von {learningModules.length}</span>
                       </div>
-                      {firstModuleLesson && (
+                      {firstOpenModuleLesson && (
                         <a
-                          href={`#lesson-${firstModuleLesson.id}`}
-                          onClick={() => setOpenLessonId(firstModuleLesson.id)}
+                          href={`#lesson-${firstOpenModuleLesson.id}`}
+                          onClick={() => setOpenLessonId(firstOpenModuleLesson.id)}
                           className="mt-4 inline-flex rounded-2xl bg-nim-primary px-4 py-3 text-sm font-black text-white transition hover:bg-nim-primary/90"
                         >
-                          Modul starten
+                          Modul fortsetzen
                         </a>
                       )}
                     </div>
@@ -465,7 +511,9 @@ export default function Home() {
                         lessonNumber={lesson.order}
                         moduleLessonNumber={index + 1}
                         open={openLessonId === lesson.id}
+                        completed={validCompletedLessonIds.includes(lesson.id)}
                         onToggle={() => setOpenLessonId(openLessonId === lesson.id ? null : lesson.id)}
+                        onToggleCompleted={() => markLessonDone(lesson.id)}
                       />
                     ))}
                   </div>
@@ -558,7 +606,7 @@ export default function Home() {
             <h2 className="text-lg font-black text-nim-primary">KI-Lernportal NIM</h2>
             <p className="mt-2 max-w-2xl leading-7">
               Lern- und Orientierungsportal für KI-Kompetenz in Alltag, Beruf und Organisation. Aktueller Stand:
-              private Demo mit statischen Inhalten und ohne Nutzerkonto.
+              private Demo mit statischen Inhalten, ohne Nutzerkonto und mit Fortschritt nur im Browser.
             </p>
             <p className="mt-2 text-xs leading-6">
               Inhalte sorgfältig prüfen. Externe Links führen aus dem Portal heraus.
@@ -587,22 +635,30 @@ function SectionIntro({ eyebrow, title, description }: { eyebrow: string; title:
   );
 }
 
-function PortalStatusCard({ totalLessons, progressText }: { totalLessons: number; progressText: string }) {
+function PortalStatusCard({
+  totalLessons,
+  progressText,
+  progressPercent,
+}: {
+  totalLessons: number;
+  progressText: string;
+  progressPercent: number;
+}) {
   return (
     <div className="rounded-[2rem] border border-white/15 bg-white/10 p-6 backdrop-blur-sm">
       <p className="text-xs font-black uppercase tracking-widest text-white/70">Portalstatus</p>
       <div className="mt-5 grid gap-3">
         <div className="rounded-2xl bg-white/10 p-4">
           <span className="block text-3xl font-black">{progressText}</span>
-          <span className="mt-1 block text-sm font-semibold text-white/75">Fortschritt im Demo-Modus</span>
+          <span className="mt-1 block text-sm font-semibold text-white/75">Fortschritt nur in diesem Browser</span>
+        </div>
+        <div className="rounded-2xl bg-white/10 p-4">
+          <span className="block text-3xl font-black">{progressPercent}%</span>
+          <span className="mt-1 block text-sm font-semibold text-white/75">lokal erledigt</span>
         </div>
         <div className="rounded-2xl bg-white/10 p-4">
           <span className="block text-3xl font-black">{totalLessons || 12}</span>
           <span className="mt-1 block text-sm font-semibold text-white/75">Lektionen im Anfängerpfad</span>
-        </div>
-        <div className="rounded-2xl bg-white/10 p-4">
-          <span className="block text-3xl font-black">0</span>
-          <span className="mt-1 block text-sm font-semibold text-white/75">Konten, Tracking, Zahlungen</span>
         </div>
       </div>
     </div>
@@ -659,13 +715,17 @@ function LessonAccordion({
   lessonNumber,
   moduleLessonNumber,
   open,
+  completed,
   onToggle,
+  onToggleCompleted,
 }: {
   lesson: LessonItem;
   lessonNumber: number;
   moduleLessonNumber: number;
   open: boolean;
+  completed: boolean;
   onToggle: () => void;
+  onToggleCompleted: () => void;
 }) {
   const contentId = `lesson-panel-${lesson.id}`;
   const anchorId = `lesson-${lesson.id}`;
@@ -680,12 +740,12 @@ function LessonAccordion({
         className="flex w-full flex-col gap-3 p-5 text-left md:flex-row md:items-center md:justify-between"
       >
         <div className="flex gap-4">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-nim-primary text-sm font-black text-white">
-            {lessonNumber}
+          <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl text-sm font-black text-white ${completed ? "bg-emerald-600" : "bg-nim-primary"}`}>
+            {completed ? "✓" : lessonNumber}
           </span>
           <span>
             <span className="text-[10px] font-black uppercase tracking-widest text-nim-secondary">
-              Lernkarte {moduleLessonNumber} im Modul
+              Lernkarte {moduleLessonNumber} im Modul · {completed ? "erledigt" : "offen"}
             </span>
             <span className="block text-lg font-black text-nim-primary">{lesson.title}</span>
             <span className="mt-1 block text-sm leading-6 text-nim-secondary">{lesson.description}</span>
@@ -699,6 +759,21 @@ function LessonAccordion({
           <div className="rounded-2xl bg-slate-50 p-5 text-sm leading-8 text-foreground">
             <p className="mb-3 text-xs font-black uppercase tracking-widest text-nim-secondary">Lektionskarte</p>
             <div className="whitespace-pre-line">{lesson.content}</div>
+          </div>
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+            <button
+              type="button"
+              onClick={onToggleCompleted}
+              className="inline-flex justify-center rounded-2xl bg-nim-primary px-5 py-4 text-sm font-black text-white transition hover:bg-nim-primary/90"
+            >
+              {completed ? "Erledigt zurücknehmen" : "Als erledigt markieren"}
+            </button>
+            <a
+              href="#dashboard"
+              className="inline-flex justify-center rounded-2xl border border-nim-border bg-white px-5 py-4 text-sm font-black text-nim-primary transition hover:border-nim-primary/30"
+            >
+              Zurück zum Dashboard
+            </a>
           </div>
         </div>
       )}
