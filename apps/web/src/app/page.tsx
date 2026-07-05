@@ -18,7 +18,7 @@ const entryOptions = [
     description:
       "Du bekommst einfache Erklärungen, kurze Beispiele und eine erste sichere Übung mit KI.",
     target: "Für Menschen ohne KI-Vorkenntnisse",
-    href: "#zehn-minuten",
+    href: "#dashboard",
   },
   {
     id: "alltag",
@@ -27,7 +27,7 @@ const entryOptions = [
     description:
       "Für E-Mails, kurze Texte, Planung, Ideen und einfache Erklärungen, die du besser verstehen möchtest.",
     target: "Für Alltag, Familie, Organisation und persönliche Aufgaben",
-    href: "#lernpfade",
+    href: "#lernreise",
   },
   {
     id: "beruf",
@@ -36,7 +36,7 @@ const entryOptions = [
     description:
       "Für bessere Formulierungen, Vorbereitung, Struktur, Recherche und Organisation — mit klaren Grenzen.",
     target: "Für Beruf, Selbstständigkeit und Organisationen",
-    href: "#lernpfade",
+    href: "#lernreise",
   },
   {
     id: "prompts",
@@ -45,7 +45,7 @@ const entryOptions = [
     description:
       "Du lernst, wie ein guter Prompt aufgebaut ist und wie du Antworten gezielter steuerst.",
     target: "Für alle, die KI-Antworten gezielter steuern möchten",
-    href: "#lektionen",
+    href: "#lernreise",
   },
   {
     id: "kurz",
@@ -81,6 +81,29 @@ const trustRules = [
   },
 ];
 
+const learningModules = [
+  {
+    title: "Modul 1: Verstehen",
+    description: "Du verstehst, was KI ist, wo sie hilft und wie du sicher anfängst.",
+    lessonIds: ["l1", "l2", "l3"],
+  },
+  {
+    title: "Modul 2: Fragen stellen",
+    description: "Du lernst Prompts, bessere Formulierungen und sichere Textarbeit.",
+    lessonIds: ["l4", "l5", "l6"],
+  },
+  {
+    title: "Modul 3: Prüfen",
+    description: "Du sortierst Ideen, erkennst Halluzinationen und prüfst Quellen.",
+    lessonIds: ["l7", "l8", "l9"],
+  },
+  {
+    title: "Modul 4: Sicher nutzen",
+    description: "Du schützt Daten, erkennst Grenzen und machst den Abschluss-Check.",
+    lessonIds: ["l10", "l11", "l12"],
+  },
+];
+
 export default function Home() {
   const [selectedEntryId, setSelectedEntryId] = useState(entryOptions[0].id);
   const [openLessonId, setOpenLessonId] = useState<string | null>(
@@ -90,7 +113,12 @@ export default function Home() {
   const selectedEntry = entryOptions.find((entry) => entry.id === selectedEntryId) ?? entryOptions[0];
   const primaryPath = seedLearningPaths[0];
   const publicLearningPaths = seedLearningPaths.filter((path) => path.id !== "path-admin");
-  const starterLessons = primaryPath?.lessons.slice(0, 5) ?? [];
+  const allLessons = primaryPath?.lessons ?? [];
+  const completedLessons = 0;
+  const totalLessons = allLessons.length;
+  const currentLesson = allLessons.find((lesson) => lesson.id === openLessonId) ?? allLessons[0];
+  const nextLesson = currentLesson ?? allLessons[0];
+  const progressText = `${completedLessons}/${totalLessons || 12}`;
   const beginnerResources = seedResources.slice(0, 4);
   const beginnerGlossary = seedGlossary.slice(0, 6);
   const reviewedSources = seedSources.slice(0, 5);
@@ -116,14 +144,17 @@ export default function Home() {
           </div>
 
           <nav className="flex flex-wrap gap-2 text-sm font-bold text-nim-primary" aria-label="Hauptnavigation">
-            <a className="rounded-full bg-slate-100 px-3 py-2 hover:bg-slate-200" href="#einstieg">
-              Ich bin neu
+            <a className="rounded-full bg-slate-100 px-3 py-2 hover:bg-slate-200" href="#dashboard">
+              Dashboard
+            </a>
+            <a className="rounded-full bg-slate-100 px-3 py-2 hover:bg-slate-200" href="#lernreise">
+              Lernen
             </a>
             <a className="rounded-full bg-slate-100 px-3 py-2 hover:bg-slate-200" href="#zehn-minuten">
               5-Minuten-Hilfe
             </a>
-            <a className="rounded-full bg-slate-100 px-3 py-2 hover:bg-slate-200" href="#lernpfade">
-              Mehr Hilfe finden
+            <a className="rounded-full bg-slate-100 px-3 py-2 hover:bg-slate-200" href="#ressourcen">
+              Quellen
             </a>
             <a className="rounded-full bg-slate-100 px-3 py-2 hover:bg-slate-200" href="#vertrauen">
               Grenzen
@@ -138,49 +169,113 @@ export default function Home() {
             Private Demo — noch kein öffentlicher Launch
           </div>
 
-          <div className="max-w-3xl space-y-6">
-            <div className="inline-flex rounded-full border border-white/15 bg-white/15 px-3 py-2 text-xs font-black uppercase tracking-widest">
-              Kostenlose Orientierung für den KI-Einstieg
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+            <div className="max-w-3xl space-y-6">
+              <div className="inline-flex rounded-full border border-white/15 bg-white/15 px-3 py-2 text-xs font-black uppercase tracking-widest">
+                Portal-Demo für den sicheren KI-Einstieg
+              </div>
+
+              <h1 className="text-4xl font-black leading-tight tracking-tight md:text-6xl">
+                KI verstehen — als Lernreise, nicht als Textwand.
+              </h1>
+
+              <p className="max-w-2xl text-lg font-medium leading-8 text-white/85 md:text-xl">
+                Dieses private Demo-Portal führt dich durch 12 kurze Lektionen. Du startest ohne Konto,
+                lernst sichere Prompts und siehst direkt, wo KI hilft — und wo du prüfen musst.
+              </p>
+
+              <div className="flex flex-col gap-3 pt-2 sm:flex-row">
+                <a
+                  href="#dashboard"
+                  className="inline-flex justify-center rounded-2xl bg-white px-6 py-4 text-base font-black text-nim-primary shadow-lg transition hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
+                  Zum Dashboard
+                </a>
+                <a
+                  href="#lernreise"
+                  className="inline-flex justify-center rounded-2xl border border-white/20 bg-white/10 px-6 py-4 text-base font-black text-white transition hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
+                  12 Lektionen ansehen
+                </a>
+              </div>
             </div>
 
-            <h1 className="text-4xl font-black leading-tight tracking-tight md:text-6xl">
-              KI verstehen — und deinen ersten sicheren Schritt machen.
-            </h1>
+            <PortalStatusCard totalLessons={totalLessons} progressText={progressText} />
+          </div>
+        </section>
 
-            <p className="max-w-2xl text-lg font-medium leading-8 text-white/85 md:text-xl">
-              Dieses kostenlose Begleitportal erklärt KI in einfacher Sprache. Du lernst, wofür KI hilfreich ist,
-              wo ihre Grenzen liegen und wie du eine erste Frage so stellst, dass du keine sensiblen Daten preisgibst.
-            </p>
-
-            <div className="grid gap-3 text-sm font-semibold sm:grid-cols-2 lg:grid-cols-4">
-              <span className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">Ohne Konto starten</span>
-              <span className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">In 5 Minuten orientieren</span>
-              <span className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">Mit Beispielen üben</span>
-              <span className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3">Antworten sicher prüfen</span>
+        <section id="dashboard" className="grid gap-6 scroll-mt-28 lg:grid-cols-[1.1fr_0.9fr]">
+          <article className="depth-card rounded-[2rem] p-7 md:p-8">
+            <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Dein Lern-Dashboard</p>
+            <div className="mt-4 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+              <div>
+                <h2 className="text-3xl font-black leading-tight text-nim-primary md:text-4xl">
+                  {primaryPath?.title ?? "KI-Start für absolute Anfänger"}
+                </h2>
+                <p className="mt-3 max-w-2xl text-base leading-8 text-nim-secondary">
+                  Starte mit kleinen Schritten. Der aktuelle Demo-Stand speichert noch keinen Fortschritt,
+                  zeigt dir aber bereits die komplette Lernreise.
+                </p>
+              </div>
+              <div className="rounded-3xl border border-nim-border bg-white p-5 text-center shadow-sm">
+                <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Fortschritt</p>
+                <p className="mt-2 text-4xl font-black text-nim-primary">{progressText}</p>
+                <p className="mt-1 text-xs font-semibold text-nim-secondary">0 von {totalLessons || 12} Lektionen erledigt</p>
+              </div>
             </div>
 
-            <div className="flex flex-col gap-3 pt-2 sm:flex-row">
+            <div className="mt-7 h-3 overflow-hidden rounded-full bg-slate-100" aria-hidden="true">
+              <div className="h-full w-0 rounded-full bg-nim-primary" />
+            </div>
+
+            <div className="mt-7 grid gap-4 md:grid-cols-3">
+              <DashboardStat title="Lernpfad" value={`${totalLessons || 12} Lektionen`} text="kompletter Anfängerpfad" />
+              <DashboardStat title="Status" value="Private Demo" text="ohne Login und Tracking" />
+              <DashboardStat title="Nächster Schritt" value={nextLesson?.title ?? "Was ist KI?"} text="direkt weiterlernen" />
+            </div>
+
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={nextLesson ? `#lesson-${nextLesson.id}` : "#lernreise"}
+                onClick={() => nextLesson && setOpenLessonId(nextLesson.id)}
+                className="inline-flex justify-center rounded-2xl bg-nim-primary px-6 py-4 text-sm font-black text-white transition hover:bg-nim-primary/90"
+              >
+                Weiterlernen
+              </a>
               <a
                 href="#zehn-minuten"
-                className="inline-flex justify-center rounded-2xl bg-white px-6 py-4 text-base font-black text-nim-primary shadow-lg transition hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="inline-flex justify-center rounded-2xl border border-nim-border bg-white px-6 py-4 text-sm font-black text-nim-primary transition hover:border-nim-primary/30"
               >
-                5-Minuten-Hilfe starten
-              </a>
-              <a
-                href="#einstieg"
-                className="inline-flex justify-center rounded-2xl border border-white/20 bg-white/10 px-6 py-4 text-base font-black text-white transition hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                Mein Thema auswählen
+                5-Minuten-Hilfe öffnen
               </a>
             </div>
-          </div>
+          </article>
+
+          <article className="rounded-[2rem] border border-blue-100 bg-blue-50 p-7 md:p-8">
+            <p className="text-xs font-black uppercase tracking-widest text-blue-700">Aktive Lektion</p>
+            <h2 className="mt-3 text-3xl font-black leading-tight text-blue-950">
+              {currentLesson?.title ?? "Was ist KI?"}
+            </h2>
+            <p className="mt-3 text-sm leading-7 text-blue-900">
+              {currentLesson?.description ?? "Eine einfache Einführung in die Welt der künstlichen Intelligenz."}
+            </p>
+            <div className="mt-5 rounded-2xl bg-white/70 p-4 text-sm font-semibold leading-7 text-blue-950">
+              Erst verstehen. Dann ausprobieren. Danach prüfen, bevor du etwas übernimmst.
+            </div>
+            <a
+              href={currentLesson ? `#lesson-${currentLesson.id}` : "#lernreise"}
+              className="mt-5 inline-flex rounded-2xl bg-blue-950 px-5 py-4 text-sm font-black text-white transition hover:bg-blue-900"
+            >
+              Aktive Lektion öffnen
+            </a>
+          </article>
         </section>
 
         <section id="einstieg" className="space-y-6 scroll-mt-28">
           <SectionIntro
             eyebrow="Was möchtest du heute schaffen?"
-            title="Du musst nicht wissen, wo du anfangen sollst."
-            description="Wähle einfach aus, wobei du Hilfe brauchst. Das Portal führt dich dann mit kleinen, verständlichen Schritten weiter."
+            title="Wähle deinen Startpunkt im Portal."
+            description="Du musst nicht wissen, wo du anfangen sollst. Das Portal schlägt dir einen passenden Einstieg vor."
           />
 
           <div className="grid gap-4 lg:grid-cols-[1fr_1.1fr]">
@@ -255,11 +350,9 @@ export default function Home() {
               </div>
             ))}
           </div>
-
-          {starterLessons[0] && <FeaturedLesson lesson={starterLessons[0]} />}
         </section>
 
-        <section id="begleiter" className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] scroll-mt-28">
+        <section id="begleiter" className="grid gap-6 scroll-mt-28 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="rounded-[2rem] bg-nim-primary p-8 text-white">
             <p className="text-xs font-black uppercase tracking-widest text-white/70">Der Lernbegleiter-Gedanke</p>
             <h2 className="mt-3 text-3xl font-black leading-tight">
@@ -294,7 +387,7 @@ export default function Home() {
           <SectionIntro
             eyebrow="Mehr Hilfe finden"
             title="Wenn du weiterlernen möchtest"
-            description="Die Pfade bleiben erhalten, aber sie kommen erst nach dem ersten kleinen Schritt. So wirkt die Seite weniger wie eine technische Übersicht und mehr wie eine Lernreise."
+            description="Die Pfade bleiben erhalten, aber der aktive Anfängerpfad steht jetzt als Lernreise im Vordergrund."
           />
 
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -304,27 +397,46 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="lektionen" className="space-y-6 scroll-mt-28">
+        <section id="lernreise" className="space-y-6 scroll-mt-28">
           <SectionIntro
-            eyebrow="Erste Lektionen"
-            title="Kleine Hilfekarten statt Theorieblock"
-            description="Öffne nur die Karte, die du gerade brauchst. Du musst nicht alles auf einmal lesen."
+            eyebrow="Lernreise"
+            title="12 Lektionen für den sicheren KI-Einstieg"
+            description="Die Lektionen sind in vier einfache Module gegliedert. Öffne die Karte, die du gerade brauchst, oder gehe Schritt für Schritt vor."
           />
 
-          <div className="grid gap-4">
-            {starterLessons.map((lesson, index) => (
-              <LessonAccordion
-                key={lesson.id}
-                lesson={lesson}
-                index={index}
-                open={openLessonId === lesson.id}
-                onToggle={() => setOpenLessonId(openLessonId === lesson.id ? null : lesson.id)}
-              />
-            ))}
+          <div className="grid gap-5">
+            {learningModules.map((module) => {
+              const moduleLessons = allLessons.filter((lesson) => module.lessonIds.includes(lesson.id));
+              return (
+                <article key={module.title} className="rounded-[2rem] border border-nim-border bg-white p-5 shadow-sm md:p-6">
+                  <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">{module.title}</p>
+                      <h3 className="mt-2 text-2xl font-black text-nim-primary">{module.description}</h3>
+                    </div>
+                    <span className="w-fit rounded-full bg-slate-100 px-3 py-2 text-xs font-black uppercase tracking-widest text-nim-secondary">
+                      {moduleLessons.length} Lektionen
+                    </span>
+                  </div>
+
+                  <div className="mt-5 grid gap-4">
+                    {moduleLessons.map((lesson) => (
+                      <LessonAccordion
+                        key={lesson.id}
+                        lesson={lesson}
+                        lessonNumber={lesson.order}
+                        open={openLessonId === lesson.id}
+                        onToggle={() => setOpenLessonId(openLessonId === lesson.id ? null : lesson.id)}
+                      />
+                    ))}
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </section>
 
-        <section id="glossar" className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] scroll-mt-28">
+        <section id="glossar" className="grid gap-6 scroll-mt-28 lg:grid-cols-[0.9fr_1.1fr]">
           <SectionIntro
             eyebrow="Wörterbuch"
             title="Fachwörter erst dann, wenn sie dir helfen"
@@ -346,7 +458,7 @@ export default function Home() {
 
         <section id="ressourcen" className="space-y-6 scroll-mt-28">
           <SectionIntro
-            eyebrow="Mehr Hilfe finden"
+            eyebrow="Quellenraum"
             title="Seriöse Quellen und Lernangebote zum Weiterlernen"
             description="Diese Links führen zu externen Angeboten. Prüfe dort immer selbst, ob ein Konto nötig ist, ob Kosten entstehen und welche Datenschutzregeln gelten."
           />
@@ -436,31 +548,44 @@ function SectionIntro({ eyebrow, title, description }: { eyebrow: string; title:
   );
 }
 
+function PortalStatusCard({ totalLessons, progressText }: { totalLessons: number; progressText: string }) {
+  return (
+    <div className="rounded-[2rem] border border-white/15 bg-white/10 p-6 backdrop-blur-sm">
+      <p className="text-xs font-black uppercase tracking-widest text-white/70">Portalstatus</p>
+      <div className="mt-5 grid gap-3">
+        <div className="rounded-2xl bg-white/10 p-4">
+          <span className="block text-3xl font-black">{progressText}</span>
+          <span className="mt-1 block text-sm font-semibold text-white/75">Fortschritt im Demo-Modus</span>
+        </div>
+        <div className="rounded-2xl bg-white/10 p-4">
+          <span className="block text-3xl font-black">{totalLessons || 12}</span>
+          <span className="mt-1 block text-sm font-semibold text-white/75">Lektionen im Anfängerpfad</span>
+        </div>
+        <div className="rounded-2xl bg-white/10 p-4">
+          <span className="block text-3xl font-black">0</span>
+          <span className="mt-1 block text-sm font-semibold text-white/75">Konten, Tracking, Zahlungen</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DashboardStat({ title, value, text }: { title: string; value: string; text: string }) {
+  return (
+    <div className="rounded-3xl border border-nim-border bg-white p-5 shadow-sm">
+      <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">{title}</p>
+      <p className="mt-2 text-xl font-black text-nim-primary">{value}</p>
+      <p className="mt-1 text-sm leading-6 text-nim-secondary">{text}</p>
+    </div>
+  );
+}
+
 function InfoCard({ icon, title, text }: { icon: string; title: string; text: string }) {
   return (
     <article className="depth-card rounded-3xl p-6">
       <div className="text-3xl">{icon}</div>
       <h3 className="mt-4 text-lg font-black text-nim-primary">{title}</h3>
       <p className="mt-2 text-sm leading-7 text-nim-secondary">{text}</p>
-    </article>
-  );
-}
-
-function FeaturedLesson({ lesson }: { lesson: LessonItem }) {
-  return (
-    <article className="rounded-[2rem] border border-nim-border bg-white p-6 shadow-sm md:p-8">
-      <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Erste Lektion</p>
-      <h3 className="mt-2 text-2xl font-black text-nim-primary">{lesson.title}</h3>
-      <p className="mt-3 max-w-3xl text-base leading-8 text-nim-secondary">{lesson.description}</p>
-      <div className="mt-5 rounded-2xl bg-slate-50 p-5 text-sm leading-7 text-foreground">
-        {(lesson.content ?? "").split("\n").slice(0, 6).join("\n")}
-      </div>
-      <a
-        href="#lektionen"
-        className="mt-5 inline-flex rounded-2xl bg-nim-primary px-5 py-4 text-sm font-black text-white transition hover:bg-nim-primary/90"
-      >
-        Weitere Lernkarten öffnen
-      </a>
     </article>
   );
 }
@@ -481,7 +606,7 @@ function PathCard({ path }: { path: LearningPathItem }) {
       <h3 className="mt-4 text-xl font-black leading-tight text-nim-primary">{path.title}</h3>
       <p className="mt-3 text-sm leading-7 text-nim-secondary">{path.description}</p>
       <a
-        href="#lektionen"
+        href={disabled ? "#lernpfade" : "#lernreise"}
         className="mt-5 inline-flex rounded-xl bg-nim-primary px-4 py-3 text-sm font-black text-white transition hover:bg-nim-primary/90"
       >
         {disabled ? "Vorschau ansehen" : "Pfad ansehen"}
@@ -492,19 +617,20 @@ function PathCard({ path }: { path: LearningPathItem }) {
 
 function LessonAccordion({
   lesson,
-  index,
+  lessonNumber,
   open,
   onToggle,
 }: {
   lesson: LessonItem;
-  index: number;
+  lessonNumber: number;
   open: boolean;
   onToggle: () => void;
 }) {
-  const contentId = `lesson-${lesson.id}`;
+  const contentId = `lesson-panel-${lesson.id}`;
+  const anchorId = `lesson-${lesson.id}`;
 
   return (
-    <article className="rounded-3xl border border-nim-border bg-white shadow-sm">
+    <article id={anchorId} className="rounded-3xl border border-nim-border bg-white shadow-sm scroll-mt-28">
       <button
         type="button"
         onClick={onToggle}
@@ -514,7 +640,7 @@ function LessonAccordion({
       >
         <div className="flex gap-4">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-nim-primary text-sm font-black text-white">
-            {index + 1}
+            {lessonNumber}
           </span>
           <span>
             <span className="block text-lg font-black text-nim-primary">{lesson.title}</span>
