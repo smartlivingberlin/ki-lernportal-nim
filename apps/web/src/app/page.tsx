@@ -9,11 +9,19 @@ import { seedSources } from "../data/sources";
 type LearningPathItem = (typeof seedLearningPaths)[number];
 type LessonItem = LearningPathItem["lessons"][number];
 type ResourceItem = (typeof seedResources)[number];
+type LearningModule = {
+  title: string;
+  label: string;
+  description: string;
+  outcome: string;
+  duration: string;
+  lessonIds: string[];
+};
 
 const progressStorageKey = "ki-lernportal-nim:local-progress:v1";
 const emptyLessons: LessonItem[] = [];
 
-const learningModules = [
+const learningModules: LearningModule[] = [
   {
     title: "Modul 1",
     label: "Verstehen",
@@ -48,6 +56,15 @@ const learningModules = [
   },
 ];
 
+const fallbackModule: LearningModule = learningModules[0] ?? {
+  title: "Modul 1",
+  label: "Verstehen",
+  description: "Sicher mit KI starten.",
+  outcome: "Einen einfachen ersten Lernschritt machen.",
+  duration: "ca. 18 Min.",
+  lessonIds: [],
+};
+
 const trustRules = [
   "Keine Passwörter, Bankdaten, Gesundheitsdaten oder vertrauliche Dokumente eingeben.",
   "Wichtige Antworten immer prüfen, besonders bei Recht, Medizin, Finanzen und Verträgen.",
@@ -56,7 +73,7 @@ const trustRules = [
 
 const workSteps = ["Ziel", "Kurz erklärt", "Beispiel", "Mini-Aufgabe", "Check", "Erledigen"];
 
-function readStoredProgress() {
+function readStoredProgress(): string[] {
   if (typeof window === "undefined") return [];
 
   try {
@@ -87,11 +104,14 @@ export default function Home() {
   const totalLessons = allLessons.length;
   const progressPercent = totalLessons ? Math.round((completedLessons / totalLessons) * 100) : 0;
   const progressText = `${completedLessons}/${totalLessons || 12}`;
-  const activeLesson = allLessons.find((lesson) => lesson.id === activeLessonId) ?? allLessons[0];
+  const activeLesson = allLessons.find((lesson) => lesson.id === activeLessonId) ?? allLessons[0] ?? null;
   const activeLessonIndex = activeLesson ? allLessons.findIndex((lesson) => lesson.id === activeLesson.id) : -1;
-  const nextLesson = activeLessonIndex >= 0 ? allLessons[activeLessonIndex + 1] ?? null : allLessons[0] ?? null;
-  const nextOpenLesson = allLessons.find((lesson) => !validCompletedLessonIds.includes(lesson.id)) ?? allLessons[0];
-  const activeModule = learningModules.find((module) => activeLesson && module.lessonIds.includes(activeLesson.id)) ?? learningModules[0];
+  const nextLesson = activeLessonIndex >= 0 ? allLessons[activeLessonIndex + 1] ?? null : null;
+  const nextOpenLesson = allLessons.find((lesson) => !validCompletedLessonIds.includes(lesson.id)) ?? null;
+  const activeModule = activeLesson
+    ? learningModules.find((module) => module.lessonIds.includes(activeLesson.id)) ?? fallbackModule
+    : fallbackModule;
+  const activeLessonIdForAction = activeLesson?.id ?? null;
   const reviewedSources = seedSources.slice(0, 4);
   const beginnerResources = seedResources.slice(0, 3);
   const beginnerGlossary = seedGlossary.slice(0, 5);
@@ -166,7 +186,7 @@ export default function Home() {
                     module={module}
                     lessons={moduleLessons}
                     completedCount={moduleCompleted}
-                    activeLessonId={activeLesson?.id}
+                    activeLessonId={activeLessonIdForAction}
                     completedLessonIds={validCompletedLessonIds}
                     onOpenLesson={openLesson}
                   />
@@ -202,7 +222,7 @@ export default function Home() {
               lesson={activeLesson}
               completed={validCompletedLessonIds.includes(activeLesson.id)}
               nextLesson={nextLesson}
-              onToggleCompleted={() => toggleLessonDone(activeLesson.id)}
+              onToggleCompleted={() => activeLessonIdForAction && toggleLessonDone(activeLessonIdForAction)}
               onOpenLesson={openLesson}
             />
           ) : (
@@ -344,10 +364,10 @@ function ModuleNavigation({
   completedLessonIds,
   onOpenLesson,
 }: {
-  module: (typeof learningModules)[number];
+  module: LearningModule;
   lessons: LessonItem[];
   completedCount: number;
-  activeLessonId?: string;
+  activeLessonId: string | null;
   completedLessonIds: string[];
   onOpenLesson: (lessonId: string) => void;
 }) {
