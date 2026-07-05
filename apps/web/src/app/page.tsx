@@ -71,7 +71,7 @@ const trustRules = [
   "KI als Lernhilfe nutzen, nicht als endgültige Entscheidung.",
 ];
 
-const workSteps = ["Ziel", "Kurz erklärt", "Beispiel", "Mini-Aufgabe", "Check", "Erledigen"];
+const workSteps = ["Ziel", "Erklären", "Üben", "Prüfen", "Erledigen"];
 
 function readStoredProgress(): string[] {
   if (typeof window === "undefined") return [];
@@ -158,7 +158,7 @@ export default function Home() {
       </header>
 
       <main className="mx-auto grid max-w-[1500px] gap-5 px-4 py-5 lg:grid-cols-[320px_1fr_340px] lg:px-6">
-        <aside id="pfad" className="space-y-5 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] lg:overflow-y-auto">
+        <aside id="pfad" className="order-2 space-y-5 lg:order-1 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] lg:overflow-y-auto">
           <PortalHero progressText={progressText} progressPercent={progressPercent} totalLessons={totalLessons} />
 
           <section className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm">
@@ -196,17 +196,16 @@ export default function Home() {
           </section>
         </aside>
 
-        <section id="lernraum" className="space-y-5">
+        <section id="lernraum" className="order-1 space-y-5 lg:order-2">
           <section className="overflow-hidden rounded-[2.4rem] bg-nim-primary text-white shadow-xl">
-            <div className="grid gap-6 p-6 md:grid-cols-[1fr_260px] md:p-8">
+            <div className="grid gap-5 p-6 md:grid-cols-[1fr_260px] md:p-8">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">Tutor-Arbeitsraum</p>
+                <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">Heute im Lernraum</p>
                 <h2 className="mt-4 max-w-3xl text-4xl font-black leading-tight md:text-5xl">
-                  Lernen wie in einer App, nicht wie auf einer langen Webseite.
+                  Dein geführter KI-Lernraum.
                 </h2>
                 <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-white/80">
-                  Links steuerst du den Lernpfad. In der Mitte arbeitest du an einer Lektion. Rechts bleiben Sicherheit,
-                  Quellen und nächste Schritte sichtbar.
+                  Starte mit einer Lektion, prüfe die wichtigsten Sicherheitsregeln und markiere deinen Fortschritt lokal im Browser.
                 </p>
               </div>
               <div className="rounded-[2rem] border border-white/15 bg-white/10 p-5">
@@ -228,22 +227,23 @@ export default function Home() {
           ) : (
             <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
               <h2 className="text-2xl font-black text-nim-primary">Noch keine Lektion ausgewählt</h2>
-              <p className="mt-3 text-sm leading-7 text-nim-secondary">Wähle links eine Lektion aus dem Lernpfad.</p>
+              <p className="mt-3 text-sm leading-7 text-nim-secondary">Wähle eine Lektion aus dem Lernpfad.</p>
             </div>
           )}
 
-          <section className="grid gap-4 md:grid-cols-3">
-            {workSteps.map((step, index) => (
-              <div key={step} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-                <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-100 text-sm font-black text-nim-primary">{index + 1}</span>
-                <h3 className="mt-4 font-black text-nim-primary">{step}</h3>
-                <p className="mt-2 text-sm leading-6 text-nim-secondary">Jede Lektion folgt diesem Ablauf, damit aus Lesen ein kleiner Lernschritt wird.</p>
-              </div>
-            ))}
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
+            <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Lernablauf</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {workSteps.map((step, index) => (
+                <span key={step} className="rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-nim-primary">
+                  {index + 1}. {step}
+                </span>
+              ))}
+            </div>
           </section>
         </section>
 
-        <aside id="coach" className="space-y-5 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] lg:overflow-y-auto">
+        <aside id="coach" className="order-3 space-y-5 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] lg:overflow-y-auto">
           <section className="rounded-[2rem] border border-emerald-100 bg-emerald-50 p-5 shadow-sm">
             <p className="text-xs font-black uppercase tracking-widest text-emerald-700">Sicherheits-Coach</p>
             <h2 className="mt-2 text-2xl font-black text-emerald-950">Erst prüfen, dann übernehmen.</h2>
@@ -257,12 +257,14 @@ export default function Home() {
           </section>
 
           <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Nächster Schritt</p>
+            <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Als nächstes offen</p>
             <h2 className="mt-2 text-2xl font-black text-nim-primary">
-              {nextOpenLesson ? `Lektion ${nextOpenLesson.order}` : "Pfad wiederholen"}
+              {nextOpenLesson ? `Lektion ${nextOpenLesson.order}` : "Pfad abgeschlossen"}
             </h2>
             <p className="mt-2 text-sm leading-7 text-nim-secondary">
-              {nextOpenLesson?.title ?? "Du hast alle Lektionen markiert. Wiederhole unsichere Stellen oder prüfe die Quellen."}
+              {nextOpenLesson
+                ? `${nextOpenLesson.title} — markiere erledigte Lektionen, damit der nächste offene Schritt nach vorn springt.`
+                : "Du hast alle Lektionen markiert. Wiederhole unsichere Stellen oder prüfe die Quellen."}
             </p>
             {nextOpenLesson && (
               <button
@@ -270,7 +272,7 @@ export default function Home() {
                 onClick={() => openLesson(nextOpenLesson.id)}
                 className="mt-4 w-full rounded-2xl bg-nim-primary px-4 py-3 text-sm font-black text-white hover:bg-nim-primary/90"
               >
-                Weiterlernen
+                Zu dieser Lektion
               </button>
             )}
           </section>
@@ -441,11 +443,18 @@ function LessonWorkspace({
         <div className="space-y-5">
           <LearningBlock title="1. Ziel" text="Verstehe diese Lektion so gut, dass du sie einer anderen Person in einfachen Worten erklären kannst." />
           <LearningBlock title="2. Kurz erklärt" text={lesson.content ?? lesson.description ?? "Diese Lektion wird gerade vorbereitet."} large />
-          <LearningBlock title="3. Mini-Aufgabe" text="Formuliere in einem Satz: Was ist die wichtigste Idee dieser Lektion? Schreibe sie für dich auf, bevor du weitergehst." />
-          <LearningBlock title="4. Checkfrage" text="Würdest du diese KI-Antwort blind übernehmen oder erst prüfen? Begründe deine Entscheidung kurz." />
+          <div className="grid gap-4 md:grid-cols-2">
+            <LearningBlock title="3. Mini-Aufgabe" text="Formuliere in einem Satz: Was ist die wichtigste Idee dieser Lektion? Schreibe sie für dich auf, bevor du weitergehst." />
+            <LearningBlock title="4. Checkfrage" text="Würdest du diese KI-Antwort blind übernehmen oder erst prüfen? Begründe deine Entscheidung kurz." />
+          </div>
         </div>
 
         <div className="space-y-4">
+          <div className="rounded-3xl border border-emerald-100 bg-emerald-50 p-5 text-sm leading-7 text-emerald-950">
+            <p className="text-xs font-black uppercase tracking-widest text-emerald-700">Sicher nutzen</p>
+            <p className="mt-3 font-semibold">Prüfe wichtige Aussagen und gib keine vertraulichen Daten in KI-Systeme ein.</p>
+          </div>
+
           <div className="rounded-3xl bg-slate-50 p-5">
             <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Aktion</p>
             <button
