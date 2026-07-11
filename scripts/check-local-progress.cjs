@@ -2,6 +2,7 @@ const assert = require("node:assert/strict");
 const { chromium } = require("playwright");
 
 const baseUrl = process.env.BASE_URL || "http://127.0.0.1:3000";
+const requestedPhase = process.env.SMOKE_PHASE || "all";
 const progressStorageKey = "ki-lernportal-nim:local-progress:v1";
 const navigationTimeout = 30_000;
 
@@ -14,6 +15,13 @@ async function openPortal(page) {
     state: "visible",
     timeout: navigationTimeout,
   });
+}
+
+async function resetBrowserProgress(page) {
+  await page.evaluate((key) => window.localStorage.removeItem(key), progressStorageKey);
+  await page.reload({ waitUntil: "domcontentloaded", timeout: navigationTimeout });
+  await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({ state: "visible" });
+  await waitForStoredLessonIds(page, []);
 }
 
 async function expectExactText(page, text) {
@@ -44,78 +52,119 @@ async function lessonButton(page, title) {
   return button;
 }
 
-async function main() {
-  const browser = await chromium.launch({ headless: true });
+async function markFirstLesson(page) {
+  await page.getByRole("button", { name: "Als erledigt markieren" }).click();
+  await expectExactText(page, "1/12");
+  await waitForStoredLessonIds(page, ["l1"]);
+}
 
-  try {
-    const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-    page.setDefaultTimeout(10_000);
+async function markFirstTwoLessons(page) {
+  await markFirstLesson(page);
 
-    await openPortal(page);
-    await page.evaluate((key) => window.localStorage.removeItem(key), progressStorageKey);
-    await page.reload({ waitUntil: "domcontentloaded", timeout: navigationTimeout });
-    await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({ state: "visible" });
+  const secondLessonButton = await lessonButton(page, "Was kann KI gut");
+  await secondLessonButton.click();
+  await page.getByRole("heading", { name: "Was kann KI gut — und was nicht?" }).waitFor({ state: "visible" });
+  await page.getByRole("button", { name: "Als erledigt markieren" }).click();
+  await expectExactText(page, "2/12");
+  await waitForStoredLessonIds(page, ["l1", "l2"]);
+}
 
+const phases = {
+  async start(page) {
     await expectExactText(page, "0/12");
     await expectExactText(page, "0%");
-    await waitForStoredLessonIds(page, []);
     console.log("START_0_12_OK=YES");
+  },
 
-    await page.getByRole("button", { name: "Als erledigt markieren" }).click();
-    await expectExactText(page, "1/12");
+  async mark(page) {
+    await markFirstLesson(page);
     await page.getByText("1/3 erledigt", { exact: false }).first().waitFor({ state: "visible" });
-    await waitForStoredLessonIds(page, ["l1"]);
 
     const firstLessonButton = await lessonButton(page, "Was ist KI?");
     assert.match(await firstLessonButton.innerText(), /erledigt/i);
     console.log("MARK_DONE_1_12_OK=YES");
     console.log("MODULE_1_3_OK=YES");
     console.log("LESSON_DONE_STATUS_OK=YES");
+  },
 
+  async reload(page) {
+    await markFirstLesson(page);
     await page.reload({ waitUntil: "domcontentloaded", timeout: navigationTimeout });
     await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({ state: "visible" });
     await expectExactText(page, "1/12");
     await page.getByRole("button", { name: "Erledigt zurücknehmen" }).waitFor({ state: "visible" });
     await waitForStoredLessonIds(page, ["l1"]);
     console.log("RELOAD_LOCALSTORAGE_1_12_OK=YES");
+  },
 
+  async undo(page) {
+    await markFirstLesson(page);
     await page.getByRole("button", { name: "Erledigt zurücknehmen" }).click();
     await expectExactText(page, "0/12");
     await waitForStoredLessonIds(page, []);
     console.log("UNDO_BACK_TO_0_12_OK=YES");
+  },
 
-    await page.getByRole("button", { name: "Als erledigt markieren" }).click();
-    await waitForStoredLessonIds(page, ["l1"]);
-
-    const secondLessonButton = await lessonButton(page, "Was kann KI gut");
-    await secondLessonButton.click();
-    await page.getByRole("heading", { name: "Was kann KI gut — und was nicht?" }).waitFor({ state: "visible" });
-    await page.getByRole("button", { name: "Als erledigt markieren" }).click();
-
-    await expectExactText(page, "2/12");
+  async two(page) {
+    await markFirstTwoLessons(page);
     await page.getByText("2/3 erledigt", { exact: false }).first().waitFor({ state: "visible" });
-    await waitForStoredLessonIds(page, ["l1", "l2"]);
     console.log("TWO_LESSONS_2_12_OK=YES");
+  },
 
+  async reset(page) {
+    await markFirstTwoLessons(page);
     await page.getByRole("button", { name: "Reset" }).click();
     await expectExactText(page, "0/12");
     await waitForStoredLessonIds(page, []);
     console.log("RESET_BACK_TO_0_12_OK=YES");
+  },
 
+  async guardrails(page) {
     const forbiddenControls = page.locator("a, button").filter({
       hasText: /Anmelden|Registrieren|Bezahlen|Checkout|Chat starten|KI-Chat/i,
     });
     assert.equal(await forbiddenControls.count(), 0);
     console.log("NO_LOGIN_PAYMENT_TRACKING_CHAT_OK=YES");
+  },
+};
 
-    console.log("S67G3C_AUTOMATED_PROGRESS_SMOKE_TEST=PASS");
+async function runPhase(browser, phaseName) {
+  const phase = phases[phaseName];
+  if (!phase) throw new Error(`Unknown smoke phase: ${phaseName}`);
+
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  page.setDefaultTimeout(10_000);
+
+  try {
+    await openPortal(page);
+    await resetBrowserProgress(page);
+    await phase(page);
+    console.log(`SMOKE_PHASE_${phaseName.toUpperCase()}=PASS`);
+  } finally {
+    await page.close();
+  }
+}
+
+async function main() {
+  const browser = await chromium.launch({ headless: true });
+
+  try {
+    if (requestedPhase === "all") {
+      for (const phaseName of Object.keys(phases)) {
+        await runPhase(browser, phaseName);
+      }
+      console.log("S67G3C_AUTOMATED_PROGRESS_SMOKE_TEST=PASS");
+      return;
+    }
+
+    await runPhase(browser, requestedPhase);
   } finally {
     await browser.close();
   }
 }
 
 main().catch((error) => {
-  console.error("S67G3C_AUTOMATED_PROGRESS_SMOKE_TEST=FAIL");
+  console.error(`SMOKE_PHASE_${requestedPhase.toUpperCase()}=FAIL`);
   console.error(error);
   process.exitCode = 1;
 });
