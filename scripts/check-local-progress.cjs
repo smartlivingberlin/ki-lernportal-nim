@@ -35,7 +35,10 @@ async function waitForStoredLessonIds(page, expectedIds) {
   await page.waitForFunction(
     ({ key, expected }) => {
       try {
-        const current = JSON.parse(window.localStorage.getItem(key) || "[]");
+        const raw = window.localStorage.getItem(key);
+        if (raw === null) return false;
+
+        const current = JSON.parse(raw);
         return JSON.stringify(current) === JSON.stringify(expected);
       } catch {
         return false;
