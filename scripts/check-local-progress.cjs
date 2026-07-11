@@ -78,12 +78,20 @@ const phases = {
 
   async mark(page) {
     await markFirstLesson(page);
-    await page.getByText("1/3 erledigt", { exact: false }).first().waitFor({ state: "visible" });
+    console.log("MARK_DONE_1_12_OK=YES");
+  },
 
+  async module(page) {
+    await markFirstLesson(page);
+    const bodyText = await page.locator("body").innerText();
+    assert.match(bodyText, /1\/3 erledigt/i);
+    console.log("MODULE_1_3_OK=YES");
+  },
+
+  async status(page) {
+    await markFirstLesson(page);
     const firstLessonButton = await lessonButton(page, "Was ist KI?");
     assert.match(await firstLessonButton.innerText(), /erledigt/i);
-    console.log("MARK_DONE_1_12_OK=YES");
-    console.log("MODULE_1_3_OK=YES");
     console.log("LESSON_DONE_STATUS_OK=YES");
   },
 
@@ -107,7 +115,8 @@ const phases = {
 
   async two(page) {
     await markFirstTwoLessons(page);
-    await page.getByText("2/3 erledigt", { exact: false }).first().waitFor({ state: "visible" });
+    const bodyText = await page.locator("body").innerText();
+    assert.match(bodyText, /2\/3 erledigt/i);
     console.log("TWO_LESSONS_2_12_OK=YES");
   },
 
