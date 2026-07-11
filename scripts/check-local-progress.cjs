@@ -3,9 +3,45 @@ const { chromium } = require("playwright");
 
 const baseUrl = process.env.BASE_URL || "http://127.0.0.1:3000";
 const progressStorageKey = "ki-lernportal-nim:local-progress:v1";
+const navigationTimeout = 30_000;
+
+async function openPortal(page) {
+  await page.goto(baseUrl, {
+    waitUntil: "domcontentloaded",
+    timeout: navigationTimeout,
+  });
+  await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({
+    state: "visible",
+    timeout: navigationTimeout,
+  });
+}
 
 async function expectExactText(page, text) {
-  await page.getByText(text, { exact: true }).waitFor({ state: "visible" });
+  await page.getByText(text, { exact: true }).first().waitFor({
+    state: "visible",
+    timeout: 10_000,
+  });
+}
+
+async function waitForStoredLessonIds(page, expectedIds) {
+  await page.waitForFunction(
+    ({ key, expected }) => {
+      try {
+        const current = JSON.parse(window.localStorage.getItem(key) || "[]");
+        return JSON.stringify(current) === JSON.stringify(expected);
+      } catch {
+        return false;
+      }
+    },
+    { key: progressStorageKey, expected: expectedIds },
+    { timeout: 10_000 },
+  );
+}
+
+async function lessonButton(page, title) {
+  const button = page.getByRole("button").filter({ hasText: title }).first();
+  await button.waitFor({ state: "visible", timeout: 10_000 });
+  return button;
 }
 
 async function main() {
@@ -13,51 +49,57 @@ async function main() {
 
   try {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    page.setDefaultTimeout(10_000);
 
-    await page.goto(baseUrl, { waitUntil: "networkidle" });
+    await openPortal(page);
     await page.evaluate((key) => window.localStorage.removeItem(key), progressStorageKey);
-    await page.reload({ waitUntil: "networkidle" });
+    await page.reload({ waitUntil: "domcontentloaded", timeout: navigationTimeout });
+    await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({ state: "visible" });
 
     await expectExactText(page, "0/12");
     await expectExactText(page, "0%");
+    await waitForStoredLessonIds(page, []);
     console.log("START_0_12_OK=YES");
 
     await page.getByRole("button", { name: "Als erledigt markieren" }).click();
     await expectExactText(page, "1/12");
-    await page.getByText("1/3 erledigt", { exact: false }).waitFor({ state: "visible" });
-    await page.getByRole("button", { name: /Was ist KI\?.*erledigt/i }).waitFor({ state: "visible" });
+    await page.getByText("1/3 erledigt", { exact: false }).first().waitFor({ state: "visible" });
+    await waitForStoredLessonIds(page, ["l1"]);
 
-    const firstStoredState = await page.evaluate(
-      (key) => JSON.parse(window.localStorage.getItem(key) || "[]"),
-      progressStorageKey,
-    );
-    assert.deepEqual(firstStoredState, ["l1"]);
+    const firstLessonButton = await lessonButton(page, "Was ist KI?");
+    assert.match(await firstLessonButton.innerText(), /erledigt/i);
     console.log("MARK_DONE_1_12_OK=YES");
     console.log("MODULE_1_3_OK=YES");
     console.log("LESSON_DONE_STATUS_OK=YES");
 
-    await page.reload({ waitUntil: "networkidle" });
+    await page.reload({ waitUntil: "domcontentloaded", timeout: navigationTimeout });
+    await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({ state: "visible" });
     await expectExactText(page, "1/12");
     await page.getByRole("button", { name: "Erledigt zurücknehmen" }).waitFor({ state: "visible" });
+    await waitForStoredLessonIds(page, ["l1"]);
     console.log("RELOAD_LOCALSTORAGE_1_12_OK=YES");
 
     await page.getByRole("button", { name: "Erledigt zurücknehmen" }).click();
     await expectExactText(page, "0/12");
+    await waitForStoredLessonIds(page, []);
     console.log("UNDO_BACK_TO_0_12_OK=YES");
 
     await page.getByRole("button", { name: "Als erledigt markieren" }).click();
-    await page.getByRole("button", { name: /Was kann KI gut.*offen/i }).click();
+    await waitForStoredLessonIds(page, ["l1"]);
+
+    const secondLessonButton = await lessonButton(page, "Was kann KI gut");
+    await secondLessonButton.click();
+    await page.getByRole("heading", { name: "Was kann KI gut — und was nicht?" }).waitFor({ state: "visible" });
     await page.getByRole("button", { name: "Als erledigt markieren" }).click();
+
     await expectExactText(page, "2/12");
-    await page.getByText("2/3 erledigt", { exact: false }).waitFor({ state: "visible" });
+    await page.getByText("2/3 erledigt", { exact: false }).first().waitFor({ state: "visible" });
+    await waitForStoredLessonIds(page, ["l1", "l2"]);
     console.log("TWO_LESSONS_2_12_OK=YES");
 
     await page.getByRole("button", { name: "Reset" }).click();
     await expectExactText(page, "0/12");
-    await page.waitForFunction(
-      (key) => JSON.parse(window.localStorage.getItem(key) || "[]").length === 0,
-      progressStorageKey,
-    );
+    await waitForStoredLessonIds(page, []);
     console.log("RESET_BACK_TO_0_12_OK=YES");
 
     const forbiddenControls = page.locator("a, button").filter({
