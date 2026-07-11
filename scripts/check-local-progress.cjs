@@ -59,8 +59,12 @@ async function lessonButton(page, title) {
   return button;
 }
 
-async function markFirstLesson(page) {
+async function clickFirstLessonDone(page) {
   await page.getByRole("button", { name: "Als erledigt markieren" }).click();
+}
+
+async function markFirstLesson(page) {
+  await clickFirstLessonDone(page);
   await expectExactText(page, "1/12");
   await waitForStoredLessonIds(page, ["l1"]);
 }
@@ -83,9 +87,16 @@ const phases = {
     console.log("START_0_12_OK=YES");
   },
 
-  async mark(page) {
-    await markFirstLesson(page);
-    console.log("MARK_DONE_1_12_OK=YES");
+  async click(page) {
+    await clickFirstLessonDone(page);
+    await expectExactText(page, "1/12");
+    console.log("CLICK_UPDATES_1_12_OK=YES");
+  },
+
+  async storage(page) {
+    await clickFirstLessonDone(page);
+    await waitForStoredLessonIds(page, ["l1"]);
+    console.log("CLICK_PERSISTS_L1_OK=YES");
   },
 
   async module(page) {
