@@ -13,9 +13,9 @@ permissions:
 
 jobs:
   web:
-    name: Web install, build and lint
+    name: Web install, build, lint and smoke test
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
@@ -42,3 +42,116 @@ jobs:
 
       - name: Content quality check
         run: pnpm content:check
+
+      - name: Prepare standalone static assets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ -f apps/web/.next/standalone/server.js ]; then
+            STANDALONE_ROOT="apps/web/.next/standalone"
+          elif [ -f apps/web/.next/standalone/apps/web/server.js ]; then
+            STANDALONE_ROOT="apps/web/.next/standalone/apps/web"
+          else
+            echo "Standalone server.js not found."
+            find apps/web/.next/standalone -maxdepth 6 -name server.js -print || true
+            exit 1
+          fi
+
+          mkdir -p "$STANDALONE_ROOT/.next"
+          rm -rf "$STANDALONE_ROOT/.next/static"
+          cp -R apps/web/.next/static "$STANDALONE_ROOT/.next/static"
+
+          if [ -d apps/web/public ]; then
+            rm -rf "$STANDALONE_ROOT/public"
+            cp -R apps/web/public "$STANDALONE_ROOT/public"
+          fi
+
+          echo "STANDALONE_ROOT=$STANDALONE_ROOT"
+          echo "STANDALONE_STATIC_ASSETS_READY=YES"
+
+      - name: Install temporary Playwright runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          INSTALL_LOG="$RUNNER_TEMP/playwright-install.log"
+
+          if ! pnpm add --workspace-root --save-dev playwright@1.55.0 --lockfile=false > "$INSTALL_LOG" 2>&1; then
+            cat "$INSTALL_LOG"
+            exit 1
+          fi
+
+          if ! pnpm exec playwright install --with-deps chromium >> "$INSTALL_LOG" 2>&1; then
+            cat "$INSTALL_LOG"
+            exit 1
+          fi
+
+          echo "PLAYWRIGHT_RUNTIME_READY=YES"
+
+      - name: Start local web server
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          RUNNER_TRACKING_ID="" nohup pnpm --filter web start > "$RUNNER_TEMP/ki-lernportal-web.log" 2>&1 &
+          echo $! > "$RUNNER_TEMP/ki-lernportal-web.pid"
+
+          READY=NO
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent --show-error http://127.0.0.1:3000/ > /dev/null; then
+              READY=YES
+              break
+            fi
+            sleep 1
+          done
+
+          if [ "$READY" != "YES" ]; then
+            echo "Local web server did not become ready."
+            tail -n 80 "$RUNNER_TEMP/ki-lernportal-web.log" || true
+            exit 1
+          fi
+
+          echo "LOCAL_WEB_READY=YES"
+
+      - name: "Smoke: start state 0/12"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=start node scripts/check-local-progress.cjs
+
+      - name: "Smoke: browser JavaScript assets"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=assets node scripts/check-local-progress.cjs
+
+      - name: "Smoke: click updates progress to 1/12"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=click node scripts/check-local-progress.cjs
+
+      - name: "Smoke: click persists lesson l1"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=storage node scripts/check-local-progress.cjs
+
+      - name: "Smoke: module progress 1/3"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=module node scripts/check-local-progress.cjs
+
+      - name: "Smoke: lesson done status"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=status node scripts/check-local-progress.cjs
+
+      - name: "Smoke: reload local progress"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=reload node scripts/check-local-progress.cjs
+
+      - name: "Smoke: undo progress"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=undo node scripts/check-local-progress.cjs
+
+      - name: "Smoke: two lessons 2/12"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=two node scripts/check-local-progress.cjs
+
+      - name: "Smoke: reset progress"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=reset node scripts/check-local-progress.cjs
+
+      - name: "Smoke: private-demo UI guardrails"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=guardrails node scripts/check-local-progress.cjs
+
+      - name: Stop local web server
+        if: always()
+        shell: bash
+        run: |
+          if [ -f "$RUNNER_TEMP/ki-lernportal-web.pid" ]; then
+            kill "$(cat "$RUNNER_TEMP/ki-lernportal-web.pid")" 2>/dev/null || true
+          fi
+          echo "===== LOCAL WEB LOG ====="
+          tail -n 80 "$RUNNER_TEMP/ki-lernportal-web.log" || true
