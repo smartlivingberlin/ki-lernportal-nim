@@ -44,9 +44,22 @@ jobs:
         run: pnpm content:check
 
       - name: Install temporary Playwright runtime
+        shell: bash
         run: |
-          pnpm add --workspace-root --save-dev playwright@1.55.0 --lockfile=false
-          pnpm exec playwright install --with-deps chromium
+          set -euo pipefail
+          INSTALL_LOG="$RUNNER_TEMP/playwright-install.log"
+
+          if ! pnpm add --workspace-root --save-dev playwright@1.55.0 --lockfile=false > "$INSTALL_LOG" 2>&1; then
+            cat "$INSTALL_LOG"
+            exit 1
+          fi
+
+          if ! pnpm exec playwright install --with-deps chromium >> "$INSTALL_LOG" 2>&1; then
+            cat "$INSTALL_LOG"
+            exit 1
+          fi
+
+          echo "PLAYWRIGHT_RUNTIME_READY=YES"
 
       - name: Local progress browser smoke test
         shell: bash
@@ -59,7 +72,7 @@ jobs:
           cleanup() {
             kill "$WEB_PID" 2>/dev/null || true
             echo "===== LOCAL WEB LOG ====="
-            cat "$RUNNER_TEMP/ki-lernportal-web.log" || true
+            tail -n 80 "$RUNNER_TEMP/ki-lernportal-web.log" || true
           }
           trap cleanup EXIT
 
@@ -77,4 +90,5 @@ jobs:
             exit 1
           fi
 
+          echo "LOCAL_WEB_READY=YES"
           BASE_URL=http://127.0.0.1:3000 node scripts/check-local-progress.cjs
