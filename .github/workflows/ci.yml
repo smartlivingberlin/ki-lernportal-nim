@@ -61,20 +61,13 @@ jobs:
 
           echo "PLAYWRIGHT_RUNTIME_READY=YES"
 
-      - name: Local progress browser smoke test
+      - name: Start local web server
         shell: bash
         run: |
           set -euo pipefail
 
-          pnpm --filter web dev > "$RUNNER_TEMP/ki-lernportal-web.log" 2>&1 &
-          WEB_PID=$!
-
-          cleanup() {
-            kill "$WEB_PID" 2>/dev/null || true
-            echo "===== LOCAL WEB LOG ====="
-            tail -n 80 "$RUNNER_TEMP/ki-lernportal-web.log" || true
-          }
-          trap cleanup EXIT
+          RUNNER_TRACKING_ID="" nohup pnpm --filter web dev > "$RUNNER_TEMP/ki-lernportal-web.log" 2>&1 &
+          echo $! > "$RUNNER_TEMP/ki-lernportal-web.pid"
 
           READY=NO
           for attempt in $(seq 1 60); do
@@ -87,8 +80,39 @@ jobs:
 
           if [ "$READY" != "YES" ]; then
             echo "Local web server did not become ready."
+            tail -n 80 "$RUNNER_TEMP/ki-lernportal-web.log" || true
             exit 1
           fi
 
           echo "LOCAL_WEB_READY=YES"
-          BASE_URL=http://127.0.0.1:3000 node scripts/check-local-progress.cjs
+
+      - name: "Smoke: start state 0/12"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=start node scripts/check-local-progress.cjs
+
+      - name: "Smoke: mark done and module progress"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=mark node scripts/check-local-progress.cjs
+
+      - name: "Smoke: reload local progress"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=reload node scripts/check-local-progress.cjs
+
+      - name: "Smoke: undo progress"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=undo node scripts/check-local-progress.cjs
+
+      - name: "Smoke: two lessons 2/12"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=two node scripts/check-local-progress.cjs
+
+      - name: "Smoke: reset progress"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=reset node scripts/check-local-progress.cjs
+
+      - name: "Smoke: private-demo UI guardrails"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=guardrails node scripts/check-local-progress.cjs
+
+      - name: Stop local web server
+        if: always()
+        shell: bash
+        run: |
+          if [ -f "$RUNNER_TEMP/ki-lernportal-web.pid" ]; then
+            kill "$(cat "$RUNNER_TEMP/ki-lernportal-web.pid")" 2>/dev/null || true
+          fi
+          echo "===== LOCAL WEB LOG ====="
+          tail -n 80 "$RUNNER_TEMP/ki-lernportal-web.log" || true
