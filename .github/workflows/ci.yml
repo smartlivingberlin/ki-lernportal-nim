@@ -13,9 +13,9 @@ permissions:
 
 jobs:
   web:
-    name: Web install, build and lint
+    name: Web install, build, lint and smoke test
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
@@ -42,3 +42,39 @@ jobs:
 
       - name: Content quality check
         run: pnpm content:check
+
+      - name: Install temporary Playwright runtime
+        run: |
+          pnpm add --workspace-root --save-dev playwright@1.55.0 --lockfile=false
+          pnpm exec playwright install --with-deps chromium
+
+      - name: Local progress browser smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          pnpm --filter web dev > "$RUNNER_TEMP/ki-lernportal-web.log" 2>&1 &
+          WEB_PID=$!
+
+          cleanup() {
+            kill "$WEB_PID" 2>/dev/null || true
+            echo "===== LOCAL WEB LOG ====="
+            cat "$RUNNER_TEMP/ki-lernportal-web.log" || true
+          }
+          trap cleanup EXIT
+
+          READY=NO
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent --show-error http://127.0.0.1:3000/ > /dev/null; then
+              READY=YES
+              break
+            fi
+            sleep 1
+          done
+
+          if [ "$READY" != "YES" ]; then
+            echo "Local web server did not become ready."
+            exit 1
+          fi
+
+          BASE_URL=http://127.0.0.1:3000 node scripts/check-local-progress.cjs
