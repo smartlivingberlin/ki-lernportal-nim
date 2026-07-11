@@ -87,6 +87,32 @@ const phases = {
     console.log("START_0_12_OK=YES");
   },
 
+  async assets(page) {
+    const scriptSources = await page.locator("script[src]").evaluateAll((nodes) =>
+      nodes.map((node) => node.getAttribute("src")).filter(Boolean),
+    );
+
+    assert.ok(scriptSources.length > 0, "No browser JavaScript assets were found.");
+
+    const assetResults = await page.evaluate(async (sources) => {
+      return Promise.all(
+        sources.map(async (source) => {
+          const url = new URL(source, window.location.href).toString();
+          try {
+            const response = await fetch(url, { cache: "no-store" });
+            return { source, ok: response.ok, status: response.status };
+          } catch (error) {
+            return { source, ok: false, status: 0, error: String(error) };
+          }
+        }),
+      );
+    }, scriptSources);
+
+    const failedAssets = assetResults.filter((result) => !result.ok);
+    assert.deepEqual(failedAssets, []);
+    console.log("BROWSER_JS_ASSETS_OK=YES");
+  },
+
   async click(page) {
     await clickFirstLessonDone(page);
     await expectExactText(page, "1/12");
