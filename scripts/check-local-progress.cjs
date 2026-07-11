@@ -17,10 +17,30 @@ async function openPortal(page) {
   });
 }
 
+async function waitForClientReady(page) {
+  const resetButton = page.getByRole("button", { name: "Reset" });
+  await resetButton.waitFor({ state: "visible", timeout: 10_000 });
+
+  for (let attempt = 1; attempt <= 40; attempt += 1) {
+    await resetButton.click();
+
+    const hydrated = await page.evaluate(
+      (key) => window.localStorage.getItem(key) !== null,
+      progressStorageKey,
+    );
+
+    if (hydrated) return;
+    await page.waitForTimeout(250);
+  }
+
+  throw new Error("Client hydration did not become ready in time.");
+}
+
 async function resetBrowserProgress(page) {
   await page.evaluate((key) => window.localStorage.removeItem(key), progressStorageKey);
   await page.reload({ waitUntil: "domcontentloaded", timeout: navigationTimeout });
   await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({ state: "visible" });
+  await waitForClientReady(page);
   await waitForStoredLessonIds(page, []);
 }
 
