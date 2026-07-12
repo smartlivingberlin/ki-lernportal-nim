@@ -2,14 +2,14 @@ import { Source, SourceType, ReviewStatus, ApprovalStatus, TrustLevel } from './
 
 export const seedSources: Source[] = [
   {
-    id: 'digcomp-22',
-    name: 'DigComp 2.2 Digital Competence Framework for Citizens',
-    url: 'https://joint-research-centre.ec.europa.eu/digcomp_en',
+    id: 'digcomp-30',
+    name: 'DigComp 3.0 Digital Competence Framework for Citizens',
+    url: 'https://joint-research-centre.ec.europa.eu/projects-and-activities/education-and-training/digital-transformation-education/digital-competence-framework-digcomp/digcomp-30_en',
     sourceType: SourceType.Framework,
     reviewStatus: ReviewStatus.SourceAttached,
     approvalStatus: ApprovalStatus.ReviewRequired,
     trustLevel: TrustLevel.High,
-    description: 'Referenzrahmen für digitale Kompetenzen in Europa.'
+    description: 'Aktueller europäischer Referenzrahmen für digitale Kompetenzen einschließlich querschnittlich integrierter KI-Kompetenz.'
   },
   {
     id: 'wcag-22',

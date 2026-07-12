@@ -68,22 +68,22 @@ export const seedResources: ResourceCard[] = [
   },
   {
     id: 'digcomp-framework',
-    title: 'DigComp – Digitaler Kompetenzrahmen der EU',
+    title: 'DigComp 3.0 – Digitaler Kompetenzrahmen der EU',
     provider: 'EU Joint Research Centre',
-    url: 'https://joint-research-centre.ec.europa.eu/digcomp_en',
+    url: 'https://joint-research-centre.ec.europa.eu/projects-and-activities/education-and-training/digital-transformation-education/digital-competence-framework-digcomp/digcomp-30_en',
     resourceType: ResourceType.Framework,
     languages: ['de', 'en'],
     costStatus: CostStatus.Free,
     accountRequired: AccountRequirement.No,
     targetAudience: 'Alle, die ihre digitalen Fähigkeiten besser einschätzen möchten.',
     difficulty: DifficultyLevel.Beginner,
-    benefit: 'Hilft einzuordnen, welche digitalen Fähigkeiten im Alltag und Beruf wichtig sind.',
+    benefit: 'Aktueller EU-Referenzrahmen für digitale Fähigkeiten im Alltag und Beruf; KI-Kompetenz wird darin querschnittlich berücksichtigt.',
     privacyNote: 'Du verlässt unser Portal und öffnest eine offizielle EU-Seite.',
-    riskNote: 'Der Rahmen ist breit und nicht nur auf KI beschränkt.',
+    riskNote: 'Der Rahmen ist breit angelegt und ersetzt keine individuelle Kompetenzprüfung oder Zertifizierung.',
     reviewStatus: ReviewStatus.SourceAttached,
     trustLevel: TrustLevel.Verified,
-    lastReviewed: '2026-06',
-    tags: ['EU', 'Digitale Kompetenzen', 'Orientierung']
+    lastReviewed: '2026-07',
+    tags: ['EU', 'DigComp 3.0', 'Digitale Kompetenzen', 'KI-Kompetenz']
   },
   {
     id: 'bmftr-ki',

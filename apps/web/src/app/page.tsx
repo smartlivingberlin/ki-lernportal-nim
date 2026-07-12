@@ -112,7 +112,7 @@ export default function Home() {
     ? learningModules.find((module) => module.lessonIds.includes(activeLesson.id)) ?? fallbackModule
     : fallbackModule;
   const activeLessonIdForAction = activeLesson?.id ?? null;
-  const reviewedSources = seedSources.slice(0, 4);
+  const reviewedSources = seedSources.filter((source) => source.id !== "nvidia-nim-docs").slice(0, 4);
   const beginnerResources = seedResources.slice(0, 3);
   const beginnerGlossary = seedGlossary.slice(0, 5);
 
@@ -145,8 +145,8 @@ export default function Home() {
       <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-[1500px] flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-6">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-nim-secondary">KI-Lernportal NIM</p>
-            <p className="mt-1 text-sm font-bold text-nim-primary">Privater Lernraum · kein Konto · Fortschritt nur im Browser</p>
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-nim-secondary">KI-Lernraum</p>
+            <p className="mt-1 text-sm font-bold text-nim-primary">Öffentlich erreichbare Konzeptdemo · kein Konto · Fortschritt nur im Browser</p>
           </div>
           <nav className="flex flex-wrap gap-2 text-sm font-black text-nim-primary" aria-label="Portalnavigation">
             <a className="rounded-full bg-slate-100 px-4 py-2 hover:bg-slate-200" href="#lernraum">Lernraum</a>
@@ -323,8 +323,8 @@ export default function Home() {
       <footer className="border-t border-slate-200 bg-white px-4 py-8 lg:px-6">
         <div className="mx-auto flex max-w-[1500px] flex-col gap-4 text-sm text-nim-secondary md:flex-row md:items-center md:justify-between">
           <p className="max-w-3xl leading-7">
-            Private Demo mit statischen Inhalten. Fortschritt wird nur lokal im Browser gespeichert. Kein Konto,
-            keine Datenbank, kein Tracking und kein öffentlicher Launch.
+            Öffentlich erreichbare Konzeptdemo mit statischen Inhalten. Der Lernfortschritt wird nur lokal im Browser gespeichert. Kein Konto,
+            keine Lerndatenbank, kein Tracking und noch kein öffentlicher Produktlaunch.
           </p>
           <nav className="flex flex-wrap gap-3 font-black text-nim-primary" aria-label="Rechtliche Links">
             <a href="/impressum" className="hover:underline">Impressum</a>
