@@ -3,8 +3,8 @@ import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
-const repositoryRoot = resolve(scriptDirectory, "..");
-const webRoot = join(repositoryRoot, "apps", "web");
+const webRoot = resolve(scriptDirectory, "..");
+const repositoryRoot = resolve(webRoot, "..", "..");
 const nextRoot = join(webRoot, ".next");
 const standaloneBase = join(nextRoot, "standalone");
 const verifyOnly = process.argv.includes("--verify");
@@ -128,6 +128,7 @@ async function main() {
   const publicSource = join(webRoot, "public");
   const publicDestination = join(standaloneRoot, "public");
 
+  console.log(`WEB_ROOT=${relative(repositoryRoot, webRoot) || "."}`);
   console.log(`STANDALONE_ROOT=${relative(repositoryRoot, standaloneRoot)}`);
 
   if (!verifyOnly) {
