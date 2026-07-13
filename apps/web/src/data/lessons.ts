@@ -1,4 +1,4 @@
-import { Lesson, DifficultyLevel } from './types';
+import { Lesson, DifficultyLevel, ReviewStatus } from './types';
 
 export const seedLessons: Lesson[] = [
   {
@@ -30,6 +30,9 @@ Mini-Check:
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 5,
     order: 1,
+    sourceIds: ['digcomp-30', 'oecd-ai-principles'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -61,6 +64,9 @@ Mini-Check:
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 7,
     order: 2,
+    sourceIds: ['digcomp-30', 'nist-ai-rmf'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -93,6 +99,9 @@ Mini-Check:
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 6,
     order: 3,
+    sourceIds: ['digcomp-30', 'eu-gdpr'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -125,6 +134,9 @@ Mini-Check:
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 5,
     order: 4,
+    sourceIds: ['digcomp-30'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -156,6 +168,9 @@ Mini-Check:
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 8,
     order: 5,
+    sourceIds: ['digcomp-30'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -187,6 +202,9 @@ Mini-Check:
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 7,
     order: 6,
+    sourceIds: ['digcomp-30', 'eu-gdpr'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -218,6 +236,9 @@ Mini-Check:
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 6,
     order: 7,
+    sourceIds: ['digcomp-30', 'oecd-ai-principles'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -249,6 +270,9 @@ Mini-Check:
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 8,
     order: 8,
+    sourceIds: ['nist-genai-profile', 'nist-ai-rmf'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -280,6 +304,9 @@ Mini-Check:
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 7,
     order: 9,
+    sourceIds: ['digcomp-30', 'nist-genai-profile'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -311,6 +338,9 @@ Mini-Check:
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 6,
     order: 10,
+    sourceIds: ['eu-gdpr', 'digcomp-30'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -343,6 +373,9 @@ Mini-Check:
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 8,
     order: 11,
+    sourceIds: ['eu-ai-act', 'nist-ai-rmf', 'oecd-ai-principles'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -374,6 +407,9 @@ Mini-Check:
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 6,
     order: 12,
+    sourceIds: ['digcomp-30', 'nist-ai-rmf', 'eu-gdpr'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   }
 ];

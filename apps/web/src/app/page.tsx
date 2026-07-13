@@ -4,11 +4,12 @@ import { useMemo, useState, useSyncExternalStore } from "react";
 import { seedGlossary } from "../data/glossary";
 import { seedLearningPaths } from "../data/learning-paths";
 import { seedResources } from "../data/resources";
-import { seedSources } from "../data/sources";
+import { publicSources } from "../data/sources";
 
 type LearningPathItem = (typeof seedLearningPaths)[number];
 type LessonItem = LearningPathItem["lessons"][number];
 type ResourceItem = (typeof seedResources)[number];
+type SourceItem = (typeof publicSources)[number];
 type LearningModule = {
   title: string;
   label: string;
@@ -21,6 +22,10 @@ type LearningModule = {
 const progressStorageKey = "ki-lernportal-nim:local-progress:v1";
 const progressChangeEvent = "ki-lernportal-nim:progress-change";
 const emptyLessons: LessonItem[] = [];
+
+const publicSourceById = new Map(
+  publicSources.map((source) => [source.id, source]),
+);
 
 let memoryProgressSnapshot = "[]";
 
@@ -165,6 +170,12 @@ export default function Home() {
   const progressPercent = totalLessons ? Math.round((completedLessons / totalLessons) * 100) : 0;
   const progressText = `${completedLessons}/${totalLessons || 12}`;
   const activeLesson = allLessons.find((lesson) => lesson.id === activeLessonId) ?? allLessons[0] ?? null;
+  const activeLessonSources = activeLesson
+    ? activeLesson.sourceIds.flatMap((sourceId) => {
+        const source = publicSourceById.get(sourceId);
+        return source ? [source] : [];
+      })
+    : [];
   const activeLessonIndex = activeLesson ? allLessons.findIndex((lesson) => lesson.id === activeLesson.id) : -1;
   const nextLesson = activeLessonIndex >= 0 ? allLessons[activeLessonIndex + 1] ?? null : null;
   const nextOpenLesson = allLessons.find((lesson) => !validCompletedLessonIds.includes(lesson.id)) ?? null;
@@ -172,7 +183,7 @@ export default function Home() {
     ? learningModules.find((module) => module.lessonIds.includes(activeLesson.id)) ?? fallbackModule
     : fallbackModule;
   const activeLessonIdForAction = activeLesson?.id ?? null;
-  const reviewedSources = seedSources.filter((source) => source.id !== "nvidia-nim-docs").slice(0, 4);
+  const reviewedSources = publicSources.slice(0, 4);
   const beginnerResources = seedResources.slice(0, 3);
   const beginnerGlossary = seedGlossary.slice(0, 5);
 
@@ -300,6 +311,7 @@ export default function Home() {
           {activeLesson ? (
             <LessonWorkspace
               lesson={activeLesson}
+              sources={activeLessonSources}
               completed={validCompletedLessonIds.includes(activeLesson.id)}
               nextLesson={nextLesson}
               onToggleCompleted={() => activeLessonIdForAction && toggleLessonDone(activeLessonIdForAction)}
@@ -374,6 +386,7 @@ export default function Home() {
               {reviewedSources.map((source) => (
                 <a
                   key={source.id}
+                  data-source-id={source.id}
                   href={source.url}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -500,7 +513,7 @@ function ModuleNavigation({
             key={lesson.id}
             type="button"
             onClick={() => onOpenLesson(lesson.id)}
-            className={`flex w-full items-center gap-3 rounded-2xl p-3 text-left transition ${
+            className={`flex w-full items-center gap-3 rounded-2xl p-3 text-left ${
               activeLessonId === lesson.id ? "bg-nim-primary text-white" : "bg-white hover:bg-slate-100"
             }`}
           >
@@ -522,12 +535,14 @@ function ModuleNavigation({
 
 function LessonWorkspace({
   lesson,
+  sources,
   completed,
   nextLesson,
   onToggleCompleted,
   onOpenLesson,
 }: {
   lesson: LessonItem;
+  sources: SourceItem[];
   completed: boolean;
   nextLesson: LessonItem | null;
   onToggleCompleted: () => void;
@@ -563,6 +578,53 @@ function LessonWorkspace({
             <p className="text-xs font-black uppercase tracking-widest text-emerald-700">Sicher nutzen</p>
             <p className="mt-3 font-semibold">Prüfe wichtige Aussagen und gib keine vertraulichen Daten in KI-Systeme ein.</p>
           </div>
+
+          <section
+            data-testid="lesson-sources"
+            aria-labelledby={`lesson-${lesson.id}-sources-title`}
+            className="rounded-3xl border border-slate-200 bg-white p-5"
+          >
+            <h3
+              id={`lesson-${lesson.id}-sources-title`}
+              className="text-xs font-black uppercase tracking-widest text-nim-secondary"
+            >
+              Quellen dieser Lektion
+            </h3>
+
+            <p className="mt-3 text-sm leading-7 text-nim-secondary">
+              Diese freigegebenen Primärquellen stützen die fachlichen Kernaussagen dieser Lektion.
+            </p>
+
+            <ul className="mt-4 space-y-3">
+              {sources.map((source) => (
+                <li key={source.id}>
+                  <a
+                    data-source-id={source.id}
+                    href={source.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block min-h-11 break-words rounded-2xl bg-slate-50 p-4 hover:bg-slate-100"
+                  >
+                    <span className="block text-sm font-black text-nim-primary">
+                      {source.name}
+                    </span>
+
+                    <span className="mt-1 block text-xs font-semibold text-nim-secondary">
+                      {source.publisher} · {source.sourceType}
+                    </span>
+
+                    <span className="mt-2 block text-xs text-nim-secondary">
+                      Geprüft am {source.lastReviewed.split("-").reverse().join(".")}
+                    </span>
+
+                    <span className="sr-only">
+                      {" "}– öffnet in einem neuen Tab
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
 
           <div className="rounded-3xl bg-slate-50 p-5">
             <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Aktion</p>

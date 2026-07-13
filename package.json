@@ -6,7 +6,9 @@
     "build": "pnpm --filter \"./apps/*\" --filter \"./services/*\" build",
     "lint": "pnpm --filter \"./apps/*\" --filter \"./services/*\" lint",
     "content:check": "node scripts/check-content-quality.mjs",
-    "test:s48b-a11y": "node scripts/check-s48b-accessibility.cjs"
+    "test:s48b-a11y": "node scripts/check-s48b-accessibility.cjs",
+    "source:check": "node scripts/check-source-integrity.mjs",
+    "test:s48c-sources": "node scripts/check-s48c-source-ui.cjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.12.1",
