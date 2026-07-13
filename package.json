@@ -5,6 +5,11 @@
     "dev": "pnpm --filter \"./apps/*\" --filter \"./services/*\" dev",
     "build": "pnpm --filter \"./apps/*\" --filter \"./services/*\" build",
     "lint": "pnpm --filter \"./apps/*\" --filter \"./services/*\" lint",
-    "content:check": "node scripts/check-content-quality.mjs"
+    "content:check": "node scripts/check-content-quality.mjs",
+    "test:s48b-a11y": "node scripts/check-s48b-accessibility.cjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "playwright": "1.55.0"
   }
 }

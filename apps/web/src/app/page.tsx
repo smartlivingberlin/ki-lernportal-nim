@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { seedGlossary } from "../data/glossary";
 import { seedLearningPaths } from "../data/learning-paths";
 import { seedResources } from "../data/resources";
@@ -19,7 +19,10 @@ type LearningModule = {
 };
 
 const progressStorageKey = "ki-lernportal-nim:local-progress:v1";
+const progressChangeEvent = "ki-lernportal-nim:progress-change";
 const emptyLessons: LessonItem[] = [];
+
+let memoryProgressSnapshot = "[]";
 
 const learningModules: LearningModule[] = [
   {
@@ -73,14 +76,9 @@ const trustRules = [
 
 const workSteps = ["Ziel", "Erklären", "Üben", "Prüfen", "Erledigen"];
 
-function readStoredProgress(): string[] {
-  if (typeof window === "undefined") return [];
-
+function parseStoredProgress(snapshot: string): string[] {
   try {
-    const stored = window.localStorage.getItem(progressStorageKey);
-    if (!stored) return [];
-
-    const parsed = JSON.parse(stored) as unknown;
+    const parsed = JSON.parse(snapshot) as unknown;
     if (!Array.isArray(parsed)) return [];
 
     return parsed.filter((id): id is string => typeof id === "string");
@@ -89,9 +87,71 @@ function readStoredProgress(): string[] {
   }
 }
 
+function readStoredProgressSnapshot(): string {
+  if (typeof window === "undefined") return "[]";
+
+  try {
+    const stored = window.localStorage.getItem(progressStorageKey);
+
+    if (stored !== null) {
+      memoryProgressSnapshot = stored;
+      return stored;
+    }
+  } catch {
+    // Use the in-memory fallback when browser storage is unavailable.
+  }
+
+  return memoryProgressSnapshot;
+}
+
+function readServerProgressSnapshot(): string {
+  return "[]";
+}
+
+function subscribeToStoredProgress(onStoreChange: () => void): () => void {
+  const handleStorage = (event: StorageEvent) => {
+    if (event.key === progressStorageKey || event.key === null) {
+      onStoreChange();
+    }
+  };
+
+  const handleLocalChange = () => {
+    onStoreChange();
+  };
+
+  window.addEventListener("storage", handleStorage);
+  window.addEventListener(progressChangeEvent, handleLocalChange);
+
+  return () => {
+    window.removeEventListener("storage", handleStorage);
+    window.removeEventListener(progressChangeEvent, handleLocalChange);
+  };
+}
+
+function writeStoredProgress(lessonIds: string[]): void {
+  memoryProgressSnapshot = JSON.stringify(lessonIds);
+
+  try {
+    window.localStorage.setItem(progressStorageKey, memoryProgressSnapshot);
+  } catch {
+    // Progress continues in memory when browser storage is unavailable.
+  }
+
+  window.dispatchEvent(new Event(progressChangeEvent));
+}
+
 export default function Home() {
   const [activeLessonId, setActiveLessonId] = useState<string | null>(seedLearningPaths[0]?.lessons[0]?.id ?? null);
-  const [completedLessonIds, setCompletedLessonIds] = useState<string[]>(readStoredProgress);
+  const [progressAnnouncement, setProgressAnnouncement] = useState("");
+  const progressSnapshot = useSyncExternalStore(
+    subscribeToStoredProgress,
+    readStoredProgressSnapshot,
+    readServerProgressSnapshot,
+  );
+  const completedLessonIds = useMemo(
+    () => parseStoredProgress(progressSnapshot),
+    [progressSnapshot],
+  );
 
   const primaryPath = seedLearningPaths[0];
   const allLessons = primaryPath?.lessons ?? emptyLessons;
@@ -116,39 +176,51 @@ export default function Home() {
   const beginnerResources = seedResources.slice(0, 3);
   const beginnerGlossary = seedGlossary.slice(0, 5);
 
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(progressStorageKey, JSON.stringify(validCompletedLessonIds));
-    } catch {
-      // Progress still works in memory when localStorage is unavailable.
-    }
-  }, [validCompletedLessonIds]);
-
   const openLesson = (lessonId: string) => {
     setActiveLessonId(lessonId);
   };
 
   const toggleLessonDone = (lessonId: string) => {
-    setCompletedLessonIds((previous) => {
-      if (previous.includes(lessonId)) return previous.filter((id) => id !== lessonId);
-      return [...previous, lessonId];
-    });
+    const lesson = allLessons.find((item) => item.id === lessonId);
+    const wasCompleted = validCompletedLessonIds.includes(lessonId);
+    const nextCompletedLessonIds = wasCompleted
+      ? validCompletedLessonIds.filter((id) => id !== lessonId)
+      : [...validCompletedLessonIds, lessonId];
+
+    writeStoredProgress(nextCompletedLessonIds);
+    setProgressAnnouncement(
+      lesson
+        ? `${lesson.title} wurde ${wasCompleted ? "wieder als offen markiert" : "als erledigt markiert"}.`
+        : `Die Lektion wurde ${wasCompleted ? "wieder als offen markiert" : "als erledigt markiert"}.`,
+    );
   };
 
   const resetProgress = () => {
-    setCompletedLessonIds([]);
+    writeStoredProgress([]);
     setActiveLessonId(allLessons[0]?.id ?? null);
+    setProgressAnnouncement("Der lokale Lernfortschritt wurde zurückgesetzt.");
   };
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-950">
+      <a
+        href="#lernraum"
+        className="sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:block focus:rounded-xl focus:bg-white focus:px-4 focus:py-3 focus:font-black focus:text-nim-primary focus:shadow-xl"
+      >
+        Direkt zum Lerninhalt
+      </a>
+
+      <p className="sr-only" aria-live="polite" aria-atomic="true">
+        {progressAnnouncement}
+      </p>
+
       <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
-        <div className="mx-auto flex max-w-[1500px] flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-6">
+        <div className="mx-auto flex w-full min-w-0 max-w-[1500px] flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-6">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-nim-secondary">KI-Lernraum</p>
+            <h1 className="text-xs font-black uppercase tracking-[0.28em] text-nim-secondary">KI-Lernraum</h1>
             <p className="mt-1 text-sm font-bold text-nim-primary">Öffentlich erreichbare Konzeptdemo · kein Konto · Fortschritt nur im Browser</p>
           </div>
-          <nav className="flex flex-wrap gap-2 text-sm font-black text-nim-primary" aria-label="Portalnavigation">
+          <nav className="flex min-w-0 max-w-full flex-wrap gap-2 text-sm font-black text-nim-primary" aria-label="Portalnavigation">
             <a className="rounded-full bg-slate-100 px-4 py-2 hover:bg-slate-200" href="#lernraum">Lernraum</a>
             <a className="rounded-full bg-slate-100 px-4 py-2 hover:bg-slate-200" href="#pfad">Pfad</a>
             <a className="rounded-full bg-slate-100 px-4 py-2 hover:bg-slate-200" href="#coach">Coach</a>
@@ -157,15 +229,19 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="mx-auto grid max-w-[1500px] gap-5 px-4 py-5 lg:grid-cols-[320px_1fr_340px] lg:px-6">
-        <aside id="pfad" className="order-2 space-y-5 lg:order-1 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] lg:overflow-y-auto">
+      <main className="mx-auto grid w-full min-w-0 max-w-[1500px] gap-5 px-4 py-5 lg:px-6 xl:grid-cols-[minmax(260px,300px)_minmax(0,1fr)_minmax(280px,320px)]">
+        <aside
+          id="pfad"
+          aria-label="Lernpfad und Fortschritt"
+          className="min-w-0 scroll-mt-52 space-y-5 lg:scroll-mt-32 xl:sticky xl:top-28 xl:self-start"
+        >
           <PortalHero progressText={progressText} progressPercent={progressPercent} totalLessons={totalLessons} />
 
           <section className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm">
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Lernpfad</p>
-                <h1 className="mt-1 text-2xl font-black text-nim-primary">KI-Start</h1>
+                <h2 className="mt-1 text-2xl font-black text-nim-primary">KI-Start</h2>
               </div>
               <button
                 type="button"
@@ -196,22 +272,27 @@ export default function Home() {
           </section>
         </aside>
 
-        <section id="lernraum" className="order-1 space-y-5 lg:order-2">
+        <section
+          id="lernraum"
+          aria-labelledby="lernraum-title"
+          tabIndex={-1}
+          className="min-w-0 scroll-mt-52 space-y-5 focus:outline-none lg:scroll-mt-32"
+        >
           <section className="overflow-hidden rounded-[2.4rem] bg-nim-primary text-white shadow-xl">
-            <div className="grid gap-5 p-6 md:grid-cols-[1fr_260px] md:p-8">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-white/70">Heute im Lernraum</p>
-                <h2 className="mt-4 max-w-3xl text-4xl font-black leading-tight md:text-5xl">
+            <div className="grid min-w-0 gap-5 p-6 md:grid-cols-[minmax(0,1fr)_minmax(220px,260px)] md:p-8">
+              <div className="min-w-0">
+                <p className="text-xs font-black uppercase tracking-[0.28em] text-white">Heute im Lernraum</p>
+                <h2 id="lernraum-title" className="mt-4 max-w-3xl text-4xl font-black leading-tight md:text-5xl">
                   Dein geführter KI-Lernraum.
                 </h2>
-                <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-white/80">
+                <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-white">
                   Starte mit einer Lektion, prüfe die wichtigsten Sicherheitsregeln und markiere deinen Fortschritt lokal im Browser.
                 </p>
               </div>
               <div className="rounded-[2rem] border border-white/15 bg-white/10 p-5">
-                <p className="text-xs font-black uppercase tracking-widest text-white/70">Aktuelles Modul</p>
+                <p className="text-xs font-black uppercase tracking-widest text-white">Aktuelles Modul</p>
                 <p className="mt-3 text-2xl font-black">{activeModule.title}</p>
-                <p className="mt-2 text-sm font-semibold leading-7 text-white/75">{activeModule.outcome}</p>
+                <p className="mt-2 text-sm font-semibold leading-7 text-white">{activeModule.outcome}</p>
               </div>
             </div>
           </section>
@@ -243,7 +324,11 @@ export default function Home() {
           </section>
         </section>
 
-        <aside id="coach" className="order-3 space-y-5 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] lg:overflow-y-auto">
+        <aside
+          id="coach"
+          aria-label="Sicherheits-Coach, nächste Lektion, Quellen und Begriffe"
+          className="min-w-0 scroll-mt-52 space-y-5 lg:scroll-mt-32 xl:sticky xl:top-28 xl:self-start"
+        >
           <section className="rounded-[2rem] border border-emerald-100 bg-emerald-50 p-5 shadow-sm">
             <p className="text-xs font-black uppercase tracking-widest text-emerald-700">Sicherheits-Coach</p>
             <h2 className="mt-2 text-2xl font-black text-emerald-950">Erst prüfen, dann übernehmen.</h2>
@@ -277,19 +362,26 @@ export default function Home() {
             )}
           </section>
 
-          <section id="quellen" className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Quellenraum</p>
+          <section
+            id="quellen"
+            aria-labelledby="quellen-title"
+            className="scroll-mt-52 rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm lg:scroll-mt-32"
+          >
+            <h2 id="quellen-title" className="text-xs font-black uppercase tracking-widest text-nim-secondary">
+              Quellenraum
+            </h2>
             <div className="mt-4 space-y-3">
               {reviewedSources.map((source) => (
                 <a
                   key={source.id}
                   href={source.url}
                   target="_blank"
-                  rel="noreferrer"
-                  className="block rounded-2xl bg-slate-50 p-4 text-sm hover:bg-slate-100"
+                  rel="noopener noreferrer"
+                  className="block min-h-11 rounded-2xl bg-slate-50 p-4 text-sm hover:bg-slate-100"
                 >
                   <span className="block font-black text-nim-primary">{source.name}</span>
                   <span className="mt-1 block text-xs text-nim-secondary">{source.sourceType}</span>
+                  <span className="sr-only"> – öffnet in einem neuen Tab</span>
                 </a>
               ))}
             </div>
@@ -300,7 +392,9 @@ export default function Home() {
             <div className="mt-4 space-y-3">
               {beginnerGlossary.map((item) => (
                 <details key={item.id} className="rounded-2xl bg-slate-50 p-4">
-                  <summary className="cursor-pointer text-sm font-black text-nim-primary">{item.term}</summary>
+                  <summary className="flex min-h-11 cursor-pointer items-center text-sm font-black text-nim-primary">
+                    {item.term}
+                  </summary>
                   <p className="mt-2 text-sm leading-7 text-nim-secondary">{item.definition}</p>
                 </details>
               ))}
@@ -309,9 +403,14 @@ export default function Home() {
         </aside>
       </main>
 
-      <section className="mx-auto max-w-[1500px] px-4 pb-10 lg:px-6">
+      <section
+        aria-labelledby="weiterlernen-title"
+        className="mx-auto max-w-[1500px] px-4 pb-10 lg:px-6"
+      >
         <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
-          <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Weiterlernen ohne Überforderung</p>
+          <h2 id="weiterlernen-title" className="text-xs font-black uppercase tracking-widest text-nim-secondary">
+            Weiterlernen ohne Überforderung
+          </h2>
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {beginnerResources.map((resource) => (
               <ResourceCard key={resource.id} resource={resource} />
@@ -327,9 +426,9 @@ export default function Home() {
             keine Lerndatenbank, kein Tracking und noch kein öffentlicher Produktlaunch.
           </p>
           <nav className="flex flex-wrap gap-3 font-black text-nim-primary" aria-label="Rechtliche Links">
-            <a href="/impressum" className="hover:underline">Impressum</a>
-            <a href="/datenschutz" className="hover:underline">Datenschutz</a>
-            <a href="/kontakt" className="hover:underline">Kontakt</a>
+            <a href="/impressum" className="inline-flex min-h-11 items-center hover:underline">Impressum</a>
+            <a href="/datenschutz" className="inline-flex min-h-11 items-center hover:underline">Datenschutz</a>
+            <a href="/kontakt" className="inline-flex min-h-11 items-center hover:underline">Kontakt</a>
           </nav>
         </div>
       </footer>
@@ -339,19 +438,29 @@ export default function Home() {
 
 function PortalHero({ progressText, progressPercent, totalLessons }: { progressText: string; progressPercent: number; totalLessons: number }) {
   return (
-    <section className="rounded-[2rem] bg-nim-primary p-5 text-white shadow-lg">
-      <p className="text-xs font-black uppercase tracking-widest text-white/70">Portalstatus</p>
+    <section aria-labelledby="portalstatus-title" className="rounded-[2rem] bg-nim-primary p-5 text-white shadow-lg">
+      <h2 id="portalstatus-title" className="text-xs font-black uppercase tracking-widest text-white">
+        Portalstatus
+      </h2>
       <div className="mt-4 flex items-end justify-between gap-4">
         <div>
           <p className="text-4xl font-black">{progressText}</p>
-          <p className="mt-1 text-sm font-semibold text-white/75">lokal erledigt</p>
+          <p className="mt-1 text-sm font-semibold text-white">lokal erledigt</p>
         </div>
         <div className="text-right">
           <p className="text-2xl font-black">{progressPercent}%</p>
-          <p className="text-xs font-semibold text-white/70">von {totalLessons || 12} Lektionen</p>
+          <p className="text-xs font-semibold text-white">von {totalLessons || 12} Lektionen</p>
         </div>
       </div>
-      <div className="mt-5 h-3 overflow-hidden rounded-full bg-white/15">
+      <div
+        className="mt-5 h-3 overflow-hidden rounded-full bg-white/25"
+        role="progressbar"
+        aria-label="Lernfortschritt"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={progressPercent}
+        aria-valuetext={`${progressText} Lektionen lokal erledigt`}
+      >
         <div className="h-full rounded-full bg-white transition-all" style={{ width: `${progressPercent}%` }} />
       </div>
     </section>
@@ -376,8 +485,8 @@ function ModuleNavigation({
   return (
     <details open className="rounded-3xl bg-slate-50 p-4">
       <summary className="cursor-pointer list-none">
-        <div className="flex items-start justify-between gap-3">
-          <div>
+        <div className="flex min-w-0 items-start justify-between gap-3">
+          <div className="min-w-0">
             <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">{module.title}</p>
             <h2 className="mt-1 font-black text-nim-primary">{module.label}</h2>
             <p className="mt-1 text-xs leading-5 text-nim-secondary">{module.duration} · {completedCount}/{lessons.length} erledigt</p>
@@ -402,7 +511,7 @@ function ModuleNavigation({
             </span>
             <span className="min-w-0">
               <span className="block truncate text-sm font-black">{lesson.title}</span>
-              <span className="block truncate text-xs opacity-75">{completedLessonIds.includes(lesson.id) ? "erledigt" : "offen"}</span>
+              <span className="block truncate text-xs font-semibold">{completedLessonIds.includes(lesson.id) ? "erledigt" : "offen"}</span>
             </span>
           </button>
         ))}
@@ -425,10 +534,10 @@ function LessonWorkspace({
   onOpenLesson: (lessonId: string) => void;
 }) {
   return (
-    <article className="rounded-[2.4rem] border border-slate-200 bg-white shadow-sm" id={`lesson-${lesson.id}`}>
+    <article className="min-w-0 overflow-hidden rounded-[2.4rem] border border-slate-200 bg-white shadow-sm" id={`lesson-${lesson.id}`}>
       <div className="border-b border-slate-100 p-6 md:p-8">
-        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <div>
+        <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-start md:justify-between">
+          <div className="min-w-0">
             <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Aktuelle Lektion · {completed ? "erledigt" : "offen"}</p>
             <h2 className="mt-3 text-3xl font-black leading-tight text-nim-primary md:text-5xl">{lesson.title}</h2>
             <p className="mt-4 max-w-3xl text-base leading-8 text-nim-secondary">{lesson.description}</p>
@@ -439,8 +548,8 @@ function LessonWorkspace({
         </div>
       </div>
 
-      <div className="grid gap-5 p-6 md:p-8 xl:grid-cols-[1fr_280px]">
-        <div className="space-y-5">
+      <div className="grid min-w-0 gap-5 p-6 md:p-8 xl:grid-cols-[minmax(0,1fr)_minmax(240px,280px)]">
+        <div className="min-w-0 space-y-5">
           <LearningBlock title="1. Ziel" text="Verstehe diese Lektion so gut, dass du sie einer anderen Person in einfachen Worten erklären kannst." />
           <LearningBlock title="2. Kurz erklärt" text={lesson.content ?? lesson.description ?? "Diese Lektion wird gerade vorbereitet."} large />
           <div className="grid gap-4 md:grid-cols-2">
@@ -449,7 +558,7 @@ function LessonWorkspace({
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           <div className="rounded-3xl border border-emerald-100 bg-emerald-50 p-5 text-sm leading-7 text-emerald-950">
             <p className="text-xs font-black uppercase tracking-widest text-emerald-700">Sicher nutzen</p>
             <p className="mt-3 font-semibold">Prüfe wichtige Aussagen und gib keine vertraulichen Daten in KI-Systeme ein.</p>
