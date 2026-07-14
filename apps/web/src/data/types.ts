@@ -48,6 +48,14 @@ export interface Source {
   description?: string;
 }
 
+export interface LessonPractice {
+  task: string;
+  checkQuestions: [string, string, string];
+  hint: string;
+  sampleAnswer: string;
+  selfCheck: [string, string, string];
+}
+
 export interface Lesson {
   id: string;
   title: string;
