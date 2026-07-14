@@ -550,7 +550,7 @@ async function testLiveRegion(browser) {
 
     const liveRegion =
       page.locator(
-        '[aria-live="polite"]',
+        '[aria-live="polite"][aria-atomic="true"]',
       );
 
     await page
@@ -562,7 +562,7 @@ async function testLiveRegion(browser) {
     await page.waitForFunction(() => {
       const region =
         document.querySelector(
-          '[aria-live="polite"]',
+          '[aria-live="polite"][aria-atomic="true"]',
         );
 
       return (
@@ -595,7 +595,7 @@ async function testLiveRegion(browser) {
     await page.waitForFunction(() => {
       const region =
         document.querySelector(
-          '[aria-live="polite"]',
+          '[aria-live="polite"][aria-atomic="true"]',
         );
 
       return (
