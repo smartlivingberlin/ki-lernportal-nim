@@ -14,7 +14,8 @@
     "test:s48b-a11y": "node scripts/check-s48b-accessibility.cjs",
     "source:check": "node scripts/check-source-integrity.mjs",
     "test:s48c-sources": "node scripts/check-s48c-source-ui.cjs",
-    "supply-chain:check": "node scripts/check-supply-chain-policy.mjs"
+    "supply-chain:check": "node scripts/check-supply-chain-policy.mjs",
+    "governance:check": "node scripts/check-github-governance.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.12.1",

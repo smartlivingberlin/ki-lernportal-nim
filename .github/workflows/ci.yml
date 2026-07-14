@@ -12,6 +12,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   web:
     name: Web install, build, lint and smoke test
@@ -21,6 +25,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 1
 
       - name: Setup Node.js
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
@@ -47,6 +54,9 @@ jobs:
           test "$PNPM_VERSION" = "10.34.4"
 
           echo "PINNED_TOOLCHAIN=PASS"
+
+      - name: GitHub governance policy check
+        run: pnpm governance:check
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

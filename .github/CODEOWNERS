@@ -1,0 +1,19 @@
+# Default ownership
+* @smartlivingberlin
+
+# GitHub governance and automation
+/.github/CODEOWNERS @smartlivingberlin
+/.github/dependabot.yml @smartlivingberlin
+/.github/workflows/ @smartlivingberlin
+/.github/pull_request_template.md @smartlivingberlin
+
+# Security and contribution policy
+/SECURITY.md @smartlivingberlin
+/CONTRIBUTING.md @smartlivingberlin
+
+# Dependency and supply-chain controls
+/package.json @smartlivingberlin
+/pnpm-lock.yaml @smartlivingberlin
+/pnpm-workspace.yaml @smartlivingberlin
+/scripts/check-supply-chain-policy.mjs @smartlivingberlin
+/scripts/check-github-governance.mjs @smartlivingberlin
