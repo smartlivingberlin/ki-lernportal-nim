@@ -8,6 +8,7 @@ import { publicSources } from "../data/sources";
 import { LessonWorkspace } from "../components/learning/LessonWorkspace";
 import { ModuleNavigation } from "../components/learning/ModuleNavigation";
 import { PortalHero } from "../components/learning/PortalHero";
+import { TodayStartCard } from "../components/learning/TodayStartCard";
 import { ResourceCard } from "../components/learning/ResourceCard";
 import { useLocalProgress } from "../hooks/useLocalProgress";
 
@@ -106,9 +107,9 @@ export default function Home() {
   const activeLessonIndex = activeLesson ? allLessons.findIndex((lesson) => lesson.id === activeLesson.id) : -1;
   const nextLesson = activeLessonIndex >= 0 ? allLessons[activeLessonIndex + 1] ?? null : null;
   const nextOpenLesson = allLessons.find((lesson) => !validCompletedLessonIds.includes(lesson.id)) ?? null;
-  const activeModule = activeLesson
-    ? learningModules.find((module) => module.lessonIds.includes(activeLesson.id)) ?? fallbackModule
-    : fallbackModule;
+  const recommendedModule = nextOpenLesson
+    ? learningModules.find((module) => module.lessonIds.includes(nextOpenLesson.id)) ?? fallbackModule
+    : null;
   const activeLessonIdForAction = activeLesson?.id ?? null;
   const reviewedSources = publicSources.slice(0, 4);
   const beginnerResources = seedResources.slice(0, 3);
@@ -185,11 +186,13 @@ export default function Home() {
                   Starte mit einer Lektion, prüfe die wichtigsten Sicherheitsregeln und markiere deinen Fortschritt lokal im Browser.
                 </p>
               </div>
-              <div className="rounded-[2rem] border border-white/15 bg-white/10 p-5">
-                <p className="text-xs font-black uppercase tracking-widest text-white">Aktuelles Modul</p>
-                <p className="mt-3 text-2xl font-black">{activeModule.title}</p>
-                <p className="mt-2 text-sm font-semibold leading-7 text-white">{activeModule.outcome}</p>
-              </div>
+              <TodayStartCard
+                lesson={nextOpenLesson}
+                moduleTitle={recommendedModule?.title ?? null}
+                completedLessons={completedLessons}
+                totalLessons={totalLessons}
+                onOpenLesson={openLesson}
+              />
             </div>
           </section>
 
