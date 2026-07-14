@@ -9,6 +9,7 @@ import { LessonWorkspace } from "../components/learning/LessonWorkspace";
 import { ModuleNavigation } from "../components/learning/ModuleNavigation";
 import { PortalHero } from "../components/learning/PortalHero";
 import { TodayStartCard } from "../components/learning/TodayStartCard";
+import { GuidedStartSteps } from "../components/learning/GuidedStartSteps";
 import { LocalSearchPanel } from "../components/learning/LocalSearchPanel";
 import { ResourceCard } from "../components/learning/ResourceCard";
 import { useLocalProgress } from "../hooks/useLocalProgress";
@@ -196,6 +197,13 @@ export default function Home() {
               />
             </div>
           </section>
+
+          <GuidedStartSteps
+            lesson={nextOpenLesson}
+            completedLessons={completedLessons}
+            totalLessons={totalLessons}
+            onOpenLesson={openLesson}
+          />
 
           <LocalSearchPanel
             lessons={allLessons}
