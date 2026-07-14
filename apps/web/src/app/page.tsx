@@ -5,11 +5,13 @@ import { seedGlossary } from "../data/glossary";
 import { seedLearningPaths } from "../data/learning-paths";
 import { seedResources } from "../data/resources";
 import { publicSources } from "../data/sources";
+import { LearningBlock } from "../components/learning/LearningBlock";
+import { PortalHero } from "../components/learning/PortalHero";
+import { ResourceCard } from "../components/learning/ResourceCard";
 import { useLocalProgress } from "../hooks/useLocalProgress";
 
 type LearningPathItem = (typeof seedLearningPaths)[number];
 type LessonItem = LearningPathItem["lessons"][number];
-type ResourceItem = (typeof seedResources)[number];
 type SourceItem = (typeof publicSources)[number];
 type LearningModule = {
   title: string;
@@ -374,37 +376,6 @@ export default function Home() {
   );
 }
 
-function PortalHero({ progressText, progressPercent, totalLessons }: { progressText: string; progressPercent: number; totalLessons: number }) {
-  return (
-    <section aria-labelledby="portalstatus-title" className="rounded-[2rem] bg-nim-primary p-5 text-white shadow-lg">
-      <h2 id="portalstatus-title" className="text-xs font-black uppercase tracking-widest text-white">
-        Portalstatus
-      </h2>
-      <div className="mt-4 flex items-end justify-between gap-4">
-        <div>
-          <p className="text-4xl font-black">{progressText}</p>
-          <p className="mt-1 text-sm font-semibold text-white">lokal erledigt</p>
-        </div>
-        <div className="text-right">
-          <p className="text-2xl font-black">{progressPercent}%</p>
-          <p className="text-xs font-semibold text-white">von {totalLessons || 12} Lektionen</p>
-        </div>
-      </div>
-      <div
-        className="mt-5 h-3 overflow-hidden rounded-full bg-white/25"
-        role="progressbar"
-        aria-label="Lernfortschritt"
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={progressPercent}
-        aria-valuetext={`${progressText} Lektionen lokal erledigt`}
-      >
-        <div className="h-full rounded-full bg-white transition-all" style={{ width: `${progressPercent}%` }} />
-      </div>
-    </section>
-  );
-}
-
 function ModuleNavigation({
   module,
   lessons,
@@ -577,33 +548,6 @@ function LessonWorkspace({
           </div>
         </div>
       </div>
-    </article>
-  );
-}
-
-function LearningBlock({ title, text, large = false }: { title: string; text: string; large?: boolean }) {
-  return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-      <h3 className="text-sm font-black uppercase tracking-widest text-nim-secondary">{title}</h3>
-      <div className={`mt-3 whitespace-pre-line text-slate-800 ${large ? "text-base leading-8" : "text-sm leading-7"}`}>{text}</div>
-    </section>
-  );
-}
-
-function ResourceCard({ resource }: { resource: ResourceItem }) {
-  return (
-    <article className="rounded-3xl bg-slate-50 p-5">
-      <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">{resource.provider}</p>
-      <h3 className="mt-2 text-xl font-black text-nim-primary">{resource.title}</h3>
-      <p className="mt-3 text-sm leading-7 text-nim-secondary">{resource.benefit}</p>
-      <a
-        href={resource.url}
-        target="_blank"
-        rel="noreferrer"
-        className="mt-5 inline-flex rounded-2xl bg-nim-primary px-4 py-3 text-sm font-black text-white hover:bg-nim-primary/90"
-      >
-        Extern öffnen
-      </a>
     </article>
   );
 }
