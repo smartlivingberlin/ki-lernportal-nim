@@ -1,3 +1,16 @@
 packages:
   - 'apps/*'
   - 'services/*'
+
+overrides:
+  "next>postcss": "8.5.10"
+
+nodeVersion: 22.22.1
+engineStrict: true
+strictDepBuilds: true
+blockExoticSubdeps: true
+minimumReleaseAge: 1440
+
+allowBuilds:
+  "sharp@0.34.5": false
+  "unrs-resolver@1.12.2": false
