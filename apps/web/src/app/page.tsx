@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useMemo, useState } from "react";
 import { seedGlossary } from "../data/glossary";
 import { seedLearningPaths } from "../data/learning-paths";
 import { seedResources } from "../data/resources";
 import { publicSources } from "../data/sources";
+import { useLocalProgress } from "../hooks/useLocalProgress";
 
 type LearningPathItem = (typeof seedLearningPaths)[number];
 type LessonItem = LearningPathItem["lessons"][number];
@@ -19,15 +20,11 @@ type LearningModule = {
   lessonIds: string[];
 };
 
-const progressStorageKey = "ki-lernportal-nim:local-progress:v1";
-const progressChangeEvent = "ki-lernportal-nim:progress-change";
 const emptyLessons: LessonItem[] = [];
 
 const publicSourceById = new Map(
   publicSources.map((source) => [source.id, source]),
 );
-
-let memoryProgressSnapshot = "[]";
 
 const learningModules: LearningModule[] = [
   {
@@ -81,82 +78,10 @@ const trustRules = [
 
 const workSteps = ["Ziel", "Erklären", "Üben", "Prüfen", "Erledigen"];
 
-function parseStoredProgress(snapshot: string): string[] {
-  try {
-    const parsed = JSON.parse(snapshot) as unknown;
-    if (!Array.isArray(parsed)) return [];
-
-    return parsed.filter((id): id is string => typeof id === "string");
-  } catch {
-    return [];
-  }
-}
-
-function readStoredProgressSnapshot(): string {
-  if (typeof window === "undefined") return "[]";
-
-  try {
-    const stored = window.localStorage.getItem(progressStorageKey);
-
-    if (stored !== null) {
-      memoryProgressSnapshot = stored;
-      return stored;
-    }
-  } catch {
-    // Use the in-memory fallback when browser storage is unavailable.
-  }
-
-  return memoryProgressSnapshot;
-}
-
-function readServerProgressSnapshot(): string {
-  return "[]";
-}
-
-function subscribeToStoredProgress(onStoreChange: () => void): () => void {
-  const handleStorage = (event: StorageEvent) => {
-    if (event.key === progressStorageKey || event.key === null) {
-      onStoreChange();
-    }
-  };
-
-  const handleLocalChange = () => {
-    onStoreChange();
-  };
-
-  window.addEventListener("storage", handleStorage);
-  window.addEventListener(progressChangeEvent, handleLocalChange);
-
-  return () => {
-    window.removeEventListener("storage", handleStorage);
-    window.removeEventListener(progressChangeEvent, handleLocalChange);
-  };
-}
-
-function writeStoredProgress(lessonIds: string[]): void {
-  memoryProgressSnapshot = JSON.stringify(lessonIds);
-
-  try {
-    window.localStorage.setItem(progressStorageKey, memoryProgressSnapshot);
-  } catch {
-    // Progress continues in memory when browser storage is unavailable.
-  }
-
-  window.dispatchEvent(new Event(progressChangeEvent));
-}
-
 export default function Home() {
   const [activeLessonId, setActiveLessonId] = useState<string | null>(seedLearningPaths[0]?.lessons[0]?.id ?? null);
   const [progressAnnouncement, setProgressAnnouncement] = useState("");
-  const progressSnapshot = useSyncExternalStore(
-    subscribeToStoredProgress,
-    readStoredProgressSnapshot,
-    readServerProgressSnapshot,
-  );
-  const completedLessonIds = useMemo(
-    () => parseStoredProgress(progressSnapshot),
-    [progressSnapshot],
-  );
+  const { completedLessonIds, setCompletedLessonIds } = useLocalProgress();
 
   const primaryPath = seedLearningPaths[0];
   const allLessons = primaryPath?.lessons ?? emptyLessons;
@@ -198,7 +123,7 @@ export default function Home() {
       ? validCompletedLessonIds.filter((id) => id !== lessonId)
       : [...validCompletedLessonIds, lessonId];
 
-    writeStoredProgress(nextCompletedLessonIds);
+    setCompletedLessonIds(nextCompletedLessonIds);
     setProgressAnnouncement(
       lesson
         ? `${lesson.title} wurde ${wasCompleted ? "wieder als offen markiert" : "als erledigt markiert"}.`
@@ -207,7 +132,7 @@ export default function Home() {
   };
 
   const resetProgress = () => {
-    writeStoredProgress([]);
+    setCompletedLessonIds([]);
     setActiveLessonId(allLessons[0]?.id ?? null);
     setProgressAnnouncement("Der lokale Lernfortschritt wurde zurückgesetzt.");
   };
