@@ -1,5 +1,7 @@
+import { practiceByLessonId } from "../../data/practice";
 import type { Lesson, Source } from "../../data/types";
 import { LearningBlock } from "./LearningBlock";
+import { LessonPracticePanel } from "./LessonPracticePanel";
 
 type LessonWorkspaceProps = {
   lesson: Lesson;
@@ -18,6 +20,11 @@ export function LessonWorkspace({
   onToggleCompleted,
   onOpenLesson,
 }: LessonWorkspaceProps) {
+  const practice =
+    practiceByLessonId[
+      lesson.id as keyof typeof practiceByLessonId
+    ];
+
   return (
     <article
       className="min-w-0 overflow-hidden rounded-[2.4rem] border border-slate-200 bg-white shadow-sm"
@@ -60,16 +67,19 @@ export function LessonWorkspace({
             text={lesson.content ?? lesson.description ?? "Diese Lektion wird gerade vorbereitet."}
             large
           />
-          <div className="grid gap-4 md:grid-cols-2">
-            <LearningBlock
-              title="3. Mini-Aufgabe"
-              text="Formuliere in einem Satz: Was ist die wichtigste Idee dieser Lektion? Schreibe sie für dich auf, bevor du weitergehst."
+          {practice ? (
+            <LessonPracticePanel
+              key={lesson.id}
+              lessonId={lesson.id}
+              lessonTitle={lesson.title}
+              practice={practice}
             />
+          ) : (
             <LearningBlock
-              title="4. Checkfrage"
-              text="Würdest du diese KI-Antwort blind übernehmen oder erst prüfen? Begründe deine Entscheidung kurz."
+              title="3. Übung"
+              text="Für diese Lektion wird die Übung gerade vorbereitet."
             />
-          </div>
+          )}
         </div>
 
         <div className="min-w-0 space-y-4">
