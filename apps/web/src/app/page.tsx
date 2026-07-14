@@ -155,7 +155,7 @@ export default function Home() {
       <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
         <div className="mx-auto flex w-full min-w-0 max-w-[1500px] flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-6">
           <div>
-            <h1 className="text-xs font-black uppercase tracking-[0.28em] text-nim-secondary">KI-Lernraum</h1>
+            <h1 className="text-xs font-black uppercase tracking-[0.28em] text-nim-primary">KI-Lernraum</h1>
             <p className="mt-1 text-sm font-bold text-nim-primary">Öffentlich erreichbare Konzeptdemo · kein Konto · Fortschritt nur im Browser</p>
           </div>
           <nav className="flex min-w-0 max-w-full flex-wrap gap-2 text-sm font-black text-nim-primary" aria-label="Portalnavigation">
@@ -168,53 +168,11 @@ export default function Home() {
       </header>
 
       <main className="mx-auto grid w-full min-w-0 max-w-[1500px] gap-5 px-4 py-5 lg:px-6 xl:grid-cols-[minmax(260px,300px)_minmax(0,1fr)_minmax(280px,320px)]">
-        <aside
-          id="pfad"
-          aria-label="Lernpfad und Fortschritt"
-          className="min-w-0 scroll-mt-52 space-y-5 lg:scroll-mt-32 xl:sticky xl:top-28 xl:self-start"
-        >
-          <PortalHero progressText={progressText} progressPercent={progressPercent} totalLessons={totalLessons} />
-
-          <section className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Lernpfad</p>
-                <h2 className="mt-1 text-2xl font-black text-nim-primary">KI-Start</h2>
-              </div>
-              <button
-                type="button"
-                onClick={resetProgress}
-                className="rounded-2xl border border-slate-200 px-3 py-2 text-xs font-black text-nim-primary hover:border-nim-primary/30"
-              >
-                Reset
-              </button>
-            </div>
-
-            <div className="mt-5 space-y-4">
-              {learningModules.map((module) => {
-                const moduleLessons = allLessons.filter((lesson) => module.lessonIds.includes(lesson.id));
-                const moduleCompleted = moduleLessons.filter((lesson) => validCompletedLessonIds.includes(lesson.id)).length;
-                return (
-                  <ModuleNavigation
-                    key={module.title}
-                    module={module}
-                    lessons={moduleLessons}
-                    completedCount={moduleCompleted}
-                    activeLessonId={activeLessonIdForAction}
-                    completedLessonIds={validCompletedLessonIds}
-                    onOpenLesson={openLesson}
-                  />
-                );
-              })}
-            </div>
-          </section>
-        </aside>
-
         <section
           id="lernraum"
           aria-labelledby="lernraum-title"
           tabIndex={-1}
-          className="min-w-0 scroll-mt-52 space-y-5 focus:outline-none lg:scroll-mt-32"
+          className="min-w-0 scroll-mt-52 space-y-5 focus:outline-none lg:scroll-mt-32 xl:col-start-2 xl:row-start-1"
         >
           <section className="overflow-hidden rounded-[2.4rem] bg-nim-primary text-white shadow-xl">
             <div className="grid min-w-0 gap-5 p-6 md:grid-cols-[minmax(0,1fr)_minmax(220px,260px)] md:p-8">
@@ -264,9 +222,51 @@ export default function Home() {
         </section>
 
         <aside
+          id="pfad"
+          aria-label="Lernpfad und Fortschritt"
+          className="min-w-0 scroll-mt-52 space-y-5 lg:scroll-mt-32 xl:col-start-1 xl:row-start-1 xl:sticky xl:top-[5.75rem] xl:self-start"
+        >
+          <PortalHero progressText={progressText} progressPercent={progressPercent} totalLessons={totalLessons} />
+
+          <section className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Lernpfad</p>
+                <h2 className="mt-1 text-2xl font-black text-nim-primary">KI-Start</h2>
+              </div>
+              <button
+                type="button"
+                onClick={resetProgress}
+                className="rounded-2xl border border-slate-200 px-3 py-2 text-xs font-black text-nim-primary hover:border-nim-primary/30"
+              >
+                Reset
+              </button>
+            </div>
+
+            <div className="mt-5 space-y-4">
+              {learningModules.map((module) => {
+                const moduleLessons = allLessons.filter((lesson) => module.lessonIds.includes(lesson.id));
+                const moduleCompleted = moduleLessons.filter((lesson) => validCompletedLessonIds.includes(lesson.id)).length;
+                return (
+                  <ModuleNavigation
+                    key={module.title}
+                    module={module}
+                    lessons={moduleLessons}
+                    completedCount={moduleCompleted}
+                    activeLessonId={activeLessonIdForAction}
+                    completedLessonIds={validCompletedLessonIds}
+                    onOpenLesson={openLesson}
+                  />
+                );
+              })}
+            </div>
+          </section>
+        </aside>
+
+        <aside
           id="coach"
           aria-label="Sicherheits-Coach, nächste Lektion, Quellen und Begriffe"
-          className="min-w-0 scroll-mt-52 space-y-5 lg:scroll-mt-32 xl:sticky xl:top-28 xl:self-start"
+          className="min-w-0 scroll-mt-52 space-y-5 lg:scroll-mt-32 xl:col-start-3 xl:row-start-1 xl:sticky xl:top-[5.75rem] xl:self-start"
         >
           <section className="rounded-[2rem] border border-emerald-100 bg-emerald-50 p-5 shadow-sm">
             <p className="text-xs font-black uppercase tracking-widest text-emerald-700">Sicherheits-Coach</p>
