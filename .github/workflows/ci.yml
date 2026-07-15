@@ -129,6 +129,23 @@ jobs:
       - name: "Regression: approved sources for all lessons"
         run: BASE_URL=http://127.0.0.1:3000 pnpm test:s48c-sources
 
+      - name: "Regression: practice engine across all lessons"
+        shell: bash
+        env:
+          S49D_BASE_URL: http://127.0.0.1:3000
+          S49D_ARTIFACT_DIR: ${{ runner.temp }}/s49d
+        run: |
+          set -euo pipefail
+
+          AXE_PATH="$(
+            node -p "const path=require('node:path'); require.resolve('axe-core/axe.min.js',{paths:[path.dirname(require.resolve('@axe-core/playwright'))]})"
+          )"
+
+          test -f "$AXE_PATH"
+          mkdir -p "$S49D_ARTIFACT_DIR"
+
+          S49D_AXE_PATH="$AXE_PATH" pnpm test:s49d-practice-ui
+
       - name: "Smoke: start state 0/12"
         run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=start node scripts/check-local-progress.cjs
 
