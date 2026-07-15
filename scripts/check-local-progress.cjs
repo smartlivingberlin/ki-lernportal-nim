@@ -177,6 +177,36 @@ const phases = {
     console.log("RESET_BACK_TO_0_12_OK=YES");
   },
 
+  async "cross-tab-clear"(page) {
+    await markFirstLesson(page);
+
+    const secondPage = await page.context().newPage();
+
+    try {
+      await openPortal(secondPage);
+      await expectExactText(secondPage, "1/12");
+
+      await secondPage.evaluate(
+        (key) => window.localStorage.removeItem(key),
+        progressStorageKey,
+      );
+
+      await expectExactText(page, "0/12");
+
+      assert.equal(
+        await page.evaluate(
+          (key) => window.localStorage.getItem(key),
+          progressStorageKey,
+        ),
+        null,
+      );
+
+      console.log("CROSS_TAB_STORAGE_REMOVAL_RESETS_PROGRESS_OK=YES");
+    } finally {
+      await secondPage.close();
+    }
+  },
+
   async guardrails(page) {
     const forbiddenControls = page.locator("a, button").filter({
       hasText: /Anmelden|Registrieren|Bezahlen|Checkout|Chat starten|KI-Chat/i,
