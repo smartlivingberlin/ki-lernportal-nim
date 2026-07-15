@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { seedGlossary } from "../data/glossary";
 import { seedLearningPaths } from "../data/learning-paths";
 import { seedResources } from "../data/resources";
@@ -86,6 +86,7 @@ const workSteps = ["Ziel", "Erklären", "Üben", "Prüfen", "Erledigen"];
 export default function Home() {
   const [activeLessonId, setActiveLessonId] = useState<string | null>(seedLearningPaths[0]?.lessons[0]?.id ?? null);
   const [progressAnnouncement, setProgressAnnouncement] = useState("");
+  const [pendingLessonFocusId, setPendingLessonFocusId] = useState<string | null>(null);
   const { completedLessonIds, setCompletedLessonIds } = useLocalProgress();
 
   const primaryPath = seedLearningPaths[0];
@@ -117,8 +118,29 @@ export default function Home() {
   const beginnerResources = seedResources.slice(0, 3);
   const beginnerGlossary = seedGlossary.slice(0, 5);
 
+  useEffect(() => {
+    if (!pendingLessonFocusId) return;
+
+    const heading = document.getElementById(
+      `lesson-${pendingLessonFocusId}-title`,
+    );
+
+    if (heading) {
+      heading.focus();
+      setPendingLessonFocusId(null);
+    }
+  }, [activeLessonId, pendingLessonFocusId]);
+
   const openLesson = (lessonId: string) => {
+    const lesson = allLessons.find((item) => item.id === lessonId);
+
     setActiveLessonId(lessonId);
+    setPendingLessonFocusId(lessonId);
+    setProgressAnnouncement(
+      lesson
+        ? `${lesson.title} wurde geöffnet.`
+        : "Die ausgewählte Lektion wurde geöffnet.",
+    );
   };
 
   const toggleLessonDone = (lessonId: string) => {
@@ -139,6 +161,7 @@ export default function Home() {
   const resetProgress = () => {
     setCompletedLessonIds([]);
     setActiveLessonId(allLessons[0]?.id ?? null);
+    setPendingLessonFocusId(null);
     setProgressAnnouncement("Der lokale Lernfortschritt wurde zurückgesetzt.");
   };
 
