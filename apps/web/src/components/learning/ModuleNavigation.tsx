@@ -53,6 +53,9 @@ export function ModuleNavigation({
           <button
             key={lesson.id}
             type="button"
+            aria-current={
+              activeLessonId === lesson.id ? "step" : undefined
+            }
             onClick={() => onOpenLesson(lesson.id)}
             className={`flex w-full items-center gap-3 rounded-2xl p-3 text-left ${
               activeLessonId === lesson.id
