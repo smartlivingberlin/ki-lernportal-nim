@@ -24,15 +24,12 @@ function readStoredProgressSnapshot(): string {
   try {
     const stored = window.localStorage.getItem(progressStorageKey);
 
-    if (stored !== null) {
-      memoryProgressSnapshot = stored;
-      return stored;
-    }
+    memoryProgressSnapshot = stored ?? "[]";
+    return memoryProgressSnapshot;
   } catch {
-    // Use the in-memory fallback when browser storage is unavailable.
+    // Use the in-memory fallback only when browser storage is unavailable.
+    return memoryProgressSnapshot;
   }
-
-  return memoryProgressSnapshot;
 }
 
 function readServerProgressSnapshot(): string {
