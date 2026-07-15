@@ -86,7 +86,7 @@ const workSteps = ["Ziel", "Erklären", "Üben", "Prüfen", "Erledigen"];
 export default function Home() {
   const [activeLessonId, setActiveLessonId] = useState<string | null>(seedLearningPaths[0]?.lessons[0]?.id ?? null);
   const [progressAnnouncement, setProgressAnnouncement] = useState("");
-  const [pendingLessonFocusId, setPendingLessonFocusId] = useState<string | null>(null);
+  const [lessonFocusRequest, setLessonFocusRequest] = useState<{ lessonId: string } | null>(null);
   const { completedLessonIds, setCompletedLessonIds } = useLocalProgress();
 
   const primaryPath = seedLearningPaths[0];
@@ -119,23 +119,20 @@ export default function Home() {
   const beginnerGlossary = seedGlossary.slice(0, 5);
 
   useEffect(() => {
-    if (!pendingLessonFocusId) return;
+    if (!lessonFocusRequest) return;
 
     const heading = document.getElementById(
-      `lesson-${pendingLessonFocusId}-title`,
+      `lesson-${lessonFocusRequest.lessonId}-title`,
     );
 
-    if (heading) {
-      heading.focus();
-      setPendingLessonFocusId(null);
-    }
-  }, [activeLessonId, pendingLessonFocusId]);
+    heading?.focus();
+  }, [activeLessonId, lessonFocusRequest]);
 
   const openLesson = (lessonId: string) => {
     const lesson = allLessons.find((item) => item.id === lessonId);
 
     setActiveLessonId(lessonId);
-    setPendingLessonFocusId(lessonId);
+    setLessonFocusRequest({ lessonId });
     setProgressAnnouncement(
       lesson
         ? `${lesson.title} wurde geöffnet.`
@@ -161,7 +158,7 @@ export default function Home() {
   const resetProgress = () => {
     setCompletedLessonIds([]);
     setActiveLessonId(allLessons[0]?.id ?? null);
-    setPendingLessonFocusId(null);
+    setLessonFocusRequest(null);
     setProgressAnnouncement("Der lokale Lernfortschritt wurde zurückgesetzt.");
   };
 
