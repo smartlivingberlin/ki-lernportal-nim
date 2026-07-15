@@ -187,23 +187,19 @@ export function LessonPracticePanel({
               `lesson-${lessonId}-self-check-${index + 1}`;
 
             return (
-              <div
+              <label
                 key={item}
-                className="flex items-start gap-3"
+                htmlFor={checkboxId}
+                className="flex min-h-11 cursor-pointer items-start gap-3 rounded-xl px-2 py-2 text-sm leading-7 text-slate-800 hover:bg-slate-50"
               >
                 <input
                   id={checkboxId}
                   type="checkbox"
-                  className="mt-1 h-5 w-5 shrink-0 rounded border-slate-300 text-nim-primary focus:ring-nim-primary"
+                  className="mt-0.5 h-6 w-6 shrink-0 rounded border-slate-300 text-nim-primary focus:ring-nim-primary"
                 />
 
-                <label
-                  htmlFor={checkboxId}
-                  className="text-sm leading-7 text-slate-800"
-                >
-                  {item}
-                </label>
-              </div>
+                <span>{item}</span>
+              </label>
             );
           })}
         </div>
