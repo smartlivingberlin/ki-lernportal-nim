@@ -176,6 +176,9 @@ jobs:
       - name: "Smoke: reset progress"
         run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=reset node scripts/check-local-progress.cjs
 
+      - name: "Smoke: cross-tab storage removal"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=cross-tab-clear node scripts/check-local-progress.cjs
+
       - name: "Smoke: private-demo UI guardrails"
         run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=guardrails node scripts/check-local-progress.cjs
 
