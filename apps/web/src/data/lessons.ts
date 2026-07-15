@@ -1,4 +1,4 @@
-import { Lesson, DifficultyLevel } from './types';
+import { Lesson, DifficultyLevel, ReviewStatus } from './types';
 
 export const seedLessons: Lesson[] = [
   {
@@ -18,18 +18,13 @@ Sicher arbeiten:
 Nutze KI als Hilfe zum Verstehen und Formulieren. Prüfe wichtige Aussagen trotzdem selbst.
 
 Typischer Fehler:
-Viele Menschen glauben, KI wisse automatisch die Wahrheit. Das stimmt nicht. KI kann überzeugend klingen und trotzdem falsch liegen.
-
-Übung:
-Nenne drei Situationen, in denen KI dir im Alltag helfen könnte. Markiere danach eine Situation, bei der du die Antwort unbedingt prüfen würdest.
-
-Mini-Check:
-1. Erkläre KI in einem Satz.
-2. Denkt KI wie ein Mensch?
-3. Warum solltest du wichtige Antworten prüfen?`,
+Viele Menschen glauben, KI wisse automatisch die Wahrheit. Das stimmt nicht. KI kann überzeugend klingen und trotzdem falsch liegen.`,
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 5,
     order: 1,
+    sourceIds: ['digcomp-30', 'oecd-ai-principles'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -49,18 +44,13 @@ Sicher arbeiten:
 Nutze KI für Entwürfe, Erklärungen und Ideen. Bei Recht, Medizin, Steuern, Finanzen oder Verträgen brauchst du geeignete Quellen oder Fachpersonen.
 
 Typischer Fehler:
-Man übernimmt KI-Antworten ungeprüft, nur weil sie klar und professionell klingen.
-
-Übung:
-Schreibe zwei Aufgaben auf, die du KI geben würdest, und zwei Aufgaben, bei denen du zusätzlich eine Quelle oder einen Experten brauchst.
-
-Mini-Check:
-1. Nenne eine gute Aufgabe für KI.
-2. Nenne eine Aufgabe, bei der du vorsichtig sein musst.
-3. Warum ersetzt KI keine Fachprüfung?`,
+Man übernimmt KI-Antworten ungeprüft, nur weil sie klar und professionell klingen.`,
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 7,
     order: 2,
+    sourceIds: ['digcomp-30', 'nist-ai-rmf'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -81,18 +71,13 @@ Sicher arbeiten:
 Ersetze Namen durch neutrale Platzhalter. Beschreibe die Aufgabe allgemein. Teile nur so viel Kontext, wie wirklich nötig ist.
 
 Typischer Fehler:
-Man kopiert private Daten in den Prompt, obwohl eine allgemeine Beschreibung reichen würde.
-
-Übung:
-Formuliere eine harmlose Frage an KI zu einem Alltagsthema. Prüfe danach, ob du persönliche Daten entfernen kannst.
-
-Mini-Check:
-1. Welche Daten gehören nicht in einen Prompt?
-2. Was ist ein Platzhalter?
-3. Warum ist eine allgemeine Beschreibung oft sicherer?`,
+Man kopiert private Daten in den Prompt, obwohl eine allgemeine Beschreibung reichen würde.`,
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 6,
     order: 3,
+    sourceIds: ['digcomp-30', 'eu-gdpr'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -113,18 +98,13 @@ Sicher arbeiten:
 Nenne Ziel, Zielgruppe, Länge und Stil. Füge eine Grenze hinzu, wenn die KI etwas nicht tun soll.
 
 Typischer Fehler:
-Der Prompt ist zu ungenau. Dann muss die KI raten, welches Ziel, welche Länge und welcher Stil gemeint sind.
-
-Übung:
-Verbessere diesen Prompt: "Mach mir einen Text." Ergänze Ziel, Zielgruppe, Länge, Stil und Thema.
-
-Mini-Check:
-1. Was ist ein Prompt?
-2. Warum ist "Schreib was" zu ungenau?
-3. Welche vier Angaben machen einen Prompt klarer?`,
+Der Prompt ist zu ungenau. Dann muss die KI raten, welches Ziel, welche Länge und welcher Stil gemeint sind.`,
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 5,
     order: 4,
+    sourceIds: ['digcomp-30'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -144,18 +124,13 @@ Sicher arbeiten:
 Schreibe lieber eine klare Aufgabe als fünf Aufgaben auf einmal. Sage auch, was die KI nicht tun soll.
 
 Typischer Fehler:
-Man schreibt zu viele Themen in einen Prompt. Die Antwort wird dann lang, ungenau oder schwer prüfbar.
-
-Übung:
-Schreibe einen Prompt für eine E-Mail-Verbesserung. Lege fest: Ton, Länge, Empfänger und was nicht verändert werden soll.
-
-Mini-Check:
-1. Welche fünf Teile hat die Prompt-Formel?
-2. Warum hilft eine Grenze im Prompt?
-3. Was passiert, wenn ein Prompt zu viele Aufgaben enthält?`,
+Man schreibt zu viele Themen in einen Prompt. Die Antwort wird dann lang, ungenau oder schwer prüfbar.`,
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 8,
     order: 5,
+    sourceIds: ['digcomp-30'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -175,18 +150,13 @@ Sicher arbeiten:
 Entferne Namen, Adressen, Kundendaten und vertrauliche Details. Prüfe danach, ob die KI etwas erfunden oder verändert hat.
 
 Typischer Fehler:
-Man übernimmt den fertigen Text sofort und merkt nicht, dass ein Detail geändert wurde.
-
-Übung:
-Schreibe einen neutralen kurzen Text und lasse ihn höflicher formulieren. Prüfe danach: Wurde etwas erfunden oder verfälscht?
-
-Mini-Check:
-1. Wofür kann KI bei Texten helfen?
-2. Welche Daten solltest du vorher entfernen?
-3. Was musst du nach der KI-Antwort prüfen?`,
+Man übernimmt den fertigen Text sofort und merkt nicht, dass ein Detail geändert wurde.`,
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 7,
     order: 6,
+    sourceIds: ['digcomp-30', 'eu-gdpr'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -206,18 +176,13 @@ Sicher arbeiten:
 Behandle Ideen als Entwürfe. Streiche schlechte Vorschläge. Verbessere gute Vorschläge. Prüfe Fakten, bevor du etwas veröffentlichst oder weitergibst.
 
 Typischer Fehler:
-Man nimmt die erste Liste der KI als fertige Lösung, obwohl manche Ideen unpassend oder oberflächlich sind.
-
-Übung:
-Lass dir 5 Ideen geben. Streiche 2 schlechte Ideen. Verbessere 1 gute Idee mit eigenen Worten.
-
-Mini-Check:
-1. Sind KI-Ideen automatisch richtig?
-2. Was machst du mit schlechten Vorschlägen?
-3. Wann musst du Fakten zusätzlich prüfen?`,
+Man nimmt die erste Liste der KI als fertige Lösung, obwohl manche Ideen unpassend oder oberflächlich sind.`,
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 6,
     order: 7,
+    sourceIds: ['digcomp-30', 'oecd-ai-principles'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -237,18 +202,13 @@ Sicher arbeiten:
 Achte auf sehr genaue Zahlen ohne Quelle, erfundene Links, zu sichere Aussagen und Widersprüche zu bekannten Fakten.
 
 Typischer Fehler:
-Man fragt die KI: "Bist du sicher?" und glaubt dann der Bestätigung. Besser ist echte Quellenprüfung.
-
-Übung:
-Nimm eine KI-Antwort mit einer konkreten Behauptung. Markiere alle Fakten, die du vor Veröffentlichung prüfen müsstest.
-
-Mini-Check:
-1. Was ist eine Halluzination?
-2. Warum reicht "Bist du sicher?" nicht aus?
-3. Welche Warnzeichen solltest du erkennen?`,
+Man fragt die KI: "Bist du sicher?" und glaubt dann der Bestätigung. Besser ist echte Quellenprüfung.`,
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 8,
     order: 8,
+    sourceIds: ['nist-genai-profile', 'nist-ai-rmf'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -268,18 +228,13 @@ Sicher arbeiten:
 Prüfe: Wer veröffentlicht die Information? Wann wurde sie aktualisiert? Passt die Quelle wirklich zur Aussage?
 
 Typischer Fehler:
-Man verwechselt eine schöne Erklärung mit einem Beleg. Eine Erklärung ist hilfreich, aber noch kein Nachweis.
-
-Übung:
-Wähle eine Behauptung aus einer KI-Antwort. Suche eine Quelle dazu und notiere: Herausgeber, Datum und passende Aussage.
-
-Mini-Check:
-1. Was ist eine Quelle?
-2. Warum ist eine Erklärung noch kein Beleg?
-3. Welche drei Fragen helfen beim Prüfen einer Quelle?`,
+Man verwechselt eine schöne Erklärung mit einem Beleg. Eine Erklärung ist hilfreich, aber noch kein Nachweis.`,
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 7,
     order: 9,
+    sourceIds: ['digcomp-30', 'nist-genai-profile'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -299,18 +254,13 @@ Sicher arbeiten:
 Entferne Namen und ersetze sie durch Platzhalter. Kürze Dokumente auf das Nötigste. Gib keine Passwörter, Zugangsdaten oder Bankdaten ein.
 
 Typischer Fehler:
-Man kopiert ganze Dokumente in einen Chat, obwohl nur ein kleiner Ausschnitt gebraucht wird.
-
-Übung:
-Schreibe einen unsicheren Prompt in eine sichere Version um. Entferne alle persönlichen Daten und ersetze sie durch neutrale Platzhalter.
-
-Mini-Check:
-1. Nenne drei sensible Datenarten.
-2. Warum sind Platzhalter hilfreich?
-3. Warum solltest du keine ganzen vertraulichen Dokumente kopieren?`,
+Man kopiert ganze Dokumente in einen Chat, obwohl nur ein kleiner Ausschnitt gebraucht wird.`,
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 6,
     order: 10,
+    sourceIds: ['eu-gdpr', 'digcomp-30'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -331,18 +281,13 @@ Sicher arbeiten:
 Sortiere Aufgaben in drei Gruppen: gut für KI, nur mit Prüfung, lieber Fachperson oder verlässliche Quelle.
 
 Typischer Fehler:
-Man nutzt KI für Entscheidungen, die Verantwortung, Haftung oder persönliche Folgen haben.
-
-Übung:
-Sortiere diese Aufgaben: E-Mail verbessern, medizinische Symptome bewerten, Lernplan erstellen, Vertrag prüfen, Ideen sammeln, aktuelle Rechtslage erklären.
-
-Mini-Check:
-1. Nenne zwei sichere KI-Aufgaben.
-2. Nenne zwei Aufgaben mit Vorsicht.
-3. Wann brauchst du eine Fachperson oder verlässliche Quelle?`,
+Man nutzt KI für Entscheidungen, die Verantwortung, Haftung oder persönliche Folgen haben.`,
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 8,
     order: 11,
+    sourceIds: ['eu-ai-act', 'nist-ai-rmf', 'oecd-ai-principles'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   },
   {
@@ -362,18 +307,13 @@ Sicher arbeiten:
 Nutze die Grundregel: erst allgemein fragen, dann Antwort prüfen, dann wichtige Fakten mit Quellen absichern.
 
 Typischer Fehler:
-Man glaubt, nach den ersten Erfolgen könne KI alles zuverlässig. Gerade dann bleibt Prüfung wichtig.
-
-Übung:
-Beantworte die fünf Abschlussfragen: Was ist KI? Was ist ein Prompt? Welche Daten gehören nicht in KI-Systeme? Wann musst du prüfen? Was machst du, wenn KI sehr sicher klingt, aber keine Quelle nennt?
-
-Mini-Check:
-1. Kannst du KI in einfachen Worten erklären?
-2. Kannst du einen sicheren Prompt schreiben?
-3. Kannst du eine KI-Antwort kritisch prüfen?`,
+Man glaubt, nach den ersten Erfolgen könne KI alles zuverlässig. Gerade dann bleibt Prüfung wichtig.`,
     difficulty: DifficultyLevel.Beginner,
     estimatedMinutes: 6,
     order: 12,
+    sourceIds: ['digcomp-30', 'nist-ai-rmf', 'eu-gdpr'],
+    reviewStatus: ReviewStatus.Published,
+    lastReviewed: '2026-07-13',
     pathId: 'path-beginner'
   }
 ];

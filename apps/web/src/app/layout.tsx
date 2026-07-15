@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "KI-Lernportal NIM",
-  description: "KI-Kompetenz für Alltag, Beruf, Kreativität und Organisationen – verständlich, geführt und barrierearm.",
+  title: "KI-Lernraum",
+  description: "Öffentlich erreichbare Konzeptdemo mit zwölf Einsteigerlektionen zur sicheren und verständlichen Nutzung von KI.",
   robots: {
     index: false,
     follow: false,

@@ -37,12 +37,23 @@ export enum SourceType {
 export interface Source {
   id: string;
   name: string;
+  publisher: string;
   url: string;
   sourceType: SourceType;
   reviewStatus: ReviewStatus;
   approvalStatus: ApprovalStatus;
   trustLevel: TrustLevel;
+  lastReviewed: string;
+  publicDisplayAllowed: boolean;
   description?: string;
+}
+
+export interface LessonPractice {
+  task: string;
+  checkQuestions: [string, string, string];
+  hint: string;
+  sampleAnswer: string;
+  selfCheck: [string, string, string];
 }
 
 export interface Lesson {
@@ -53,6 +64,9 @@ export interface Lesson {
   difficulty: DifficultyLevel;
   estimatedMinutes: number;
   order: number;
+  sourceIds: string[];
+  reviewStatus: ReviewStatus;
+  lastReviewed: string;
   pathId: string;
 }
 

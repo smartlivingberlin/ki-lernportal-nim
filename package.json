@@ -1,10 +1,25 @@
 {
   "name": "ki-lernportal-nim",
   "private": true,
+  "packageManager": "pnpm@11.13.0",
+  "engines": {
+    "node": "22.22.1",
+    "pnpm": "11.13.0"
+  },
   "scripts": {
     "dev": "pnpm --filter \"./apps/*\" --filter \"./services/*\" dev",
     "build": "pnpm --filter \"./apps/*\" --filter \"./services/*\" build",
     "lint": "pnpm --filter \"./apps/*\" --filter \"./services/*\" lint",
-    "content:check": "node scripts/check-content-quality.mjs"
+    "content:check": "node scripts/check-content-quality.mjs",
+    "test:s48b-a11y": "node scripts/check-s48b-accessibility.cjs",
+    "source:check": "node scripts/check-source-integrity.mjs",
+    "test:s48c-sources": "node scripts/check-s48c-source-ui.cjs",
+    "test:s49d-practice-ui": "node scripts/check-s49d-practice-ui.cjs",
+    "supply-chain:check": "node scripts/check-supply-chain-policy.mjs",
+    "governance:check": "node scripts/check-github-governance.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "playwright": "1.55.1"
   }
 }

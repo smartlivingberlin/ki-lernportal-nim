@@ -74,7 +74,12 @@ async function markFirstTwoLessons(page) {
 
   const secondLessonButton = await lessonButton(page, "Was kann KI gut");
   await secondLessonButton.click();
-  await page.getByRole("heading", { name: "Was kann KI gut — und was nicht?" }).waitFor({ state: "visible" });
+  await page
+    .getByRole("heading", {
+      name: "Was kann KI gut — und was nicht?",
+      exact: true,
+    })
+    .waitFor({ state: "visible" });
   await page.getByRole("button", { name: "Als erledigt markieren" }).click();
   await expectExactText(page, "2/12");
   await waitForStoredLessonIds(page, ["l1", "l2"]);
@@ -172,6 +177,36 @@ const phases = {
     console.log("RESET_BACK_TO_0_12_OK=YES");
   },
 
+  async "cross-tab-clear"(page) {
+    await markFirstLesson(page);
+
+    const secondPage = await page.context().newPage();
+
+    try {
+      await openPortal(secondPage);
+      await expectExactText(secondPage, "1/12");
+
+      await secondPage.evaluate(
+        (key) => window.localStorage.removeItem(key),
+        progressStorageKey,
+      );
+
+      await expectExactText(page, "0/12");
+
+      assert.equal(
+        await page.evaluate(
+          (key) => window.localStorage.getItem(key),
+          progressStorageKey,
+        ),
+        null,
+      );
+
+      console.log("CROSS_TAB_STORAGE_REMOVAL_RESETS_PROGRESS_OK=YES");
+    } finally {
+      await secondPage.close();
+    }
+  },
+
   async guardrails(page) {
     const forbiddenControls = page.locator("a, button").filter({
       hasText: /Anmelden|Registrieren|Bezahlen|Checkout|Chat starten|KI-Chat/i,
@@ -185,7 +220,10 @@ async function runPhase(browser, phaseName) {
   const phase = phases[phaseName];
   if (!phase) throw new Error(`Unknown smoke phase: ${phaseName}`);
 
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+  });
+  const page = await context.newPage();
   page.setDefaultTimeout(10_000);
 
   try {
@@ -194,7 +232,7 @@ async function runPhase(browser, phaseName) {
     await phase(page);
     console.log(`SMOKE_PHASE_${phaseName.toUpperCase()}=PASS`);
   } finally {
-    await page.close();
+    await context.close();
   }
 }
 

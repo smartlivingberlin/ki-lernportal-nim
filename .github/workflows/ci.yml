@@ -4,12 +4,17 @@ on:
   push:
     branches:
       - main
+      - "fix/**"
   pull_request:
     branches:
       - main
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   web:
@@ -19,20 +24,51 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
-          node-version: 22
+          node-version: 22.22.1
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6
         with:
-          version: 10.4.1
+          version: 11.13.0
+
+      - name: Verify pinned toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          NODE_VERSION="$(node --version)"
+          PNPM_VERSION="$(pnpm --version)"
+
+          echo "NODE_VERSION=$NODE_VERSION"
+          echo "PNPM_VERSION=$PNPM_VERSION"
+
+          test "$NODE_VERSION" = "v22.22.1"
+          test "$PNPM_VERSION" = "11.13.0"
+
+          echo "PINNED_TOOLCHAIN=PASS"
+
+      - name: GitHub governance policy check
+        run: pnpm governance:check
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Supply-chain policy check
+        run: pnpm supply-chain:check
+
+      - name: Dependency vulnerability audit
+        run: pnpm audit
+
+      - name: Production dependency vulnerability audit
+        run: pnpm audit --prod
 
       - name: Build web app and package standalone assets
         run: pnpm --filter web build
@@ -46,18 +82,16 @@ jobs:
       - name: Content quality check
         run: pnpm content:check
 
-      - name: Install temporary Playwright runtime
+      - name: Source and lesson integrity check
+        run: pnpm source:check
+
+      - name: Install Playwright Chromium
         shell: bash
         run: |
           set -euo pipefail
           INSTALL_LOG="$RUNNER_TEMP/playwright-install.log"
 
-          if ! pnpm add --workspace-root --save-dev playwright@1.55.0 --lockfile=false > "$INSTALL_LOG" 2>&1; then
-            cat "$INSTALL_LOG"
-            exit 1
-          fi
-
-          if ! pnpm exec playwright install --with-deps chromium >> "$INSTALL_LOG" 2>&1; then
+          if ! pnpm exec playwright install --with-deps chromium > "$INSTALL_LOG" 2>&1; then
             cat "$INSTALL_LOG"
             exit 1
           fi
@@ -89,6 +123,29 @@ jobs:
 
           echo "LOCAL_WEB_READY=YES"
 
+      - name: "Regression: responsive, hydration and accessibility"
+        run: BASE_URL=http://127.0.0.1:3000 pnpm test:s48b-a11y
+
+      - name: "Regression: approved sources for all lessons"
+        run: BASE_URL=http://127.0.0.1:3000 pnpm test:s48c-sources
+
+      - name: "Regression: practice engine across all lessons"
+        shell: bash
+        env:
+          S49D_BASE_URL: http://127.0.0.1:3000
+          S49D_ARTIFACT_DIR: ${{ runner.temp }}/s49d
+        run: |
+          set -euo pipefail
+
+          AXE_PATH="$(
+            node -p "const path=require('node:path'); require.resolve('axe-core/axe.min.js',{paths:[path.dirname(require.resolve('@axe-core/playwright'))]})"
+          )"
+
+          test -f "$AXE_PATH"
+          mkdir -p "$S49D_ARTIFACT_DIR"
+
+          S49D_AXE_PATH="$AXE_PATH" pnpm test:s49d-practice-ui
+
       - name: "Smoke: start state 0/12"
         run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=start node scripts/check-local-progress.cjs
 
@@ -118,6 +175,9 @@ jobs:
 
       - name: "Smoke: reset progress"
         run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=reset node scripts/check-local-progress.cjs
+
+      - name: "Smoke: cross-tab storage removal"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=cross-tab-clear node scripts/check-local-progress.cjs
 
       - name: "Smoke: private-demo UI guardrails"
         run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=guardrails node scripts/check-local-progress.cjs
