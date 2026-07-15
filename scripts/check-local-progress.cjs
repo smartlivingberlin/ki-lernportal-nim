@@ -220,7 +220,10 @@ async function runPhase(browser, phaseName) {
   const phase = phases[phaseName];
   if (!phase) throw new Error(`Unknown smoke phase: ${phaseName}`);
 
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+  });
+  const page = await context.newPage();
   page.setDefaultTimeout(10_000);
 
   try {
@@ -229,7 +232,7 @@ async function runPhase(browser, phaseName) {
     await phase(page);
     console.log(`SMOKE_PHASE_${phaseName.toUpperCase()}=PASS`);
   } finally {
-    await page.close();
+    await context.close();
   }
 }
 
