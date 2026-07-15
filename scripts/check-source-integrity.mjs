@@ -96,7 +96,8 @@ try {
   for (const filename of [
     'types.ts',
     'sources.ts',
-    'lessons.ts'
+    'lessons.ts',
+    'practice.ts'
   ]) {
     transpileDataFile(filename);
   }
@@ -119,9 +120,19 @@ try {
     seedLessons
   } = requireTemp('./lessons.js');
 
+  const {
+    practiceByLessonId
+  } = requireTemp('./practice.js');
+
   check(Array.isArray(seedSources), 'seedSources must be an array');
   check(Array.isArray(publicSources), 'publicSources must be an array');
   check(Array.isArray(seedLessons), 'seedLessons must be an array');
+  check(
+    practiceByLessonId &&
+      typeof practiceByLessonId === 'object' &&
+      !Array.isArray(practiceByLessonId),
+    'practiceByLessonId must be an object'
+  );
 
   const sourceIds = new Set();
   const sourceUrls = new Set();
@@ -237,9 +248,7 @@ try {
     'Einfach erklärt:',
     'Mini-Beispiel:',
     'Sicher arbeiten:',
-    'Typischer Fehler:',
-    'Übung:',
-    'Mini-Check:'
+    'Typischer Fehler:'
   ];
 
   for (const lesson of seedLessons) {
@@ -355,11 +364,63 @@ try {
     }
 
     check(
+      !lesson.content.includes('\n\nÜbung:') &&
+        !lesson.content.includes('\n\nMini-Check:'),
+      `${label}: interactive practice must not be duplicated in lesson content`
+    );
+
+    const practice = practiceByLessonId?.[lesson.id];
+
+    check(
+      Boolean(practice),
+      `${label}: interactive practice missing`
+    );
+
+    if (practice) {
+      for (const field of [
+        'task',
+        'hint',
+        'sampleAnswer'
+      ]) {
+        check(
+          typeof practice[field] === 'string' &&
+            practice[field].trim().length > 0,
+          `${label}: practice ${field} missing`
+        );
+      }
+
+      for (const field of [
+        'checkQuestions',
+        'selfCheck'
+      ]) {
+        check(
+          Array.isArray(practice[field]) &&
+            practice[field].length === 3 &&
+            practice[field].every(
+              (item) =>
+                typeof item === 'string' &&
+                item.trim().length > 0
+            ),
+          `${label}: practice ${field} must contain exactly three non-empty items`
+        );
+      }
+    }
+
+    check(
       Number.isInteger(lesson.estimatedMinutes) &&
         lesson.estimatedMinutes > 0,
       `${label}: estimatedMinutes must be positive`
     );
   }
+
+  check(
+    JSON.stringify(
+      Object.keys(practiceByLessonId ?? {}).sort()
+    ) === JSON.stringify(
+      [...lessonIds].sort()
+    ),
+    'practiceByLessonId keys must exactly match lesson ids'
+  );
 
   const expectedOrders = Array.from(
     { length: 12 },
