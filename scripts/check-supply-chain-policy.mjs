@@ -129,8 +129,8 @@ check(
 
 check(
   rootPackage.packageManager ===
-    "pnpm@10.34.4",
-  "Package manager is pinned to pnpm 10.34.4",
+    "pnpm@11.13.0",
+  "Package manager is pinned to pnpm 11.13.0",
 );
 
 check(
@@ -139,8 +139,8 @@ check(
 );
 
 check(
-  rootPackage.engines?.pnpm === "10.34.4",
-  "pnpm engine is pinned to 10.34.4",
+  rootPackage.engines?.pnpm === "11.13.0",
+  "pnpm engine is pinned to 11.13.0",
 );
 
 check(
@@ -298,9 +298,9 @@ check(
 
 check(
   ci.includes(
-    "version: 10.34.4",
+    "version: 11.13.0",
   ),
-  "CI uses pnpm 10.34.4",
+  "CI uses pnpm 11.13.0",
 );
 
 check(
