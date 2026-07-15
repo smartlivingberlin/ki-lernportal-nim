@@ -74,7 +74,12 @@ async function markFirstTwoLessons(page) {
 
   const secondLessonButton = await lessonButton(page, "Was kann KI gut");
   await secondLessonButton.click();
-  await page.getByRole("heading", { name: "Was kann KI gut — und was nicht?" }).waitFor({ state: "visible" });
+  await page
+    .getByRole("heading", {
+      name: "Was kann KI gut — und was nicht?",
+      exact: true,
+    })
+    .waitFor({ state: "visible" });
   await page.getByRole("button", { name: "Als erledigt markieren" }).click();
   await expectExactText(page, "2/12");
   await waitForStoredLessonIds(page, ["l1", "l2"]);
