@@ -36,7 +36,11 @@ export function LessonWorkspace({
             <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">
               Aktuelle Lektion · {completed ? "erledigt" : "offen"}
             </p>
-            <h2 className="mt-3 text-3xl font-black leading-tight text-nim-primary md:text-5xl">
+            <h2
+              id={`lesson-${lesson.id}-title`}
+              tabIndex={-1}
+              className="mt-3 text-3xl font-black leading-tight text-nim-primary outline-none md:text-5xl"
+            >
               {lesson.title}
             </h2>
             <p className="mt-4 max-w-3xl text-base leading-8 text-nim-secondary">
