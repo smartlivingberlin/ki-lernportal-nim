@@ -501,6 +501,55 @@ async function testViewport(browser, viewport) {
       );
     }
 
+    const searchInput = page.getByTestId(
+      "portal-search-input",
+    );
+
+    await searchInput.fill("Halluzinationen");
+
+    const lessonSearchResult = page.locator(
+      '[data-search-result-kind="lesson"][data-search-result-id="l8"]',
+    );
+
+    await lessonSearchResult.waitFor({
+      state: "visible",
+    });
+
+    await lessonSearchResult.click();
+
+    await page.waitForFunction(() => {
+      return (
+        document.activeElement?.id ===
+        "lesson-l8-title"
+      );
+    });
+
+    const currentLessonButtons = page.locator(
+      '#pfad button[aria-current="step"]',
+    );
+
+    assert.equal(
+      await currentLessonButtons.count(),
+      1,
+      `${viewport.name}: exactly one current lesson expected`,
+    );
+
+    assert.match(
+      await currentLessonButtons.first().innerText(),
+      /Halluzinationen erkennen/,
+      `${viewport.name}: current lesson semantics are stale`,
+    );
+
+    assert.match(
+      (await page
+        .locator(
+          '[aria-live="polite"][aria-atomic="true"]',
+        )
+        .textContent()) ?? "",
+      /Halluzinationen erkennen wurde geöffnet/,
+      `${viewport.name}: opened lesson announcement missing`,
+    );
+
     assert.deepEqual(
       consoleErrors,
       [],
