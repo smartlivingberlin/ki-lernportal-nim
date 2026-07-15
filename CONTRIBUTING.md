@@ -26,7 +26,7 @@ GitHub Actions müssen auf vollständige Commit-SHAs gepinnt sein.
 Das Projekt verwendet ausschließlich:
 
 - Node.js `22.22.1`;
-- pnpm `10.34.4`;
+- pnpm `11.13.0`;
 - `pnpm-lock.yaml` als einziges Lockfile.
 
 Keine anderen Paketmanager-Lockfiles hinzufügen.
