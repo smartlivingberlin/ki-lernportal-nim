@@ -1,80 +1,217 @@
-# Railway Deployment Strategy — KI-Lernportal NIM
+# Railway-Deployment-Strategie – KI-Lernportal NIM
 
-## Current status
+**Status:** S50B-R2-Entwurf zur menschlichen Abnahme
+**Stand:** 16. Juli 2026
+**Wirkung:** Dokumentation; keine Deployment-Freigabe
 
-Railway is planned but not active for this project yet.
+## 1. Verbindliche Grundlagen
 
-Railway CLI is available locally, but no Railway project should be created before the frontend baseline is buildable.
+Diese Strategie ist nachrangig zu:
 
-## Why Railway later
+- [`../architecture/S50B_R2_SOURCE_OF_TRUTH.md`](../architecture/S50B_R2_SOURCE_OF_TRUTH.md)
+- [`../architecture/ARCHITECTURE_TARGET.md`](../architecture/ARCHITECTURE_TARGET.md)
+- [`../architecture/PLATFORM_CONTRACTS.md`](../architecture/PLATFORM_CONTRACTS.md)
+- [`../architecture/MVP_SCOPE.md`](../architecture/MVP_SCOPE.md)
+- [`QUALITY_GATES.md`](QUALITY_GATES.md)
 
-Railway can host the project later, but deploying too early creates noise, failed deployments and possible cost risk.
+Bei Widersprüchen gilt die Architektur-Source-of-Truth.
 
-## Deployment phases
+## 2. Nachgewiesener Iststand
 
-### R0 — CLI readiness
+Zum Stand 16. Juli 2026 gilt:
 
-Check Railway CLI and login status only.
+- Das GitHub-Repository ist `smartlivingberlin/ki-lernportal-nim`.
+- Railway wird bereits für eine Produktions-Konzeptdemo verwendet.
+- Die dort laufende Revision basiert weiterhin auf `main` mit SHA
+  `4173f2d935e3145142dce539b399bf8b9d77ee79`.
+- Der dokumentierte `/health`-Aufruf liefert auf diesem Stand `404`.
+- PR #68 ist ein separater, offener Draft-PR für Railway Readiness.
+- PR #68 ist nicht gemergt.
+- Ein isoliertes Railway-Staging für die neue Plattformarchitektur ist noch
+  nicht freigegeben oder erstellt.
+- Die Arbeit im S50B-R2-Dokumentationsbranch verändert Railway nicht.
 
-No project creation.
+Der Produktionsstand ist deshalb weder als vollständige Plattform noch als
+Beweis für Backend-, Datenbank-, Auth-, AI- oder RAG-Funktionalität zu werten.
 
-### R1 — Frontend baseline
+## 3. Zielbild
 
-Create a buildable Next.js application in apps/web.
+Die Plattform bleibt zunächst ein modularer Next.js-Monolith:
 
-Required before Railway:
-- package.json,
-- build command,
-- start command,
-- local build success.
+```text
+Railway-Projekt
+└── Next.js-Webservice
+    ├── öffentliche Seiten
+    ├── Route Handlers / Server Actions
+    ├── Health- und Readiness-Endpunkte
+    └── interne Package-Grenzen
+```
 
-### R2 — CI before autodeploy
+Spätere ergänzende Railway-Dienste sind nur zulässig, wenn ein konkreter,
+begründeter Bedarf nachgewiesen wurde. Microservices sind kein automatisches
+Ziel.
 
-Add GitHub Actions before enabling autodeploy.
+## 4. Umgebungsmodell
 
-Required:
-- install,
-- lint,
-- build,
-- smoke test if possible.
+### 4.1 Production
 
-### R3 — Railway project creation
+Die bestehende Produktions-Konzeptdemo bleibt unverändert, bis eine getrennte
+menschliche Freigabe für eine konkrete Änderung vorliegt.
 
-Only after R1 and R2.
+Für Production gilt:
 
-Railway project should be separate from other portals.
+- kein Testen neuer Migrationen;
+- keine experimentellen Secrets;
+- keine ungeprüften Provider;
+- keine automatische Übernahme von Dokumentationsbranches;
+- kein Merge oder Deploy als Nebenwirkung eines Audits;
+- keine öffentlichen Claims, die der Runtime-Stand nicht belegt.
 
-Suggested project name:
-ki-lernportal-nim
+### 4.2 Isoliertes Staging
 
-### R4 — Controlled first deploy
+Ein neues Staging ist frühestens in S51D vorgesehen und benötigt vorher:
 
-First deploy should be manual or preview-style.
+1. ausdrückliche menschliche Freigabe;
+2. geprüften Workspace- und Package-Skeleton;
+3. lokal erfolgreichen Build;
+4. dokumentierte Start- und Healthcheck-Verträge;
+5. bestandene CI- und Secret-Gates;
+6. getrennte Variablen und Daten;
+7. Kosten- und Löschplan;
+8. bestätigte Trennung von Production.
 
-No production claims.
+Staging darf keine produktiven Daten, Secrets oder Datenbankkopien übernehmen.
 
-### R5 — Autodeploy
+### 4.3 Preview-Umgebungen
 
-Autodeploy may be enabled only after CI passes reliably.
+Preview-Deployments sind nicht automatisch freigegeben. Vor Aktivierung müssen
+Kosten, Secret-Zugriff, Datenhaltung, Aufräumregeln und Zugriffsschutz geprüft
+werden.
 
-Railway Wait for CI should be enabled if available.
+## 5. Health-, Readiness- und Startverträge
 
-### R6 — Backend and AI services
+Der Zielvertrag für den Next.js-Webservice umfasst mindestens:
 
-Add services later:
-- web service,
-- API service,
-- AI/RAG service,
-- database service,
-- vector store.
+- einen dokumentierten Startbefehl;
+- Bindung an den von Railway bereitgestellten Port;
+- einen liveness-orientierten Health-Endpunkt;
+- einen getrennt bewertbaren Readiness-Zustand;
+- sichere Antworten ohne Secrets oder interne Fehlermeldungen;
+- sinnvolle HTTP-Statuscodes;
+- automatisierte Tests der Endpunkte.
 
-No API keys before explicit approval.
+Ein `200`-Healthcheck darf nicht vortäuschen, dass optionale oder noch nicht
+freigegebene Subsysteme bereits produktiv sind.
 
-### R7 — Cost control
+Der aktuelle `/health`-Status der Produktions-Konzeptdemo bleibt ein bekannter
+Istbefund und ist keine Berechtigung, PR #68 zu mergen.
 
-Before public use:
-- check project usage,
-- configure limits where possible,
-- document expected monthly cost,
-- avoid always-on heavy AI workloads,
-- prefer serverless/sleeping services for prototypes.
+## 6. Datenbank und Migrationen
+
+Für den geplanten Persistenz-Slice gilt MySQL mit Drizzle.
+
+Vor jedem späteren Railway-Datenbankeinsatz sind erforderlich:
+
+- kanonische, versionierte Migrationen;
+- eindeutige Umgebungszuordnung;
+- keine dynamische DDL aus Request-Pfaden;
+- keine stillen Schema-Fallbacks;
+- Rollback- oder Wiederherstellungsplan;
+- Backup- und Restore-Nachweis vor kritischen Änderungen;
+- keine Nutzung produktiver Dumps in Staging;
+- ausdrückliche Freigabe für jede produktive Migration.
+
+## 7. Secrets und Konfiguration
+
+Verbindliche Regeln:
+
+- keine echten Secrets im Repository;
+- keine Secrets in Logs, Screenshots oder Dokumenten;
+- getrennte Werte je Umgebung;
+- minimale Berechtigungen;
+- Provider erst nach Datenschutz-, Kosten- und Zweckprüfung;
+- Rotation bei vermuteter Offenlegung;
+- keine automatische Übernahme von Premium-Portal-Konfigurationen.
+
+## 8. CI-, Merge- und Deploy-Gates
+
+Vor einem späteren Deployment müssen mindestens bestehen:
+
+- reproduzierbare Installation;
+- Format-, Lint-, Typ- und Build-Prüfung;
+- relevante Unit- und Integrationstests;
+- Smoke-Test der Zielruntime;
+- Secret- und Abhängigkeitsprüfung;
+- dokumentierte Environment-Variablen;
+- nachvollziehbarer Diff;
+- menschliche Review-Freigabe.
+
+Zusätzlich gilt:
+
+```text
+Dokumentation abgeschlossen ≠ Commit freigegeben
+Commit erstellt ≠ Push freigegeben
+Push erfolgt ≠ PR freigegeben
+PR grün ≠ Merge freigegeben
+Merge erfolgt ≠ Deploy freigegeben
+Deploy erfolgreich ≠ Production-Abnahme
+```
+
+Wait for CI darf erst nach stabiler CI-Konfiguration aktiviert werden.
+
+## 9. Kosten- und Betriebsgrenzen
+
+Vor jeder neuen Railway-Ressource sind zu dokumentieren:
+
+- Zweck;
+- erwartete Laufzeit;
+- geschätzte monatliche Kosten;
+- Schlaf-, Skalierungs- oder Abschaltverhalten;
+- Verantwortlicher;
+- Löschkriterium;
+- Alarmierungsbedarf;
+- Daten- und Secret-Scope.
+
+Dauerhaft laufende AI-, Worker- oder Vektor-Dienste sind ohne gesonderte
+Begründung und Freigabe ausgeschlossen.
+
+## 10. Beobachtbarkeit und Fehlerbehandlung
+
+Spätere Runtime-Arbeit muss mindestens berücksichtigen:
+
+- strukturierte, datensparsame Logs;
+- Request- oder Korrelationskennung;
+- keine personenbezogenen Inhalte als Standardlog;
+- keine Secrets;
+- sichere Fehlerantworten;
+- erkennbare Start- und Shutdown-Probleme;
+- dokumentierte Diagnosewege;
+- klare Trennung zwischen Health, Readiness und Produktfunktion.
+
+## 11. PR #68
+
+PR #68 bleibt von S50B-R2 getrennt.
+
+S50B-R2:
+
+- prüft und korrigiert Dokumentation;
+- mergt PR #68 nicht;
+- verändert dessen Branch nicht;
+- löst keinen Deploy aus;
+- übernimmt keinen ungeprüften Code daraus.
+
+Eine spätere Entscheidung zu PR #68 benötigt eine eigene technische Review und
+eine eigene menschliche Freigabe.
+
+## 12. Freigabestatus
+
+```text
+RAILWAY_STRATEGY_REVIEWED=NO
+STAGING_CREATION_APPROVED=NO
+PR68_MERGE_APPROVED=NO
+DEPLOY_APPROVED=NO
+PRODUCTION_CHANGE_APPROVED=NO
+```
+
+Bis diese Zustände für einen klar begrenzten Arbeitsschritt ausdrücklich
+geändert wurden, bleibt diese Datei reine Dokumentation.

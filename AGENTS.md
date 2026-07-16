@@ -90,23 +90,23 @@ Frontend:
 - beginner-friendly German UX copy
 
 Backend:
-- FastAPI or comparable lightweight API service
+- Next.js Route Handlers or Server Actions inside the single main runtime
 - healthcheck endpoint
 - clean API boundaries
 
 AI/RAG:
-- service layer separated from frontend
+- provider-neutral AI boundary separated from React components
 - no real API keys in repo
 - local/mock adapters first
 - later NVIDIA NIM adapters only after cost and privacy review
 
 Database:
-- Postgres planned later
-- Qdrant or comparable vector store planned later
+- MySQL with Drizzle is planned for the persistence slice
+- vector retrieval remains provider-neutral and starts only after evaluation
 - no database dependency before MVP baseline
 
 Deployment:
-- Railway is planned later.
+- Railway production hosts the concept demo; isolated staging remains a separate future gate.
 - No deployment before build, tests, CI and healthcheck exist.
 - Railway autodeploy should use Wait for CI when enabled.
 - Cost controls must be reviewed before live usage.
@@ -121,8 +121,8 @@ Deployment:
 6. Glossary and jargon translator UI.
 7. Admin dashboard skeleton.
 8. Playwright and accessibility tests.
-9. FastAPI backend skeleton.
-10. AI/RAG service skeleton.
+9. Next.js server-boundary and package skeleton.
+10. Provider-neutral AI/RAG package skeleton behind feature flags.
 
 ## Quality priorities
 

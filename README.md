@@ -1,37 +1,67 @@
 # KI-Lernportal NIM
 
-Adaptives, barrierearmes KI-Lernportal für Menschen mit wenig oder keiner KI-/Digital-Erfahrung.
+Adaptives, barrierearmes KI-Lernportal für Menschen mit wenig oder keiner
+KI-/Digital-Erfahrung.
 
 ## Mission
 
-Das Portal soll Einsteiger, ältere Nutzer, berufliche Umsteiger, Unternehmen und Bildungseinrichtungen sanft, verständlich und motivierend in KI, digitale Werkzeuge, Robotics, RAG, Agenten und NVIDIA-NIM-inspirierte Modellkategorien einführen.
+Das Portal führt Einsteiger, ältere Nutzer, berufliche Umsteiger, Unternehmen
+und Bildungseinrichtungen verständlich und motivierend an KI, digitale
+Werkzeuge, Robotics, RAG, Agenten und NVIDIA-NIM-inspirierte Modellkategorien
+heran.
 
-## Aktueller Stand
+## Nachgewiesener Stand
 
-Dieses Repository ist ein Startpaket. Es enthält:
+Dieses Repository enthält aktuell:
 
-- statischen HTML-Prototyp: `apps/web/_prototype/portal-prototype.html`
-- NVIDIA-/NIM-Analysebericht: `docs/research/NVIDIA_NIM_ANALYSIS_REPORT.md`
-- Entwicklungsmappe: `docs/architecture/DEVELOPMENT_PLAN.md`
-- Konzeptpräsentation: `docs/reports/ki-lernportal-konzept.pptx`
-- Agenten-Briefings für Jules/Codex/Manus
-- Audit- und Bootstrap-Skripte
+- eine produktionsfähig baubare Next.js-Anwendung unter `apps/web`;
+- zwölf strukturierte Anfängerlektionen;
+- lokale Suche und lokalen Lernfortschritt;
+- zwölf Übungen und 36 Selbstprüfungsfragen;
+- Content-, Quellen-, Accessibility-, Governance- und Supply-Chain-Gates;
+- einen reproduzierbaren Next.js-Standalone-Build;
+- eine öffentlich erreichbare Railway-Konzeptdemo.
 
-## Nicht behaupten
+Noch nicht vorhanden sind produktive Benutzerkonten, eine produktive
+Datenbank, ein echtes Admin- und Publikationssystem sowie eine produktive
+KI-/RAG-Laufzeit. Die Railway-Konzeptdemo ist kein Nachweis für vollständige
+Produktionsreife.
 
-Dieses Repository enthält noch kein fertiges Full-Stack-Portal. Es gibt noch kein echtes Login, keine Datenbank, kein RAG, kein echtes Adminsystem und keine produktive NVIDIA-NIM-Anbindung.
+## Verbindliche Architektur
 
-## Zielstruktur
+Die aktuelle Source-of-Truth ist:
+
+- [`docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md`](docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md)
+- [`docs/architecture/ARCHITECTURE_TARGET.md`](docs/architecture/ARCHITECTURE_TARGET.md)
+- [`docs/architecture/PACKAGE_DAG.md`](docs/architecture/PACKAGE_DAG.md)
+- [`docs/architecture/PLATFORM_CONTRACTS.md`](docs/architecture/PLATFORM_CONTRACTS.md)
+- [`docs/architecture/PREMIUM_TRANSFER_LEDGER.md`](docs/architecture/PREMIUM_TRANSFER_LEDGER.md)
+
+Die Plattform wird als modularer Next.js-Monolith aufgebaut:
 
 ```text
-apps/web              Next.js Frontend
-services/api          Backend/API
-services/ai           AI/RAG/Agent-Service
-infra                 Docker, Security, Deployment
-scripts               Audits, Bootstrap, Smoke-Tests
-docs                  Architektur, Research, Agentenbriefings, Issues
+apps/
+  web/
+
+packages/
+  ui/
+  contracts/
+  domain/
+  db/
+  auth/
+  admin/
+  ai-core/
+  testing/
 ```
 
-## Grundregel
+Die geplante Persistenz ist MySQL mit Drizzle. KI- und Retrieval-Anbieter
+bleiben hinter providerneutralen Grenzen. Eine zweite separate Hauptruntime
+sowie verpflichtende externe Plattformdienste, LMS, CRM oder ERP gehören
+nicht zur ersten Plattformphase.
 
-Kleine Schritte, klare Branches, keine Secrets, keine bezahlten Dienste, keine Blind-Merges.
+## Arbeitsregel
+
+Kleine, nachvollziehbare Slices; klare Branches; keine Secrets; keine
+Blind-Merges; keine unbeabsichtigten Kosten oder Deployments. Produktcode,
+Commit, Push, PR, Merge, Datenbank- oder Railway-Änderungen benötigen jeweils
+eine ausdrückliche menschliche Freigabe.

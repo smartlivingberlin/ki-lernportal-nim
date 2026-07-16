@@ -21,7 +21,7 @@ Examples:
 - feature/model-catalog
 - feature/onboarding-flow
 - test/playwright-accessibility
-- api/fastapi-healthcheck
+- feature/platform-healthcheck-contract
 
 ## Gate 2 — Small PR
 
