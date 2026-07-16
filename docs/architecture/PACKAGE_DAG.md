@@ -66,7 +66,7 @@ ai-core
 testing
   -> alle Pakete ausschließlich für Tests
 
-apps/web
+apps/web production code
   -> ui
   -> contracts
   -> domain
@@ -74,6 +74,9 @@ apps/web
   -> auth
   -> admin
   -> ai-core
+
+apps/web test code
+  -> testing
 ```
 
 ## 4. Harte Invarianten
@@ -86,9 +89,12 @@ apps/web
 6. Next.js Route Handler und Server Actions validieren, autorisieren und
    delegieren an Use Cases.
 7. IDs, Routen und sichtbare Navigation sind kein Berechtigungsnachweis.
-8. Pakete dürfen keine zyklischen Abhängigkeiten erzeugen.
-9. Feature Flags müssen zentral registriert und serverseitig auswertbar sein.
-10. Datenbanktransaktionen bleiben innerhalb klarer Repository- oder Use-Case-
+8. Produktionscode unter `apps/web` importiert `packages/testing` nicht.
+9. Testdateien, Testkonfigurationen und Testhelfer dürfen `packages/testing`
+   importieren.
+10. Pakete dürfen keine zyklischen Abhängigkeiten erzeugen.
+11. Feature Flags müssen zentral registriert und serverseitig auswertbar sein.
+12. Datenbanktransaktionen bleiben innerhalb klarer Repository- oder Use-Case-
     Grenzen.
 
 ## 5. Verbotene Beispiele

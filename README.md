@@ -27,9 +27,9 @@ Datenbank, ein echtes Admin- und Publikationssystem sowie eine produktive
 KI-/RAG-Laufzeit. Die Railway-Konzeptdemo ist kein Nachweis für vollständige
 Produktionsreife.
 
-## Verbindliche Architektur
+## Architekturentwurf zur finalen Abnahme
 
-Die aktuelle Source-of-Truth ist:
+Der aktuelle, noch nicht final freigegebene Source-of-Truth-Kandidat ist:
 
 - [`docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md`](docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md)
 - [`docs/architecture/ARCHITECTURE_TARGET.md`](docs/architecture/ARCHITECTURE_TARGET.md)

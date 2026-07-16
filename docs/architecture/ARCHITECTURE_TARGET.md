@@ -1,12 +1,12 @@
-# Verbindliche Zielarchitektur
+# Zielarchitektur – S50B-R2-Entwurf
 
-**Status:** S50B-R2-Entwurf zur menschlichen Abnahme
+**Status:** S50B-R2-Korrekturstand; finale menschliche Freigabe ausstehend
 **Stand:** 16. Juli 2026
 **Ersetzt:** frühere FastAPI-, NestJS-, PostgreSQL-, Qdrant- und Microservice-Zielbeschreibung
 
 ## Kanonische Dokumente
 
-Die verbindliche Architektur wird durch folgende Dokumente beschrieben:
+Der aktuelle Architekturentwurf wird durch folgende Dokumente beschrieben:
 
 1. [`S50B_R2_SOURCE_OF_TRUTH.md`](./S50B_R2_SOURCE_OF_TRUTH.md)
 2. [`adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md`](./adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md)
@@ -34,8 +34,9 @@ packages/
   testing/
 ```
 
-Die `packages/*`-Struktur ist beschlossen, aber noch nicht implementiert.
-Die technische Einführung gehört ausschließlich in den späteren S51A-Slice.
+Die `packages/*`-Struktur ist im S50B-R2-Entwurf vorgesehen, aber noch nicht
+final menschlich freigegeben oder implementiert. Die technische Einführung
+gehört ausschließlich in den späteren S51A-Slice.
 
 ## Laufzeitentscheidung
 
@@ -52,7 +53,7 @@ Für die erste Plattformphase gilt:
 ## Paketgrenzen
 
 ```text
-apps/web
+apps/web production code
   -> ui
   -> contracts
   -> domain
@@ -60,10 +61,15 @@ apps/web
   -> auth
   -> admin
   -> ai-core
+
+apps/web test code
   -> testing
 ```
 
-Verbindliche Regeln:
+Produktionscode unter `apps/web` darf `packages/testing` nicht importieren.
+Testdateien, Testkonfigurationen und Testhelfer dürfen das Paket verwenden.
+
+Geplante harte Regeln:
 
 - nur `packages/db` importiert Drizzle;
 - nur `packages/ai-core` importiert KI-, Embedding- oder Reranking-SDKs;

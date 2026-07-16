@@ -1,6 +1,6 @@
-# S50B-R2 – Verbindliche Architektur-Source-of-Truth
+# S50B-R2 – Architektur-Source-of-Truth-Kandidat
 
-**Status:** Entwurf zur menschlichen Abnahme
+**Status:** Korrekturstand nach Read-only-Abnahme; finale menschliche Freigabe ausstehend
 **Stand:** 16. Juli 2026
 **Basis:** `4173f2d935e3145142dce539b399bf8b9d77ee79`
 **Scope:** Architektur und Reihenfolge kommender Entwicklungsslices
@@ -29,7 +29,7 @@ Konten und widerrufbare Sessions, Rollen/Scopes/Ownership, Admin-, Review-,
 Publish- und Rollback-System, serverseitiger Lernfortschritt, produktive KI/RAG,
 isoliertes Railway-Staging, kontinuierliches Monitoring und Restore-Nachweis.
 
-## 3. Verbindliche Zielarchitektur
+## 3. Vorgesehene Zielarchitektur
 
 Die Plattform wird als **modularer Next.js-Monolith** aufgebaut:
 
@@ -78,7 +78,7 @@ Browser
 
 ## 5. Rollen und Veröffentlichung
 
-Verbindliche Rollen:
+Im Architekturentwurf vorgesehene Rollen:
 
 ```text
 Visitor

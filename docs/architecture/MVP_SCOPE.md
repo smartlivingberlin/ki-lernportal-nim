@@ -22,7 +22,7 @@ Der bestehende Stand umfasst:
 
 Dieser Stand ist noch kein vollständiges produktives Lernportal.
 
-## 2. Verbindlicher nächster Plattform-Scope
+## 2. Vorgesehener nächster Plattform-Scope
 
 ### S51A – Workspace- und Package-Skeleton
 

@@ -1,12 +1,12 @@
 # Projektstatus: KI-Lernportal NIM
 
 **Stand:** 16. Juli 2026
-**Status:** S50B-R2-Dokumentationsslice in lokaler Bearbeitung
+**Status:** S50B-R2-Korrekturslice nach Read-only-Abnahme von Draft-PR #73
 **Basis-Commit:** `4173f2d935e3145142dce539b399bf8b9d77ee79`
 
 ## Verbindliche Einordnung
 
-Die aktuelle Architektur- und Arbeitsgrundlage steht in:
+Der aktuelle Architekturentwurf und die Arbeitsgrundlage stehen in:
 
 - [S50B-R2 Source of Truth](architecture/S50B_R2_SOURCE_OF_TRUTH.md)
 - [Verbindliche Zielarchitektur](architecture/ARCHITECTURE_TARGET.md)
@@ -30,17 +30,20 @@ Vorhanden sind:
 7. ein reproduzierbarer Next.js-Standalone-Build;
 8. eine öffentlich erreichbare Railway-Konzeptdemo.
 
-## Aktuelle lokale Dokumentationsarbeit
+## Aktueller GitHub-Stand
 
-Der lokale Branch lautet:
+Der lokale und der veröffentlichte Remote-Branch lauten:
 
 ```text
 docs/s50b-r2-source-of-truth-20260716
 ```
 
-In diesem Branch werden ausschließlich Architektur- und Betriebsdokumente
-ausgerichtet. Es wurden bisher weder Commit noch Push, Pull Request, Merge,
-Datenbankänderung oder Deployment ausgelöst.
+Der erste Dokumentationscommit
+`10cc4554cda4a99ddde8264cd08eb59e641a91c3` wurde zu GitHub gepusht und als
+Draft-PR #73 gegen `main` geöffnet. Der Read-only-Abnahmeaudit hat vier
+Dokumentationswidersprüche festgestellt. Dieser Korrekturslice behebt nur diese
+Befunde. PR #73 bleibt Draft; Merge, Datenbankänderung, Railway-Änderung und
+Deployment sind nicht freigegeben.
 
 ## Noch nicht vorhanden
 
@@ -68,18 +71,20 @@ diesem Slice ausdrücklich ausgeschlossen.
 
 ## Nächster Zielzustand
 
-1. aktive Dokumente vollständig auf S50B-R2 ausrichten;
-2. historische Dokumente eindeutig als überholt markieren;
-3. den gesamten Dokumentationsdiff read-only gegenprüfen;
-4. erst danach eine gesonderte menschliche Entscheidung zu Commit und Push;
-5. Produktcode erst nach ausdrücklicher Implementierungsfreigabe.
+1. den lokalen Korrekturcommit read-only verifizieren;
+2. erst danach gesondert über einen Push zum bestehenden Draft-PR #73 entscheiden;
+3. nach einem Push GitHub-CI, Dateiscope und PR-Zustand erneut prüfen;
+4. PR #73 bis zur finalen menschlichen Abnahme als Draft belassen;
+5. Produktcode erst nach ausdrücklicher Implementierungsfreigabe beginnen.
 
 ```text
 PRODUCT_CODE_CHANGED=NO
-COMMIT_CREATED=NO
-PUSH_EXECUTED=NO
-PULL_REQUEST_CREATED=NO
-GITHUB_CHANGED=NO
+LOCAL_CORRECTION_COMPLETED=YES
+CORRECTION_COMMIT_PRESENT=YES
+PUSH_EXECUTED_FOR_CORRECTION=NO
+PULL_REQUEST_73_CREATED=YES
+PULL_REQUEST_73_DRAFT=YES
+GITHUB_CHANGED_BY_CORRECTION=NO
 RAILWAY_CHANGED=NO
 DATABASE_CHANGED=NO
 MERGE=NO
