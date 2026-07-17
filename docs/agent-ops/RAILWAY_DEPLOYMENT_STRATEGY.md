@@ -1,20 +1,24 @@
 # Railway-Deployment-Strategie – KI-Lernportal NIM
 
-**Status:** S50B-R2-Entwurf zur menschlichen Abnahme
-**Stand:** 16. Juli 2026
-**Wirkung:** Dokumentation; keine Deployment-Freigabe
+**Status:** In S50B-R3 architektonisch freigegeben; Deploymentfreigabe ausstehend
+**Stand:** 17. Juli 2026
+**Wirkung:** Dokumentation; keine Railway-, Merge- oder Deploymentfreigabe
 
 ## 1. Verbindliche Grundlagen
 
 Diese Strategie ist nachrangig zu:
 
-- [`../architecture/S50B_R2_SOURCE_OF_TRUTH.md`](../architecture/S50B_R2_SOURCE_OF_TRUTH.md)
+- [`../architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md`](../architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md)
+- [`../architecture/S51A_IMPLEMENTATION_SCOPE.md`](../architecture/S51A_IMPLEMENTATION_SCOPE.md)
 - [`../architecture/ARCHITECTURE_TARGET.md`](../architecture/ARCHITECTURE_TARGET.md)
 - [`../architecture/PLATFORM_CONTRACTS.md`](../architecture/PLATFORM_CONTRACTS.md)
 - [`../architecture/MVP_SCOPE.md`](../architecture/MVP_SCOPE.md)
+- [`../architecture/OBSERVABILITY_SLO_CONTRACT.md`](../architecture/OBSERVABILITY_SLO_CONTRACT.md)
 - [`QUALITY_GATES.md`](QUALITY_GATES.md)
 
-Bei Widersprüchen gilt die Architektur-Source-of-Truth.
+[`../architecture/S50B_R2_SOURCE_OF_TRUTH.md`](../architecture/S50B_R2_SOURCE_OF_TRUTH.md) bleibt historische Grundlage.
+
+Bei aktuellen Architektur- oder Freigabewidersprüchen hat das S50B-R3-Freigabepaket Vorrang.
 
 ## 2. Nachgewiesener Iststand
 
@@ -29,7 +33,7 @@ Zum Stand 16. Juli 2026 gilt:
 - PR #68 ist nicht gemergt.
 - Ein isoliertes Railway-Staging für die neue Plattformarchitektur ist noch
   nicht freigegeben oder erstellt.
-- Die Arbeit im S50B-R2-Dokumentationsbranch verändert Railway nicht.
+- Die S50B-R3-Dokumentationsintegration verändert Railway nicht.
 
 Der Produktionsstand ist deshalb weder als vollständige Plattform noch als
 Beweis für Backend-, Datenbank-, Auth-, AI- oder RAG-Funktionalität zu werten.
@@ -190,9 +194,9 @@ Spätere Runtime-Arbeit muss mindestens berücksichtigen:
 
 ## 11. PR #68
 
-PR #68 bleibt von S50B-R2 getrennt.
+PR #68 bleibt von S50B-R3 getrennt.
 
-S50B-R2:
+S50B-R3:
 
 - prüft und korrigiert Dokumentation;
 - mergt PR #68 nicht;
@@ -206,11 +210,14 @@ eine eigene menschliche Freigabe.
 ## 12. Freigabestatus
 
 ```text
+S50B_R3_PACKAGE_APPROVED=YES
+HUMAN_ARCHITECTURE_APPROVAL=YES
 RAILWAY_STRATEGY_REVIEWED=NO
-STAGING_CREATION_APPROVED=NO
+S51D_STAGING_APPROVED=NO
 PR68_MERGE_APPROVED=NO
-DEPLOY_APPROVED=NO
-PRODUCTION_CHANGE_APPROVED=NO
+RAILWAY_CHANGE_AUTHORIZED=NO
+DEPLOY_AUTHORIZED=NO
+PRODUCTION_CHANGE_AUTHORIZED=NO
 ```
 
 Bis diese Zustände für einen klar begrenzten Arbeitsschritt ausdrücklich

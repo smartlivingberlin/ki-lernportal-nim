@@ -22,6 +22,11 @@ The portal should support:
 This repository contains a buildable Next.js concept demo and is no longer in
 the early bootstrap phase.
 
+The S50B-R3 architecture package is locally complete and is being integrated
+into the repository documentation. It has not received human architecture or
+implementation approval. Pull request #73 remains open as a Draft. S51A
+product work is not authorized.
+
 Existing assets:
 - a production-buildable Next.js application under `apps/web`,
 - twelve beginner lessons,
@@ -39,6 +44,24 @@ Not existing yet:
 - no productive AI/RAG runtime,
 - no isolated Railway staging,
 - no production users.
+
+### Current architecture gate
+
+```text
+S50B_R3_PACKAGE_COMPLETE=YES
+S50B_R3_PACKAGE_APPROVED=YES
+HUMAN_ARCHITECTURE_APPROVAL=YES
+S51A_SCOPE_DOCUMENTED=YES
+S51A_SCOPE_APPROVED=NO
+S51A_IMPLEMENTATION_AUTHORIZED=NO
+COMMIT_AUTHORIZED=NO
+PUSH_AUTHORIZED=NO
+READY_FOR_REVIEW_AUTHORIZED=NO
+MERGE_AUTHORIZED=NO
+DEPLOY_AUTHORIZED=NO
+```
+
+Conditional examples do not override this current gate.
 
 ## Hard safety rules
 
@@ -60,7 +83,7 @@ Do not add tracking, analytics, payment or auth providers without explicit appro
 Before modifying code:
 1. Read README.md.
 2. Read docs/00_PROJECT_STATUS.md.
-3. Read docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md.
+3. Read docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md and docs/architecture/S51A_IMPLEMENTATION_SCOPE.md. Treat docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md only as historical evidence.
 4. Read docs/architecture/ARCHITECTURE_TARGET.md.
 5. Read docs/architecture/adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md.
 6. Read docs/architecture/adr/ADR-0002-SERVER-BOUNDARIES.md.
@@ -120,16 +143,18 @@ Deployment:
 
 ## Controlled platform order
 
-1. S50B-R2 architecture source-of-truth approval.
-2. S51A workspace and package skeleton.
-3. S51B MySQL/Drizzle persistence foundation.
-4. S51C feature flags, health, readiness and redacted logs.
-5. S51D isolated Railway staging after separate approval.
-6. S52 auth, sessions, roles, scopes and ownership.
-7. S53 content, source and media administration.
-8. S54/S55 server-side learning progress, questions and repetition.
-9. S56 provider-neutral AI/RAG behind an evaluation gate.
-10. S57 monitoring, backup, restore and incident response.
+1. Complete the S50B-R3 documentation integration and local audit.
+2. Obtain explicit human architecture approval.
+3. Obtain separate explicit S51A implementation approval.
+4. Build S51A only on an approved branch.
+5. Build S51B MySQL/Drizzle persistence.
+6. Build S51C health, readiness, flags and redacted logs.
+7. Create S51D Railway staging only after separate approval.
+8. Build S52 auth, sessions, roles, scopes and ownership.
+9. Build S53 content, source and media administration.
+10. Build S54/S55 server-side learning functions.
+11. Build S56 provider-neutral AI/RAG after evaluation.
+12. Build S57 monitoring, backup, restore and incident response.
 
 ## Quality priorities
 

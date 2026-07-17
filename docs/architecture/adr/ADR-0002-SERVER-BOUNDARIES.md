@@ -1,9 +1,15 @@
 # ADR-0002 – Next.js-Servergrenzen und sichere Delegation
 
-- **Status:** Entwurf zur menschlichen Abnahme
-- **Datum:** 16. Juli 2026
+- **Status:** In S50B-R3 menschlich beschlossen; Implementierungs- und Git-Freigaben ausstehend
+- **Datum:** 17. Juli 2026
 - **Basis:** `4173f2d935e3145142dce539b399bf8b9d77ee79`
 - **Betrifft:** API, Authentifizierung, Autorisierung, Admin, Datenbank und KI-Aufrufe
+- **Aktueller Freigabekandidat:** `../S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md`
+- **Exakte S51A-Grenze:** `../S51A_IMPLEMENTATION_SCOPE.md`
+- **Historische Grundlage:** `../S50B_R2_SOURCE_OF_TRUTH.md`
+
+Für den tatsächlichen S51A-Datei-, Dependency- und Implementierungsscope hat
+`../S51A_IMPLEMENTATION_SCOPE.md` Vorrang.
 
 ## 1. Kontext
 
@@ -166,15 +172,29 @@ Nachteile:
 
 ## 10. Gate
 
-Dieses ADR gilt erst nach menschlicher Abnahme als beschlossen.
+Dieses ADR ist in S50B-R3 integriert und seit dem 17. Juli 2026 durch
+menschliche Abnahme beschlossen.
 
 ```text
-ADR_SERVER_BOUNDARIES=APPROVED
-AUTH_SESSION_MODEL=APPROVED
-ROLE_SCOPE_OWNERSHIP_MODEL=APPROVED
-DB_REPOSITORY_BOUNDARY=APPROVED
-AI_PROVIDER_BOUNDARY=APPROVED
-NEGATIVE_POLICY_TESTS=REQUIRED
+ADR_SERVER_BOUNDARIES_DOCUMENTED=YES
+ADR_SERVER_BOUNDARIES_APPROVED=YES
+AUTH_SESSION_MODEL_DOCUMENTED=YES
+AUTH_SESSION_MODEL_APPROVED=YES
+ROLE_SCOPE_OWNERSHIP_MODEL_DOCUMENTED=YES
+ROLE_SCOPE_OWNERSHIP_MODEL_APPROVED=YES
+DB_REPOSITORY_BOUNDARY_DOCUMENTED=YES
+DB_REPOSITORY_BOUNDARY_APPROVED=YES
+AI_PROVIDER_BOUNDARY_DOCUMENTED=YES
+AI_PROVIDER_BOUNDARY_APPROVED=YES
+NEGATIVE_POLICY_TESTS_REQUIRED=YES
+HUMAN_ARCHITECTURE_APPROVAL=YES
+S51A_SCOPE_DOCUMENTED=YES
+S51A_SCOPE_APPROVED=NO
+S51A_IMPLEMENTATION_AUTHORIZED=NO
+COMMIT_AUTHORIZED=NO
+PUSH_AUTHORIZED=NO
+MERGE_AUTHORIZED=NO
+DEPLOY_AUTHORIZED=NO
 ```
 
 Dieses ADR erteilt keine Implementierungs-, Commit-, Push-, Merge- oder

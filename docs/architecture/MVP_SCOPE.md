@@ -1,13 +1,20 @@
 # MVP-Scope – KI-Lernportal NIM
 
-**Status:** S50B-R2-Entwurf zur menschlichen Abnahme
-**Stand:** 16. Juli 2026
+**Status:** In S50B-R3 architektonisch freigegeben; MVP- und S51A-Scopefreigaben ausstehend
+**Stand:** 17. Juli 2026
 
-Dieses Dokument beschreibt den nächsten realistischen Plattform-Scope. Maßgeblich
-sind die [Architektur-Source-of-Truth](S50B_R2_SOURCE_OF_TRUTH.md), die
-[Zielarchitektur](ARCHITECTURE_TARGET.md), der
-[Package-DAG](PACKAGE_DAG.md) und die
-[Plattformverträge](PLATFORM_CONTRACTS.md).
+Dieses Dokument beschreibt den nächsten realistischen Plattform-Scope.
+
+Maßgeblich sind:
+
+- das [S50B-R3-Freigabepaket](S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md);
+- der [exakte S51A-Implementierungsscope](S51A_IMPLEMENTATION_SCOPE.md);
+- die [Zielarchitektur](ARCHITECTURE_TARGET.md);
+- der [Package-DAG](PACKAGE_DAG.md);
+- die [Plattformverträge](PLATFORM_CONTRACTS.md).
+
+[S50B-R2](S50B_R2_SOURCE_OF_TRUTH.md) bleibt historische Grundlage.
+Für den exakten Inhalt von S51A hat `S51A_IMPLEMENTATION_SCOPE.md` Vorrang.
 
 ## 1. Bereits vorhandener Konzeptdemo-Stand
 
@@ -142,8 +149,12 @@ Jeder Slice benötigt mindestens:
 ## 5. Freigabestatus
 
 ```text
+S50B_R3_PACKAGE_APPROVED=YES
 MVP_SCOPE_APPROVED=NO
 HUMAN_IMPLEMENTATION_APPROVAL=NO
+S51A_SCOPE_DOCUMENTED=YES
+S51A_SCOPE_APPROVED=NO
+S51A_IMPLEMENTATION_AUTHORIZED=NO
 DATABASE_CHANGE_APPROVED=NO
 RAILWAY_STAGING_APPROVED=NO
 PRODUCTION_CHANGE_APPROVED=NO

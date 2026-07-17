@@ -1,8 +1,9 @@
-# S50B-R2 – Architektur-Source-of-Truth-Kandidat
+# S50B-R2 – Historische Architekturgrundlage
 
-**Status:** Korrekturstand nach Read-only-Abnahme; finale menschliche Freigabe ausstehend
-**Stand:** 16. Juli 2026
-**Basis:** `4173f2d935e3145142dce539b399bf8b9d77ee79`
+**Status:** Historische Grundlage; für die aktuelle Freigabeentscheidung durch S50B-R3 ergänzt
+**Stand:** 17. Juli 2026
+**Ursprüngliche Basis:** `4173f2d935e3145142dce539b399bf8b9d77ee79`
+**Aktueller Nachfolger:** [`S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md`](./S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md)
 **Scope:** Architektur und Reihenfolge kommender Entwicklungsslices
 
 ## 1. Rangfolge
@@ -10,12 +11,15 @@
 Bei Widersprüchen gilt:
 
 1. aktueller reproduzierbarer Repository-, GitHub- und Railway-Beweis;
-2. dieses Dokument und die daraus abgeleiteten ADRs;
-3. aktuelle Sicherheits-, Qualitäts- und Railway-Verträge;
-4. aktuelle Produkt- und UX-Anforderungen;
-5. historische Entwicklungspläne, alte Agentenprompts und alte Backlogs.
+2. das aktuelle [`S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md`](./S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md)
+   einschließlich der acht ergänzten Architekturverträge;
+3. die aktuelle Zielarchitektur, ADRs, Package-DAG und Plattformverträge;
+4. dieses S50B-R2-Dokument als historische Grundlage;
+5. aktuelle Produkt-, UX-, Sicherheits- und Betriebsanforderungen;
+6. ältere Entwicklungspläne, Agentenprompts und Backlogs.
 
-Ältere Dokumente bleiben Evidenz, sind aber keine aktuelle Implementierungsanweisung.
+Dieses Dokument bleibt Evidenz, ist aber nicht mehr alleinige
+Implementierungs- oder Freigabeanweisung.
 
 ## 2. Nachgewiesener Istzustand
 
@@ -156,7 +160,7 @@ Express-Strukturen werden nicht ungeprüft übernommen.
 
 ## 9. Reihenfolge
 
-1. S50B-R2 Architekturvertrag;
+1. S50B-R3 Architektur-Freigabepaket;
 2. S51A Workspace- und Package-Skeleton;
 3. S51B MySQL/Drizzle und Migration Ledger;
 4. S51C Feature Flags, Health, Readiness und Logs;
@@ -167,20 +171,26 @@ Express-Strukturen werden nicht ungeprüft übernommen.
 9. S56 KI/RAG hinter Evaluation Gate;
 10. S57 Monitoring, Backup, Restore und Incident Response.
 
-## 10. Exit-Gate vor Produktcode
+## 10. Historischer Status und aktuelles Exit-Gate
 
-```text
-ARCHITECTURE_SOURCE_OF_TRUTH=APPROVED
-ADR_MODULAR_MONOLITH=APPROVED
-ADR_SERVER_BOUNDARIES=APPROVED
-PACKAGE_DAG=APPROVED
-ROLE_SCOPE_CONTRACT=APPROVED
-ADMIN_WORKFLOW_CONTRACT=APPROVED
-AI_RAG_TRUST_BOUNDARIES=APPROVED
-FEATURE_FLAG_CONTRACT=APPROVED
-PREMIUM_TRANSFER_LEDGER=REVIEWED
-HUMAN_IMPLEMENTATION_APPROVAL=YES
-```
+S50B-R2 bleibt als historische Grundlage erhalten. Die aktuelle
+Entscheidung wird ausschließlich über das S50B-R3-Freigabepaket getroffen.
 
-Dieses Dokument erteilt weder Implementierungs-, Commit-, Push-, Merge-,
-Datenbank- noch Deployfreigabe.
+~~~text
+S50B_R2_RETAINED_AS_HISTORICAL_EVIDENCE=YES
+S50B_R3_IS_CURRENT_APPROVAL_CANDIDATE=YES
+S50B_R3_PACKAGE_COMPLETE=YES
+S50B_R3_PACKAGE_APPROVED=YES
+HUMAN_ARCHITECTURE_APPROVAL=YES
+S51A_SCOPE_DOCUMENTED=YES
+S51A_SCOPE_APPROVED=NO
+HUMAN_IMPLEMENTATION_APPROVAL=NO
+COMMIT_AUTHORIZED=NO
+PUSH_AUTHORIZED=NO
+READY_FOR_REVIEW_AUTHORIZED=NO
+MERGE_AUTHORIZED=NO
+DEPLOY_AUTHORIZED=NO
+~~~
+
+Dieses Dokument erteilt weder Implementierungs-, Commit-, Push-, PR-, Merge-,
+Datenbank-, Railway- noch Deployfreigabe.

@@ -4,6 +4,20 @@
 
 This document defines mandatory gates before agent-created work is accepted.
 
+## Current S50B-R3 gate
+
+- [`S50B-R3 approval package`](../architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md)
+- [`S51A scope`](../architecture/S51A_IMPLEMENTATION_SCOPE.md)
+
+S50B-R2 is historical evidence.
+
+```text
+S50B_R3_PACKAGE_APPROVED=YES
+HUMAN_ARCHITECTURE_APPROVAL=YES
+S51A_SCOPE_APPROVED=NO
+S51A_IMPLEMENTATION_AUTHORIZED=NO
+```
+
 ## Gate 0 — Read-only first
 
 Before code work:

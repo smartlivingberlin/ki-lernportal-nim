@@ -1,9 +1,14 @@
 # ADR-0001 – Modularer Next.js-Monolith
 
-- **Status:** Entwurf zur menschlichen Abnahme
-- **Datum:** 16. Juli 2026
+- **Status:** In S50B-R3 menschlich beschlossen; Implementierungs- und Git-Freigaben ausstehend
+- **Datum:** 17. Juli 2026
 - **Betrifft:** Runtime, Repositorystruktur und Deploymentgrenzen
-- **Verknüpfte Source of Truth:** `../S50B_R2_SOURCE_OF_TRUTH.md`
+- **Aktueller Freigabekandidat:** `../S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md`
+- **Exakte S51A-Grenze:** `../S51A_IMPLEMENTATION_SCOPE.md`
+- **Historische Grundlage:** `../S50B_R2_SOURCE_OF_TRUTH.md`
+
+Für den tatsächlichen S51A-Datei-, Dependency- und Implementierungsscope hat
+`../S51A_IMPLEMENTATION_SCOPE.md` Vorrang.
 
 ## Kontext
 
@@ -115,7 +120,8 @@ keine Implementierungsanweisung.
 
 ## Statuswirkung
 
-Dieses ADR ist ein Dokumentationsentwurf. Es erteilt keine Freigabe für:
+Dieses ADR ist in S50B-R3 integriert und seit dem 17. Juli 2026 menschlich beschlossen.
+Es erteilt keine Freigabe für:
 
 - Workspace-Änderungen;
 - neue Pakete;
@@ -124,3 +130,16 @@ Dieses ADR ist ein Dokumentationsentwurf. Es erteilt keine Freigabe für:
 - KI/RAG;
 - Commit, Push oder Pull Request;
 - Merge oder Deploy.
+
+```text
+ADR_MODULAR_NEXTJS_MONOLITH_DOCUMENTED=YES
+ADR_MODULAR_NEXTJS_MONOLITH_APPROVED=YES
+HUMAN_ARCHITECTURE_APPROVAL=YES
+S51A_SCOPE_DOCUMENTED=YES
+S51A_SCOPE_APPROVED=NO
+S51A_IMPLEMENTATION_AUTHORIZED=NO
+COMMIT_AUTHORIZED=NO
+PUSH_AUTHORIZED=NO
+MERGE_AUTHORIZED=NO
+DEPLOY_AUTHORIZED=NO
+```

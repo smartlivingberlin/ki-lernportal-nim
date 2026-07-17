@@ -1,9 +1,13 @@
-# S50B-R2 – Premium-Transfer-Ledger
+# S50B-R3 – Premium-Transfer-Ledger
 
-**Status:** Entwurf zur menschlichen Abnahme
-**Stand:** 16. Juli 2026
+**Status:** In S50B-R3 architektonisch freigegeben; menschliche Transferfreigabe ausstehend
+**Stand:** 17. Juli 2026
 **Spenderbasis:** `smartlivingberlin/Immobilie-Akademie-Premium`
 **Zielbasis:** `smartlivingberlin/ki-lernportal-nim`
+**Aktueller Freigabekandidat:** [`S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md`](S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md)
+**Exakte S51A-Grenze:** [`S51A_IMPLEMENTATION_SCOPE.md`](S51A_IMPLEMENTATION_SCOPE.md)
+
+[S50B-R2](S50B_R2_SOURCE_OF_TRUTH.md) bleibt historische Architekturgrundlage.
 
 ## 1. Zweck
 
@@ -186,11 +190,12 @@ Ein UI-Muster wird nur übernommen, wenn mindestens geprüft sind:
 
 ## 8. Geplante Reihenfolge
 
-### Frühestens S51/S52
+### Frühestens S51A, S51C und S52
 
-- Health- und Loggingprinzipien;
-- Auth-, Session-, Rollen- und Ownership-Neubau;
-- Test- und Runbookmuster.
+- S51A: ausschließlich Package-, Boundary- und Teststrukturmuster;
+- S51C: Health-, Readiness- und Loggingprinzipien;
+- S52: Auth-, Session-, Rollen- und Ownership-Neubau;
+- operative Runbookmuster erst im jeweils ausdrücklich freigegebenen Slice.
 
 ### Frühestens S53
 
@@ -230,6 +235,7 @@ Ein UI-Muster wird nur übernommen, wenn mindestens geprüft sind:
 ## 9. Abnahmezustand
 
 ```text
+S50B_R3_PACKAGE_APPROVED=YES
 PREMIUM_USED_AS_PATTERN_LIBRARY=YES
 WHOLESALE_CODE_COPY_ALLOWED=NO
 DONOR_SECRETS_OR_DATA_ALLOWED=NO
@@ -241,6 +247,7 @@ PAYMENT_IN_CURRENT_SCOPE=NO
 B2B_IN_CURRENT_SCOPE=NO
 PREMIUM_TRANSFER_LEDGER_REVIEWED=NO
 HUMAN_TRANSFER_APPROVAL=NO
+S51A_IMPLEMENTATION_AUTHORIZED=NO
 ```
 
 Dieses Ledger erteilt keine Erlaubnis, Spendercode zu kopieren oder

@@ -1,8 +1,14 @@
-# S50B-R2 – Package-DAG und Importregeln
+# S50B-R3 – Package-DAG und Importregeln
 
-**Status:** Entwurf zur menschlichen Abnahme
-**Stand:** 16. Juli 2026
+**Status:** In S50B-R3 menschlich freigegeben; S51A- und Umsetzungsfreigaben ausstehend
+**Stand:** 17. Juli 2026
 **Geltung:** Zielstruktur für S51A und alle späteren Plattform-Slices
+**Aktueller Freigabekandidat:** [`S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md`](S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md)
+**Exakte S51A-Grenze:** [`S51A_IMPLEMENTATION_SCOPE.md`](S51A_IMPLEMENTATION_SCOPE.md)
+
+S50B-R2 bleibt historische Grundlage. Für den tatsächlichen S51A-Datei-,
+Dependency- und Implementierungsscope hat `S51A_IMPLEMENTATION_SCOPE.md`
+Vorrang.
 
 ## 1. Zielstruktur
 
@@ -36,6 +42,13 @@ technische Einführung gehört ausschließlich zu S51A.
 | `admin` | Review, Publish, Rollback, Audit-Use-Cases | versteckte Client-Autorisierung |
 | `ai-core` | Provideradapter, Retrieval, Zitate, Budgets, Safety | direkte UI- oder Drizzle-Kopplung |
 | `testing` | Fixtures, Test-DB, Policy- und Browserhelfer | Produktionslaufzeitlogik |
+
+Die Tabelle beschreibt die langfristige Zielverantwortung der Pakete.
+
+S51A führt ausschließlich das Package-Skeleton und die Importgrenzen ein.
+Insbesondere entstehen in S51A noch kein Drizzle-Schema, keine Migration,
+keine Testdatenbank, keine Auth-Laufzeit, keine Adminfunktion und keine
+produktive KI-Integration.
 
 ## 3. Erlaubte Import-Richtung
 
@@ -176,8 +189,12 @@ PACKAGE_DAG_DOCUMENTED=YES
 FORBIDDEN_IMPORTS_DOCUMENTED=YES
 COMPOSITION_BOUNDARY_DOCUMENTED=YES
 S51A_AUTOMATION_SCOPE_DOCUMENTED=YES
-PACKAGE_DAG_APPROVED=NO
+PACKAGE_DAG_APPROVED=YES
+HUMAN_ARCHITECTURE_APPROVAL=YES
+S51A_SCOPE_APPROVED=NO
+S51A_IMPLEMENTATION_AUTHORIZED=NO
 ```
 
-`PACKAGE_DAG_APPROVED` bleibt bis zur ausdrücklichen menschlichen Abnahme
-`NO`. Dieses Dokument ändert keinen Workspace und keinen Produktcode.
+`PACKAGE_DAG_APPROVED` ist seit der menschlichen Architekturentscheidung vom
+17. Juli 2026 `YES`. Dieses Dokument ändert weiterhin keinen Workspace und
+keinen Produktcode und erteilt keine S51A-Implementierungsfreigabe.

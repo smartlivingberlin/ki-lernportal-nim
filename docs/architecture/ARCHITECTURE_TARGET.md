@@ -1,21 +1,33 @@
-# Zielarchitektur – S50B-R2-Entwurf
+# Zielarchitektur – S50B-R3-Freigabekandidat
 
-**Status:** S50B-R2-Korrekturstand; finale menschliche Freigabe ausstehend
-**Stand:** 16. Juli 2026
+**Status:** S50B-R3 menschlich freigegeben; Umsetzungs-, Git- und Betriebsfreigaben ausstehend
+**Stand:** 17. Juli 2026
+**Historische Grundlage:** S50B-R2 bleibt als nachvollziehbare Evidenz erhalten
 **Ersetzt:** frühere FastAPI-, NestJS-, PostgreSQL-, Qdrant- und Microservice-Zielbeschreibung
 
 ## Kanonische Dokumente
 
-Der aktuelle Architekturentwurf wird durch folgende Dokumente beschrieben:
+Der aktuelle, noch nicht menschlich freigegebene Architekturkandidat wird beschrieben durch:
 
-1. [`S50B_R2_SOURCE_OF_TRUTH.md`](./S50B_R2_SOURCE_OF_TRUTH.md)
-2. [`adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md`](./adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md)
-3. [`adr/ADR-0002-SERVER-BOUNDARIES.md`](./adr/ADR-0002-SERVER-BOUNDARIES.md)
-4. [`PACKAGE_DAG.md`](./PACKAGE_DAG.md)
-5. [`PLATFORM_CONTRACTS.md`](./PLATFORM_CONTRACTS.md)
-6. [`PREMIUM_TRANSFER_LEDGER.md`](./PREMIUM_TRANSFER_LEDGER.md)
+1. [`S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md`](./S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md)
+2. [`S51A_IMPLEMENTATION_SCOPE.md`](./S51A_IMPLEMENTATION_SCOPE.md)
+3. [`adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md`](./adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md)
+4. [`adr/ADR-0002-SERVER-BOUNDARIES.md`](./adr/ADR-0002-SERVER-BOUNDARIES.md)
+5. [`adr/ADR-0003-IDENTITY-SESSION-LIFECYCLE.md`](./adr/ADR-0003-IDENTITY-SESSION-LIFECYCLE.md)
+6. [`PACKAGE_DAG.md`](./PACKAGE_DAG.md)
+7. [`PLATFORM_CONTRACTS.md`](./PLATFORM_CONTRACTS.md)
+8. [`DATA_CLASSIFICATION_RETENTION_DELETION_CONTRACT.md`](./DATA_CLASSIFICATION_RETENTION_DELETION_CONTRACT.md)
+9. [`LEARNING_DOMAIN_CONTRACT.md`](./LEARNING_DOMAIN_CONTRACT.md)
+10. [`CONTENT_ASSESSMENT_REVISION_CONTRACT.md`](./CONTENT_ASSESSMENT_REVISION_CONTRACT.md)
+11. [`OBSERVABILITY_SLO_CONTRACT.md`](./OBSERVABILITY_SLO_CONTRACT.md)
+12. [`SCOPE_ORGANIZATION_SEAM_CONTRACT.md`](./SCOPE_ORGANIZATION_SEAM_CONTRACT.md)
+13. [`JOBS_OUTBOX_CONTRACT.md`](./JOBS_OUTBOX_CONTRACT.md)
+14. [`SEARCH_CONTRACT.md`](./SEARCH_CONTRACT.md)
+15. [`PREMIUM_TRANSFER_LEDGER.md`](./PREMIUM_TRANSFER_LEDGER.md)
 
-Bei Widersprüchen hat die Source of Truth Vorrang.
+[`S50B_R2_SOURCE_OF_TRUTH.md`](./S50B_R2_SOURCE_OF_TRUTH.md) bleibt historische Grundlage.
+Bei aktuellen Architektur- oder Freigabewidersprüchen hat das
+S50B-R3-Freigabepaket Vorrang.
 
 ## Zielstruktur
 
@@ -34,7 +46,7 @@ packages/
   testing/
 ```
 
-Die `packages/*`-Struktur ist im S50B-R2-Entwurf vorgesehen, aber noch nicht
+Die `packages/*`-Struktur ist im S50B-R3-Freigabekandidaten vorgesehen, aber noch nicht
 final menschlich freigegeben oder implementiert. Die technische Einführung
 gehört ausschließlich in den späteren S51A-Slice.
 
@@ -124,17 +136,24 @@ wieder aufgenommen werden.
 
 ## Exit-Gate
 
-Vor Produktcode in S51A müssen mindestens gelten:
+Der Architekturkandidat ist vollständig dokumentiert. Vor Produktcode in S51A
+sind dennoch getrennte menschliche Entscheidungen erforderlich.
 
-```text
-ARCHITECTURE_SOURCE_OF_TRUTH=APPROVED
-ADR_MODULAR_MONOLITH=APPROVED
-ADR_SERVER_BOUNDARIES=APPROVED
-PACKAGE_DAG=APPROVED
-PLATFORM_CONTRACTS=APPROVED
-PREMIUM_TRANSFER_LEDGER=REVIEWED
-HUMAN_IMPLEMENTATION_APPROVAL=YES
-```
+Aktueller Stand:
 
-Dieses Dokument erteilt keine Commit-, Push-, Merge-, Datenbank- oder
-Deployfreigabe.
+~~~text
+S50B_R3_PACKAGE_COMPLETE=YES
+S50B_R3_PACKAGE_APPROVED=YES
+HUMAN_ARCHITECTURE_APPROVAL=YES
+S51A_SCOPE_DOCUMENTED=YES
+S51A_SCOPE_APPROVED=NO
+HUMAN_IMPLEMENTATION_APPROVAL=NO
+COMMIT_AUTHORIZED=NO
+PUSH_AUTHORIZED=NO
+READY_FOR_REVIEW_AUTHORIZED=NO
+MERGE_AUTHORIZED=NO
+DEPLOY_AUTHORIZED=NO
+~~~
+
+Dieses Dokument erteilt keine Implementierungs-, Commit-, Push-, PR-, Merge-,
+Datenbank-, Railway- oder Deployfreigabe.
