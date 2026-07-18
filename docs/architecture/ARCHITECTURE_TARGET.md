@@ -1,13 +1,13 @@
-# Zielarchitektur – S50B-R3-Freigabekandidat
+# Zielarchitektur – freigegebenes S50B-R3-Zielbild
 
-**Status:** S50B-R3 menschlich freigegeben; Umsetzungs-, Git- und Betriebsfreigaben ausstehend
+**Status:** S50B-R3 menschlich freigegeben und in `main` integriert; S51A-Umsetzung und Betrieb ausstehend
 **Stand:** 17. Juli 2026
 **Historische Grundlage:** S50B-R2 bleibt als nachvollziehbare Evidenz erhalten
 **Ersetzt:** frühere FastAPI-, NestJS-, PostgreSQL-, Qdrant- und Microservice-Zielbeschreibung
 
 ## Kanonische Dokumente
 
-Der aktuelle, noch nicht menschlich freigegebene Architekturkandidat wird beschrieben durch:
+Das menschlich freigegebene und in `main` integrierte S50B-R3-Zielbild wird beschrieben durch:
 
 1. [`S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md`](./S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md)
 2. [`S51A_IMPLEMENTATION_SCOPE.md`](./S51A_IMPLEMENTATION_SCOPE.md)
@@ -46,9 +46,9 @@ packages/
   testing/
 ```
 
-Die `packages/*`-Struktur ist im S50B-R3-Freigabekandidaten vorgesehen, aber noch nicht
-final menschlich freigegeben oder implementiert. Die technische Einführung
-gehört ausschließlich in den späteren S51A-Slice.
+Die `packages/*`-Struktur ist im menschlich freigegebenen S50B-R3-Zielbild
+vorgesehen, aber noch nicht implementiert. Die technische Einführung gehört
+ausschließlich in einen später separat freigegebenen S51A-Slice.
 
 ## Laufzeitentscheidung
 
@@ -136,8 +136,9 @@ wieder aufgenommen werden.
 
 ## Exit-Gate
 
-Der Architekturkandidat ist vollständig dokumentiert. Vor Produktcode in S51A
-sind dennoch getrennte menschliche Entscheidungen erforderlich.
+Das S50B-R3-Zielbild ist vollständig dokumentiert, menschlich freigegeben und
+in `main` integriert. Vor Produktcode in S51A sind weiterhin getrennte
+menschliche Entscheidungen erforderlich.
 
 Aktueller Stand:
 
@@ -145,15 +146,23 @@ Aktueller Stand:
 S50B_R3_PACKAGE_COMPLETE=YES
 S50B_R3_PACKAGE_APPROVED=YES
 HUMAN_ARCHITECTURE_APPROVAL=YES
+S50B_R3_INTEGRATED_TO_MAIN=YES
+PR73_MERGED=YES
+PR73_MERGE_METHOD=SQUASH
+PR73_MERGE_COMMIT=cab2745c9cfea8a4d6418d866972cef6f982e55b
 S51A_SCOPE_DOCUMENTED=YES
 S51A_SCOPE_APPROVED=NO
+S51A_IMPLEMENTATION_AUTHORIZED=NO
 HUMAN_IMPLEMENTATION_APPROVAL=NO
-COMMIT_AUTHORIZED=NO
-PUSH_AUTHORIZED=NO
-READY_FOR_REVIEW_AUTHORIZED=NO
-MERGE_AUTHORIZED=NO
+NEXT_PRODUCT_CODE_CHANGE_AUTHORIZED=NO
+NEXT_COMMIT_AUTHORIZED=NO
+NEXT_PUSH_AUTHORIZED=NO
+NEXT_PR_AUTHORIZED=NO
+NEXT_MERGE_AUTHORIZED=NO
 DEPLOY_AUTHORIZED=NO
+PRODUCTION_AUTODEPLOY=DISABLED
+PRODUCTION_CHANGED=NO
 ~~~
 
-Dieses Dokument erteilt keine Implementierungs-, Commit-, Push-, PR-, Merge-,
-Datenbank-, Railway- oder Deployfreigabe.
+Dieses Dokument erteilt keine weitere Implementierungs-, Commit-, Push-, PR-,
+Merge-, Datenbank-, Railway- oder Deployfreigabe.

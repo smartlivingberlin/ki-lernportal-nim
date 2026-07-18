@@ -271,7 +271,8 @@ Mindestens zu prüfen:
 ## 12. Exit-Gate
 
 Die Plattformverträge und ihre spezialisierten S50B-R3-Ergänzungen sind
-dokumentiert, aber noch nicht menschlich freigegeben.
+dokumentiert, menschlich freigegeben und durch PR #73 unter `cab2745c9cfea8a4d6418d866972cef6f982e55b`
+in `main` integriert.
 
 Aktueller Stand:
 
@@ -287,14 +288,17 @@ AI_RAG_TRUST_BOUNDARIES_DOCUMENTED=YES
 NEGATIVE_TEST_MATRIX_DOCUMENTED=YES
 PLATFORM_CONTRACTS_APPROVED=YES
 HUMAN_ARCHITECTURE_APPROVAL=YES
+PLATFORM_CONTRACTS_INTEGRATED_TO_MAIN=YES
+PR73_MERGED=YES
+PR73_MERGE_COMMIT=cab2745c9cfea8a4d6418d866972cef6f982e55b
 HUMAN_IMPLEMENTATION_APPROVAL=NO
 IMPLEMENTATION_AUTHORIZED=NO
-COMMIT_AUTHORIZED=NO
-PUSH_AUTHORIZED=NO
-READY_FOR_REVIEW_AUTHORIZED=NO
-MERGE_AUTHORIZED=NO
+NEXT_COMMIT_AUTHORIZED=NO
+NEXT_PUSH_AUTHORIZED=NO
+NEXT_PR_AUTHORIZED=NO
+NEXT_MERGE_AUTHORIZED=NO
 DEPLOY_AUTHORIZED=NO
 ~~~
 
-Dieses Dokument erteilt keine Implementierungs-, Commit-, Push-, PR-,
+Dieses Dokument erteilt keine weitere Implementierungs-, Commit-, Push-, PR-,
 Merge-, Datenbank-, Railway- oder Deployfreigabe.

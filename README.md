@@ -27,10 +27,11 @@ Datenbank, ein echtes Admin- und Publikationssystem sowie eine produktive
 KI-/RAG-Laufzeit. Die Railway-Konzeptdemo ist kein Nachweis für vollständige
 Produktionsreife.
 
-## S50B-R3-Architekturpaket zur menschlichen Abnahme
+## S50B-R3-Architekturpaket – freigegeben und integriert
 
-Der aktuelle Architekturkandidat ist vollständig dokumentiert, aber
-noch nicht menschlich freigegeben. PR #73 bleibt Draft.
+Das S50B-R3-Architekturpaket wurde am 17. Juli 2026 menschlich freigegeben
+und am 18. Juli 2026 durch den autorisierten Squash-Merge von PR #73 unter
+`cab2745c9cfea8a4d6418d866972cef6f982e55b` in `main` integriert. S51A bleibt separat freigabepflichtig.
 
 Maßgeblich sind:
 
@@ -77,14 +78,22 @@ Merge oder Deployment.
 S50B_R3_PACKAGE_COMPLETE=YES
 S50B_R3_PACKAGE_APPROVED=YES
 HUMAN_ARCHITECTURE_APPROVAL=YES
+S50B_R3_INTEGRATED_TO_MAIN=YES
+PR73_MERGED=YES
+PR73_MERGE_METHOD=SQUASH
+PR73_MERGE_COMMIT=cab2745c9cfea8a4d6418d866972cef6f982e55b
 S51A_SCOPE_DOCUMENTED=YES
 S51A_SCOPE_APPROVED=NO
+S51A_IMPLEMENTATION_AUTHORIZED=NO
 HUMAN_IMPLEMENTATION_APPROVAL=NO
-COMMIT_AUTHORIZED=NO
-PUSH_AUTHORIZED=NO
-READY_FOR_REVIEW_AUTHORIZED=NO
-MERGE_AUTHORIZED=NO
+NEXT_PRODUCT_CODE_CHANGE_AUTHORIZED=NO
+NEXT_COMMIT_AUTHORIZED=NO
+NEXT_PUSH_AUTHORIZED=NO
+NEXT_PR_AUTHORIZED=NO
+NEXT_MERGE_AUTHORIZED=NO
 DEPLOY_AUTHORIZED=NO
+PRODUCTION_AUTODEPLOY=DISABLED
+PRODUCTION_CHANGED=NO
 ~~~
 
 ## Arbeitsregel

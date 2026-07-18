@@ -1,14 +1,14 @@
 # Projektstatus: KI-Lernportal NIM
 
-**Stand:** 17. Juli 2026
-**Status:** S50B-R3-Architekturpaket lokal vollständig; Dokumentintegration und menschliche Freigabe ausstehend
-**Branch:** `docs/s50b-r2-source-of-truth-20260716`
-**Basis-HEAD:** `1d67a4b1b7eace8869614aec82bdf42fb3d61adc`
-**Draft-PR:** #73, offen und weiterhin Draft
+**Stand:** 18. Juli 2026
+**Status:** S50B-R3 menschlich freigegeben und durch PR #73 in `main` integriert; Post-Merge-Dokumentabgleich lokal in Bearbeitung
+**Branch:** `docs/s50b-r3-post-merge-sync-20260718`
+**Main-HEAD:** `cab2745c9cfea8a4d6418d866972cef6f982e55b`
+**PR #73:** am 18. Juli 2026 per Squash-Merge abgeschlossen
 
 ## Verbindliche Einordnung
 
-Der aktuelle, noch nicht menschlich freigegebene Architekturkandidat steht in:
+Das menschlich freigegebene und in `main` integrierte S50B-R3-Zielbild steht in:
 
 - [S50B-R3 Final Architecture Approval Package](architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md)
 - [Exakter S51A-Implementierungsscope](architecture/S51A_IMPLEMENTATION_SCOPE.md)
@@ -74,48 +74,61 @@ Nicht vorhanden oder nicht freigegeben sind insbesondere:
 - Backup-/Restore-Nachweis;
 - Payment, B2B, Multi-Tenant oder White Label.
 
-## Lokaler Dokumentationsstand
+## Integrierter Dokumentationsstand
 
-Lokal wurden bisher integriert:
+Das vollständige S50B-R3-Paket umfasst 23 Markdown-Dateien. Es wurde mit dem
+autorisierten Squash-Merge von PR #73 unter `cab2745c9cfea8a4d6418d866972cef6f982e55b` in `main`
+integriert.
+
+Der aktuelle Post-Merge-Abgleich korrigiert ausschließlich sechs Dokumente,
+deren Tatsachenbeschreibungen noch den Zustand vor dem Merge wiedergeben:
 
 - `AGENTS.md`;
 - `README.md`;
-- `QUALITY_GATES.md`;
-- `RAILWAY_DEPLOYMENT_STRATEGY.md`;
-- `ARCHITECTURE_TARGET.md`;
-- `MVP_SCOPE.md`;
-- `PACKAGE_DAG.md`;
-- `PLATFORM_CONTRACTS.md`;
-- `PREMIUM_TRANSFER_LEDGER.md`;
-- `ADR-0001-MODULAR-NEXTJS-MONOLITH.md`;
-- `ADR-0002-SERVER-BOUNDARIES.md`;
-- `S50B_R2_SOURCE_OF_TRUTH.md`;
-- dieses Projektstatusdokument.
+- `docs/00_PROJECT_STATUS.md`;
+- `docs/architecture/ARCHITECTURE_TARGET.md`;
+- `docs/architecture/PLATFORM_CONTRACTS.md`;
+- `docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md`.
 
-Alle 13 Bestandsdokumente und 10 neuen S50B-R3-Dokumente wurden lokal
-integriert und durch Inventar-, Freigabe-, Link- und Kohärenzprüfungen bestätigt.
-
-Es wurde noch kein S50B-R3-Commit erstellt und nichts gepusht.
+S51A, Produktcode, Abhängigkeiten, Datenbank, Railway und Production werden
+durch diesen Dokumentabgleich nicht verändert.
 
 ## GitHub-, Railway- und Produktionsgrenze
 
-PR #73 ist offen, mergebar und weiterhin Draft. Sein Remote-Head entspricht
-weiterhin `1d67a4b1b7eace8869614aec82bdf42fb3d61adc`.
+PR #73 ist geschlossen und wurde am 18. Juli 2026 per Squash-Merge in `main`
+integriert.
 
-PR #68 bleibt ein getrennter Railway-Readiness-PR und ist nicht Teil dieses
-Dokumentationspakets.
+~~~text
+PR73_MERGED=YES
+PR73_MERGE_METHOD=SQUASH
+PR73_MERGE_COMMIT=cab2745c9cfea8a4d6418d866972cef6f982e55b
+PR73_MERGED_AT=2026-07-18T09:04:49+02:00
+MAIN_PREVIOUS_HEAD=4173f2d935e3145142dce539b399bf8b9d77ee79
+~~~
 
-S50B-R3 verändert weder Railway noch Datenbank oder Production.
+CI #154 war für den geprüften PR-Head vollständig erfolgreich.
+
+Unmittelbar vor dem Merge wurde im Railway-Dashboard read-only bestätigt:
+
+~~~text
+PRODUCTION_AUTODEPLOY=DISABLED
+AUTODEPLOY_BUTTON=ENABLE
+CONNECTED_BRANCH=main
+WAIT_FOR_CI=ENABLED
+~~~
+
+Daher löste der Merge kein automatisches Railway-Deployment aus. Production
+blieb auf dem vorherigen Anwendungscode. PR #68 bleibt ein getrennter
+Railway-Readiness-PR und ist nicht Teil dieses Dokumentationspakets.
 
 ## Nächste kontrollierte Schritte
 
-1. Architekturfreigabe konsistent in allen betroffenen Dokumenten nachführen;
-2. anschließend einen vollständigen Freigabe- und Kohärenzaudit ausführen;
-3. danach eine gesonderte Commit-Freigabe einholen;
-4. Push, Ready for Review und Merge jeweils getrennt entscheiden;
-5. nach einem genehmigten Merge den aktuellen `main` read-only prüfen;
-6. S51A-Scope und S51A-Implementierung anschließend getrennt freigeben;
-7. S51A erst auf einem neuen kleinen Branch vom dann aktuellen `main` beginnen.
+1. Post-Merge-Abgleich ausschließlich in den sechs freigegebenen Dokumenten abschließen;
+2. vollständigen lokalen Diff-, Link- und Marker-Audit ausführen;
+3. anschließend eine gesonderte Commit-Freigabe einholen;
+4. Push und neuer Dokumentations-PR bleiben jeweils getrennt freigabepflichtig;
+5. S51A-Scope und S51A-Implementierung danach separat entscheiden;
+6. Produktcode erst nach ausdrücklicher S51A-Implementierungsfreigabe beginnen.
 
 ## Aktueller Freigabestatus
 
@@ -126,26 +139,31 @@ S50B_R3_DOCUMENT_INTEGRATION_COMPLETE=YES
 HUMAN_ARCHITECTURE_APPROVAL=YES
 HUMAN_ARCHITECTURE_DECISION=APPROVE_ARCHITECTURE
 HUMAN_ARCHITECTURE_DECISION_DATE=2026-07-17
-S51A_SCOPE_DOCUMENTED=YES
-S51A_SCOPE_APPROVED=NO
-S51A_IMPLEMENTATION_AUTHORIZED=NO
-PRODUCT_CODE_CHANGED=NO
-LOCAL_TRACKED_DOCUMENTS_CHANGED=13
-LOCAL_UNTRACKED_R3_DOCUMENTS=10
-COMMIT_AUTHORIZED=YES
-COMMIT_AUTHORIZATION=AUTHORIZE_COMMIT_ONLY
-COMMIT_SCOPE=S50B_R3_DOCUMENTATION_ONLY
-COMMIT_CREATED=YES
-PUSH_AUTHORIZED=YES
-PUSH_AUTHORIZATION=AUTHORIZE_PUSH_ONLY
-PUSH_EXECUTED=YES
-PULL_REQUEST_73_DRAFT=NO
-PULL_REQUEST_73_READY_FOR_REVIEW=YES
-READY_FOR_REVIEW_AUTHORIZED=YES
-READY_FOR_REVIEW_EXECUTED=YES
-MERGE_AUTHORIZED=NO
-DEPLOY_AUTHORIZED=NO
+S50B_R3_INTEGRATED_TO_MAIN=YES
+PR73_MERGED=YES
+PR73_MERGE_METHOD=SQUASH
+PR73_MERGE_COMMIT=cab2745c9cfea8a4d6418d866972cef6f982e55b
+PR73_MERGED_AT=2026-07-18T09:04:49+02:00
+PRODUCTION_AUTODEPLOY=DISABLED
+DEPLOY_EXECUTED=NO
 RAILWAY_CHANGED=NO
 DATABASE_CHANGED=NO
 PRODUCTION_CHANGED=NO
+POST_MERGE_DOC_SYNC_LOCAL_AUTHORIZED=YES
+POST_MERGE_DOC_SYNC_LOCAL_EXECUTED=YES
+POST_MERGE_DOC_SYNC_COMMIT_AUTHORIZED=YES
+POST_MERGE_DOC_SYNC_COMMIT_AUTHORIZATION=AUTHORIZE_POST_MERGE_DOC_SYNC_COMMIT_ONLY@GitHub
+POST_MERGE_DOC_SYNC_COMMIT_EXECUTED=YES
+POST_MERGE_DOC_SYNC_PUSH_AUTHORIZED=NO
+POST_MERGE_DOC_SYNC_PR_AUTHORIZED=NO
+POST_MERGE_DOC_SYNC_MERGE_AUTHORIZED=NO
+S51A_SCOPE_DOCUMENTED=YES
+S51A_SCOPE_APPROVED=NO
+S51A_IMPLEMENTATION_AUTHORIZED=NO
+HUMAN_IMPLEMENTATION_APPROVAL=NO
+NEXT_PRODUCT_CODE_CHANGE_AUTHORIZED=NO
+NEXT_COMMIT_AUTHORIZED=NO
+NEXT_PUSH_AUTHORIZED=NO
+NEXT_PR_AUTHORIZED=NO
+NEXT_MERGE_AUTHORIZED=NO
 ~~~
