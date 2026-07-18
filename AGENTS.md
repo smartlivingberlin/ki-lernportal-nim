@@ -14,30 +14,54 @@ The portal should support:
 - admin/owner dashboard,
 - AI/RAG-assisted learning,
 - safe automation,
-- future Railway deployment,
+- an existing Railway concept demo and separately gated future staging,
 - strong quality gates.
 
 ## Current status
 
-This repository is in early bootstrap phase.
+This repository contains a buildable Next.js concept demo and is no longer in
+the early bootstrap phase.
+
+The S50B-R3 architecture package is locally complete and is being integrated
+into the repository documentation. It has not received human architecture or
+implementation approval. Pull request #73 remains open as a Draft. S51A
+product work is not authorized.
 
 Existing assets:
-- static HTML prototype,
-- NVIDIA/NIM analysis report,
-- development plan,
-- presentation artifact,
-- agent operation docs,
-- initial GitHub issues.
+- a production-buildable Next.js application under `apps/web`,
+- twelve beginner lessons,
+- local search and local learning progress,
+- twelve exercises with 36 self-check questions,
+- content, source, accessibility, governance and supply-chain gates,
+- a reproducible Next.js standalone build,
+- a public Railway concept demo.
 
 Not existing yet:
-- no production frontend,
-- no backend,
-- no database,
-- no real RAG service,
-- no authentication,
-- no NVIDIA API integration,
-- no Railway deployment,
+- no productive database or canonical migrations,
+- no server-side user accounts or revocable sessions,
+- no productive role, scope or ownership system,
+- no productive admin and publishing workflow,
+- no productive AI/RAG runtime,
+- no isolated Railway staging,
 - no production users.
+
+### Current architecture gate
+
+```text
+S50B_R3_PACKAGE_COMPLETE=YES
+S50B_R3_PACKAGE_APPROVED=YES
+HUMAN_ARCHITECTURE_APPROVAL=YES
+S51A_SCOPE_DOCUMENTED=YES
+S51A_SCOPE_APPROVED=NO
+S51A_IMPLEMENTATION_AUTHORIZED=NO
+COMMIT_AUTHORIZED=NO
+PUSH_AUTHORIZED=NO
+READY_FOR_REVIEW_AUTHORIZED=NO
+MERGE_AUTHORIZED=NO
+DEPLOY_AUTHORIZED=NO
+```
+
+Conditional examples do not override this current gate.
 
 ## Hard safety rules
 
@@ -59,12 +83,18 @@ Do not add tracking, analytics, payment or auth providers without explicit appro
 Before modifying code:
 1. Read README.md.
 2. Read docs/00_PROJECT_STATUS.md.
-3. Read docs/01_PRODUCT_VISION.md.
-4. Read docs/architecture/MVP_SCOPE.md.
-5. Read docs/architecture/ARCHITECTURE_TARGET.md.
-6. Read docs/research/NVIDIA_NIM_ANALYSIS_REPORT.md.
-7. Read docs/agent-ops/SAFETY_RULES.md.
-8. Read docs/agent-ops/QUALITY_GATES.md.
+3. Read docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md and docs/architecture/S51A_IMPLEMENTATION_SCOPE.md. Treat docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md only as historical evidence.
+4. Read docs/architecture/ARCHITECTURE_TARGET.md.
+5. Read docs/architecture/adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md.
+6. Read docs/architecture/adr/ADR-0002-SERVER-BOUNDARIES.md.
+7. Read docs/architecture/PACKAGE_DAG.md.
+8. Read docs/architecture/PLATFORM_CONTRACTS.md.
+9. Read docs/architecture/PREMIUM_TRANSFER_LEDGER.md.
+10. Read docs/architecture/MVP_SCOPE.md.
+11. Read docs/01_PRODUCT_VISION.md.
+12. Read docs/research/NVIDIA_NIM_ANALYSIS_REPORT.md.
+13. Read docs/agent-ops/SAFETY_RULES.md.
+14. Read docs/agent-ops/QUALITY_GATES.md.
 
 For audit tasks:
 - Do not modify files.
@@ -90,39 +120,41 @@ Frontend:
 - beginner-friendly German UX copy
 
 Backend:
-- FastAPI or comparable lightweight API service
+- Next.js Route Handlers or Server Actions inside the single main runtime
 - healthcheck endpoint
 - clean API boundaries
 
 AI/RAG:
-- service layer separated from frontend
+- provider-neutral AI boundary separated from React components
 - no real API keys in repo
 - local/mock adapters first
 - later NVIDIA NIM adapters only after cost and privacy review
 
 Database:
-- Postgres planned later
-- Qdrant or comparable vector store planned later
+- MySQL with Drizzle is planned for the persistence slice
+- vector retrieval remains provider-neutral and starts only after evaluation
 - no database dependency before MVP baseline
 
 Deployment:
-- Railway is planned later.
-- No deployment before build, tests, CI and healthcheck exist.
+- Railway production hosts the concept demo; isolated staging remains a separate future gate.
+- No new deployment before build, tests, CI, health contracts and explicit approval.
 - Railway autodeploy should use Wait for CI when enabled.
 - Cost controls must be reviewed before live usage.
 
-## MVP order
+## Controlled platform order
 
-1. Architecture audit.
-2. Next.js frontend baseline.
-3. Static prototype converted into components.
-4. Beginner onboarding.
-5. Model catalog data layer.
-6. Glossary and jargon translator UI.
-7. Admin dashboard skeleton.
-8. Playwright and accessibility tests.
-9. FastAPI backend skeleton.
-10. AI/RAG service skeleton.
+1. Complete the S50B-R3 documentation integration and local audit.
+2. Obtain explicit human architecture approval.
+3. Obtain separate explicit S51A implementation approval.
+4. Build S51A only on an approved branch.
+5. Build S51B MySQL/Drizzle persistence.
+6. Build S51C health, readiness, flags and redacted logs.
+7. Create S51D Railway staging only after separate approval.
+8. Build S52 auth, sessions, roles, scopes and ownership.
+9. Build S53 content, source and media administration.
+10. Build S54/S55 server-side learning functions.
+11. Build S56 provider-neutral AI/RAG after evaluation.
+12. Build S57 monitoring, backup, restore and incident response.
 
 ## Quality priorities
 

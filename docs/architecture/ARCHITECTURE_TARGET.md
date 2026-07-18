@@ -1,31 +1,159 @@
-# Zielarchitektur
+# Zielarchitektur – S50B-R3-Freigabekandidat
 
-## Hauptmodule
+**Status:** S50B-R3 menschlich freigegeben; Umsetzungs-, Git- und Betriebsfreigaben ausstehend
+**Stand:** 17. Juli 2026
+**Historische Grundlage:** S50B-R2 bleibt als nachvollziehbare Evidenz erhalten
+**Ersetzt:** frühere FastAPI-, NestJS-, PostgreSQL-, Qdrant- und Microservice-Zielbeschreibung
+
+## Kanonische Dokumente
+
+Der aktuelle, noch nicht menschlich freigegebene Architekturkandidat wird beschrieben durch:
+
+1. [`S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md`](./S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md)
+2. [`S51A_IMPLEMENTATION_SCOPE.md`](./S51A_IMPLEMENTATION_SCOPE.md)
+3. [`adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md`](./adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md)
+4. [`adr/ADR-0002-SERVER-BOUNDARIES.md`](./adr/ADR-0002-SERVER-BOUNDARIES.md)
+5. [`adr/ADR-0003-IDENTITY-SESSION-LIFECYCLE.md`](./adr/ADR-0003-IDENTITY-SESSION-LIFECYCLE.md)
+6. [`PACKAGE_DAG.md`](./PACKAGE_DAG.md)
+7. [`PLATFORM_CONTRACTS.md`](./PLATFORM_CONTRACTS.md)
+8. [`DATA_CLASSIFICATION_RETENTION_DELETION_CONTRACT.md`](./DATA_CLASSIFICATION_RETENTION_DELETION_CONTRACT.md)
+9. [`LEARNING_DOMAIN_CONTRACT.md`](./LEARNING_DOMAIN_CONTRACT.md)
+10. [`CONTENT_ASSESSMENT_REVISION_CONTRACT.md`](./CONTENT_ASSESSMENT_REVISION_CONTRACT.md)
+11. [`OBSERVABILITY_SLO_CONTRACT.md`](./OBSERVABILITY_SLO_CONTRACT.md)
+12. [`SCOPE_ORGANIZATION_SEAM_CONTRACT.md`](./SCOPE_ORGANIZATION_SEAM_CONTRACT.md)
+13. [`JOBS_OUTBOX_CONTRACT.md`](./JOBS_OUTBOX_CONTRACT.md)
+14. [`SEARCH_CONTRACT.md`](./SEARCH_CONTRACT.md)
+15. [`PREMIUM_TRANSFER_LEDGER.md`](./PREMIUM_TRANSFER_LEDGER.md)
+
+[`S50B_R2_SOURCE_OF_TRUTH.md`](./S50B_R2_SOURCE_OF_TRUTH.md) bleibt historische Grundlage.
+Bei aktuellen Architektur- oder Freigabewidersprüchen hat das
+S50B-R3-Freigabepaket Vorrang.
+
+## Zielstruktur
 
 ```text
-Frontend:        Next.js + TypeScript + Tailwind
-Backend/API:     FastAPI oder NestJS
-AI/RAG-Service:  Python + Haystack/LangChain optional + Qdrant
-Datenbank:       Postgres
-Vector DB:       Qdrant
-Workflow:        n8n optional lokal
-Tests:           Playwright + axe + Vitest/Pytest
-Security:        gitleaks + trivy + dependency checks
-Deployment:      später Railway/Fly.io/VPS/Cloudflare Pages je nach Kostenlage
+apps/
+  web/
+
+packages/
+  ui/
+  contracts/
+  domain/
+  db/
+  auth/
+  admin/
+  ai-core/
+  testing/
 ```
 
-## Dienste
+Die `packages/*`-Struktur ist im S50B-R3-Freigabekandidaten vorgesehen, aber noch nicht
+final menschlich freigegeben oder implementiert. Die technische Einführung
+gehört ausschließlich in den späteren S51A-Slice.
 
-1. `apps/web` — Benutzerportal
-2. `services/api` — Nutzer, Kurse, Admin, Auth, Einstellungen
-3. `services/ai` — RAG, Modelladapter, Trend-Watcher, Glossar-Übersetzung
-4. `infra/docker` — lokale Entwicklungsdienste
-5. `docs` — Architektur, Product, Agentensteuerung
+## Laufzeitentscheidung
 
-## Keine Kosten am Anfang
+Für die erste Plattformphase gilt:
 
-- keine Cloud-GPU
-- keine produktiven API-Keys
-- keine Partner-Endpunkte
-- keine kostenpflichtigen Deployments
-- alles lokal und private Repo
+- Next.js ist die einzige Hauptruntime;
+- Route Handler und Server Actions bilden die serverseitige Composition Boundary;
+- es gibt keine zweite Express-, FastAPI- oder NestJS-Hauptruntime;
+- MySQL mit Drizzle ist die geplante relationale Persistenz;
+- KI- und Retrievalanbieter werden hinter Interfaces gekapselt;
+- ein externer Vektorindex ist nicht vorab festgelegt;
+- Microservices werden nur nach einem belegten Auslagerungskriterium geprüft.
+
+## Paketgrenzen
+
+```text
+apps/web production code
+  -> ui
+  -> contracts
+  -> domain
+  -> db
+  -> auth
+  -> admin
+  -> ai-core
+
+apps/web test code
+  -> testing
+```
+
+Produktionscode unter `apps/web` darf `packages/testing` nicht importieren.
+Testdateien, Testkonfigurationen und Testhelfer dürfen das Paket verwenden.
+
+Geplante harte Regeln:
+
+- nur `packages/db` importiert Drizzle;
+- nur `packages/ai-core` importiert KI-, Embedding- oder Reranking-SDKs;
+- `packages/domain` kennt keine Framework-, DB-, Railway- oder Provider-SDKs;
+- React-Komponenten greifen nicht direkt auf Datenbank oder Provider zu;
+- Browsercode entscheidet niemals endgültig über Berechtigungen;
+- jede geschützte Ressource benötigt serverseitige Rollen-, Scope- und Ownership-Prüfung;
+- zyklische Paketabhängigkeiten sind verboten.
+
+## Plattformverträge
+
+Die Plattformverträge regeln mindestens:
+
+- Rollen `Visitor`, `Learner`, `Editor`, `Reviewer`, `Admin` und `Owner`;
+- widerrufbare serverseitige Sessions;
+- Trennung von Autor und Reviewer;
+- revisionsbasierten Draft-, Review-, Publish- und Rollback-Workflow;
+- Feature Flags mit Default `OFF` für risikoreiche Funktionen;
+- Quellen- und Medienfreigaben;
+- KI/RAG mit Provenienz, Zitaten, Berechtigungsfilterung und Enthaltung;
+- redigierte Logs ohne Secrets, Sessionwerte, Prompts oder Dokumentvolltexte.
+
+## Nicht freigegeben
+
+Noch nicht implementiert und durch dieses Dokument nicht freigegeben sind:
+
+- Workspace- oder Package-Skeleton;
+- Datenbank, Schema oder Migrationen;
+- Authentifizierung, Sessions, Rollen oder Ownership;
+- Admin- und Publikationssystem;
+- Upload-, Medien- oder Rechteverwaltung;
+- serverseitiger Lernfortschritt;
+- KI-/RAG-Laufzeit oder Provider;
+- Railway-Staging oder Production-Deploy;
+- Payment, B2B, Multi-Tenant oder White-Label.
+
+## Ausdrücklich abgelöst
+
+Folgende frühere Richtungen sind keine aktuelle Implementierungsanweisung:
+
+- FastAPI oder NestJS als separates Standardbackend;
+- PostgreSQL als beschlossene Zieldatenbank;
+- Qdrant oder Weaviate als verpflichtende Vector DB;
+- Microservice-System mit API-Gateway;
+- Kubernetes als früher Standard;
+- Open eLMS oder OATutor als verpflichtendes LMS;
+- Odoo oder ERPNext als verpflichtendes CRM;
+- getrennte `services/api`- und `services/ai`-Hauptruntimes.
+
+Diese Optionen dürfen später nur durch eine neue, belegte Architekturentscheidung
+wieder aufgenommen werden.
+
+## Exit-Gate
+
+Der Architekturkandidat ist vollständig dokumentiert. Vor Produktcode in S51A
+sind dennoch getrennte menschliche Entscheidungen erforderlich.
+
+Aktueller Stand:
+
+~~~text
+S50B_R3_PACKAGE_COMPLETE=YES
+S50B_R3_PACKAGE_APPROVED=YES
+HUMAN_ARCHITECTURE_APPROVAL=YES
+S51A_SCOPE_DOCUMENTED=YES
+S51A_SCOPE_APPROVED=NO
+HUMAN_IMPLEMENTATION_APPROVAL=NO
+COMMIT_AUTHORIZED=NO
+PUSH_AUTHORIZED=NO
+READY_FOR_REVIEW_AUTHORIZED=NO
+MERGE_AUTHORIZED=NO
+DEPLOY_AUTHORIZED=NO
+~~~
+
+Dieses Dokument erteilt keine Implementierungs-, Commit-, Push-, PR-, Merge-,
+Datenbank-, Railway- oder Deployfreigabe.
