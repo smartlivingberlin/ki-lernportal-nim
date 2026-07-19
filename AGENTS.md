@@ -22,10 +22,10 @@ The portal should support:
 This repository contains a buildable Next.js concept demo and is no longer in
 the early bootstrap phase.
 
-The S50B-R3 architecture package is locally complete and is being integrated
-into the repository documentation. It has not received human architecture or
-implementation approval. Pull request #73 remains open as a Draft. S51A
-product work is not authorized.
+The S50B-R3 architecture package is human-approved and was integrated into
+`main` through the authorized squash-merge of pull request #73 at commit
+`cab2745c9cfea8a4d6418d866972cef6f982e55b`. S51A scope and implementation remain separately gated and
+are not authorized.
 
 Existing assets:
 - a production-buildable Next.js application under `apps/web`,
@@ -51,14 +51,21 @@ Not existing yet:
 S50B_R3_PACKAGE_COMPLETE=YES
 S50B_R3_PACKAGE_APPROVED=YES
 HUMAN_ARCHITECTURE_APPROVAL=YES
+S50B_R3_INTEGRATED_TO_MAIN=YES
+PR73_MERGED=YES
+PR73_MERGE_METHOD=SQUASH
+PR73_MERGE_COMMIT=cab2745c9cfea8a4d6418d866972cef6f982e55b
 S51A_SCOPE_DOCUMENTED=YES
 S51A_SCOPE_APPROVED=NO
 S51A_IMPLEMENTATION_AUTHORIZED=NO
-COMMIT_AUTHORIZED=NO
-PUSH_AUTHORIZED=NO
-READY_FOR_REVIEW_AUTHORIZED=NO
-MERGE_AUTHORIZED=NO
+NEXT_PRODUCT_CODE_CHANGE_AUTHORIZED=NO
+NEXT_COMMIT_AUTHORIZED=NO
+NEXT_PUSH_AUTHORIZED=NO
+NEXT_PR_AUTHORIZED=NO
+NEXT_MERGE_AUTHORIZED=NO
 DEPLOY_AUTHORIZED=NO
+PRODUCTION_AUTODEPLOY=DISABLED
+PRODUCTION_CHANGED=NO
 ```
 
 Conditional examples do not override this current gate.
