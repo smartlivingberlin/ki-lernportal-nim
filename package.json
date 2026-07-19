@@ -16,7 +16,10 @@
     "test:s48c-sources": "node scripts/check-s48c-source-ui.cjs",
     "test:s49d-practice-ui": "node scripts/check-s49d-practice-ui.cjs",
     "supply-chain:check": "node scripts/check-supply-chain-policy.mjs",
-    "governance:check": "node scripts/check-github-governance.mjs"
+    "governance:check": "node scripts/check-github-governance.mjs",
+    "packages:boundaries": "node scripts/check-package-boundaries.mjs",
+    "packages:typecheck": "node scripts/check-package-boundaries.mjs --typecheck",
+    "packages:verify": "pnpm packages:boundaries && pnpm packages:typecheck"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.12.1",
