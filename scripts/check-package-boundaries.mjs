@@ -225,6 +225,22 @@ function matchesProvider(specifier, names) {
   );
 }
 
+function normalizeImportPath(specifier) {
+  return specifier.replace(/[\\/]+/g, "/");
+}
+
+function hasDirectPackageSourcePath(specifier) {
+  const normalized = normalizeImportPath(specifier);
+
+  return expectedPackages.some(
+    ({ dir }) =>
+      normalized === `packages/${dir}` ||
+      normalized.startsWith(`packages/${dir}/`) ||
+      normalized.endsWith(`/packages/${dir}`) ||
+      normalized.includes(`/packages/${dir}/`),
+  );
+}
+
 function validateWorkspace() {
   const workspacePath = resolve(
     root,
@@ -495,9 +511,14 @@ function validateImportsAndGraph() {
     }
   }
 
+  const packagesRoot = resolve(
+    root,
+    "packages",
+  );
+
   const sourceFiles = [
     ...listFiles(
-      resolve(root, "packages"),
+      packagesRoot,
       (path) => /\.[cm]?[jt]sx?$/.test(path),
     ),
     ...listFiles(
@@ -618,37 +639,65 @@ function validateImportsAndGraph() {
       }
 
       if (
-        owner.kind === "package" &&
-        specifier.startsWith(".")
+        owner.kind !== "other" &&
+        hasDirectPackageSourcePath(specifier)
       ) {
-        const importerRoot = resolve(
-          root,
-          "packages",
-          owner.dir,
+        fail(
+          `${rel(
+            file,
+          )} imports package source directly through ${specifier}`,
         );
+      }
 
+      if (specifier.startsWith(".")) {
         const resolvedImport = resolve(
           dirname(file),
           specifier,
         );
 
+        if (owner.kind === "package") {
+          const importerRoot = resolve(
+            packagesRoot,
+            owner.dir,
+          );
+
+          if (
+            !resolvedImport.startsWith(
+              `${importerRoot}${sep}`,
+            ) &&
+            resolvedImport !== importerRoot
+          ) {
+            fail(
+              `${rel(
+                file,
+              )} crosses package boundary through ${specifier}`,
+            );
+          }
+        }
+
         if (
-          !resolvedImport.startsWith(
-            `${importerRoot}${sep}`,
-          ) &&
-          resolvedImport !== importerRoot
+          owner.kind === "web" &&
+          (
+            resolvedImport === packagesRoot ||
+            resolvedImport.startsWith(
+              `${packagesRoot}${sep}`,
+            )
+          )
         ) {
           fail(
             `${rel(
               file,
-            )} crosses package boundary through ${specifier}`,
+            )} imports package source directly through ${specifier}`,
           );
         }
       }
 
       if (
-        owner.kind === "package" &&
-        owner.dir !== "db" &&
+        owner.kind !== "other" &&
+        !(
+          owner.kind === "package" &&
+          owner.dir === "db"
+        ) &&
         matchesProvider(
           specifier,
           ["drizzle-orm", "mysql2"],
@@ -662,8 +711,11 @@ function validateImportsAndGraph() {
       }
 
       if (
-        owner.kind === "package" &&
-        owner.dir !== "ai-core" &&
+        owner.kind !== "other" &&
+        !(
+          owner.kind === "package" &&
+          owner.dir === "ai-core"
+        ) &&
         matchesProvider(
           specifier,
           aiProviders,
