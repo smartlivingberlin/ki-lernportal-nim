@@ -61,6 +61,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Validate S51A package boundaries
+        run: pnpm packages:boundaries
+
+      - name: Typecheck S51A packages
+        run: pnpm packages:typecheck
+
       - name: Supply-chain policy check
         run: pnpm supply-chain:check
 
