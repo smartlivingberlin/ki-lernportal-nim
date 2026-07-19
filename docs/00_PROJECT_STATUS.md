@@ -1,7 +1,7 @@
 # Projektstatus: KI-Lernportal NIM
 
-**Stand:** 18. Juli 2026
-**Status:** S50B-R3 menschlich freigegeben und durch PR #73 in `main` integriert; Post-Merge-Dokumentabgleich lokal in Bearbeitung
+**Stand:** 19. Juli 2026
+**Status:** S50B-R3 menschlich freigegeben und durch PR #73 in `main` integriert; nachgelagerter Dokumentabgleich dokumentiert, weitere Git- und Betriebsaktionen separat freigabepflichtig
 **Branch:** `docs/s50b-r3-post-merge-sync-20260718`
 **Main-HEAD:** `cab2745c9cfea8a4d6418d866972cef6f982e55b`
 **PR #73:** am 18. Juli 2026 per Squash-Merge abgeschlossen
@@ -80,8 +80,9 @@ Das vollständige S50B-R3-Paket umfasst 23 Markdown-Dateien. Es wurde mit dem
 autorisierten Squash-Merge von PR #73 unter `cab2745c9cfea8a4d6418d866972cef6f982e55b` in `main`
 integriert.
 
-Der aktuelle Post-Merge-Abgleich korrigiert ausschließlich sechs Dokumente,
-deren Tatsachenbeschreibungen noch den Zustand vor dem Merge wiedergeben:
+PR #74 dokumentiert den abgeschlossenen Post-Merge-Abgleich für ausschließlich
+sechs Dokumente, deren Tatsachenbeschreibungen zuvor noch den Zustand vor dem
+Merge wiedergaben:
 
 - `AGENTS.md`;
 - `README.md`;
@@ -92,6 +93,10 @@ deren Tatsachenbeschreibungen noch den Zustand vor dem Merge wiedergeben:
 
 S51A, Produktcode, Abhängigkeiten, Datenbank, Railway und Production werden
 durch diesen Dokumentabgleich nicht verändert.
+
+PR #74 wurde zunächst als Draft erstellt und nach erfolgreicher CI separat auf
+Ready for Review gestellt. Diese Umstellung erteilt keine Merge-, S51A-,
+Railway-, Datenbank-, Deploy- oder Produktionsfreigabe.
 
 ## GitHub-, Railway- und Produktionsgrenze
 
@@ -121,14 +126,13 @@ Daher löste der Merge kein automatisches Railway-Deployment aus. Production
 blieb auf dem vorherigen Anwendungscode. PR #68 bleibt ein getrennter
 Railway-Readiness-PR und ist nicht Teil dieses Dokumentationspakets.
 
-## Nächste kontrollierte Schritte
+## Weiterer kontrollierter Ablauf
 
-1. Post-Merge-Abgleich ausschließlich in den sechs freigegebenen Dokumenten abschließen;
-2. vollständigen lokalen Diff-, Link- und Marker-Audit ausführen;
-3. anschließend eine gesonderte Commit-Freigabe einholen;
-4. Push und neuer Dokumentations-PR bleiben jeweils getrennt freigabepflichtig;
-5. S51A-Scope und S51A-Implementierung danach separat entscheiden;
-6. Produktcode erst nach ausdrücklicher S51A-Implementierungsfreigabe beginnen.
+1. Vor jeder Mergeentscheidung werden aktueller Head, Base-Freshness, CI, Review-Threads und der exakte Dokumentationsscope read-only geprüft.
+2. Ein Merge erfolgt nur nach separater menschlicher Freigabe und mit erwarteter Head-SHA; für diesen Dokumentations-PR ist Squash vorgesehen.
+3. Nach einem genehmigten Merge werden aktueller `main`, Integrationscommit und Railway-/Autodeploy-Grenzen read-only geprüft.
+4. S51A-Scope und S51A-Implementierung bleiben separate Entscheidungen.
+5. Produktcode beginnt erst nach ausdrücklicher S51A-Implementierungsfreigabe.
 
 ## Aktueller Freigabestatus
 
@@ -181,6 +185,9 @@ POST_MERGE_DOC_SYNC_READY_FOR_REVIEW_EXECUTED=YES
 PR74_READY_STATUS_SYNC_LOCAL_AUTHORIZED=YES
 PR74_READY_STATUS_SYNC_LOCAL_AUTHORIZATION=AUTHORIZE_PR74_READY_STATUS_SYNC_LOCAL_ONLY
 PR74_READY_STATUS_SYNC_LOCAL_EXECUTED=YES
+PR74_FINAL_STATUS_TRUTH_SYNC_LOCAL_AUTHORIZED=YES
+PR74_FINAL_STATUS_TRUTH_SYNC_LOCAL_AUTHORIZATION=AUTHORIZE_PR74_FINAL_STATUS_TRUTH_SYNC_LOCAL_ONLY
+PR74_FINAL_STATUS_TRUTH_SYNC_LOCAL_EXECUTED=YES
 POST_MERGE_DOC_SYNC_MERGE_AUTHORIZED=NO
 S51A_SCOPE_DOCUMENTED=YES
 S51A_SCOPE_APPROVED=NO
