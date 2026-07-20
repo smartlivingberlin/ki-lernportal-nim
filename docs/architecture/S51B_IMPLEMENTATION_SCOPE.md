@@ -1,10 +1,10 @@
 # S51B-A – Persistenz-Scope-Lock
 
-**Status:** PR #77 ist Ready for review; Merge und Betrieb bleiben gesperrt
+**Status:** PR #77 wurde per Squash Merge in `main` integriert; Datenbankruntime, Schema, Migration, Railway und Betrieb bleiben gesperrt
 
 **Stand:** 20. Juli 2026
 
-**Source of Truth:** `4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8`
+**Source of Truth:** `fbdedec8f3e67ce99678c41779b99b22be506710`
 
 **Branch:** `feat/s51b-a-persistence-scope-lock-20260720`
 
@@ -197,8 +197,11 @@ S51B_A_PREFLIGHT_COMPLETE=YES
 S51B_A_SCOPE_DOCUMENTED=YES
 S51B_A_LOCAL_IMPLEMENTATION_AUTHORIZED=YES
 S51B_A_PR_NUMBER=77
-S51B_A_PR_READY_FOR_REVIEW=YES
-S51B_A_MERGE_AUTHORIZED=NO
+S51B_A_INTEGRATED_TO_MAIN=YES
+S51B_A_MERGE_EXECUTED=YES
+PR77_MERGED=YES
+PR77_MERGE_METHOD=SQUASH
+PR77_MERGE_COMMIT=fbdedec8f3e67ce99678c41779b99b22be506710
 
 S51B_B_DATABASE_RUNTIME_AUTHORIZED=NO
 S51B_C_SCHEMA_AUTHORIZED=NO
