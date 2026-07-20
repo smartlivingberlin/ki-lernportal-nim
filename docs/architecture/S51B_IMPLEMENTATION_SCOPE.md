@@ -1,6 +1,6 @@
 # S51B-A – Persistenz-Scope-Lock
 
-**Status:** Lokal umgesetzt; Git- und Betriebsaktionen bleiben gesperrt
+**Status:** PR #77 ist Ready for review; Merge und Betrieb bleiben gesperrt
 
 **Stand:** 20. Juli 2026
 
@@ -57,7 +57,13 @@ S51B-A darf ausschließlich:
 - Datenbank- und ORM-SDKs außerhalb von `packages/db` blockieren;
 - innerhalb von `packages/db` nur Drizzle und `mysql2` als spätere
   technische Richtung anerkennen;
-- Datenbank-Dependencies in Root-, App- und Package-Manifesten prüfen;
+- Datenbank-Dependencies in Root-, App- und Package-Manifesten
+  einschließlich ihrer `npm:`-Aliasziele prüfen;
+- neue externe Manifest-Dependencies nur über eine explizite,
+  ownerbezogene Allowlist zulassen;
+- externe Source-Imports in `packages/db` fail closed auf
+  `drizzle-orm`, `mysql2`, interne Pakete, relative Pfade und
+  Node.js-Built-ins begrenzen;
 - alle Quellpfade unter `apps/**`, `packages/**` und `scripts/**` prüfen;
 - deterministische positive, negative und verdrahtete Policy-Selbsttests
   ergänzen.
@@ -80,6 +86,10 @@ Für Source-Imports und Manifest-Dependencies gilt:
 - `drizzle-orm` und `mysql2` sind nur in `packages/db` zulässig;
 - nicht freigegebene Datenbank- und ORM-Pakete sind überall verboten;
 - `drizzle-kit` ist bis zu einem separaten Migrationsgate überall verboten;
+- externe Manifest-Dependencies arbeiten fail closed gegen eine
+  ownerbezogene Allowlist;
+- Dependency-Schlüssel und `npm:`-Aliasziele werden beide geprüft;
+- unbekannte externe Source-Imports in `packages/db` sind verboten;
 - Root-, App-, Script- und andere Package-Kontexte dürfen keine
   Datenbank-SDKs importieren oder deklarieren;
 - zukünftige Anwendungen unter `apps/**` werden automatisch erfasst.
@@ -95,6 +105,11 @@ scripts/** + mysql2 = FAIL
 packages/db + pg = FAIL
 packages/db + prisma = FAIL
 packages/db + drizzle-kit = FAIL
+packages/db + unknown-db-client import/dependency = FAIL
+apps/web + unknown external dependency = FAIL
+apps/web + next -> npm:mysql2 alias target = FAIL
+packages/db + mysql2 -> npm:pg alias target = FAIL
+normal string containing import "mysql2" text = PASS
 packages/db + drizzle-orm = PASS
 packages/db + mysql2 = PASS
 packages/db + mysql2/promise = PASS
@@ -115,7 +130,9 @@ Abgedeckt werden:
 - CommonJS-`require()` mit statischem String;
 - dynamisches `import()` mit statischem String;
 - dynamisches `import()` mit statischem Template-Literal ohne Interpolation;
-- konservatives Ausblenden normaler Zeilen- und Blockkommentare.
+- konservatives Ausblenden normaler Zeilen- und Blockkommentare;
+- Ausblenden gewöhnlicher String- und Template-Inhalte, damit darin
+  vorkommender Import-Beispieltext keinen False Positive erzeugt.
 
 Nicht garantiert abgedeckt werden:
 
@@ -179,16 +196,19 @@ S51A_MERGE_COMMIT=4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8
 S51B_A_PREFLIGHT_COMPLETE=YES
 S51B_A_SCOPE_DOCUMENTED=YES
 S51B_A_LOCAL_IMPLEMENTATION_AUTHORIZED=YES
+S51B_A_PR_NUMBER=77
+S51B_A_PR_READY_FOR_REVIEW=YES
+S51B_A_MERGE_AUTHORIZED=NO
 
 S51B_B_DATABASE_RUNTIME_AUTHORIZED=NO
 S51B_C_SCHEMA_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
 MIGRATION_AUTHORIZED=NO
 
-STAGE_AUTHORIZED=NO
-COMMIT_AUTHORIZED=NO
-PUSH_AUTHORIZED=NO
-PR_AUTHORIZED=NO
+STAGE_EXECUTED=YES
+COMMIT_EXECUTED=YES
+PUSH_EXECUTED=YES
+PR_CREATED=YES
 MERGE_AUTHORIZED=NO
 
 RAILWAY_CHANGE_AUTHORIZED=NO

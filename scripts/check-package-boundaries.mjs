@@ -1,4 +1,5 @@
 import { spawnSync } from "node:child_process";
+import { isBuiltin } from "node:module";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -42,6 +43,36 @@ const forbiddenDatabaseProviders = [
   "sqlite3",
   "typeorm",
 ];
+
+const approvedExternalManifestDependencies = new Map([
+  [
+    "root",
+    new Set([
+      "@axe-core/playwright",
+      "playwright",
+    ]),
+  ],
+  [
+    "app:web",
+    new Set([
+      "@tailwindcss/postcss",
+      "@types/node",
+      "@types/react",
+      "@types/react-dom",
+      "eslint",
+      "eslint-config-next",
+      "next",
+      "react",
+      "react-dom",
+      "tailwindcss",
+      "typescript",
+    ]),
+  ],
+  [
+    "package:db",
+    new Set(approvedDatabaseProviders),
+  ],
+]);
 
 const expectedPackages = [
   { dir: "ui", name: `${scope}/ui`, allowed: ["contracts", "domain"] },
@@ -169,17 +200,31 @@ function listFiles(start, predicate) {
   return result.sort();
 }
 
-function allDependencyNames(manifest) {
-  const fields = [
-    "dependencies",
-    "devDependencies",
-    "peerDependencies",
-    "optionalDependencies",
-  ];
 
+const dependencyFields = [
+  "dependencies",
+  "devDependencies",
+  "peerDependencies",
+  "optionalDependencies",
+];
+
+function dependencyEntries(manifest) {
+  return dependencyFields.flatMap(
+    (field) =>
+      Object.entries(
+        manifest?.[field] ?? {},
+      ).map(([name, target]) => ({
+        field,
+        name,
+        target: String(target),
+      })),
+  );
+}
+
+function allDependencyNames(manifest) {
   return new Set(
-    fields.flatMap(
-      (field) => Object.keys(manifest?.[field] ?? {}),
+    dependencyEntries(manifest).map(
+      ({ name }) => name,
     ),
   );
 }
@@ -198,12 +243,26 @@ function internalPackageName(specifier) {
   return `${parts[0]}/${parts[1]}`;
 }
 
-function stripComments(source) {
+
+function moduleSpecifierStringStartsHere(prefix) {
+  const tail = prefix.slice(-240);
+
+  return /(?:\bfrom|\bimport|\brequire\s*\(|\bimport\s*\()\s*$/.test(
+    tail,
+  );
+}
+
+function maskNonModuleText(source) {
   let result = "";
   let state = "code";
   let escaped = false;
+  let preserveString = false;
 
-  for (let index = 0; index < source.length; index += 1) {
+  for (
+    let index = 0;
+    index < source.length;
+    index += 1
+  ) {
     const character = source[index];
     const next = source[index + 1];
 
@@ -219,12 +278,18 @@ function stripComments(source) {
     }
 
     if (state === "block-comment") {
-      if (character === "*" && next === "/") {
+      if (
+        character === "*" &&
+        next === "/"
+      ) {
         result += "  ";
         index += 1;
         state = "code";
       } else {
-        result += character === "\n" ? "\n" : " ";
+        result +=
+          character === "\n"
+            ? "\n"
+            : " ";
       }
 
       continue;
@@ -235,7 +300,14 @@ function stripComments(source) {
       state === "double-quote" ||
       state === "template"
     ) {
-      result += character;
+      result +=
+        preserveString
+          ? character
+          : (
+              character === "\n"
+                ? "\n"
+                : " "
+            );
 
       if (escaped) {
         escaped = false;
@@ -247,47 +319,84 @@ function stripComments(source) {
         continue;
       }
 
-      if (
-        (state === "single-quote" && character === "'") ||
-        (state === "double-quote" && character === '"') ||
-        (state === "template" && character === "`")
-      ) {
+      const closesString =
+        (
+          state === "single-quote" &&
+          character === "'"
+        ) ||
+        (
+          state === "double-quote" &&
+          character === '"'
+        ) ||
+        (
+          state === "template" &&
+          character === "`"
+        );
+
+      if (closesString) {
         state = "code";
+        preserveString = false;
       }
 
       continue;
     }
 
-    if (character === "/" && next === "/") {
+    if (
+      character === "/" &&
+      next === "/"
+    ) {
       result += "  ";
       index += 1;
       state = "line-comment";
       continue;
     }
 
-    if (character === "/" && next === "*") {
+    if (
+      character === "/" &&
+      next === "*"
+    ) {
       result += "  ";
       index += 1;
       state = "block-comment";
       continue;
     }
 
-    result += character;
+    if (
+      character === "'" ||
+      character === '"' ||
+      character === "`"
+    ) {
+      preserveString =
+        moduleSpecifierStringStartsHere(
+          result,
+        );
 
-    if (character === "'") {
-      state = "single-quote";
-    } else if (character === '"') {
-      state = "double-quote";
-    } else if (character === "`") {
-      state = "template";
+      result +=
+        preserveString
+          ? character
+          : " ";
+
+      if (character === "'") {
+        state = "single-quote";
+      } else if (character === '"') {
+        state = "double-quote";
+      } else {
+        state = "template";
+      }
+
+      continue;
     }
+
+    result += character;
   }
 
   return result;
 }
 
 function importSpecifiers(source) {
-  const withoutComments = stripComments(source);
+  const moduleText =
+    maskNonModuleText(source);
+
   const patterns = [
     /\b(?:import|export)\s+(?:type\s+)?(?:[\w*$,\s{}]+?\s+from\s+)?["']([^"']+)["']/g,
     /require\(\s*["']([^"']+)["']\s*\)/g,
@@ -301,7 +410,10 @@ function importSpecifiers(source) {
     let match;
 
     while (
-      (match = pattern.exec(withoutComments)) !== null
+      (
+        match =
+          pattern.exec(moduleText)
+      ) !== null
     ) {
       specifiers.push(match[1]);
     }
@@ -351,6 +463,7 @@ function isTestFile(path) {
   );
 }
 
+
 function matchesProvider(specifier, names) {
   return names.some(
     (name) =>
@@ -359,31 +472,83 @@ function matchesProvider(specifier, names) {
   );
 }
 
-function databaseImportViolation(owner, specifier) {
+function manifestOwnerKey(owner) {
+  if (owner.kind === "app") {
+    return `app:${owner.dir}`;
+  }
+
+  if (owner.kind === "package") {
+    return `package:${owner.dir}`;
+  }
+
+  return "root";
+}
+
+function isApprovedManifestExternalDependency(
+  owner,
+  specifier,
+) {
+  const approved =
+    approvedExternalManifestDependencies.get(
+      manifestOwnerKey(owner),
+    );
+
+  return approved?.has(specifier) ?? false;
+}
+
+function isExternalModuleSpecifier(specifier) {
+  return (
+    !specifier.startsWith(".") &&
+    !specifier.startsWith("/") &&
+    !specifier.startsWith("#") &&
+    internalPackageName(specifier) === null &&
+    !isBuiltin(specifier)
+  );
+}
+
+function databaseImportViolation(
+  owner,
+  specifier,
+) {
   const isDbPackage =
     owner.kind === "package" &&
     owner.dir === "db";
 
-  if (
+  const approvedProvider =
     matchesProvider(
       specifier,
       approvedDatabaseProviders,
-    )
-  ) {
-    return isDbPackage
-      ? null
-      : "DATABASE_SDK_OUTSIDE_DB";
-  }
+    );
 
-  if (
+  const forbiddenProvider =
     matchesProvider(
       specifier,
       forbiddenDatabaseProviders,
-    )
+    );
+
+  if (isDbPackage) {
+    if (approvedProvider) {
+      return null;
+    }
+
+    if (forbiddenProvider) {
+      return "UNAPPROVED_DATABASE_SDK_IN_DB";
+    }
+
+    if (
+      isExternalModuleSpecifier(specifier)
+    ) {
+      return "UNAPPROVED_EXTERNAL_IN_DB";
+    }
+
+    return null;
+  }
+
+  if (
+    approvedProvider ||
+    forbiddenProvider
   ) {
-    return isDbPackage
-      ? "UNAPPROVED_DATABASE_SDK_IN_DB"
-      : "DATABASE_SDK_OUTSIDE_DB";
+    return "DATABASE_SDK_OUTSIDE_DB";
   }
 
   return null;
@@ -401,34 +566,159 @@ function databaseViolationsForSpecifiers(
         specifier,
       ),
     }))
-    .filter(({ violation }) => violation !== null);
+    .filter(
+      ({ violation }) =>
+        violation !== null,
+    );
 }
 
-function databaseSourceViolations(path, source) {
+function databaseSourceViolations(
+  path,
+  source,
+) {
   return databaseViolationsForSpecifiers(
     sourceOwner(path),
     importSpecifiers(source),
   );
 }
 
-function databaseManifestViolations(owner, manifest) {
-  return [...allDependencyNames(manifest)]
-    .map((dependency) => ({
-      dependency,
-      violation: databaseImportViolation(
-        owner,
-        dependency,
-      ),
-    }))
-    .filter(({ violation }) => violation !== null);
+function dependencyTargetSpecifier(target) {
+  if (
+    typeof target !== "string" ||
+    !target.startsWith("npm:")
+  ) {
+    return null;
+  }
+
+  const alias = target.slice(4);
+
+  if (alias.startsWith("@")) {
+    const slashIndex =
+      alias.indexOf("/");
+
+    if (slashIndex < 0) {
+      return null;
+    }
+
+    const versionIndex =
+      alias.indexOf(
+        "@",
+        slashIndex + 1,
+      );
+
+    return versionIndex < 0
+      ? alias
+      : alias.slice(0, versionIndex);
+  }
+
+  const versionIndex =
+    alias.indexOf("@");
+
+  return versionIndex < 0
+    ? alias
+    : alias.slice(0, versionIndex);
 }
+
+function manifestSpecifierViolation(
+  owner,
+  specifier,
+) {
+  const databaseViolation =
+    databaseImportViolation(
+      owner,
+      specifier,
+    );
+
+  if (databaseViolation) {
+    return databaseViolation;
+  }
+
+  if (
+    isExternalModuleSpecifier(specifier) &&
+    !isApprovedManifestExternalDependency(
+      owner,
+      specifier,
+    )
+  ) {
+    return "UNAPPROVED_EXTERNAL_DEPENDENCY";
+  }
+
+  return null;
+}
+
+function databaseManifestViolations(
+  owner,
+  manifest,
+) {
+  const violations = [];
+
+  for (
+    const {
+      field,
+      name,
+      target,
+    } of dependencyEntries(manifest)
+  ) {
+    const candidates = [
+      {
+        source: "name",
+        subject: name,
+      },
+    ];
+
+    const targetSpecifier =
+      dependencyTargetSpecifier(target);
+
+    if (
+      targetSpecifier &&
+      targetSpecifier !== name
+    ) {
+      candidates.push({
+        source: "target",
+        subject: targetSpecifier,
+      });
+    }
+
+    for (
+      const {
+        source,
+        subject,
+      } of candidates
+    ) {
+      const violation =
+        manifestSpecifierViolation(
+          owner,
+          subject,
+        );
+
+      if (!violation) {
+        continue;
+      }
+
+      violations.push({
+        dependency: name,
+        field,
+        source,
+        subject,
+        target,
+        violation,
+      });
+    }
+  }
+
+  return violations;
+}
+
 
 function reportDatabaseViolation(
   path,
   subject,
   violation,
 ) {
-  if (violation === "DATABASE_SDK_OUTSIDE_DB") {
+  if (
+    violation ===
+    "DATABASE_SDK_OUTSIDE_DB"
+  ) {
     fail(
       `${rel(path)} declares or imports database SDK ` +
       `${subject} outside packages/db`,
@@ -445,8 +735,35 @@ function reportDatabaseViolation(
       `database SDK ${subject} in packages/db; ` +
       "only drizzle-orm and mysql2 are allowed",
     );
+    return;
+  }
+
+  if (
+    violation ===
+    "UNAPPROVED_EXTERNAL_IN_DB"
+  ) {
+    fail(
+      `${rel(path)} declares or imports unapproved ` +
+      `external module ${subject} in packages/db; ` +
+      "external imports fail closed to drizzle-orm " +
+      "and mysql2",
+    );
+    return;
+  }
+
+  if (
+    violation ===
+    "UNAPPROVED_EXTERNAL_DEPENDENCY"
+  ) {
+    fail(
+      `${rel(path)} declares unapproved external ` +
+      `dependency ${subject}; new external ` +
+      "dependencies require a separately authorized " +
+      "allowlist change",
+    );
   }
 }
+
 
 function validateDatabaseManifest(
   path,
@@ -459,7 +776,7 @@ function validateDatabaseManifest(
 
   for (
     const {
-      dependency,
+      subject,
       violation,
     } of databaseManifestViolations(
       owner,
@@ -468,7 +785,7 @@ function validateDatabaseManifest(
   ) {
     reportDatabaseViolation(
       path,
-      dependency,
+      subject,
       violation,
     );
   }
@@ -544,6 +861,24 @@ function runDatabaseBoundarySelfTests() {
       },
       specifier: "drizzle-kit",
       expected: "UNAPPROVED_DATABASE_SDK_IN_DB",
+    },
+    {
+      label: "db_unknown_external_blocked",
+      owner: {
+        kind: "package",
+        dir: "db",
+      },
+      specifier: "unknown-db-client",
+      expected: "UNAPPROVED_EXTERNAL_IN_DB",
+    },
+    {
+      label: "db_node_builtin_allowed",
+      owner: {
+        kind: "package",
+        dir: "db",
+      },
+      specifier: "node:crypto",
+      expected: null,
     },
     {
       label: "db_drizzle_allowed",
@@ -668,6 +1003,30 @@ function runDatabaseEndToEndSelfTests() {
       expected: [
         "drizzle-kit:UNAPPROVED_DATABASE_SDK_IN_DB",
       ],
+    },
+    {
+      label: "db_unknown_static_import_blocked",
+      path: resolve(
+        root,
+        "packages/db/src/client.ts",
+      ),
+      source:
+        'im' +
+        'port client from "unknown-db-client";',
+      expected: [
+        "unknown-db-client:UNAPPROVED_EXTERNAL_IN_DB",
+      ],
+    },
+    {
+      label: "ordinary_string_import_text_ignored",
+      path: resolve(
+        root,
+        "scripts/example.mjs",
+      ),
+      source:
+        'const example = \'im' +
+        'port "mysql2";\';',
+      expected: [],
     },
     {
       label: "line_comment_import_ignored",
@@ -829,6 +1188,51 @@ function runDatabaseManifestSelfTests() {
       expected: [],
     },
     {
+      label: "web_unknown_dependency_blocked",
+      owner: {
+        kind: "app",
+        dir: "web",
+      },
+      manifest: {
+        dependencies: {
+          "unknown-db-client": "1.0.0",
+        },
+      },
+      expected: [
+        "unknown-db-client:UNAPPROVED_EXTERNAL_DEPENDENCY",
+      ],
+    },
+    {
+      label: "web_alias_target_mysql2_blocked",
+      owner: {
+        kind: "app",
+        dir: "web",
+      },
+      manifest: {
+        dependencies: {
+          next: "npm:mysql2@3.11.0",
+        },
+      },
+      expected: [
+        "mysql2:DATABASE_SDK_OUTSIDE_DB",
+      ],
+    },
+    {
+      label: "db_alias_target_pg_blocked",
+      owner: {
+        kind: "package",
+        dir: "db",
+      },
+      manifest: {
+        dependencies: {
+          mysql2: "npm:pg@8.13.1",
+        },
+      },
+      expected: [
+        "pg:UNAPPROVED_DATABASE_SDK_IN_DB",
+      ],
+    },
+    {
       label: "root_prisma_dependency_blocked",
       owner: { kind: "other" },
       manifest: {
@@ -850,8 +1254,8 @@ function runDatabaseManifestSelfTests() {
       testCase.manifest,
     )
       .map(
-        ({ dependency, violation }) =>
-          `${dependency}:${violation}`,
+        ({ subject, violation }) =>
+          `${subject}:${violation}`,
       )
       .sort();
 
