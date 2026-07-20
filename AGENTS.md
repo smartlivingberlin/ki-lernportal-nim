@@ -24,8 +24,15 @@ the early bootstrap phase.
 
 The S50B-R3 architecture package is human-approved and was integrated into
 `main` through the authorized squash-merge of pull request #73 at commit
-`cab2745c9cfea8a4d6418d866972cef6f982e55b`. S51A scope and implementation remain separately gated and
-are not authorized.
+`cab2745c9cfea8a4d6418d866972cef6f982e55b`.
+
+The S51A package skeleton and hardened package boundaries were integrated
+through the authorized squash-merge of pull request #76 at commit
+`4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8`.
+
+S51B-A is the current separately gated persistence scope-lock slice.
+It does not authorize a database runtime, schema, migration,
+Railway change or deployment.
 
 Existing assets:
 - a production-buildable Next.js application under `apps/web`,
@@ -55,14 +62,26 @@ S50B_R3_INTEGRATED_TO_MAIN=YES
 PR73_MERGED=YES
 PR73_MERGE_METHOD=SQUASH
 PR73_MERGE_COMMIT=cab2745c9cfea8a4d6418d866972cef6f982e55b
-S51A_SCOPE_DOCUMENTED=YES
-S51A_SCOPE_APPROVED=NO
-S51A_IMPLEMENTATION_AUTHORIZED=NO
-NEXT_PRODUCT_CODE_CHANGE_AUTHORIZED=NO
+
+S51A_PACKAGE_SKELETON_COMPLETE=YES
+S51A_INTEGRATED_TO_MAIN=YES
+PR76_MERGED=YES
+PR76_MERGE_METHOD=SQUASH
+PR76_MERGE_COMMIT=4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8
+
+S51B_A_PREFLIGHT_COMPLETE=YES
+S51B_A_SCOPE_DOCUMENTED=YES
+S51B_A_LOCAL_IMPLEMENTATION_AUTHORIZED=YES
+S51B_B_DATABASE_RUNTIME_AUTHORIZED=NO
+S51B_C_CANONICAL_SCHEMA_AUTHORIZED=NO
+
+DATABASE_CONNECTION_AUTHORIZED=NO
+MIGRATION_AUTHORIZED=NO
 NEXT_COMMIT_AUTHORIZED=NO
 NEXT_PUSH_AUTHORIZED=NO
 NEXT_PR_AUTHORIZED=NO
 NEXT_MERGE_AUTHORIZED=NO
+
 DEPLOY_AUTHORIZED=NO
 PRODUCTION_AUTODEPLOY=DISABLED
 PRODUCTION_CHANGED=NO
@@ -90,7 +109,7 @@ Do not add tracking, analytics, payment or auth providers without explicit appro
 Before modifying code:
 1. Read README.md.
 2. Read docs/00_PROJECT_STATUS.md.
-3. Read docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md and docs/architecture/S51A_IMPLEMENTATION_SCOPE.md. Treat docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md only as historical evidence.
+3. Read docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md, docs/architecture/S51A_IMPLEMENTATION_SCOPE.md and docs/architecture/S51B_IMPLEMENTATION_SCOPE.md. Treat docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md only as historical evidence.
 4. Read docs/architecture/ARCHITECTURE_TARGET.md.
 5. Read docs/architecture/adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md.
 6. Read docs/architecture/adr/ADR-0002-SERVER-BOUNDARIES.md.
