@@ -6,6 +6,43 @@ import { fileURLToPath } from "node:url";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const scope = "@ki-lernportal-nim";
 
+const approvedDatabaseProviders = [
+  "drizzle-orm",
+  "mysql2",
+];
+
+const forbiddenDatabaseProviders = [
+  "@electric-sql/pglite",
+  "@libsql/client",
+  "@neondatabase/serverless",
+  "@planetscale/database",
+  "@prisma/client",
+  "@supabase/supabase-js",
+  "@upstash/redis",
+  "@vercel/postgres",
+  "better-sqlite3",
+  "drizzle-kit",
+  "dexie",
+  "idb",
+  "ioredis",
+  "knex",
+  "kysely",
+  "mariadb",
+  "mongodb",
+  "mongoose",
+  "mysql",
+  "pg",
+  "postgres",
+  "postgres-js",
+  "pouchdb",
+  "prisma",
+  "redis",
+  "sequelize",
+  "sqlite",
+  "sqlite3",
+  "typeorm",
+];
+
 const expectedPackages = [
   { dir: "ui", name: `${scope}/ui`, allowed: ["contracts", "domain"] },
   { dir: "contracts", name: `${scope}/contracts`, allowed: [] },
@@ -161,11 +198,101 @@ function internalPackageName(specifier) {
   return `${parts[0]}/${parts[1]}`;
 }
 
+function stripComments(source) {
+  let result = "";
+  let state = "code";
+  let escaped = false;
+
+  for (let index = 0; index < source.length; index += 1) {
+    const character = source[index];
+    const next = source[index + 1];
+
+    if (state === "line-comment") {
+      if (character === "\n") {
+        result += "\n";
+        state = "code";
+      } else {
+        result += " ";
+      }
+
+      continue;
+    }
+
+    if (state === "block-comment") {
+      if (character === "*" && next === "/") {
+        result += "  ";
+        index += 1;
+        state = "code";
+      } else {
+        result += character === "\n" ? "\n" : " ";
+      }
+
+      continue;
+    }
+
+    if (
+      state === "single-quote" ||
+      state === "double-quote" ||
+      state === "template"
+    ) {
+      result += character;
+
+      if (escaped) {
+        escaped = false;
+        continue;
+      }
+
+      if (character === "\\") {
+        escaped = true;
+        continue;
+      }
+
+      if (
+        (state === "single-quote" && character === "'") ||
+        (state === "double-quote" && character === '"') ||
+        (state === "template" && character === "`")
+      ) {
+        state = "code";
+      }
+
+      continue;
+    }
+
+    if (character === "/" && next === "/") {
+      result += "  ";
+      index += 1;
+      state = "line-comment";
+      continue;
+    }
+
+    if (character === "/" && next === "*") {
+      result += "  ";
+      index += 1;
+      state = "block-comment";
+      continue;
+    }
+
+    result += character;
+
+    if (character === "'") {
+      state = "single-quote";
+    } else if (character === '"') {
+      state = "double-quote";
+    } else if (character === "`") {
+      state = "template";
+    }
+  }
+
+  return result;
+}
+
 function importSpecifiers(source) {
+  const withoutComments = stripComments(source);
   const patterns = [
     /\b(?:import|export)\s+(?:type\s+)?(?:[\w*$,\s{}]+?\s+from\s+)?["']([^"']+)["']/g,
     /require\(\s*["']([^"']+)["']\s*\)/g,
     /import\(\s*["']([^"']+)["']\s*\)/g,
+    /import\(\s*`([^`$]+)`\s*\)/g,
   ];
 
   const specifiers = [];
@@ -173,7 +300,9 @@ function importSpecifiers(source) {
   for (const pattern of patterns) {
     let match;
 
-    while ((match = pattern.exec(source)) !== null) {
+    while (
+      (match = pattern.exec(withoutComments)) !== null
+    ) {
       specifiers.push(match[1]);
     }
   }
@@ -194,9 +323,14 @@ function sourceOwner(path) {
     };
   }
 
-  if (normalized.startsWith("apps/web/")) {
+  const appMatch = normalized.match(
+    /^apps\/([^/]+)\//,
+  );
+
+  if (appMatch) {
     return {
-      kind: "web",
+      kind: "app",
+      dir: appMatch[1],
     };
   }
 
@@ -222,6 +356,536 @@ function matchesProvider(specifier, names) {
     (name) =>
       specifier === name ||
       specifier.startsWith(`${name}/`),
+  );
+}
+
+function databaseImportViolation(owner, specifier) {
+  const isDbPackage =
+    owner.kind === "package" &&
+    owner.dir === "db";
+
+  if (
+    matchesProvider(
+      specifier,
+      approvedDatabaseProviders,
+    )
+  ) {
+    return isDbPackage
+      ? null
+      : "DATABASE_SDK_OUTSIDE_DB";
+  }
+
+  if (
+    matchesProvider(
+      specifier,
+      forbiddenDatabaseProviders,
+    )
+  ) {
+    return isDbPackage
+      ? "UNAPPROVED_DATABASE_SDK_IN_DB"
+      : "DATABASE_SDK_OUTSIDE_DB";
+  }
+
+  return null;
+}
+
+function databaseViolationsForSpecifiers(
+  owner,
+  specifiers,
+) {
+  return specifiers
+    .map((specifier) => ({
+      specifier,
+      violation: databaseImportViolation(
+        owner,
+        specifier,
+      ),
+    }))
+    .filter(({ violation }) => violation !== null);
+}
+
+function databaseSourceViolations(path, source) {
+  return databaseViolationsForSpecifiers(
+    sourceOwner(path),
+    importSpecifiers(source),
+  );
+}
+
+function databaseManifestViolations(owner, manifest) {
+  return [...allDependencyNames(manifest)]
+    .map((dependency) => ({
+      dependency,
+      violation: databaseImportViolation(
+        owner,
+        dependency,
+      ),
+    }))
+    .filter(({ violation }) => violation !== null);
+}
+
+function reportDatabaseViolation(
+  path,
+  subject,
+  violation,
+) {
+  if (violation === "DATABASE_SDK_OUTSIDE_DB") {
+    fail(
+      `${rel(path)} declares or imports database SDK ` +
+      `${subject} outside packages/db`,
+    );
+    return;
+  }
+
+  if (
+    violation ===
+    "UNAPPROVED_DATABASE_SDK_IN_DB"
+  ) {
+    fail(
+      `${rel(path)} declares or imports unapproved ` +
+      `database SDK ${subject} in packages/db; ` +
+      "only drizzle-orm and mysql2 are allowed",
+    );
+  }
+}
+
+function validateDatabaseManifest(
+  path,
+  owner,
+  manifest,
+) {
+  if (!manifest) {
+    return;
+  }
+
+  for (
+    const {
+      dependency,
+      violation,
+    } of databaseManifestViolations(
+      owner,
+      manifest,
+    )
+  ) {
+    reportDatabaseViolation(
+      path,
+      dependency,
+      violation,
+    );
+  }
+}
+
+function runDatabaseBoundarySelfTests() {
+  const cases = [
+    {
+      label: "web_mysql2_blocked",
+      owner: {
+        kind: "app",
+        dir: "web",
+      },
+      specifier: "mysql2",
+      expected: "DATABASE_SDK_OUTSIDE_DB",
+    },
+    {
+      label: "web_pg_blocked",
+      owner: {
+        kind: "app",
+        dir: "web",
+      },
+      specifier: "pg",
+      expected: "DATABASE_SDK_OUTSIDE_DB",
+    },
+    {
+      label: "contracts_drizzle_blocked",
+      owner: {
+        kind: "package",
+        dir: "contracts",
+      },
+      specifier: "drizzle-orm",
+      expected: "DATABASE_SDK_OUTSIDE_DB",
+    },
+    {
+      label: "domain_prisma_blocked",
+      owner: {
+        kind: "package",
+        dir: "domain",
+      },
+      specifier: "@prisma/client",
+      expected: "DATABASE_SDK_OUTSIDE_DB",
+    },
+    {
+      label: "repository_script_mysql2_blocked",
+      owner: { kind: "other" },
+      specifier: "mysql2",
+      expected: "DATABASE_SDK_OUTSIDE_DB",
+    },
+    {
+      label: "db_pg_blocked",
+      owner: {
+        kind: "package",
+        dir: "db",
+      },
+      specifier: "pg",
+      expected: "UNAPPROVED_DATABASE_SDK_IN_DB",
+    },
+    {
+      label: "db_prisma_blocked",
+      owner: {
+        kind: "package",
+        dir: "db",
+      },
+      specifier: "prisma",
+      expected: "UNAPPROVED_DATABASE_SDK_IN_DB",
+    },
+    {
+      label: "db_drizzle_kit_blocked",
+      owner: {
+        kind: "package",
+        dir: "db",
+      },
+      specifier: "drizzle-kit",
+      expected: "UNAPPROVED_DATABASE_SDK_IN_DB",
+    },
+    {
+      label: "db_drizzle_allowed",
+      owner: {
+        kind: "package",
+        dir: "db",
+      },
+      specifier: "drizzle-orm",
+      expected: null,
+    },
+    {
+      label: "db_mysql2_allowed",
+      owner: {
+        kind: "package",
+        dir: "db",
+      },
+      specifier: "mysql2",
+      expected: null,
+    },
+    {
+      label: "db_mysql2_subpath_allowed",
+      owner: {
+        kind: "package",
+        dir: "db",
+      },
+      specifier: "mysql2/promise",
+      expected: null,
+    },
+  ];
+
+  let passed = 0;
+
+  for (const testCase of cases) {
+    const actual = databaseImportViolation(
+      testCase.owner,
+      testCase.specifier,
+    );
+
+    if (actual !== testCase.expected) {
+      fail(
+        `database boundary self-test ${testCase.label} ` +
+        `expected ${String(testCase.expected)} ` +
+        `but received ${String(actual)}`,
+      );
+      continue;
+    }
+
+    passed += 1;
+
+    console.log(
+      "S51B_DATABASE_BOUNDARY_SELF_TEST|" +
+      `CASE=${testCase.label}|RESULT=PASS`,
+    );
+  }
+
+  console.log(
+    `S51B_DATABASE_BOUNDARY_SELF_TEST_COUNT=${cases.length}`,
+  );
+
+  console.log(
+    passed === cases.length
+      ? "S51B_DATABASE_BOUNDARY_SELF_TESTS=PASS"
+      : "S51B_DATABASE_BOUNDARY_SELF_TESTS=FAIL",
+  );
+}
+
+function runDatabaseEndToEndSelfTests() {
+  const cases = [
+    {
+      label: "web_static_import_blocked",
+      path: resolve(
+        root,
+        "apps/web/src/db-check.ts",
+      ),
+      source:
+        'im' + 'port mysql from "mysql2";',
+      expected: [
+        "mysql2:DATABASE_SDK_OUTSIDE_DB",
+      ],
+    },
+    {
+      label: "future_app_template_import_blocked",
+      path: resolve(
+        root,
+        "apps/admin/src/db-check.ts",
+      ),
+      source:
+        "const db = await im" + "port(`pg`);",
+      expected: [
+        "pg:DATABASE_SDK_OUTSIDE_DB",
+      ],
+    },
+    {
+      label: "db_drizzle_import_allowed",
+      path: resolve(
+        root,
+        "packages/db/src/client.ts",
+      ),
+      source:
+        'im' + 'port { sql } from "drizzle-orm";',
+      expected: [],
+    },
+    {
+      label: "db_mysql_template_import_allowed",
+      path: resolve(
+        root,
+        "packages/db/src/client.ts",
+      ),
+      source:
+        "const mysql = await im" +
+        "port(`mysql2/promise`);",
+      expected: [],
+    },
+    {
+      label: "db_drizzle_kit_import_blocked",
+      path: resolve(
+        root,
+        "packages/db/src/tooling.ts",
+      ),
+      source:
+        'im' + 'port "drizzle-kit";',
+      expected: [
+        "drizzle-kit:UNAPPROVED_DATABASE_SDK_IN_DB",
+      ],
+    },
+    {
+      label: "line_comment_import_ignored",
+      path: resolve(
+        root,
+        "scripts/example.mjs",
+      ),
+      source:
+        '// im' +
+        'port "mysql2";\nexport const ok = true;',
+      expected: [],
+    },
+    {
+      label: "block_comment_require_ignored",
+      path: resolve(
+        root,
+        "scripts/example.cjs",
+      ),
+      source:
+        '/* req' +
+        'uire("pg"); */\nmodule.exports = true;',
+      expected: [],
+    },
+  ];
+
+  let passed = 0;
+
+  for (const testCase of cases) {
+    const actual = databaseSourceViolations(
+      testCase.path,
+      testCase.source,
+    )
+      .map(
+        ({ specifier, violation }) =>
+          `${specifier}:${violation}`,
+      )
+      .sort();
+
+    const expected = [...testCase.expected].sort();
+
+    if (
+      JSON.stringify(actual) !==
+      JSON.stringify(expected)
+    ) {
+      fail(
+        `database end-to-end self-test ` +
+        `${testCase.label} expected ` +
+        `${JSON.stringify(expected)} but received ` +
+        `${JSON.stringify(actual)}`,
+      );
+      continue;
+    }
+
+    passed += 1;
+
+    console.log(
+      "S51B_DATABASE_END_TO_END_SELF_TEST|" +
+      `CASE=${testCase.label}|RESULT=PASS`,
+    );
+  }
+
+  console.log(
+    `S51B_DATABASE_END_TO_END_SELF_TEST_COUNT=${cases.length}`,
+  );
+
+  console.log(
+    passed === cases.length
+      ? "S51B_DATABASE_END_TO_END_SELF_TESTS=PASS"
+      : "S51B_DATABASE_END_TO_END_SELF_TESTS=FAIL",
+  );
+}
+
+function runDatabaseManifestSelfTests() {
+  const cases = [
+    {
+      label: "web_mysql2_dependency_blocked",
+      owner: {
+        kind: "app",
+        dir: "web",
+      },
+      manifest: {
+        dependencies: {
+          mysql2: "0.0.0",
+        },
+      },
+      expected: [
+        "mysql2:DATABASE_SDK_OUTSIDE_DB",
+      ],
+    },
+    {
+      label: "domain_pg_dependency_blocked",
+      owner: {
+        kind: "package",
+        dir: "domain",
+      },
+      manifest: {
+        devDependencies: {
+          pg: "0.0.0",
+        },
+      },
+      expected: [
+        "pg:DATABASE_SDK_OUTSIDE_DB",
+      ],
+    },
+    {
+      label: "db_pg_dependency_blocked",
+      owner: {
+        kind: "package",
+        dir: "db",
+      },
+      manifest: {
+        dependencies: {
+          pg: "0.0.0",
+        },
+      },
+      expected: [
+        "pg:UNAPPROVED_DATABASE_SDK_IN_DB",
+      ],
+    },
+    {
+      label: "db_drizzle_kit_dependency_blocked",
+      owner: {
+        kind: "package",
+        dir: "db",
+      },
+      manifest: {
+        devDependencies: {
+          "drizzle-kit": "0.0.0",
+        },
+      },
+      expected: [
+        "drizzle-kit:UNAPPROVED_DATABASE_SDK_IN_DB",
+      ],
+    },
+    {
+      label: "db_drizzle_dependency_allowed",
+      owner: {
+        kind: "package",
+        dir: "db",
+      },
+      manifest: {
+        dependencies: {
+          "drizzle-orm": "0.0.0",
+        },
+      },
+      expected: [],
+    },
+    {
+      label: "db_mysql2_dependency_allowed",
+      owner: {
+        kind: "package",
+        dir: "db",
+      },
+      manifest: {
+        dependencies: {
+          mysql2: "0.0.0",
+        },
+      },
+      expected: [],
+    },
+    {
+      label: "root_prisma_dependency_blocked",
+      owner: { kind: "other" },
+      manifest: {
+        optionalDependencies: {
+          prisma: "0.0.0",
+        },
+      },
+      expected: [
+        "prisma:DATABASE_SDK_OUTSIDE_DB",
+      ],
+    },
+  ];
+
+  let passed = 0;
+
+  for (const testCase of cases) {
+    const actual = databaseManifestViolations(
+      testCase.owner,
+      testCase.manifest,
+    )
+      .map(
+        ({ dependency, violation }) =>
+          `${dependency}:${violation}`,
+      )
+      .sort();
+
+    const expected = [...testCase.expected].sort();
+
+    if (
+      JSON.stringify(actual) !==
+      JSON.stringify(expected)
+    ) {
+      fail(
+        `database manifest self-test ` +
+        `${testCase.label} expected ` +
+        `${JSON.stringify(expected)} but received ` +
+        `${JSON.stringify(actual)}`,
+      );
+      continue;
+    }
+
+    passed += 1;
+
+    console.log(
+      "S51B_DATABASE_MANIFEST_SELF_TEST|" +
+      `CASE=${testCase.label}|RESULT=PASS`,
+    );
+  }
+
+  console.log(
+    `S51B_DATABASE_MANIFEST_SELF_TEST_COUNT=${cases.length}`,
+  );
+
+  console.log(
+    passed === cases.length
+      ? "S51B_DATABASE_MANIFEST_POLICY_SELF_TESTS=PASS"
+      : "S51B_DATABASE_MANIFEST_POLICY_SELF_TESTS=FAIL",
   );
 }
 
@@ -490,25 +1154,98 @@ function validatePackageSkeletons() {
 }
 
 function validateImportsAndGraph() {
-  const webManifest = readJson(
-    resolve(root, "apps/web/package.json"),
+  const rootManifestPath = resolve(
+    root,
+    "package.json",
   );
-
+  const rootManifest = readJson(rootManifestPath);
+  const appManifests = new Map();
   const manifests = new Map();
 
-  for (const pkg of expectedPackages) {
-    const manifest = readJson(
-      resolve(
-        root,
-        "packages",
-        pkg.dir,
+  const appsRoot = resolve(root, "apps");
+
+  if (isDirectory(appsRoot)) {
+    for (const entry of readdirSync(appsRoot, {
+      withFileTypes: true,
+    })) {
+      if (!entry.isDirectory()) {
+        continue;
+      }
+
+      const manifestPath = resolve(
+        appsRoot,
+        entry.name,
         "package.json",
-      ),
+      );
+
+      if (!isFile(manifestPath)) {
+        continue;
+      }
+
+      const manifest = readJson(manifestPath);
+
+      if (manifest) {
+        appManifests.set(entry.name, {
+          manifest,
+          path: manifestPath,
+        });
+      }
+    }
+  }
+
+  for (const pkg of expectedPackages) {
+    const manifestPath = resolve(
+      root,
+      "packages",
+      pkg.dir,
+      "package.json",
     );
+    const manifest = readJson(manifestPath);
 
     if (manifest) {
-      manifests.set(pkg.dir, manifest);
+      manifests.set(pkg.dir, {
+        manifest,
+        path: manifestPath,
+      });
     }
+  }
+
+  validateDatabaseManifest(
+    rootManifestPath,
+    { kind: "other" },
+    rootManifest,
+  );
+
+  for (
+    const [
+      appDir,
+      { manifest, path },
+    ] of appManifests
+  ) {
+    validateDatabaseManifest(
+      path,
+      {
+        kind: "app",
+        dir: appDir,
+      },
+      manifest,
+    );
+  }
+
+  for (
+    const [
+      packageDir,
+      { manifest, path },
+    ] of manifests
+  ) {
+    validateDatabaseManifest(
+      path,
+      {
+        kind: "package",
+        dir: packageDir,
+      },
+      manifest,
+    );
   }
 
   const packagesRoot = resolve(
@@ -522,7 +1259,11 @@ function validateImportsAndGraph() {
       (path) => /\.[cm]?[jt]sx?$/.test(path),
     ),
     ...listFiles(
-      resolve(root, "apps/web"),
+      appsRoot,
+      (path) => /\.[cm]?[jt]sx?$/.test(path),
+    ),
+    ...listFiles(
+      resolve(root, "scripts"),
       (path) => /\.[cm]?[jt]sx?$/.test(path),
     ),
   ];
@@ -543,8 +1284,25 @@ function validateImportsAndGraph() {
   for (const file of sourceFiles) {
     const owner = sourceOwner(file);
     const source = readText(file);
+    const specifiers = importSpecifiers(source);
 
-    for (const specifier of importSpecifiers(source)) {
+    for (
+      const {
+        specifier,
+        violation,
+      } of databaseViolationsForSpecifiers(
+        owner,
+        specifiers,
+      )
+    ) {
+      reportDatabaseViolation(
+        file,
+        specifier,
+        violation,
+      );
+    }
+
+    for (const specifier of specifiers) {
       const internalName =
         internalPackageName(specifier);
 
@@ -607,14 +1365,14 @@ function validateImportsAndGraph() {
 
           if (
             !allDependencyNames(
-              manifests.get(importer.dir),
+              manifests.get(importer.dir)?.manifest,
             ).has(target.name)
           ) {
             fail(
               `${importer.name} imports undeclared dependency ${target.name}`,
             );
           }
-        } else if (owner.kind === "web") {
+        } else if (owner.kind === "app") {
           if (
             target.dir === "testing" &&
             !isTestFile(file)
@@ -622,17 +1380,18 @@ function validateImportsAndGraph() {
             fail(
               `${rel(
                 file,
-              )} imports testing from web production code`,
+              )} imports testing from app production code`,
             );
           }
 
           if (
             !allDependencyNames(
-              webManifest,
+              appManifests.get(owner.dir)?.manifest,
             ).has(target.name)
           ) {
             fail(
-              `apps/web imports undeclared dependency ${target.name}`,
+              `apps/${owner.dir} imports undeclared ` +
+              `dependency ${target.name}`,
             );
           }
         }
@@ -676,7 +1435,7 @@ function validateImportsAndGraph() {
         }
 
         if (
-          owner.kind === "web" &&
+          owner.kind === "app" &&
           (
             resolvedImport === packagesRoot ||
             resolvedImport.startsWith(
@@ -692,23 +1451,6 @@ function validateImportsAndGraph() {
         }
       }
 
-      if (
-        owner.kind !== "other" &&
-        !(
-          owner.kind === "package" &&
-          owner.dir === "db"
-        ) &&
-        matchesProvider(
-          specifier,
-          ["drizzle-orm", "mysql2"],
-        )
-      ) {
-        fail(
-          `${rel(
-            file,
-          )} imports database SDK outside packages/db`,
-        );
-      }
 
       if (
         owner.kind !== "other" &&
@@ -768,7 +1510,7 @@ function validateImportsAndGraph() {
 
   for (const pkg of expectedPackages) {
     const dependencies = allDependencyNames(
-      manifests.get(pkg.dir),
+      manifests.get(pkg.dir)?.manifest,
     );
 
     for (const dependency of dependencies) {
@@ -857,6 +1599,9 @@ function runTypecheck() {
   }
 }
 
+runDatabaseBoundarySelfTests();
+runDatabaseEndToEndSelfTests();
+runDatabaseManifestSelfTests();
 validateWorkspace();
 validatePackageSkeletons();
 validateImportsAndGraph();
