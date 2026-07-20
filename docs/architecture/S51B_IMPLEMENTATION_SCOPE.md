@@ -4,9 +4,9 @@
 
 **Stand:** 20. Juli 2026
 
-**Source of Truth:** `fbdedec8f3e67ce99678c41779b99b22be506710`
+**S51B-A Integration Commit:** `fbdedec8f3e67ce99678c41779b99b22be506710`
 
-**Branch:** `feat/s51b-a-persistence-scope-lock-20260720`
+**Implementation Branch (historisch):** `feat/s51b-a-persistence-scope-lock-20260720`
 
 ## 1. Zweck
 
