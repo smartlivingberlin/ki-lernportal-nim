@@ -30,9 +30,10 @@ The S51A package skeleton and hardened package boundaries were integrated
 through the authorized squash-merge of pull request #76 at commit
 `4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8`.
 
-S51B-A is the current separately gated persistence scope-lock slice.
-It does not authorize a database runtime, schema, migration,
-Railway change or deployment.
+S51B-A is integrated into `main`. S51B-B is the current separately
+gated documentation and runtime scope-lock slice. This stage authorizes only
+local documentation changes and no dependency installation, database runtime,
+connection, schema, migration, Railway change or deployment.
 
 Existing assets:
 - a production-buildable Next.js application under `apps/web`,
@@ -72,9 +73,17 @@ PR76_MERGE_COMMIT=4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8
 S51B_A_PREFLIGHT_COMPLETE=YES
 S51B_A_SCOPE_DOCUMENTED=YES
 S51B_A_LOCAL_IMPLEMENTATION_AUTHORIZED=YES
-S51B_B_DATABASE_RUNTIME_AUTHORIZED=NO
-S51B_C_CANONICAL_SCHEMA_AUTHORIZED=NO
+S51B_A_INTEGRATED_TO_MAIN=YES
 
+S51B_B_PREFLIGHT_COMPLETE=YES
+S51B_B_DOCUMENTATION_SCOPE_LOCK_LOCAL_AUTHORIZED=YES
+S51B_B_EXACT_SCOPE_DOCUMENTED=YES
+S51B_B_IMPLEMENTATION_AUTHORIZED=NO
+S51B_B_DEPENDENCY_INSTALL_AUTHORIZED=NO
+S51B_B_DATABASE_RUNTIME_AUTHORIZED=NO
+S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
+
+S51B_C_SCHEMA_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
 MIGRATION_AUTHORIZED=NO
 NEXT_COMMIT_AUTHORIZED=NO
@@ -109,7 +118,7 @@ Do not add tracking, analytics, payment or auth providers without explicit appro
 Before modifying code:
 1. Read README.md.
 2. Read docs/00_PROJECT_STATUS.md.
-3. Read docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md, docs/architecture/S51A_IMPLEMENTATION_SCOPE.md and docs/architecture/S51B_IMPLEMENTATION_SCOPE.md. Treat docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md only as historical evidence.
+3. Read docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md, docs/architecture/S51A_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_IMPLEMENTATION_SCOPE.md and docs/architecture/S51B_B_IMPLEMENTATION_SCOPE.md. Treat docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md only as historical evidence.
 4. Read docs/architecture/ARCHITECTURE_TARGET.md.
 5. Read docs/architecture/adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md.
 6. Read docs/architecture/adr/ADR-0002-SERVER-BOUNDARIES.md.
