@@ -30,10 +30,16 @@ The S51A package skeleton and hardened package boundaries were integrated
 through the authorized squash-merge of pull request #76 at commit
 `4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8`.
 
-S51B-A is integrated into `main`. S51B-B is the current separately
-gated documentation and runtime scope-lock slice. This stage authorizes only
-local documentation changes and no dependency installation, database runtime,
-connection, schema, migration, Railway change or deployment.
+S51B-A and the S51B-B documentation and runtime scope lock are
+integrated into `main`. S51B-B was integrated through the authorized
+squash-merge of pull request #79 at commit
+`c37703fdd4d2df152857e4834ab9cf01351a9cfb`.
+
+PR #79 also integrated the reviewed minimal transitive audit fix for
+`brace-expansion` and `js-yaml`. It introduced no application or database
+runtime. The actual MySQL/Drizzle adapter implementation remains separately
+gated, and no database connection, schema, migration, Railway change or
+deployment is authorized.
 
 Existing assets:
 - a production-buildable Next.js application under `apps/web`,
@@ -76,8 +82,17 @@ S51B_A_LOCAL_IMPLEMENTATION_AUTHORIZED=YES
 S51B_A_INTEGRATED_TO_MAIN=YES
 
 S51B_B_PREFLIGHT_COMPLETE=YES
-S51B_B_DOCUMENTATION_SCOPE_LOCK_LOCAL_AUTHORIZED=YES
 S51B_B_EXACT_SCOPE_DOCUMENTED=YES
+S51B_B_SCOPE_LOCK_INTEGRATED_TO_MAIN=YES
+S51B_B_PR_NUMBER=79
+S51B_B_PR_HEAD=0fe754e9225bf3e6e2e3e8504aa88a11850daa01
+S51B_B_MERGE_EXECUTED=YES
+S51B_B_MERGE_METHOD=SQUASH
+S51B_B_MERGE_COMMIT=c37703fdd4d2df152857e4834ab9cf01351a9cfb
+S51B_B_PRE_MERGE_CI_RUN_NUMBER=177
+S51B_B_PRE_MERGE_CI_CONCLUSION=SUCCESS
+S51B_B_TRANSITIVE_AUDIT_FIX_INTEGRATED=YES
+S51B_B_APPLICATION_RUNTIME_CHANGED=NO
 S51B_B_IMPLEMENTATION_AUTHORIZED=NO
 S51B_B_DEPENDENCY_INSTALL_AUTHORIZED=NO
 S51B_B_DATABASE_RUNTIME_AUTHORIZED=NO

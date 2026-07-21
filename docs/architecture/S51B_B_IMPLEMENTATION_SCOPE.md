@@ -1,12 +1,18 @@
 # S51B-B – MySQL-/Drizzle-Adapterfundament: Dokumentations- und Scope-Lock
 
-**Status:** Reine Dokumentation. Implementierung, Abhängigkeiten,
-Datenbankverbindung, Schema, Migration, Railway und Deployment bleiben
-gesperrt.
+**Status:** Dokumentations- und Runtime-Scope-Lock durch PR #79 in
+`main` integriert. Die eigentliche Adapterimplementierung,
+Adapter-Abhängigkeiten, Datenbankverbindung, Schema, Migration, Railway und
+Deployment bleiben gesperrt.
 
 **Stand:** 21. Juli 2026
 
 **Baseline:** `ebaca10d7cbcee69587f5a87391e8b5b298c75f8`
+
+**Historischer PR-Head:** `0fe754e9225bf3e6e2e3e8504aa88a11850daa01`
+
+**Integration:** PR #79, Squash-Commit
+`c37703fdd4d2df152857e4834ab9cf01351a9cfb`
 
 ## 1. Technische Richtung
 
@@ -22,7 +28,7 @@ SECOND_BACKEND_RUNTIME=NO
 Andere Datenbanken, ORMs, `drizzle-kit` und eine zweite Backend-Runtime sind
 nicht freigegeben.
 
-## 2. Dateiscope dieses Dokumentationsslices
+## 2. Dateiscope des ursprünglichen Dokumentationsslices
 
 ```text
 AGENTS.md
@@ -30,7 +36,12 @@ docs/architecture/S51B_IMPLEMENTATION_SCOPE.md
 docs/architecture/S51B_B_IMPLEMENTATION_SCOPE.md
 ```
 
-Die Änderungen bleiben lokal und unstaged.
+Dieser ursprüngliche Dokumentationsscope wurde durch PR #79 in `main`
+integriert. PR #79 enthielt zusätzlich ausschließlich den geprüften minimalen
+transitiven Audit-Fix in `pnpm-lock.yaml` und `pnpm-workspace.yaml`.
+
+Dadurch wurde keine MySQL-/Drizzle-Adapterruntime implementiert oder
+freigegeben.
 
 ## 3. Kandidatenscope einer späteren Implementierung
 
@@ -161,23 +172,29 @@ Route Handler oder Server Actions.
 
 ```text
 S51B_B_PREFLIGHT_COMPLETE=YES
-S51B_B_DOCUMENTATION_SCOPE_LOCK_LOCAL_AUTHORIZED=YES
 S51B_B_EXACT_SCOPE_DOCUMENTED=YES
+S51B_B_SCOPE_LOCK_INTEGRATED_TO_MAIN=YES
+S51B_B_PR_NUMBER=79
+S51B_B_PR_HEAD=0fe754e9225bf3e6e2e3e8504aa88a11850daa01
+S51B_B_MERGE_EXECUTED=YES
+PR79_MERGED=YES
+PR79_MERGE_METHOD=SQUASH
+PR79_MERGE_COMMIT=c37703fdd4d2df152857e4834ab9cf01351a9cfb
+PR79_MERGED_AT=2026-07-21T22:38:53+02:00
+PR79_PRE_MERGE_CI_RUN_NUMBER=177
+PR79_PRE_MERGE_CI_CONCLUSION=SUCCESS
+S51B_B_TRANSITIVE_AUDIT_FIX_INTEGRATED=YES
+S51B_B_APPLICATION_RUNTIME_CHANGED=NO
 
 S51B_B_IMPLEMENTATION_AUTHORIZED=NO
 S51B_B_DEPENDENCY_INSTALL_AUTHORIZED=NO
 S51B_B_DATABASE_RUNTIME_AUTHORIZED=NO
 S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
+S51B_B_NEXT_IMPLEMENTATION_ACTION_AUTHORIZED=NO
 
 S51B_C_SCHEMA_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
 MIGRATION_AUTHORIZED=NO
-
-S51B_B_STAGE_AUTHORIZED=NO
-S51B_B_COMMIT_AUTHORIZED=NO
-S51B_B_PUSH_AUTHORIZED=NO
-S51B_B_PR_AUTHORIZED=NO
-S51B_B_MERGE_AUTHORIZED=NO
 
 RAILWAY_CHANGE_AUTHORIZED=NO
 DEPLOY_AUTHORIZED=NO

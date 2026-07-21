@@ -1,8 +1,8 @@
 # Projektstatus: KI-Lernportal NIM
 
-**Stand:** 19. Juli 2026
-**Status:** S50B-R3-Architekturpaket und nachgelagerter Dokumentabgleich abgeschlossen und in `main` integriert; weitere Produkt-, S51A- und Betriebsentscheidungen bleiben separat freigabepflichtig
-**Abgeschlossene Integrationen:** PR #73 und PR #74, jeweils per Squash-Merge
+**Stand:** 21. Juli 2026
+**Status:** S50B-R3, S51A, S51B-A und der S51B-B-Dokumentations- und Runtime-Scope-Lock sind in `main` integriert; die eigentliche MySQL-/Drizzle-Adapterimplementierung, Datenbankverbindung, Schema, Migration, Railway und Deployment bleiben separat freigabepflichtig
+**Abgeschlossene Integrationen:** PR #73, #74, #76, #77, #78 und #79, jeweils per Squash-Merge
 
 ## Verbindliche Einordnung
 
@@ -10,6 +10,8 @@ Das menschlich freigegebene und in `main` integrierte S50B-R3-Zielbild steht in:
 
 - [S50B-R3 Final Architecture Approval Package](architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md)
 - [Exakter S51A-Implementierungsscope](architecture/S51A_IMPLEMENTATION_SCOPE.md)
+- [S51B-Persistenz-Scope und Integrationsstatus](architecture/S51B_IMPLEMENTATION_SCOPE.md)
+- [S51B-B Adapter-Scope-Lock](architecture/S51B_B_IMPLEMENTATION_SCOPE.md)
 - [Zielarchitektur](architecture/ARCHITECTURE_TARGET.md)
 - [Package-DAG](architecture/PACKAGE_DAG.md)
 - [Plattformverträge](architecture/PLATFORM_CONTRACTS.md)
@@ -43,6 +45,8 @@ Struktur, relative Links und Freigabemarker geprüft.
 Vorhanden sind:
 
 - eine produktionsfähig baubare Next.js-Anwendung unter `apps/web`;
+- ein S51A-Workspace mit acht privaten und gehärteten Package-Grenzen;
+- integrierte S51B-A- und S51B-B-Persistenz- beziehungsweise Runtime-Scope-Locks;
 - zwölf strukturierte Anfängerlektionen;
 - lokale Suche und lokaler Lernfortschritt;
 - zwölf Übungen und 36 Selbstprüfungsfragen;
@@ -56,7 +60,6 @@ Die Konzeptdemo ist kein Nachweis für vollständige Produktionsreife.
 
 Nicht vorhanden oder nicht freigegeben sind insbesondere:
 
-- S51A-Package-Skeleton;
 - produktive Benutzerkonten;
 - produktive MySQL-/Drizzle-Persistenz;
 - Migrationen;
@@ -82,6 +85,19 @@ Der danach erforderliche Tatsachenabgleich wurde am 19. Juli 2026 durch den
 autorisierten Squash-Merge von PR #74 unter
 `f8ba5da1b7652447a93511e377c1891ff4470754` in `main` integriert.
 
+Das S51A-Package-Skeleton wurde durch PR #76 unter
+`4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8` integriert. Der
+S51B-A-Persistenz-Scope-Lock folgte durch PR #77 unter
+`fbdedec8f3e67ce99678c41779b99b22be506710`; der zugehörige
+Post-Merge-Tatsachenabgleich wurde durch PR #78 unter
+`ebaca10d7cbcee69587f5a87391e8b5b298c75f8` integriert.
+
+Der S51B-B-Dokumentations- und Runtime-Scope-Lock sowie der minimale
+transitive Audit-Fix wurden am 21. Juli 2026 durch PR #79 unter
+`c37703fdd4d2df152857e4834ab9cf01351a9cfb` integriert. Der geprüfte
+PR-Head war `0fe754e9225bf3e6e2e3e8504aa88a11850daa01`. Die
+GitHub-CI-Läufe #164, #171, #174 und #177 waren erfolgreich.
+
 PR #74 betraf ausschließlich:
 
 - `AGENTS.md`;
@@ -99,8 +115,8 @@ dokumentarisch. Sie verändern keinen Produktcode und keine Abhängigkeiten.
 
 ## GitHub-, Railway- und Produktionsgrenze
 
-PR #73 und PR #74 sind abgeschlossen und jeweils per Squash-Merge in `main`
-integriert.
+PR #73, #74, #76, #77, #78 und #79 sind abgeschlossen und jeweils per
+Squash-Merge in `main` integriert.
 
 PR #73 wurde am 18. Juli 2026 unter
 `cab2745c9cfea8a4d6418d866972cef6f982e55b` integriert.
@@ -133,8 +149,8 @@ der dann aktuelle Railway-Dashboardzustand erneut read-only geprüft werden.
 ## Dauerhafte Arbeits- und Freigabegrenzen
 
 1. Jede weitere Arbeit beginnt auf einem neuen kleinen Branch vom dann aktuellen `origin/main`; abgeschlossene PR-Branches werden nicht als neue Entwicklungsbasis fortgeführt.
-2. S51A-Scope und S51A-Implementierung bleiben getrennte menschliche Entscheidungen.
-3. Produktcode beginnt erst nach ausdrücklicher S51A-Implementierungsfreigabe.
+2. S51A, S51B-A und der S51B-B-Scope-Lock sind integriert; die eigentliche S51B-B-Adapterimplementierung bleibt eine getrennte menschliche Entscheidung.
+3. Datenbankabhängigkeiten, Adapterruntime oder Verbindungsnachweise beginnen erst nach ausdrücklicher S51B-B-Implementierungsfreigabe.
 4. Git-, Railway-, Datenbank-, Deployment- und Produktionsaktionen bleiben jeweils separat freigabepflichtig.
 5. Vor jeder zukünftigen Mergeentscheidung werden Head, Base-Freshness, CI, Review-Threads und Dateiscope erneut read-only geprüft.
 
@@ -165,6 +181,41 @@ PR74_MERGE_COMMIT=f8ba5da1b7652447a93511e377c1891ff4470754
 PR74_MERGED_AT=2026-07-19T12:57:40+02:00
 PR74_REMOTE_BRANCH_RETAINED_AFTER_MERGE=YES
 
+PR76_MERGED=YES
+PR76_MERGE_METHOD=SQUASH
+PR76_MERGED_HEAD=fdccc81ec2d49e1a14bfb2f187ebb829bdba1f57
+PR76_MERGE_COMMIT=4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8
+PR76_MERGED_AT=2026-07-20T00:27:55+02:00
+PR76_PRE_MERGE_CI_RUN_NUMBER=164
+PR76_PRE_MERGE_CI_CONCLUSION=SUCCESS
+
+PR77_MERGED=YES
+PR77_MERGE_METHOD=SQUASH
+PR77_MERGED_HEAD=09416fcb004b47498f3880387f64c87d4eef8883
+PR77_MERGE_COMMIT=fbdedec8f3e67ce99678c41779b99b22be506710
+PR77_MERGED_AT=2026-07-20T16:40:06+02:00
+PR77_PRE_MERGE_CI_RUN_NUMBER=171
+PR77_PRE_MERGE_CI_CONCLUSION=SUCCESS
+
+PR78_MERGED=YES
+PR78_MERGE_METHOD=SQUASH
+PR78_MERGED_HEAD=8e57b7c826b482ff14592111b1b4c2e47c69ff48
+PR78_MERGE_COMMIT=ebaca10d7cbcee69587f5a87391e8b5b298c75f8
+PR78_MERGED_AT=2026-07-20T23:19:33+02:00
+PR78_PRE_MERGE_CI_RUN_NUMBER=174
+PR78_PRE_MERGE_CI_CONCLUSION=SUCCESS
+
+PR79_MERGED=YES
+PR79_MERGE_METHOD=SQUASH
+PR79_MERGED_HEAD=0fe754e9225bf3e6e2e3e8504aa88a11850daa01
+PR79_MERGE_COMMIT=c37703fdd4d2df152857e4834ab9cf01351a9cfb
+PR79_MERGED_AT=2026-07-21T22:38:53+02:00
+PR79_PRE_MERGE_CI_RUN_NUMBER=177
+PR79_PRE_MERGE_CI_CONCLUSION=SUCCESS
+PR79_TRANSITIVE_AUDIT_FIX_INTEGRATED=YES
+PR79_APPLICATION_RUNTIME_CHANGED=NO
+PR79_DATABASE_RUNTIME_IMPLEMENTED=NO
+
 PR74_PRE_MERGE_CI_RUN_NUMBER=159
 PR74_PRE_MERGE_CI_CONCLUSION=SUCCESS
 PR74_POST_MERGE_CI_RUN_NUMBER=160
@@ -183,7 +234,16 @@ PR74_SEQUENCE_RAILWAY_WRITE_COMMAND_EXECUTED=NO
 PR74_SEQUENCE_DEPLOY_COMMAND_EXECUTED=NO
 
 S51A_SCOPE_DOCUMENTED=YES
-S51A_IMPLEMENTATION_REQUIRES_SEPARATE_HUMAN_APPROVAL=YES
+S51A_INTEGRATED_TO_MAIN=YES
+S51B_A_INTEGRATED_TO_MAIN=YES
+S51B_B_SCOPE_LOCK_INTEGRATED_TO_MAIN=YES
+S51B_B_IMPLEMENTATION_AUTHORIZED=NO
+S51B_B_DEPENDENCY_INSTALL_AUTHORIZED=NO
+S51B_B_DATABASE_RUNTIME_AUTHORIZED=NO
+S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
+S51B_C_SCHEMA_AUTHORIZED=NO
+DATABASE_CONNECTION_AUTHORIZED=NO
+MIGRATION_AUTHORIZED=NO
 PRODUCT_CODE_CHANGE_REQUIRES_SEPARATE_AUTHORIZATION=YES
 FUTURE_GIT_ACTIONS_REQUIRE_SEPARATE_AUTHORIZATION=YES
 FUTURE_RAILWAY_ACTIONS_REQUIRE_CURRENT_READ_ONLY_EVIDENCE=YES
