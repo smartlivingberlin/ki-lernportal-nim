@@ -165,7 +165,7 @@ const workspace = read(
 );
 
 const requiredWorkspaceRules = [
-  '  "next>postcss": "8.5.10"',
+  '  "next>postcss": "8.5.12"',
   "nodeVersion: 22.22.1",
   "engineStrict: true",
   "strictDepBuilds: true",
