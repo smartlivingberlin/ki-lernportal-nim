@@ -181,9 +181,11 @@ AI/RAG:
 - later NVIDIA NIM adapters only after cost and privacy review
 
 Database:
-- MySQL with Drizzle is planned for the persistence slice
+- S51B-B provides a local lazy MySQL/Drizzle adapter foundation in `packages/db`
+- environment reads, driver loading, pool creation and Drizzle creation occur only through explicit `initialize()`
+- module import, Fake-/Unit-Tests and CI tests perform no real database or network connection
+- real connection proof, schema, `drizzle-kit`, migrations and seeds require separate explicit approval
 - vector retrieval remains provider-neutral and starts only after evaluation
-- no database dependency before MVP baseline
 
 Deployment:
 - Railway production hosts the concept demo; isolated staging remains a separate future gate.

@@ -67,6 +67,9 @@ jobs:
       - name: Typecheck S51A packages
         run: pnpm packages:typecheck
 
+      - name: Test S51B-B database runtime with local fakes
+        run: pnpm test:s51b-b-db-runtime
+
       - name: Supply-chain policy check
         run: pnpm supply-chain:check
 

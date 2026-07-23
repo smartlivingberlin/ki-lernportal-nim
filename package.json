@@ -19,6 +19,7 @@
     "governance:check": "node scripts/check-github-governance.mjs",
     "packages:boundaries": "node scripts/check-package-boundaries.mjs",
     "packages:typecheck": "node scripts/check-package-boundaries.mjs --typecheck",
+    "test:s51b-b-db-runtime": "node --experimental-strip-types packages/db/src/runtime-config.test.ts && node --experimental-strip-types packages/db/src/mysql-runtime.test.ts",
     "packages:verify": "pnpm packages:boundaries && pnpm packages:typecheck"
   },
   "devDependencies": {

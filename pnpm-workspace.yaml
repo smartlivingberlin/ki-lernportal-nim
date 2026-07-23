@@ -5,6 +5,7 @@ packages:
 
 overrides:
   "next>postcss": "8.5.10"
+  "next>sharp": "0.35.3"
 
 nodeVersion: 22.22.1
 engineStrict: true
@@ -13,7 +14,7 @@ blockExoticSubdeps: true
 minimumReleaseAge: 1440
 
 allowBuilds:
-  "sharp@0.34.5": false
+  "sharp@0.35.3": false
   "unrs-resolver@1.12.2": false
 
 minimumReleaseAgeExclude:

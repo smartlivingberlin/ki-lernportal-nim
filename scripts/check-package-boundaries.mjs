@@ -1466,22 +1466,63 @@ function validatePackageSkeletons() {
       );
     }
 
-    for (const field of [
-      "dependencies",
-      "devDependencies",
-      "peerDependencies",
-      "optionalDependencies",
-    ]) {
+    if (pkg.dir === "db") {
+      const actualDependencies = Object.keys(
+        manifest.dependencies ?? {},
+      ).sort();
+
+      const expectedDependencies = [
+        ...approvedDatabaseProviders,
+      ].sort();
+
       if (
-        Object.keys(
-          manifest[field] ?? {},
-        ).length > 0
+        JSON.stringify(actualDependencies) !==
+        JSON.stringify(expectedDependencies)
       ) {
         fail(
           `${rel(
             manifestPath,
-          )} must not declare ${field} in S51A`,
+          )} must declare exactly drizzle-orm and mysql2 ` +
+          "as normal dependencies in S51B-B",
         );
+      }
+
+      for (const field of [
+        "devDependencies",
+        "peerDependencies",
+        "optionalDependencies",
+      ]) {
+        if (
+          Object.keys(
+            manifest[field] ?? {},
+          ).length > 0
+        ) {
+          fail(
+            `${rel(
+              manifestPath,
+            )} must not declare ${field} in S51B-B`,
+          );
+        }
+      }
+    } else {
+      for (const field of [
+        "dependencies",
+        "devDependencies",
+        "peerDependencies",
+        "optionalDependencies",
+      ]) {
+        if (
+          Object.keys(
+            manifest[field] ?? {},
+          ).length > 0
+        ) {
+          fail(
+            `${rel(
+              manifestPath,
+            )} must not declare ${field} before a ` +
+            "separately authorized implementation slice",
+          );
+        }
       }
     }
 
@@ -1542,7 +1583,21 @@ function validatePackageSkeletons() {
         }
       }
 
-      if (
+      if (pkg.dir === "db") {
+        for (const requiredText of [
+          "S51B-B",
+          "keine echte Datenbankverbindung",
+        ]) {
+          if (!readme.includes(requiredText)) {
+            fail(
+              `${rel(
+                readmePath,
+              )} is missing S51B-B runtime status text: ` +
+              requiredText,
+            );
+          }
+        }
+      } else if (
         !readme.includes(
           "Keine Runtime-Implementierung",
         )
@@ -1974,6 +2029,7 @@ function runTypecheck() {
         "--project",
         configFromWeb,
         "--noEmit",
+        "--allowImportingTsExtensions",
         "--pretty",
         "false",
       ],
