@@ -171,7 +171,7 @@ const requiredWorkspaceRules = [
   "strictDepBuilds: true",
   "blockExoticSubdeps: true",
   "minimumReleaseAge: 1440",
-  '  "sharp@0.34.5": false',
+  '  "sharp@0.35.3": false',
   '  "unrs-resolver@1.12.2": false',
 ];
 
