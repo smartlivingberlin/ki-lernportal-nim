@@ -263,7 +263,7 @@ export default function Home() {
         <aside
           id="pfad"
           aria-label="Lernpfad und Fortschritt"
-          className="min-w-0 scroll-mt-52 space-y-5 lg:scroll-mt-32 xl:col-start-1 xl:row-start-1 xl:sticky xl:top-[5.75rem] xl:self-start"
+          className="min-w-0 scroll-mt-52 space-y-5 lg:scroll-mt-32 xl:col-start-1 xl:row-start-1 xl:sticky xl:top-[5.75rem] xl:max-h-[calc(100vh-6.75rem)] xl:self-start xl:overflow-y-auto xl:pb-1 xl:pr-1"
         >
           <PortalHero progressText={progressText} progressPercent={progressPercent} totalLessons={totalLessons} />
 
@@ -305,7 +305,7 @@ export default function Home() {
         <aside
           id="coach"
           aria-label="Sicherheits-Coach, nächste Lektion, Quellen und Begriffe"
-          className="min-w-0 scroll-mt-52 space-y-5 lg:scroll-mt-32 xl:col-start-3 xl:row-start-1 xl:sticky xl:top-[5.75rem] xl:self-start"
+          className="min-w-0 scroll-mt-52 space-y-5 lg:scroll-mt-32 xl:col-start-3 xl:row-start-1 xl:sticky xl:top-[5.75rem] xl:max-h-[calc(100vh-6.75rem)] xl:self-start xl:overflow-y-auto xl:pb-1 xl:pr-1"
         >
           <section className="rounded-[2rem] border border-emerald-100 bg-emerald-50 p-5 shadow-sm">
             <p className="text-xs font-black uppercase tracking-widest text-emerald-700">Sicherheits-Coach</p>

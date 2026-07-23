@@ -27,8 +27,28 @@ const viewports = [
     height: 844,
   },
   {
+    name: "zoom-equivalent-640",
+    width: 640,
+    height: 720,
+  },
+  {
     name: "tablet-1024",
     width: 1024,
+    height: 900,
+  },
+  {
+    name: "laptop-1280",
+    width: 1280,
+    height: 720,
+  },
+  {
+    name: "laptop-1366",
+    width: 1366,
+    height: 768,
+  },
+  {
+    name: "desktop-1440-short",
+    width: 1440,
     height: 900,
   },
   {
@@ -91,6 +111,418 @@ async function openPortal(page) {
       state: "visible",
       timeout: navigationTimeout,
     });
+}
+
+const sidebarSelectors = [
+  "#pfad",
+  "#coach",
+];
+
+const sidebarInteractiveSelector = [
+  "a[href]",
+  "button",
+  "summary",
+  "input",
+  "select",
+  "textarea",
+  "[role='button']",
+].join(",");
+
+async function testSidebarScrollability(
+  page,
+  viewport,
+) {
+  const usesInternalScroll =
+    viewport.width >= 1280;
+
+  let targetCount = 0;
+
+  for (const selector of sidebarSelectors) {
+    const region =
+      page.locator(selector);
+
+    await region.waitFor({
+      state: "visible",
+    });
+
+    await region
+      .locator("details")
+      .evaluateAll((details) => {
+        details.forEach((detail) => {
+          detail.open = true;
+        });
+      });
+
+    const metrics =
+      await region.evaluate((element) => {
+        const rect =
+          element.getBoundingClientRect();
+
+        const style =
+          window.getComputedStyle(element);
+
+        const headerRect =
+          document
+            .querySelector("header")
+            ?.getBoundingClientRect();
+
+        const bodyStyle =
+          window.getComputedStyle(
+            document.body,
+          );
+
+        return {
+          position: style.position,
+          overflowY: style.overflowY,
+          maxHeight: style.maxHeight,
+
+          clientHeight:
+            element.clientHeight,
+
+          scrollHeight:
+            element.scrollHeight,
+
+          clientWidth:
+            element.clientWidth,
+
+          scrollWidth:
+            element.scrollWidth,
+
+          top: rect.top,
+          bottom: rect.bottom,
+
+          headerBottom:
+            headerRect?.bottom ?? 0,
+
+          viewportHeight:
+            window.innerHeight,
+
+          bodyOverflowY:
+            bodyStyle.overflowY,
+        };
+      });
+
+    assert.ok(
+      metrics.scrollWidth <=
+        metrics.clientWidth + 1,
+      `${viewport.name}: ${selector} horizontal overflow`,
+    );
+
+    assert.notEqual(
+      metrics.bodyOverflowY,
+      "hidden",
+      `${viewport.name}: document scrolling blocked`,
+    );
+
+    assert.notEqual(
+      metrics.bodyOverflowY,
+      "clip",
+      `${viewport.name}: document scrolling clipped`,
+    );
+
+    if (usesInternalScroll) {
+      assert.equal(
+        metrics.position,
+        "sticky",
+        `${viewport.name}: ${selector} is not sticky`,
+      );
+
+      assert.ok(
+        metrics.overflowY === "auto" ||
+          metrics.overflowY === "scroll",
+        `${viewport.name}: ${selector} has no internal scrolling`,
+      );
+
+      assert.notEqual(
+        metrics.maxHeight,
+        "none",
+        `${viewport.name}: ${selector} has no maximum height`,
+      );
+
+      assert.ok(
+        metrics.clientHeight <
+          metrics.scrollHeight,
+        `${viewport.name}: ${selector} does not overflow internally`,
+      );
+
+      assert.ok(
+        metrics.top >=
+          metrics.headerBottom - 2,
+        `${viewport.name}: ${selector} starts behind header`,
+      );
+
+      assert.ok(
+        metrics.bottom <=
+          metrics.viewportHeight + 1,
+        `${viewport.name}: ${selector} exceeds viewport`,
+      );
+    } else {
+      assert.notEqual(
+        metrics.position,
+        "sticky",
+        `${viewport.name}: ${selector} must use document flow`,
+      );
+
+      assert.equal(
+        metrics.overflowY,
+        "visible",
+        `${viewport.name}: ${selector} must not scroll internally`,
+      );
+
+      assert.equal(
+        metrics.maxHeight,
+        "none",
+        `${viewport.name}: ${selector} must not be height-limited`,
+      );
+    }
+
+    const targets =
+      region.locator(
+        sidebarInteractiveSelector,
+      );
+
+    const count =
+      await targets.count();
+
+    assert.ok(
+      count > 0,
+      `${viewport.name}: ${selector} has no interactive targets`,
+    );
+
+    for (
+      let index = 0;
+      index < count;
+      index += 1
+    ) {
+      const target =
+        targets.nth(index);
+
+      assert.equal(
+        await target.isVisible(),
+        true,
+        `${viewport.name}: ${selector} target ${index} is hidden`,
+      );
+
+      await target.scrollIntoViewIfNeeded();
+      await target.focus();
+      await page.waitForTimeout(20);
+
+      const visibility =
+        await target.evaluate(
+          (
+            element,
+            {
+              regionSelector,
+              internalScroll,
+            },
+          ) => {
+            const rect =
+              element.getBoundingClientRect();
+
+            const regionRect =
+              document
+                .querySelector(
+                  regionSelector,
+                )
+                ?.getBoundingClientRect();
+
+            const headerRect =
+              document
+                .querySelector("header")
+                ?.getBoundingClientRect();
+
+            const visibleTop =
+              internalScroll
+                ? Math.max(
+                    regionRect?.top ?? 0,
+                    headerRect?.bottom ?? 0,
+                  )
+                : Math.max(
+                    headerRect?.bottom ?? 0,
+                    0,
+                  );
+
+            const visibleBottom =
+              internalScroll
+                ? Math.min(
+                    regionRect?.bottom ??
+                      window.innerHeight,
+                    window.innerHeight,
+                  )
+                : window.innerHeight;
+
+            const visibleHeight =
+              Math.max(
+                0,
+                Math.min(
+                  rect.bottom,
+                  visibleBottom,
+                ) -
+                  Math.max(
+                    rect.top,
+                    visibleTop,
+                  ),
+              );
+
+            return {
+              active:
+                document.activeElement ===
+                element,
+
+              height:
+                rect.height,
+
+              visibleHeight,
+            };
+          },
+          {
+            regionSelector: selector,
+            internalScroll:
+              usesInternalScroll,
+          },
+        );
+
+      assert.equal(
+        visibility.active,
+        true,
+        `${viewport.name}: ${selector} target ${index} cannot receive focus`,
+      );
+
+      assert.ok(
+        visibility.visibleHeight >=
+          Math.min(
+            24,
+            visibility.height,
+          ),
+        `${viewport.name}: ${selector} target ${index} is not reachable`,
+      );
+    }
+
+    targetCount += count;
+
+    if (usesInternalScroll) {
+      await region.evaluate((element) => {
+        element.scrollTop = 0;
+      });
+
+      await targets.first().focus();
+      await targets.last().focus();
+      await page.waitForTimeout(30);
+
+      const focusScrollTop =
+        await region.evaluate(
+          (element) =>
+            element.scrollTop,
+        );
+
+      assert.ok(
+        focusScrollTop > 0,
+        `${viewport.name}: ${selector} does not follow keyboard focus`,
+      );
+
+      await page.evaluate(
+        (regionSelector) => {
+          window.scrollTo(0, 0);
+
+          const element =
+            document.querySelector(
+              regionSelector,
+            );
+
+          if (element) {
+            element.scrollTop =
+              element.scrollHeight;
+          }
+        },
+        selector,
+      );
+
+      const atBottom =
+        await region.evaluate(
+          (element) =>
+            Math.abs(
+              element.scrollHeight -
+                element.clientHeight -
+                element.scrollTop,
+            ) <= 2,
+        );
+
+      assert.equal(
+        atBottom,
+        true,
+        `${viewport.name}: ${selector} internal bottom unreachable`,
+      );
+
+      const box =
+        await region.boundingBox();
+
+      assert.ok(
+        box,
+        `${viewport.name}: ${selector} has no visible box`,
+      );
+
+      await page.mouse.move(
+        box.x + box.width / 2,
+        Math.min(
+          box.y + box.height / 2,
+          viewport.height - 2,
+        ),
+      );
+
+      const documentScrollBefore =
+        await page.evaluate(
+          () => window.scrollY,
+        );
+
+      await page.mouse.wheel(
+        0,
+        700,
+      );
+
+      await page.waitForTimeout(150);
+
+      const documentScrollAfter =
+        await page.evaluate(
+          () => window.scrollY,
+        );
+
+      assert.ok(
+        documentScrollAfter >
+          documentScrollBefore,
+        `${viewport.name}: ${selector} creates a downward scroll trap`,
+      );
+
+      await page.evaluate(
+        (regionSelector) => {
+          window.scrollTo(0, 0);
+
+          const element =
+            document.querySelector(
+              regionSelector,
+            );
+
+          if (element) {
+            element.scrollTop = 0;
+          }
+        },
+        selector,
+      );
+    }
+  }
+
+  return {
+    mode:
+      usesInternalScroll
+        ? "INTERNAL"
+        : "DOCUMENT",
+
+    targetCount,
+
+    scrollChain:
+      usesInternalScroll
+        ? "PASS"
+        : "NATIVE",
+  };
 }
 
 async function testViewport(browser, viewport) {
@@ -501,6 +933,12 @@ async function testViewport(browser, viewport) {
       );
     }
 
+    const sidebarAudit =
+      await testSidebarScrollability(
+        page,
+        viewport,
+      );
+
     const searchInput = page.getByTestId(
       "portal-search-input",
     );
@@ -572,6 +1010,10 @@ async function testViewport(browser, viewport) {
         "STRUCTURE=PASS",
         "ANCHORS=PASS",
         "HYDRATION=PASS",
+        `HEIGHT=${viewport.height}`,
+        `SIDEBARS=${sidebarAudit.mode}`,
+        `SIDEBAR_TARGETS=${sidebarAudit.targetCount}`,
+        `SCROLL_CHAIN=${sidebarAudit.scrollChain}`,
       ].join(" "),
     );
   } finally {
@@ -700,6 +1142,10 @@ async function main() {
     }
 
     await testLiveRegion(browser);
+
+    console.log(
+      "S52_STICKY_SIDEBAR_SCROLLABILITY=PASS",
+    );
 
     console.log(
       "S48B_RESPONSIVE_HYDRATION_A11Y=PASS",
