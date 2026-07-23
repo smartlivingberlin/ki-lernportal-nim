@@ -2,49 +2,63 @@
 
 ## Zweck
 
-Grenze für spätere Persistenzadapter, Repositories und kontrollierte Datenbankzugriffe.
+Kontrollierte Grenze für das lokale S51B-B-MySQL-/Drizzle-Adapterfundament.
+
+Das Package kapselt Konfigurationsprüfung, Lazy Initialization und später
+kontrollierte Datenbankzugriffe innerhalb der bestehenden Next.js-Runtime.
 
 ## Erlaubte Imports
 
+- `drizzle-orm`
+- `mysql2`
+- `mysql2/promise`
 - `@ki-lernportal-nim/contracts`
 - `@ki-lernportal-nim/domain`
+- relative Package-Dateien
+- erforderliche Node.js-Built-ins
 
-Die aufgeführten Grenzen beschreiben die maximal erlaubte Richtung.
-S51A erzeugt keine künstlichen Demonstrationsimporte.
+Externe Datenbankabhängigkeiten sind ausschließlich `drizzle-orm` und `mysql2`.
 
 ## Verbotene Imports
 
+- `drizzle-kit`
+- andere Datenbankclients oder ORMs
 - UI und React
 - AI-Provider
-- Produktive Verbindung, Schema oder Migration in S51A
-
-Unzulässig bleiben außerdem zyklische Abhängigkeiten und direkte
-Quellpfadimporte in andere Packages.
+- direkte Quellpfadimporte in andere Packages
+- zyklische Package-Abhängigkeiten
 
 ## Öffentliche Exports
 
-Der kontrollierte Entry-Point ist `src/index.ts`.
+Der kontrollierte Entry-Point bleibt `src/index.ts`.
 
-S51A exportiert keine produktive Runtime-Funktion und keinen
-vorgetäuschten Stubwert.
+Nur ausdrücklich geprüfte S51B-B-Konfigurations- und Adapterfunktionen dürfen
+über diesen Entry-Point exportiert werden.
 
 ## Status
 
-Keine Runtime-Implementierung ist in S51A vorhanden.
+Die lokale S51B-B-Implementierung ist begonnen.
 
-Das Package ist ausschließlich ein privates Architektur- und
-Workspace-Skeleton.
+Vorhanden sind die freigegebenen Dependencies, die lokal getestete
+Runtime-Konfigurationsschicht und eine Lazy-Adapterfactory. Environment,
+MySQL-Treiber, Pool und Drizzle-Adapter werden erst durch den ausdrücklichen
+Aufruf von `initialize()` ausgewertet beziehungsweise erzeugt. Die Tests
+verwenden ausschließlich Fakes; es erfolgt keine echte Datenbankverbindung,
+kein Netzwerkaufruf und kein automatischer Verbindungsnachweis.
 
 ## Spätere Slices
 
-S51B Persistenzfundament.
+S51B-C umfasst erst nach separater Freigabe Tabellen, Drizzle-Schemas,
+Relationen, Indizes, Migrationen und Testdatenbanken.
 
-Diese späteren Slices sind durch S51A nicht freigegeben.
+`drizzle-kit`, Migrationen, Seeds und reale Datenbankverbindungen bleiben
+gesperrt.
 
 ## Sicherheit und Datenschutz
 
-S51A enthält keine Secrets, Credentials, personenbezogenen Daten,
-externen Requests, produktiven Providerzugriffe oder Persistenz.
-
-Jede spätere Erweiterung benötigt eine eigene fachliche,
-sicherheitsbezogene und datenschutzbezogene Prüfung.
+- keine Secrets oder reale Zugangsdaten im Repository;
+- kein Lesen von Environment-Werten beim Modulimport;
+- keine Pool- oder Drizzle-Erzeugung beim Modulimport;
+- keine Connection Strings oder Credentials in Logs und Fehlern;
+- begrenzte Timeout-, Pool- und Queue-Werte;
+- ausschließlich lokale Fake- und Unit-Tests in diesem Slice.
