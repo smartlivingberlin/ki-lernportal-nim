@@ -30,16 +30,20 @@ The S51A package skeleton and hardened package boundaries were integrated
 through the authorized squash-merge of pull request #76 at commit
 `4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8`.
 
-S51B-A and the S51B-B documentation and runtime scope lock are
-integrated into `main`. S51B-B was integrated through the authorized
-squash-merge of pull request #79 at commit
+S51B-A and the S51B-B documentation and runtime scope lock were
+integrated into `main` through pull request #79 at commit
 `c37703fdd4d2df152857e4834ab9cf01351a9cfb`.
 
-PR #79 also integrated the reviewed minimal transitive audit fix for
-`brace-expansion` and `js-yaml`. It introduced no application or database
-runtime. The actual MySQL/Drizzle adapter implementation remains separately
-gated, and no database connection, schema, migration, Railway change or
-deployment is authorized.
+The local S51B-B MySQL/Drizzle adapter foundation was subsequently integrated
+through the authorized squash-merge of pull request #82 at commit
+`0f126ab2eb2b7a87f8a8ee85b611ec2ea410bcd5`. The reviewed PR head was
+`b76d128fbe163708f4767c4ecc737d838188b0ce`.
+
+The integrated foundation contains bounded runtime configuration,
+`drizzle-orm` and `mysql2` dependencies inside `packages/db`, lazy driver and
+pool initialization, redacted error boundaries and local Fake-/Unit-Tests.
+No real database connection, query, table, schema, migration, seed, Railway
+change or deployment was executed or authorized.
 
 Existing assets:
 - a production-buildable Next.js application under `apps/web`,
@@ -84,18 +88,27 @@ S51B_A_INTEGRATED_TO_MAIN=YES
 S51B_B_PREFLIGHT_COMPLETE=YES
 S51B_B_EXACT_SCOPE_DOCUMENTED=YES
 S51B_B_SCOPE_LOCK_INTEGRATED_TO_MAIN=YES
-S51B_B_PR_NUMBER=79
-S51B_B_PR_HEAD=0fe754e9225bf3e6e2e3e8504aa88a11850daa01
-S51B_B_MERGE_EXECUTED=YES
-S51B_B_MERGE_METHOD=SQUASH
-S51B_B_MERGE_COMMIT=c37703fdd4d2df152857e4834ab9cf01351a9cfb
-S51B_B_PRE_MERGE_CI_RUN_NUMBER=177
-S51B_B_PRE_MERGE_CI_CONCLUSION=SUCCESS
+S51B_B_SCOPE_LOCK_PR_NUMBER=79
+S51B_B_SCOPE_LOCK_PR_HEAD=0fe754e9225bf3e6e2e3e8504aa88a11850daa01
+S51B_B_SCOPE_LOCK_MERGE_METHOD=SQUASH
+S51B_B_SCOPE_LOCK_MERGE_COMMIT=c37703fdd4d2df152857e4834ab9cf01351a9cfb
+S51B_B_SCOPE_LOCK_PRE_MERGE_CI_RUN_NUMBER=177
+S51B_B_SCOPE_LOCK_PRE_MERGE_CI_CONCLUSION=SUCCESS
 S51B_B_TRANSITIVE_AUDIT_FIX_INTEGRATED=YES
-S51B_B_APPLICATION_RUNTIME_CHANGED=NO
-S51B_B_IMPLEMENTATION_AUTHORIZED=NO
-S51B_B_DEPENDENCY_INSTALL_AUTHORIZED=NO
-S51B_B_DATABASE_RUNTIME_AUTHORIZED=NO
+S51B_B_IMPLEMENTATION_PR_NUMBER=82
+S51B_B_IMPLEMENTATION_PR_HEAD=b76d128fbe163708f4767c4ecc737d838188b0ce
+S51B_B_IMPLEMENTATION_MERGE_EXECUTED=YES
+S51B_B_IMPLEMENTATION_MERGE_METHOD=SQUASH
+S51B_B_IMPLEMENTATION_MERGE_COMMIT=0f126ab2eb2b7a87f8a8ee85b611ec2ea410bcd5
+S51B_B_IMPLEMENTATION_PRE_MERGE_CI_RUN_NUMBER=184
+S51B_B_IMPLEMENTATION_PRE_MERGE_CI_CONCLUSION=SUCCESS
+S51B_B_MAIN_VALIDATION_CI_RUN_NUMBER=191
+S51B_B_MAIN_VALIDATION_CI_CONCLUSION=SUCCESS
+S51B_B_IMPLEMENTATION_INTEGRATED_TO_MAIN=YES
+S51B_B_DEPENDENCIES_INTEGRATED=drizzle-orm@0.45.2,mysql2@3.23.1
+S51B_B_RUNTIME_CONFIG_INTEGRATED=YES
+S51B_B_LAZY_ADAPTER_INTEGRATED=YES
+S51B_B_FAKE_TESTS_INTEGRATED=YES
 S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
 
 S51B_C_SCHEMA_AUTHORIZED=NO
@@ -199,7 +212,8 @@ Deployment:
 2. Obtain explicit human architecture approval.
 3. Obtain separate explicit S51A implementation approval.
 4. Build S51A only on an approved branch.
-5. Build S51B MySQL/Drizzle persistence.
+5. Treat the S51B-B MySQL/Drizzle adapter foundation as integrated and
+   require a separate S51B-C scope decision before schemas or migrations.
 6. Build S51C health, readiness, flags and redacted logs.
 7. Create S51D Railway staging only after separate approval.
 8. Build S52 auth, sessions, roles, scopes and ownership.
