@@ -15,6 +15,8 @@ heran.
 Dieses Repository enthält aktuell:
 
 - eine produktionsfähig baubare Next.js-Anwendung unter `apps/web`;
+- den integrierten S51A-Package-Skeleton;
+- das integrierte lokale S51B-B-MySQL-/Drizzle-Adapterfundament;
 - zwölf strukturierte Anfängerlektionen;
 - lokale Suche und lokalen Lernfortschritt;
 - zwölf Übungen und 36 Selbstprüfungsfragen;
@@ -31,7 +33,14 @@ Produktionsreife.
 
 Das S50B-R3-Architekturpaket wurde am 17. Juli 2026 menschlich freigegeben
 und am 18. Juli 2026 durch den autorisierten Squash-Merge von PR #73 unter
-`cab2745c9cfea8a4d6418d866972cef6f982e55b` in `main` integriert. S51A bleibt separat freigabepflichtig.
+`cab2745c9cfea8a4d6418d866972cef6f982e55b` in `main` integriert.
+
+Der S51A-Package-Skeleton und das lokale S51B-B-MySQL-/Drizzle-
+Adapterfundament sind inzwischen ebenfalls integriert. PR #82 wurde am
+23. Juli 2026 unter
+`0f126ab2eb2b7a87f8a8ee85b611ec2ea410bcd5` per Squash gemergt; der
+geprüfte PR-Head war
+`b76d128fbe163708f4767c4ecc737d838188b0ce`.
 
 Maßgeblich sind:
 
@@ -67,12 +76,16 @@ packages/
   testing/
 ~~~
 
-Die geplante Persistenz ist MySQL mit Drizzle. KI-, Retrieval- und
-Search-Anbieter bleiben hinter providerneutralen Grenzen.
+Die Persistenzrichtung ist MySQL mit Drizzle. Das integrierte S51B-B-
+Fundament kapselt Konfigurationsprüfung und Lazy Initialization in
+`packages/db`. Es führt beim Import und in den lokalen Tests keine echte
+Datenbank- oder Netzwerkverbindung aus. KI-, Retrieval- und Search-Anbieter
+bleiben hinter providerneutralen Grenzen.
 
-Nicht freigegeben sind insbesondere Produktcode für S51A, produktive
-Benutzerkonten, Datenbankänderungen, KI-Laufzeit, Railway-Staging,
-Merge oder Deployment.
+Nicht freigegeben sind insbesondere produktive Benutzerkonten, ein
+echter Datenbank-Verbindungsnachweis, S51B-C-Tabellen und -Schemas,
+`drizzle-kit`, Migrationen, Seeds, produktive KI-Laufzeit,
+Railway-Staging oder Deployment.
 
 ~~~text
 S50B_R3_PACKAGE_COMPLETE=YES
@@ -82,10 +95,21 @@ S50B_R3_INTEGRATED_TO_MAIN=YES
 PR73_MERGED=YES
 PR73_MERGE_METHOD=SQUASH
 PR73_MERGE_COMMIT=cab2745c9cfea8a4d6418d866972cef6f982e55b
-S51A_SCOPE_DOCUMENTED=YES
-S51A_SCOPE_APPROVED=NO
-S51A_IMPLEMENTATION_AUTHORIZED=NO
-HUMAN_IMPLEMENTATION_APPROVAL=NO
+S51A_PACKAGE_SKELETON_COMPLETE=YES
+S51A_INTEGRATED_TO_MAIN=YES
+S51B_A_INTEGRATED_TO_MAIN=YES
+S51B_B_SCOPE_LOCK_INTEGRATED_TO_MAIN=YES
+PR82_MERGED=YES
+PR82_MERGE_METHOD=SQUASH
+PR82_MERGED_HEAD=b76d128fbe163708f4767c4ecc737d838188b0ce
+PR82_MERGE_COMMIT=0f126ab2eb2b7a87f8a8ee85b611ec2ea410bcd5
+PR82_PRE_MERGE_CI_RUN_NUMBER=184
+PR82_PRE_MERGE_CI_CONCLUSION=SUCCESS
+S51B_B_IMPLEMENTATION_INTEGRATED_TO_MAIN=YES
+S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
+S51B_C_SCHEMA_AUTHORIZED=NO
+DATABASE_CONNECTION_AUTHORIZED=NO
+MIGRATION_AUTHORIZED=NO
 NEXT_PRODUCT_CODE_CHANGE_AUTHORIZED=NO
 NEXT_COMMIT_AUTHORIZED=NO
 NEXT_PUSH_AUTHORIZED=NO

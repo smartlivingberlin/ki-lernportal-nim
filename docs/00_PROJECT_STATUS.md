@@ -1,8 +1,8 @@
 # Projektstatus: KI-Lernportal NIM
 
-**Stand:** 21. Juli 2026
-**Status:** S50B-R3, S51A, S51B-A und der S51B-B-Dokumentations- und Runtime-Scope-Lock sind in `main` integriert; die eigentliche MySQL-/Drizzle-Adapterimplementierung, Datenbankverbindung, Schema, Migration, Railway und Deployment bleiben separat freigabepflichtig
-**Abgeschlossene Integrationen:** PR #73, #74, #76, #77, #78 und #79, jeweils per Squash-Merge
+**Stand:** 23. Juli 2026
+**Status:** S50B-R3, S51A, S51B-A, der S51B-B-Scope-Lock und das lokale S51B-B-MySQL-/Drizzle-Adapterfundament sind in `main` integriert; echte Datenbankverbindungen, S51B-C, Schema, Migration, Railway und Deployment bleiben separat freigabepflichtig
+**Für diesen Status maßgebliche Integrationen:** PR #73, #74, #76, #77, #78, #79, #81 und #82, jeweils per Squash-Merge
 
 ## Verbindliche Einordnung
 
@@ -47,6 +47,8 @@ Vorhanden sind:
 - eine produktionsfähig baubare Next.js-Anwendung unter `apps/web`;
 - ein S51A-Workspace mit acht privaten und gehärteten Package-Grenzen;
 - integrierte S51B-A- und S51B-B-Persistenz- beziehungsweise Runtime-Scope-Locks;
+- ein integriertes lokales S51B-B-MySQL-/Drizzle-Adapterfundament mit
+  begrenzter Konfiguration, Lazy Initialization und Fake-/Unit-Tests;
 - zwölf strukturierte Anfängerlektionen;
 - lokale Suche und lokaler Lernfortschritt;
 - zwölf Übungen und 36 Selbstprüfungsfragen;
@@ -97,6 +99,19 @@ transitive Audit-Fix wurden am 21. Juli 2026 durch PR #79 unter
 `c37703fdd4d2df152857e4834ab9cf01351a9cfb` integriert. Der geprüfte
 PR-Head war `0fe754e9225bf3e6e2e3e8504aa88a11850daa01`. Die
 GitHub-CI-Läufe #164, #171, #174 und #177 waren erfolgreich.
+
+Das lokale S51B-B-MySQL-/Drizzle-Adapterfundament wurde am 23. Juli 2026
+durch den autorisierten Squash-Merge von PR #82 unter
+`0f126ab2eb2b7a87f8a8ee85b611ec2ea410bcd5` in `main` integriert.
+Der geprüfte PR-Head war
+`b76d128fbe163708f4767c4ecc737d838188b0ce`. PR-CI #184 war
+erfolgreich. Der spätere Main-CI-Lauf #191 auf
+`fd7b773d2442bc7f17b0c9c9b5108c2288d91607` war ebenfalls erfolgreich
+und führte den S51B-B-Fake-Test als festen CI-Schritt aus.
+
+PR #82 führte keine echte Datenbankverbindung, keine Query, keine Tabelle,
+kein Drizzle-Schema, keine Migration, keinen Seed und keine Railway- oder
+Deploymentänderung aus.
 
 PR #74 betraf ausschließlich:
 
@@ -149,8 +164,8 @@ der dann aktuelle Railway-Dashboardzustand erneut read-only geprüft werden.
 ## Dauerhafte Arbeits- und Freigabegrenzen
 
 1. Jede weitere Arbeit beginnt auf einem neuen kleinen Branch vom dann aktuellen `origin/main`; abgeschlossene PR-Branches werden nicht als neue Entwicklungsbasis fortgeführt.
-2. S51A, S51B-A und der S51B-B-Scope-Lock sind integriert; die eigentliche S51B-B-Adapterimplementierung bleibt eine getrennte menschliche Entscheidung.
-3. Datenbankabhängigkeiten, Adapterruntime oder Verbindungsnachweise beginnen erst nach ausdrücklicher S51B-B-Implementierungsfreigabe.
+2. S51A, S51B-A, der S51B-B-Scope-Lock und das lokale S51B-B-Adapterfundament sind integriert.
+3. Echte Datenbankverbindungen, Queries, Tabellen, Drizzle-Schemas, `drizzle-kit`, Migrationen, Seeds und Testdatenbanken beginnen erst nach einer neuen ausdrücklichen S51B-C- beziehungsweise Verbindungsfreigabe.
 4. Git-, Railway-, Datenbank-, Deployment- und Produktionsaktionen bleiben jeweils separat freigabepflichtig.
 5. Vor jeder zukünftigen Mergeentscheidung werden Head, Base-Freshness, CI, Review-Threads und Dateiscope erneut read-only geprüft.
 
@@ -237,9 +252,9 @@ S51A_SCOPE_DOCUMENTED=YES
 S51A_INTEGRATED_TO_MAIN=YES
 S51B_A_INTEGRATED_TO_MAIN=YES
 S51B_B_SCOPE_LOCK_INTEGRATED_TO_MAIN=YES
-S51B_B_IMPLEMENTATION_AUTHORIZED=YES
-S51B_B_DEPENDENCY_INSTALL_AUTHORIZED=YES
-S51B_B_DATABASE_RUNTIME_AUTHORIZED=YES
+S51B_B_IMPLEMENTATION_AUTHORIZED_HISTORICALLY=YES
+S51B_B_DEPENDENCY_INSTALL_AUTHORIZED_HISTORICALLY=YES
+S51B_B_LOCAL_RUNTIME_IMPLEMENTATION_AUTHORIZED_HISTORICALLY=YES
 S51B_B_LOCAL_IMPLEMENTATION_EXECUTED=YES
 S51B_B_IMPLEMENTATION_BRANCH=feat/s51b-b-mysql-drizzle-adapter-foundation-20260721
 S51B_B_IMPLEMENTATION_BASE=b7811f25b618b48281f615fe7fbac629e20811a5
@@ -250,12 +265,18 @@ S51B_B_FAKE_TESTS_IMPLEMENTED=YES
 S51B_B_CI_FAKE_TEST_EXECUTION_CONFIGURED=YES
 S51B_B_LOCAL_ACCEPTANCE=PASS
 S51B_B_LOCAL_ACCEPTANCE_DATE=2026-07-22
+PR82_MERGED=YES
+PR82_MERGE_METHOD=SQUASH
+PR82_MERGED_HEAD=b76d128fbe163708f4767c4ecc737d838188b0ce
+PR82_MERGE_COMMIT=0f126ab2eb2b7a87f8a8ee85b611ec2ea410bcd5
+PR82_MERGED_AT=2026-07-23T11:46:14+02:00
+PR82_PRE_MERGE_CI_RUN_NUMBER=184
+PR82_PRE_MERGE_CI_CONCLUSION=SUCCESS
+S51B_B_IMPLEMENTATION_COMMIT_CREATED_HISTORICALLY=YES
+S51B_B_IMPLEMENTATION_PUSH_EXECUTED_HISTORICALLY=YES
+S51B_B_IMPLEMENTATION_PR_CREATED_HISTORICALLY=YES
+S51B_B_IMPLEMENTATION_INTEGRATED_TO_MAIN=YES
 S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
-S51B_B_NEXT_IMPLEMENTATION_ACTION_AUTHORIZED=NO
-S51B_B_COMMIT_CREATED=NO
-S51B_B_PUSH_EXECUTED=NO
-S51B_B_PR_CREATED=NO
-S51B_B_INTEGRATED_TO_MAIN=NO
 S51B_C_SCHEMA_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
 MIGRATION_AUTHORIZED=NO

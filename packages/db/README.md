@@ -37,9 +37,13 @@ Nur ausdrücklich geprüfte S51B-B-Konfigurations- und Adapterfunktionen dürfen
 
 ## Status
 
-Die lokale S51B-B-Implementierung ist begonnen.
+Das lokale S51B-B-Adapterfundament ist durch den autorisierten
+Squash-Merge von PR #82 unter
+`0f126ab2eb2b7a87f8a8ee85b611ec2ea410bcd5` in `main` integriert.
+Der geprüfte PR-Head war
+`b76d128fbe163708f4767c4ecc737d838188b0ce`.
 
-Vorhanden sind die freigegebenen Dependencies, die lokal getestete
+Vorhanden sind die integrierten Dependencies, die lokal getestete
 Runtime-Konfigurationsschicht und eine Lazy-Adapterfactory. Environment,
 MySQL-Treiber, Pool und Drizzle-Adapter werden erst durch den ausdrücklichen
 Aufruf von `initialize()` ausgewertet beziehungsweise erzeugt. Die Tests

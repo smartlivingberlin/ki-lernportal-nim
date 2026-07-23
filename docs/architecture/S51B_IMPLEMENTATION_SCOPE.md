@@ -1,8 +1,8 @@
 # S51B-A – Persistenz-Scope-Lock
 
-**Status:** S51B-A und der S51B-B-Dokumentations- und Runtime-Scope-Lock sind in `main` integriert; die eigentliche Adapterimplementierung, Dependency-Installation, Datenbankruntime, Schema, Migration, Railway und Betrieb bleiben gesperrt
+**Status:** S51B-A, der S51B-B-Dokumentations- und Runtime-Scope-Lock und das lokale S51B-B-MySQL-/Drizzle-Adapterfundament sind in `main` integriert; echte Datenbankverbindungen, S51B-C, Schema, Migration, Railway und Betrieb bleiben gesperrt
 
-**Stand:** 21. Juli 2026
+**Stand:** 23. Juli 2026
 
 **S51B-A Integration Commit:** `fbdedec8f3e67ce99678c41779b99b22be506710`
 
@@ -162,14 +162,20 @@ Railway-, Deploy- und Production-Änderungen bleiben verboten.
 
 Der S51B-B-Dokumentations- und Runtime-Scope-Lock wurde durch PR #79
 unter `c37703fdd4d2df152857e4834ab9cf01351a9cfb` in `main` integriert.
-Die eigentliche lokale MySQL-/Drizzle-Adapterimplementierung darf erst nach
-separater menschlicher Freigabe beginnen.
 
-Der exakte S51B-B-Kandidatenscope ist in
+Das lokale S51B-B-MySQL-/Drizzle-Adapterfundament wurde anschließend durch
+PR #82 unter
+`0f126ab2eb2b7a87f8a8ee85b611ec2ea410bcd5` per Squash in `main`
+integriert. Der geprüfte PR-Head war
+`b76d128fbe163708f4767c4ecc737d838188b0ce`; PR-CI #184 war
+erfolgreich.
+
+Der tatsächliche S51B-B-Implementierungsstand ist in
 [`S51B_B_IMPLEMENTATION_SCOPE.md`](./S51B_B_IMPLEMENTATION_SCOPE.md)
-festgeschrieben. Dieser integrierte Scope-Lock autorisiert weiterhin keine
-Adapter-Dependency-Installation, Datenbankruntime, Verbindung, Schema oder
-Migration.
+festgeschrieben. Er umfasst ausschließlich das lokale Adapterfundament mit
+begrenzter Konfiguration, Lazy Initialization und Fake-/Unit-Tests. Er
+autorisiert oder beweist keine echte Datenbankverbindung, Query, Tabelle,
+Schema oder Migration.
 
 S51B-C bleibt blockiert, bis Datenkategorien, Zwecke, IDs,
 Beziehungen, Aufbewahrung, Löschung, Auditgrenzen, Indizes,
@@ -239,12 +245,18 @@ S51B_B_FAKE_TESTS_IMPLEMENTED=YES
 S51B_B_CI_FAKE_TEST_EXECUTION_CONFIGURED=YES
 S51B_B_LOCAL_ACCEPTANCE=PASS
 S51B_B_LOCAL_ACCEPTANCE_DATE=2026-07-22
+PR82_MERGED=YES
+PR82_MERGE_METHOD=SQUASH
+PR82_MERGED_HEAD=b76d128fbe163708f4767c4ecc737d838188b0ce
+PR82_MERGE_COMMIT=0f126ab2eb2b7a87f8a8ee85b611ec2ea410bcd5
+PR82_MERGED_AT=2026-07-23T11:46:14+02:00
+PR82_PRE_MERGE_CI_RUN_NUMBER=184
+PR82_PRE_MERGE_CI_CONCLUSION=SUCCESS
+S51B_B_IMPLEMENTATION_COMMIT_CREATED_HISTORICALLY=YES
+S51B_B_IMPLEMENTATION_PUSH_EXECUTED_HISTORICALLY=YES
+S51B_B_IMPLEMENTATION_PR_CREATED_HISTORICALLY=YES
+S51B_B_IMPLEMENTATION_INTEGRATED_TO_MAIN=YES
 S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
-S51B_B_NEXT_IMPLEMENTATION_ACTION_AUTHORIZED=NO
-S51B_B_COMMIT_CREATED=NO
-S51B_B_PUSH_EXECUTED=NO
-S51B_B_PR_CREATED=NO
-S51B_B_INTEGRATED_TO_MAIN=NO
 
 S51B_C_SCHEMA_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO

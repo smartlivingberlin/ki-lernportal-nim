@@ -1,18 +1,22 @@
-# S51B-B – MySQL-/Drizzle-Adapterfundament: Dokumentations- und Scope-Lock
+# S51B-B – MySQL-/Drizzle-Adapterfundament: integrierter Status und Grenzen
 
-**Status:** Dokumentations- und Runtime-Scope-Lock durch PR #79 in
-`main` integriert. Die eigentliche Adapterimplementierung,
-Adapter-Abhängigkeiten, Datenbankverbindung, Schema, Migration, Railway und
-Deployment bleiben gesperrt.
+**Status:** Dokumentations- und Runtime-Scope-Lock durch PR #79 und das
+lokale MySQL-/Drizzle-Adapterfundament durch PR #82 in `main` integriert.
+Echte Datenbankverbindungen, Queries, Tabellen, Schema, Migration, Railway
+und Deployment bleiben gesperrt.
 
-**Stand:** 21. Juli 2026
+**Stand:** 23. Juli 2026
 
-**Baseline:** `ebaca10d7cbcee69587f5a87391e8b5b298c75f8`
+**Scope-Lock-Baseline:** `ebaca10d7cbcee69587f5a87391e8b5b298c75f8`
 
-**Historischer PR-Head:** `0fe754e9225bf3e6e2e3e8504aa88a11850daa01`
-
-**Integration:** PR #79, Squash-Commit
+**Scope-Lock-Integration:** PR #79, Squash-Commit
 `c37703fdd4d2df152857e4834ab9cf01351a9cfb`
+
+**Implementierungs-PR-Head:**
+`b76d128fbe163708f4767c4ecc737d838188b0ce`
+
+**Implementierungsintegration:** PR #82, Squash-Commit
+`0f126ab2eb2b7a87f8a8ee85b611ec2ea410bcd5`
 
 ## 1. Technische Richtung
 
@@ -40,10 +44,14 @@ Dieser ursprüngliche Dokumentationsscope wurde durch PR #79 in `main`
 integriert. PR #79 enthielt zusätzlich ausschließlich den geprüften minimalen
 transitiven Audit-Fix in `pnpm-lock.yaml` und `pnpm-workspace.yaml`.
 
-Dadurch wurde keine MySQL-/Drizzle-Adapterruntime implementiert oder
-freigegeben.
+Die lokale MySQL-/Drizzle-Adapterruntime wurde danach durch PR #82
+implementiert und in `main` integriert. Sie bleibt lazy: Environment-
+Auswertung, Treiberimport, Pool- und Drizzle-Erzeugung erfolgen erst durch
+den ausdrücklichen Aufruf von `initialize()`.
 
-## 3. Kandidatenscope einer späteren Implementierung
+## 3. Historischer Kandidatenscope und tatsächlicher PR-82-Scope
+
+Der vor der Umsetzung dokumentierte Kandidatenscope umfasste:
 
 ```text
 .env.example
@@ -60,18 +68,46 @@ packages/db/src/mysql-runtime.ts
 packages/db/src/mysql-runtime.test.ts
 ```
 
-Jede weitere Datei benötigt eine neue Freigabe.
+PR #82 integrierte nach den separat kontrollierten Scope-Erweiterungen
+insgesamt exakt folgende 19 Dateien:
+
+```text
+.env.example
+.github/workflows/ci.yml
+AGENTS.md
+apps/web/package.json
+docs/00_PROJECT_STATUS.md
+docs/architecture/S51B_B_IMPLEMENTATION_SCOPE.md
+docs/architecture/S51B_IMPLEMENTATION_SCOPE.md
+package.json
+packages/db/README.md
+packages/db/package.json
+packages/db/src/index.ts
+packages/db/src/mysql-runtime.test.ts
+packages/db/src/mysql-runtime.ts
+packages/db/src/runtime-config.test.ts
+packages/db/src/runtime-config.ts
+pnpm-lock.yaml
+pnpm-workspace.yaml
+scripts/check-package-boundaries.mjs
+scripts/check-supply-chain-policy.mjs
+```
+
+Die Erweiterungen betrafen die CI-Verdrahtung, Package- und
+Supply-Chain-Gates, den Source-of-Truth-Abgleich sowie den für den
+erfolgreichen Audit erforderlichen Next.js-/Sharp-Sicherheitsfix. Diese
+historische Dateiliste erteilt keine Freigabe für einen zukünftigen Scope.
 
 ## 4. Dependency-Grenze
 
-Später grundsätzlich zulässig, aber noch nicht freigegeben:
+Durch PR #82 integriert:
 
 ```text
-drizzle-orm
-mysql2
+drizzle-orm@0.45.2
+mysql2@3.23.1
 ```
 
-Beide dürfen ausschließlich `packages/db` gehören. `drizzle-kit`, zusätzliche
+Beide gehören ausschließlich `packages/db`. `drizzle-kit`, zusätzliche
 Datenbankclients und Datenbankdependencies außerhalb `packages/db` bleiben
 verboten.
 
@@ -89,7 +125,7 @@ verboten.
 
 ## 6. Testanforderungen
 
-Eine spätere Implementierung muss mit lokalen Fake-Adaptern prüfen:
+Die integrierte Implementierung wird mit lokalen Fake-Adaptern geprüft:
 
 - Modulimport erzeugt keinen Pool;
 - Modulimport liest keine Datenbank-URL;
@@ -152,7 +188,7 @@ Reconnect-Schleifen oder Hintergrund-Pings.
 
 ## 9. Rollback-Anforderung
 
-Eine spätere S51B-B-Implementierung muss vollständig rücknehmbar sein durch:
+Die integrierte S51B-B-Implementierung muss vollständig rücknehmbar bleiben durch:
 
 1. Entfernung der neu eingeführten Runtime-Dateien;
 2. Entfernung von `drizzle-orm` und `mysql2` aus `packages/db/package.json`;
@@ -199,12 +235,18 @@ S51B_B_FAKE_TESTS_IMPLEMENTED=YES
 S51B_B_CI_FAKE_TEST_EXECUTION_CONFIGURED=YES
 S51B_B_LOCAL_ACCEPTANCE=PASS
 S51B_B_LOCAL_ACCEPTANCE_DATE=2026-07-22
+PR82_MERGED=YES
+PR82_MERGE_METHOD=SQUASH
+PR82_MERGED_HEAD=b76d128fbe163708f4767c4ecc737d838188b0ce
+PR82_MERGE_COMMIT=0f126ab2eb2b7a87f8a8ee85b611ec2ea410bcd5
+PR82_MERGED_AT=2026-07-23T11:46:14+02:00
+PR82_PRE_MERGE_CI_RUN_NUMBER=184
+PR82_PRE_MERGE_CI_CONCLUSION=SUCCESS
+S51B_B_IMPLEMENTATION_COMMIT_CREATED_HISTORICALLY=YES
+S51B_B_IMPLEMENTATION_PUSH_EXECUTED_HISTORICALLY=YES
+S51B_B_IMPLEMENTATION_PR_CREATED_HISTORICALLY=YES
+S51B_B_IMPLEMENTATION_INTEGRATED_TO_MAIN=YES
 S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
-S51B_B_NEXT_IMPLEMENTATION_ACTION_AUTHORIZED=NO
-S51B_B_COMMIT_CREATED=NO
-S51B_B_PUSH_EXECUTED=NO
-S51B_B_PR_CREATED=NO
-S51B_B_INTEGRATED_TO_MAIN=NO
 
 S51B_C_SCHEMA_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
