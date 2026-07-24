@@ -79,6 +79,9 @@ jobs:
       - name: Production dependency vulnerability audit
         run: pnpm audit --prod
 
+      - name: Railway readiness policy check
+        run: node scripts/check-s50d1-railway-readiness.mjs
+
       - name: Build web app and package standalone assets
         run: pnpm --filter web build
 
@@ -131,6 +134,38 @@ jobs:
           fi
 
           echo "LOCAL_WEB_READY=YES"
+
+      - name: "Regression: Railway health endpoint"
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          HEALTH_URL="http://127.0.0.1:3000/health"
+          HEALTH_HEADERS="$RUNNER_TEMP/railway-health.headers"
+          HEALTH_BODY="$RUNNER_TEMP/railway-health.body"
+
+          HTTP_CODE="$(
+            curl \
+              --silent \
+              --show-error \
+              --output "$HEALTH_BODY" \
+              --dump-header "$HEALTH_HEADERS" \
+              --write-out "%{http_code}" \
+              "$HEALTH_URL"
+          )"
+
+          BODY_TEXT="$(tr -d '\r\n' < "$HEALTH_BODY")"
+
+          test "$HTTP_CODE" = "200"
+          test "$BODY_TEXT" = "ok"
+
+          tr -d '\r' < "$HEALTH_HEADERS" |
+            grep --ignore-case --extended-regexp '^cache-control:.*no-store'
+
+          tr -d '\r' < "$HEALTH_HEADERS" |
+            grep --ignore-case --extended-regexp '^content-type: *text/plain; *charset=utf-8'
+
+          echo "RAILWAY_HEALTH_ENDPOINT=PASS"
 
       - name: "Regression: responsive, hydration and accessibility"
         run: BASE_URL=http://127.0.0.1:3000 pnpm test:s48b-a11y
