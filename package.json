@@ -12,6 +12,7 @@
     "lint": "pnpm --filter \"./apps/*\" --filter \"./services/*\" lint",
     "content:check": "node scripts/check-content-quality.mjs",
     "test:s48b-a11y": "node scripts/check-s48b-accessibility.cjs",
+    "test:s50d1-privacy-overflow": "node scripts/check-s50d1-privacy-overflow.cjs",
     "source:check": "node scripts/check-source-integrity.mjs",
     "test:s48c-sources": "node scripts/check-s48c-source-ui.cjs",
     "test:s49d-practice-ui": "node scripts/check-s49d-practice-ui.cjs",
