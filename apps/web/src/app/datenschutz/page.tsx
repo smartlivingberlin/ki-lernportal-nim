@@ -16,9 +16,9 @@ function Section({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+    <section className="min-w-0 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <h2 className="text-xl font-semibold text-slate-950">{title}</h2>
-      <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700">
+      <div className="mt-4 min-w-0 space-y-3 text-sm leading-7 text-slate-700">
         {children}
       </div>
     </section>
@@ -27,7 +27,7 @@ function Section({
 
 export default function DatenschutzPage() {
   return (
-    <main className="mx-auto flex max-w-4xl flex-col gap-6 px-6 py-12 sm:py-16">
+    <main className="mx-auto flex w-full min-w-0 max-w-4xl flex-col gap-6 px-4 py-12 [overflow-wrap:anywhere] sm:px-6 sm:py-16">
       <div className="rounded-3xl border border-amber-200 bg-amber-50 p-6 text-sm leading-7 text-amber-950">
         <p className="font-semibold">
           Öffentlich erreichbare Konzeptdemo / Datenschutzhinweis
@@ -40,12 +40,12 @@ export default function DatenschutzPage() {
         </p>
       </div>
 
-      <header className="space-y-4">
+      <header className="min-w-0 space-y-4">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
           Datenschutz
         </p>
 
-        <h1 className="text-4xl font-bold tracking-tight text-slate-950">
+        <h1 className="min-w-0 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
           Datenschutzhinweise
         </h1>
 
@@ -145,7 +145,7 @@ export default function DatenschutzPage() {
 
         <p>
           Dafür wird derzeit folgender technischer Schlüssel verwendet:{" "}
-          <code className="rounded bg-slate-100 px-1">
+          <code className="break-all rounded bg-slate-100 px-1">
             ki-lernportal-nim:local-progress:v1
           </code>
           .
