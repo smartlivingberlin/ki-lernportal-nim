@@ -173,6 +173,9 @@ jobs:
       - name: "Regression: responsive, hydration and accessibility"
         run: BASE_URL=http://127.0.0.1:3000 pnpm test:s48b-a11y
 
+      - name: "Regression: privacy page mobile overflow"
+        run: BASE_URL=http://127.0.0.1:3000 pnpm test:s50d1-privacy-overflow
+
       - name: "Regression: approved sources for all lessons"
         run: BASE_URL=http://127.0.0.1:3000 pnpm test:s48c-sources
 
