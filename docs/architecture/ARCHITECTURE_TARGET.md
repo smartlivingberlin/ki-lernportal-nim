@@ -1,37 +1,42 @@
-# Zielarchitektur – freigegebenes S50B-R3-Zielbild
+# Zielarchitektur – freigegebenes und teilweise integriertes S50B-R3-Zielbild
 
-**Status:** S50B-R3 menschlich freigegeben und in `main` integriert; S51A-Umsetzung und Betrieb ausstehend
-**Stand:** 17. Juli 2026
-**Historische Grundlage:** S50B-R2 bleibt als nachvollziehbare Evidenz erhalten
+**Status:** S50B-R3 freigegeben; S51A-Package-Skeleton sowie S51B-A- und lokales S51B-B-Adapterfundament in `main` integriert; produktive Persistenz, Auth, Admin, KI und Betrieb weiterhin ausstehend  
+**Stand:** 26. Juli 2026  
+**Baseline `main`:** `dc2d594c2993c0094c6accf4a23a45379077bf2d`  
+**Historische Grundlage:** S50B-R2 bleibt als nachvollziehbare Evidenz erhalten  
 **Ersetzt:** frühere FastAPI-, NestJS-, PostgreSQL-, Qdrant- und Microservice-Zielbeschreibung
 
-## Kanonische Dokumente
+## 1. Kanonische Dokumente
 
-Das menschlich freigegebene und in `main` integrierte S50B-R3-Zielbild wird beschrieben durch:
+Das menschlich freigegebene S50B-R3-Zielbild und sein aktueller
+Integrationsstand werden beschrieben durch:
 
 1. [`S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md`](./S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md)
 2. [`S51A_IMPLEMENTATION_SCOPE.md`](./S51A_IMPLEMENTATION_SCOPE.md)
-3. [`adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md`](./adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md)
-4. [`adr/ADR-0002-SERVER-BOUNDARIES.md`](./adr/ADR-0002-SERVER-BOUNDARIES.md)
-5. [`adr/ADR-0003-IDENTITY-SESSION-LIFECYCLE.md`](./adr/ADR-0003-IDENTITY-SESSION-LIFECYCLE.md)
-6. [`PACKAGE_DAG.md`](./PACKAGE_DAG.md)
-7. [`PLATFORM_CONTRACTS.md`](./PLATFORM_CONTRACTS.md)
-8. [`DATA_CLASSIFICATION_RETENTION_DELETION_CONTRACT.md`](./DATA_CLASSIFICATION_RETENTION_DELETION_CONTRACT.md)
-9. [`LEARNING_DOMAIN_CONTRACT.md`](./LEARNING_DOMAIN_CONTRACT.md)
-10. [`CONTENT_ASSESSMENT_REVISION_CONTRACT.md`](./CONTENT_ASSESSMENT_REVISION_CONTRACT.md)
-11. [`OBSERVABILITY_SLO_CONTRACT.md`](./OBSERVABILITY_SLO_CONTRACT.md)
-12. [`SCOPE_ORGANIZATION_SEAM_CONTRACT.md`](./SCOPE_ORGANIZATION_SEAM_CONTRACT.md)
-13. [`JOBS_OUTBOX_CONTRACT.md`](./JOBS_OUTBOX_CONTRACT.md)
-14. [`SEARCH_CONTRACT.md`](./SEARCH_CONTRACT.md)
-15. [`PREMIUM_TRANSFER_LEDGER.md`](./PREMIUM_TRANSFER_LEDGER.md)
+3. [`S51B_IMPLEMENTATION_SCOPE.md`](./S51B_IMPLEMENTATION_SCOPE.md)
+4. [`S51B_B_IMPLEMENTATION_SCOPE.md`](./S51B_B_IMPLEMENTATION_SCOPE.md)
+5. [`adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md`](./adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md)
+6. [`adr/ADR-0002-SERVER-BOUNDARIES.md`](./adr/ADR-0002-SERVER-BOUNDARIES.md)
+7. [`adr/ADR-0003-IDENTITY-SESSION-LIFECYCLE.md`](./adr/ADR-0003-IDENTITY-SESSION-LIFECYCLE.md)
+8. [`PACKAGE_DAG.md`](./PACKAGE_DAG.md)
+9. [`PLATFORM_CONTRACTS.md`](./PLATFORM_CONTRACTS.md)
+10. [`DATA_CLASSIFICATION_RETENTION_DELETION_CONTRACT.md`](./DATA_CLASSIFICATION_RETENTION_DELETION_CONTRACT.md)
+11. [`LEARNING_DOMAIN_CONTRACT.md`](./LEARNING_DOMAIN_CONTRACT.md)
+12. [`CONTENT_ASSESSMENT_REVISION_CONTRACT.md`](./CONTENT_ASSESSMENT_REVISION_CONTRACT.md)
+13. [`OBSERVABILITY_SLO_CONTRACT.md`](./OBSERVABILITY_SLO_CONTRACT.md)
+14. [`SCOPE_ORGANIZATION_SEAM_CONTRACT.md`](./SCOPE_ORGANIZATION_SEAM_CONTRACT.md)
+15. [`JOBS_OUTBOX_CONTRACT.md`](./JOBS_OUTBOX_CONTRACT.md)
+16. [`SEARCH_CONTRACT.md`](./SEARCH_CONTRACT.md)
+17. [`PREMIUM_TRANSFER_LEDGER.md`](./PREMIUM_TRANSFER_LEDGER.md)
 
-[`S50B_R2_SOURCE_OF_TRUTH.md`](./S50B_R2_SOURCE_OF_TRUTH.md) bleibt historische Grundlage.
-Bei aktuellen Architektur- oder Freigabewidersprüchen hat das
-S50B-R3-Freigabepaket Vorrang.
+[`S50B_R2_SOURCE_OF_TRUTH.md`](./S50B_R2_SOURCE_OF_TRUTH.md) bleibt historische
+Grundlage. Für den tatsächlichen gegenwärtigen Stand hat
+[`../00_PROJECT_STATUS.md`](../00_PROJECT_STATUS.md) Vorrang vor veralteten
+Freigabemarkern in historischen Dokumenten.
 
-## Zielstruktur
+## 2. Implementierte Zielstruktur
 
-```text
+~~~text
 apps/
   web/
 
@@ -44,27 +49,40 @@ packages/
   admin/
   ai-core/
   testing/
-```
+~~~
 
-Die `packages/*`-Struktur ist im menschlich freigegebenen S50B-R3-Zielbild
-vorgesehen, aber noch nicht implementiert. Die technische Einführung gehört
-ausschließlich in einen später separat freigegebenen S51A-Slice.
+Die `packages/*`-Struktur ist implementiert und in `main` integriert. Jedes
+Package besitzt eine private, kontrollierte Grenze. Das Vorhandensein eines
+Packages bedeutet nicht, dass seine spätere produktive Fachfunktion bereits
+implementiert ist.
 
-## Laufzeitentscheidung
+~~~text
+PACKAGE_STRUCTURE_IMPLEMENTED=YES
+PACKAGE_BOUNDARY_AUTOMATION_IMPLEMENTED=YES
+PACKAGE_TYPECHECK_IMPLEMENTED=YES
+LOCAL_DB_ADAPTER_FOUNDATION_IMPLEMENTED=YES
+~~~
 
-Für die erste Plattformphase gilt:
+## 3. Laufzeitentscheidung
+
+Für die erste Plattformphase gilt weiterhin:
 
 - Next.js ist die einzige Hauptruntime;
-- Route Handler und Server Actions bilden die serverseitige Composition Boundary;
+- Route Handler und Server Actions bilden die serverseitige Composition
+  Boundary;
 - es gibt keine zweite Express-, FastAPI- oder NestJS-Hauptruntime;
-- MySQL mit Drizzle ist die geplante relationale Persistenz;
-- KI- und Retrievalanbieter werden hinter Interfaces gekapselt;
+- MySQL mit Drizzle ist die relationale Persistenzrichtung;
+- KI- und Retrievalanbieter werden hinter providerneutralen Interfaces
+  gekapselt;
 - ein externer Vektorindex ist nicht vorab festgelegt;
-- Microservices werden nur nach einem belegten Auslagerungskriterium geprüft.
+- Microservices werden erst nach einem belegten Auslagerungskriterium geprüft.
 
-## Paketgrenzen
+Die S51B-B-Integration enthält nur ein lokales Adapterfundament. Es existieren
+noch keine Tabellen, Migrationen oder produktiven Repositories.
 
-```text
+## 4. Paketgrenzen
+
+~~~text
 apps/web production code
   -> ui
   -> contracts
@@ -76,24 +94,52 @@ apps/web production code
 
 apps/web test code
   -> testing
-```
+~~~
 
 Produktionscode unter `apps/web` darf `packages/testing` nicht importieren.
-Testdateien, Testkonfigurationen und Testhelfer dürfen das Paket verwenden.
+Testdateien, Testkonfigurationen und Testhelfer dürfen das Package verwenden.
 
-Geplante harte Regeln:
+### Automatisiert erzwungene Regeln
 
-- nur `packages/db` importiert Drizzle;
-- nur `packages/ai-core` importiert KI-, Embedding- oder Reranking-SDKs;
-- `packages/domain` kennt keine Framework-, DB-, Railway- oder Provider-SDKs;
-- React-Komponenten greifen nicht direkt auf Datenbank oder Provider zu;
-- Browsercode entscheidet niemals endgültig über Berechtigungen;
-- jede geschützte Ressource benötigt serverseitige Rollen-, Scope- und Ownership-Prüfung;
-- zyklische Paketabhängigkeiten sind verboten.
+Der aktuelle Boundary-Check und die CI erzwingen unter anderem:
 
-## Plattformverträge
+- genau die vorgesehenen privaten Package-Grenzen;
+- kontrollierte Package-Exports und TypeScript-Konfigurationen;
+- deklarierte und azyklische Package-Abhängigkeiten;
+- kein `packages/testing` im Produktionscode;
+- Drizzle und MySQL-Treiber nur in `packages/db`;
+- keine KI-, Embedding- oder Reranking-SDKs außerhalb `packages/ai-core`;
+- keine direkte Datenbank- oder Providerkopplung aus React-Komponenten;
+- keine zweite Hauptruntime;
+- keine unzulässige Railway-Kopplung aus den Packages.
 
-Die Plattformverträge regeln mindestens:
+### Weiterhin fachlich zu implementierende Regeln
+
+Erst spätere, separat freizugebende Slices implementieren und testen:
+
+- endgültige Rollen-, Scope- und Ownership-Prüfungen;
+- widerrufbare serverseitige Sessions;
+- zentrale Feature Flags mit sicheren Defaultwerten;
+- Repository- und Transaktionsgrenzen für echte Persistenz;
+- revisionsbasierte Content- und Assessment-Workflows;
+- produktive KI-, Retrieval- und Search-Policies.
+
+## 5. Langfristige Package-Verantwortungen
+
+| Package | Zielverantwortung | Gegenwärtiger Status |
+|---|---|---|
+| `ui` | UI-Primitives, Design Tokens, zugängliche Komponenten | Skeleton integriert |
+| `contracts` | providerneutrale Schemas, DTOs, Events und Fehlercodes | Skeleton integriert |
+| `domain` | fachliche Typen, Policies und Use-Case-Interfaces | Skeleton integriert |
+| `db` | Drizzle-Schema, Migrationen, Repositories, Transaktionen | lokales Adapterfundament integriert; Schema ausstehend |
+| `auth` | Credentials, Sessions, Rollen, Scopes und Ownership | Skeleton integriert; Runtime ausstehend |
+| `admin` | Review, Publish, Rollback und Audit-Use-Cases | Skeleton integriert; Runtime ausstehend |
+| `ai-core` | Provideradapter, Retrieval, Zitate, Budgets und Safety | Skeleton integriert; Provider ausstehend |
+| `testing` | Fixtures, Test-DB, Policy- und Browserhelfer | Skeleton integriert |
+
+## 6. Plattformverträge
+
+Die Plattformverträge regeln als verbindliches Ziel mindestens:
 
 - Rollen `Visitor`, `Learner`, `Editor`, `Reviewer`, `Admin` und `Owner`;
 - widerrufbare serverseitige Sessions;
@@ -104,21 +150,26 @@ Die Plattformverträge regeln mindestens:
 - KI/RAG mit Provenienz, Zitaten, Berechtigungsfilterung und Enthaltung;
 - redigierte Logs ohne Secrets, Sessionwerte, Prompts oder Dokumentvolltexte.
 
-## Nicht freigegeben
+Diese Verträge sind Architekturvorgaben. Ihre Dokumentation ist kein Nachweis,
+dass die jeweilige produktive Runtime bereits existiert.
 
-Noch nicht implementiert und durch dieses Dokument nicht freigegeben sind:
+## 7. Nicht vorhanden oder nicht freigegeben
 
-- Workspace- oder Package-Skeleton;
-- Datenbank, Schema oder Migrationen;
-- Authentifizierung, Sessions, Rollen oder Ownership;
+Noch nicht implementiert oder durch dieses Dokument nicht freigegeben sind:
+
+- echte produktive Datenbankverbindung;
+- kanonisches Schema, Tabellen, Migrationen und Seeds;
+- Authentifizierung, Sessions, Rollen- oder Ownership-Persistenz;
 - Admin- und Publikationssystem;
 - Upload-, Medien- oder Rechteverwaltung;
 - serverseitiger Lernfortschritt;
 - KI-/RAG-Laufzeit oder Provider;
+- serverseitige Search-Laufzeit;
+- Background Worker oder Transactional Outbox;
 - Railway-Staging oder Production-Deploy;
-- Payment, B2B, Multi-Tenant oder White-Label.
+- Payment, B2B, Multi-Tenant oder White Label.
 
-## Ausdrücklich abgelöst
+## 8. Ausdrücklich abgelöst
 
 Folgende frühere Richtungen sind keine aktuelle Implementierungsanweisung:
 
@@ -131,37 +182,53 @@ Folgende frühere Richtungen sind keine aktuelle Implementierungsanweisung:
 - Odoo oder ERPNext als verpflichtendes CRM;
 - getrennte `services/api`- und `services/ai`-Hauptruntimes.
 
-Diese Optionen dürfen später nur durch eine neue, belegte Architekturentscheidung
-wieder aufgenommen werden.
+Diese Optionen dürfen später nur durch eine neue, belegte
+Architekturentscheidung wieder aufgenommen werden.
 
-## Exit-Gate
+## 9. Railway- und Betriebsgrenze
 
-Das S50B-R3-Zielbild ist vollständig dokumentiert, menschlich freigegeben und
-in `main` integriert. Vor Produktcode in S51A sind weiterhin getrennte
-menschliche Entscheidungen erforderlich.
+Historisch bestätigte Railway-Einstellungen sind keine dauerhaft gültige
+Betriebszusage.
 
-Aktueller Stand:
+~~~text
+CURRENT_PRODUCTION_AUTODEPLOY=UNVERIFIED
+CURRENT_WAIT_FOR_CI=UNVERIFIED
+CURRENT_CONFIG_SOURCE=UNVERIFIED
+RAILWAY_REVERIFY_BEFORE_MERGE=REQUIRED
+~~~
+
+PR #68 ist wegen des noch nicht staging-only begrenzten Repositoryvertrags
+nicht für einen Merge freigegeben. Dieses Dokument verändert PR #68 nicht.
+
+## 10. Aktueller Exit- und Freigabestatus
 
 ~~~text
 S50B_R3_PACKAGE_COMPLETE=YES
 S50B_R3_PACKAGE_APPROVED=YES
 HUMAN_ARCHITECTURE_APPROVAL=YES
 S50B_R3_INTEGRATED_TO_MAIN=YES
-PR73_MERGED=YES
-PR73_MERGE_METHOD=SQUASH
 PR73_MERGE_COMMIT=cab2745c9cfea8a4d6418d866972cef6f982e55b
+
 S51A_SCOPE_DOCUMENTED=YES
-S51A_SCOPE_APPROVED=NO
-S51A_IMPLEMENTATION_AUTHORIZED=NO
-HUMAN_IMPLEMENTATION_APPROVAL=NO
-NEXT_PRODUCT_CODE_CHANGE_AUTHORIZED=NO
-NEXT_COMMIT_AUTHORIZED=NO
-NEXT_PUSH_AUTHORIZED=NO
-NEXT_PR_AUTHORIZED=NO
-NEXT_MERGE_AUTHORIZED=NO
+S51A_PACKAGE_STRUCTURE_IMPLEMENTED=YES
+S51A_PACKAGE_BOUNDARY_GATE_IMPLEMENTED=YES
+S51A_PACKAGE_TYPECHECK_IMPLEMENTED=YES
+S51A_INTEGRATED_TO_MAIN=YES
+PR76_MERGE_COMMIT=4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8
+
+S51B_A_INTEGRATED_TO_MAIN=YES
+S51B_B_SCOPE_LOCK_INTEGRATED_TO_MAIN=YES
+S51B_B_LOCAL_ADAPTER_FOUNDATION_INTEGRATED=YES
+PR82_MERGE_COMMIT=0f126ab2eb2b7a87f8a8ee85b611ec2ea410bcd5
+
+S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
+S51B_C_SCHEMA_AUTHORIZED=NO
+DATABASE_CONNECTION_AUTHORIZED=NO
+MIGRATION_AUTHORIZED=NO
+RAILWAY_STAGING_AUTHORIZED=NO
+PR68_MERGE_AUTHORIZED=NO
 DEPLOY_AUTHORIZED=NO
-PRODUCTION_AUTODEPLOY=DISABLED
-PRODUCTION_CHANGED=NO
+PRODUCTION_CHANGE_AUTHORIZED=NO
 ~~~
 
 Dieses Dokument erteilt keine weitere Implementierungs-, Commit-, Push-, PR-,
