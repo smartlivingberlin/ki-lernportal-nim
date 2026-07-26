@@ -86,10 +86,12 @@ Möglicher späterer Scope:
 
 ### S51D – Isoliertes Railway-Staging
 
-Dieser Slice beginnt erst nach separater menschlicher Freigabe und nach einem
-staging-only begrenzten Repositoryvertrag.
+Der staging-only Repositoryvertrag wurde in PR #68 umgesetzt und durch eine
+vollständig erfolgreiche CI verifiziert. Ein tatsächliches Railway-Staging ist
+dadurch nicht automatisch erstellt oder freigegeben.
 
-Er umfasst später höchstens:
+Ein späterer Staging-Slice beginnt erst nach separater menschlicher Freigabe und
+umfasst höchstens:
 
 - ein eigenes, von Production getrenntes Staging-Environment;
 - belegte Root-, Build-, Start- und Healthcheck-Verträge;
@@ -98,8 +100,9 @@ Er umfasst später höchstens:
 - einen freigegebenen Staging-Branch;
 - keine Änderung der bestehenden Production ohne Einzelentscheidung.
 
-PR #68 ist in seinem gegenwärtigen Zustand nicht für einen Merge freigegeben.
-Seine Staging-only-Remediation ist ein separates Arbeitspaket.
+PR #68 bleibt Draft, wurde nicht auf Ready gesetzt und ist nicht zum Merge
+freigegeben. Vor einer späteren Mergeentscheidung ist der aktuelle
+Railway-Istzustand erneut read-only zu prüfen.
 
 ### S52 – Auth, Sessions, Rollen und Ownership
 
@@ -212,7 +215,10 @@ werden nicht in einem Misch-PR kombiniert.
 CURRENT_PRODUCTION_AUTODEPLOY=UNVERIFIED
 CURRENT_WAIT_FOR_CI=UNVERIFIED
 CURRENT_CONFIG_SOURCE=UNVERIFIED
-PR68_CURRENT_MERGE_DECISION=NO-GO
+PR68_STAGING_ONLY_REMEDIATION=COMPLETE
+PR68_FULL_CI=PASS
+PR68_READY_EXECUTED=NO
+PR68_MERGE_AUTHORIZED=NO
 RAILWAY_REVERIFY_BEFORE_MERGE=REQUIRED
 DEPLOY_APPROVAL=SEPARATE
 ~~~
