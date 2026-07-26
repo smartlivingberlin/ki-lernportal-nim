@@ -4,8 +4,15 @@ packages:
   - 'packages/*'
 
 overrides:
-  "next>postcss": "8.5.12"
+  "next>postcss": "8.5.22"
   "next>sharp": "0.35.3"
+
+auditConfig:
+  ignoreGhsas:
+    # DEV-ONLY: ESLint/minimatch; keine Production-Abhängigkeit.
+    # Kein kompatibler brace-expansion-1.x-Fix verfügbar.
+    # AUDIT_EXCEPTION_EXPIRES=2026-08-09
+    - GHSA-mh99-v99m-4gvg
 
 nodeVersion: 22.22.1
 engineStrict: true

@@ -165,7 +165,7 @@ const workspace = read(
 );
 
 const requiredWorkspaceRules = [
-  '  "next>postcss": "8.5.12"',
+  '  "next>postcss": "8.5.22"',
   "nodeVersion: 22.22.1",
   "engineStrict: true",
   "strictDepBuilds: true",
@@ -179,6 +179,44 @@ for (const rule of requiredWorkspaceRules) {
   check(
     workspace.includes(rule),
     `Workspace policy present: ${rule}`,
+  );
+}
+
+const ignoredAuditGhsas =
+  workspace.match(/GHSA-[23456789cfghjmpqrvwx]{4}-[23456789cfghjmpqrvwx]{4}-[23456789cfghjmpqrvwx]{4}/g) ?? [];
+
+check(
+  ignoredAuditGhsas.length === 1,
+  "Exactly one temporary audit GHSA exception exists",
+);
+
+check(
+  ignoredAuditGhsas[0] === "GHSA-mh99-v99m-4gvg",
+  "Temporary audit exception is restricted to GHSA-mh99-v99m-4gvg",
+);
+
+const auditExpiryMatch = workspace.match(
+  /AUDIT_EXCEPTION_EXPIRES=(\d{4}-\d{2}-\d{2})/,
+);
+
+check(
+  Boolean(auditExpiryMatch),
+  "Temporary audit exception has an expiry date",
+);
+
+if (auditExpiryMatch) {
+  const expiresAt = Date.parse(
+    `${auditExpiryMatch[1]}T23:59:59Z`,
+  );
+
+  check(
+    Number.isFinite(expiresAt),
+    "Temporary audit exception expiry is valid",
+  );
+
+  check(
+    Date.now() <= expiresAt,
+    "Temporary audit exception has not expired",
   );
 }
 
