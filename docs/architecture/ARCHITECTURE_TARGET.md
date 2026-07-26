@@ -195,10 +195,17 @@ CURRENT_PRODUCTION_AUTODEPLOY=UNVERIFIED
 CURRENT_WAIT_FOR_CI=UNVERIFIED
 CURRENT_CONFIG_SOURCE=UNVERIFIED
 RAILWAY_REVERIFY_BEFORE_MERGE=REQUIRED
+PR68_STAGING_ONLY_REMEDIATION=COMPLETE
+PR68_FULL_CI=PASS
+PR68_READY_EXECUTED=NO
+PR68_MERGE_AUTHORIZED=NO
 ~~~
 
-PR #68 ist wegen des noch nicht staging-only begrenzten Repositoryvertrags
-nicht für einen Merge freigegeben. Dieses Dokument verändert PR #68 nicht.
+PR #68 besitzt inzwischen einen staging-only begrenzten Repositoryvertrag und
+eine vollständig erfolgreiche CI. Er bleibt dennoch Draft, wurde nicht auf
+Ready gesetzt und ist nicht zum Merge freigegeben. Vor jeder späteren
+Mergeentscheidung ist der aktuelle Railway-Istzustand erneut read-only zu
+prüfen. Dieses Dokument verändert PR #68 nicht.
 
 ## 10. Aktueller Exit- und Freigabestatus
 
