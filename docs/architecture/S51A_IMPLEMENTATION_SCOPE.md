@@ -1,22 +1,48 @@
-# S51A – Exact Workspace and Package-Skeleton Implementation Scope
+# S51A – Historischer Workspace- und Package-Skeleton-Implementierungsvertrag
 
-**Status:** Architektonisch freigegebener Implementierungskandidat; gesonderte Scope- und Umsetzungsfreigaben ausstehend
-**Stand:** 17. Juli 2026
-**Architekturvoraussetzung:** erfüllt durch `APPROVE_ARCHITECTURE` vom 17. Juli 2026
+**Status:** vollständig umgesetzt und in `main` integriert  
+**Ursprünglicher Vertragsstand:** 17. Juli 2026  
+**Tatsachenabgleich:** 26. Juli 2026  
+**Merge:** PR #76, Squash-Commit `4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8`
 
-## 1. Ziel
+## 1. Zweck dieses Dokuments
 
-S51A führt ausschließlich das physische Workspace- und Package-Gerüst der
-modularen Monolith-Architektur ein.
+Dieses Dokument war der exakte, vor der Umsetzung festgelegte S51A-Scope für
+das physische Workspace- und Package-Gerüst des modularen
+Next.js-Monolithen.
 
-S51A implementiert keine produktive Fachfunktion.
+S51A ist inzwischen abgeschlossen. Dieses Dokument ist daher kein offener
+Implementierungskandidat mehr, sondern ein historischer Scope-, Abnahme- und
+Auditbeleg.
 
-Der bestehende öffentliche Lernraum muss sich nach S51A funktional genauso
-verhalten wie vorher.
+Der vollständige ursprüngliche Vertragsinhalt vom geprüften Baseline-Stand
+bleibt unveränderlich über folgenden Commit-Permalink verfügbar:
 
-## 2. Vorgesehene Packages
+- [Vollständiger ursprünglicher S51A-Vertrag auf `dc2d594c`](https://github.com/smartlivingberlin/ki-lernportal-nim/blob/dc2d594c2993c0094c6accf4a23a45379077bf2d/docs/architecture/S51A_IMPLEMENTATION_SCOPE.md)
 
-Exakt folgende acht Package-Grenzen werden eingeführt:
+Der aktuelle Integrationsstand wird in
+[`../00_PROJECT_STATUS.md`](../00_PROJECT_STATUS.md),
+[`ARCHITECTURE_TARGET.md`](ARCHITECTURE_TARGET.md) und
+[`PACKAGE_DAG.md`](PACKAGE_DAG.md) beschrieben.
+
+~~~text
+HISTORICAL_DOCUMENT=YES
+S51A_SCOPE_DOCUMENTED=YES
+S51A_IMPLEMENTED=YES
+S51A_INTEGRATED_TO_MAIN=YES
+S51A_MERGE_COMMIT=4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8
+THIS_DOCUMENT_DOES_NOT_AUTHORIZE_FURTHER_WORK=YES
+~~~
+
+## 2. Ursprüngliches Ziel
+
+S51A führte ausschließlich das physische Workspace- und Package-Gerüst der
+freigegebenen modularen Monolith-Architektur ein.
+
+Der Slice durfte keine produktive Fachfunktion einführen. Der bestehende
+öffentliche Lernraum musste sich funktional genauso verhalten wie vor S51A.
+
+## 3. Exakt eingeführte Package-Grenzen
 
 ~~~text
 packages/ui
@@ -29,7 +55,7 @@ packages/ai-core
 packages/testing
 ~~~
 
-Jedes Package erhält mindestens:
+Jedes Package erhielt mindestens:
 
 ~~~text
 package.json
@@ -38,374 +64,76 @@ src/index.ts
 tsconfig.json oder dokumentierte geerbte TypeScript-Konfiguration
 ~~~
 
-Zusätzliche Dateien benötigen eine konkrete Begründung im S51A-PR.
+Die Packages wurden privat angelegt und mit kontrollierten Exportgrenzen
+versehen.
 
-## 3. `packages/ui`
+## 4. Ursprüngliche Verantwortungsgrenzen
 
-Verantwortung:
+### `packages/ui`
 
-- wiederverwendbare UI-Primitives;
-- Design-System-Grenze;
-- zugängliche Komponentenverträge;
-- React-basierte Darstellung.
+Zielgrenze für wiederverwendbare UI-Primitives, Design Tokens und zugängliche
+Komponentenverträge. Direkte Datenbank-, Auth- oder Providerkopplung war
+verboten.
 
-Erlaubt:
+### `packages/contracts`
 
-- React;
-- UI-nahe Hilfsfunktionen;
-- Styling-nahe Abhängigkeiten, sofern ausdrücklich geprüft.
+Zielgrenze für providerneutrale Request-/Response-Schemas, DTOs, Events,
+Commands und kontrollierte Fehler. Framework-, Datenbank- und Providerlogik
+war verboten.
 
-Verboten:
+### `packages/domain`
 
-- Drizzle;
-- Datenbankzugriffe;
-- Auth-SDKs;
-- AI-Provider;
-- Search-Provider;
-- Railway-SDKs;
-- Secret-Zugriff;
-- serverseitige Rollenentscheidung.
+Infrastrukturfreie Zielgrenze für fachliche Typen, Policies, Zustände,
+Domain Errors und Use-Case-Interfaces.
 
-## 4. `packages/contracts`
+### `packages/db`
 
-Verantwortung:
+Vorbereitete Persistenzgrenze. S51A durfte noch kein Drizzle-Schema, keine
+Migration, MySQL-Verbindung, Query, produktives Repository, Seed oder
+Testdatenbank enthalten.
 
-- providerneutrale Request- und Response-Schemas;
-- validierte Commands;
-- kontrollierte Fehler;
-- Health- und Readiness-Schemas;
-- Search-, Auth-, Learning- und Admin-Verträge.
+### `packages/auth`
 
-Verboten:
+Vorbereitete Grenze für Auth-, Session- und Policy-Interfaces. Login,
+Registrierung, Passwort-Hashing, Cookies, Sessiontabellen, Recovery, MFA,
+Passkeys und OAuth waren nicht Teil von S51A.
 
-- React;
-- Next.js;
-- Drizzle;
-- Datenbankclient;
-- Railway;
-- AI-Provider-SDK;
-- konkrete Monitoring-Anbieter.
+### `packages/admin`
 
-## 5. `packages/domain`
+Vorbereitete Grenze für spätere administrative Application Services. Eine
+Adminseite, Nutzerverwaltung, Rollenvergabe, Content Editor,
+Publikationsfunktion oder Auditansicht war nicht Teil von S51A.
 
-Verantwortung:
+### `packages/ai-core`
 
-- reine fachliche Typen;
-- Policies;
-- Zustände;
-- Domain Errors;
-- Zustandsübergänge;
-- Ownership-, Scope-, Revision- und Learning-Begriffe.
+Providerneutrale Zielgrenze für KI-, Retrieval-, Citation- und
+Abstention-Verträge. Provider-SDKs, API-Keys, Modellaufrufe, Embeddings,
+Reranking, Vektordatenbanken, RAG-Indizes und produktive KI-Laufzeit waren
+verboten.
 
-Verboten:
+### `packages/testing`
 
-- React;
-- Next.js;
-- Drizzle;
-- Datenbankclient;
-- HTTP-Framework;
-- Dateisystemzugriff;
-- Railway;
-- AI-Provider-SDK;
-- Monitoring-SDK;
-- Environment-Zugriff.
+Gemeinsame Testgrenze für Fixtures, Builder und Boundary-Unterstützung.
+Produktionscode durfte dieses Package nicht importieren.
 
-`packages/domain` bleibt infrastrukturfrei.
-
-## 6. `packages/db`
+## 5. Import- und Anbietergrenzen
 
-Verantwortung in S51A:
+Der historische Vertrag verlangte unter anderem:
 
-- spätere Persistenzgrenze dokumentieren;
-- Repository-Interfaces oder Adaptergrenzen vorbereiten;
-- kontrollierte Exportoberfläche bereitstellen.
+- `packages/domain` bleibt infrastrukturfrei;
+- `packages/ui` importiert weder `packages/db`, `packages/auth` noch
+  `packages/ai-core`;
+- `packages/contracts` importiert weder Next.js noch Drizzle;
+- Produktionscode importiert `packages/testing` nicht;
+- nur `packages/db` darf Drizzle und den MySQL-Treiber importieren;
+- nur `packages/ai-core` darf KI-, Embedding- oder Reranking-SDKs importieren;
+- zyklische Package-Abhängigkeiten sind verboten;
+- direkte Quellpfadimporte außerhalb kontrollierter Exports sind verboten.
 
-S51A darf nicht enthalten:
+## 6. Boundary-Automation
 
-- Drizzle-Schema;
-- Migration;
-- MySQL-Verbindung;
-- Connection String;
-- Datenbankabfrage;
-- produktives Repository;
-- Seed;
-- Testdatenbank;
-- Railway-Datenbankintegration.
-
-## 7. `packages/auth`
-
-Verantwortung in S51A:
-
-- Auth-Interfaces;
-- Session-Interfaces;
-- Policy-Grenze;
-- dokumentierte spätere Adapterpunkte.
-
-S51A darf nicht enthalten:
-
-- Loginroute;
-- Registrierung;
-- Passwort-Hashing;
-- Session-Cookie;
-- Sessiontabelle;
-- Recovery-Flow;
-- MFA;
-- Passkey;
-- OAuth-Provider;
-- First-User-Admin.
-
-## 8. `packages/admin`
-
-Verantwortung in S51A:
-
-- Grenze für spätere administrative Application Services;
-- dokumentierte Author-, Reviewer-, Publish- und Rollback-Verträge.
-
-S51A darf nicht enthalten:
-
-- Adminseite;
-- Adminroute;
-- Nutzerverwaltung;
-- Rollenvergabe;
-- Content Editor;
-- Publikationsfunktion;
-- Auditviewer;
-- Break-glass-Aktion.
-
-## 9. `packages/ai-core`
-
-Verantwortung in S51A:
-
-- providerneutrale AI-Interfaces;
-- Retrieval-Interfaces;
-- Citation- und Abstention-Verträge;
-- dokumentierte Adaptergrenze.
-
-S51A darf nicht enthalten:
-
-- AI-Provider-SDK;
-- API-Key;
-- Modellaufruf;
-- Embedding;
-- Reranking;
-- Vektordatenbank;
-- RAG-Index;
-- Dokumentupload;
-- Prompt-Logging;
-- produktive KI-Laufzeit.
-
-## 10. `packages/testing`
-
-Verantwortung:
-
-- gemeinsame Test-Builder;
-- Fixtures;
-- Boundary-Test-Unterstützung;
-- Testtypen;
-- reproduzierbare Testdaten.
-
-Regeln:
-
-- Testcode darf `packages/testing` importieren;
-- Production-Code darf `packages/testing` nicht importieren;
-- `apps/web production code` darf `packages/testing` nicht importieren;
-- `apps/web test code` darf `packages/testing` importieren;
-- `packages/testing` darf andere Packages für Tests importieren.
-
-## 11. Zulässige Root-Dateien
-
-S51A darf nur die für Workspace, Build und Boundary-Tests notwendigen
-Root-Dateien ändern.
-
-Mögliche zulässige Dateien:
-
-- `package.json`;
-- `pnpm-workspace.yaml`;
-- vorhandene oder neue gemeinsame TypeScript-Konfiguration;
-- vorhandene ESLint-Konfiguration;
-- Boundary-Check-Konfiguration;
-- Boundary-Check-Skript;
-- CI-Workflow für Package- und Boundary-Prüfung;
-- direkt zu S51A gehörende Dokumentation.
-
-Jede tatsächlich geänderte Datei muss im PR einzeln aufgelistet werden.
-
-## 12. Bestehende Webanwendung
-
-`apps/web` bleibt funktional unverändert.
-
-Zulässig sind nur minimale Konfigurationsänderungen für Workspace-Auflösung,
-sofern:
-
-- Rendering unverändert bleibt;
-- Routen unverändert bleiben;
-- Texte unverändert bleiben;
-- Browser-LocalStorage unverändert bleibt;
-- keine neue Runtime-Abhängigkeit entsteht;
-- keine externe Anfrage hinzukommt;
-- keine Feature-Flag-Wirkung entsteht.
-
-Packages werden nicht künstlich importiert, nur um ihre Existenz zu demonstrieren.
-
-## 13. Vorgesehene Import-Richtung
-
-Grundregel:
-
-~~~text
-apps/web
--> packages/ui
--> packages/contracts
--> packages/domain
-~~~
-
-Serverseitige Composition darf später verwenden:
-
-~~~text
-apps/web server-only
--> packages/auth
--> packages/admin
--> packages/db
--> packages/ai-core
-~~~
-
-Die tatsächliche spätere Application-Service-Struktur wird in den jeweiligen
-Feature-Slices erweitert.
-
-## 14. Verbotene Import-Richtungen
-
-Mindestens verboten sind:
-
-- `packages/domain` importiert Infrastruktur;
-- `packages/ui` importiert `packages/db`;
-- `packages/ui` importiert `packages/auth`;
-- `packages/ui` importiert `packages/ai-core`;
-- `packages/contracts` importiert Next.js;
-- `packages/contracts` importiert Drizzle;
-- `packages/db` importiert UI;
-- `packages/auth` importiert UI;
-- Production-Packages importieren `packages/testing`;
-- `apps/web production code` importiert `packages/testing`;
-- zyklische Package-Abhängigkeiten.
-
-## 15. Exklusive Anbietergrenzen
-
-Spätere Regeln werden bereits statisch vorbereitet:
-
-- nur `packages/db` darf Drizzle importieren;
-- nur `packages/ai-core` darf AI-, Embedding- oder Reranking-SDKs importieren;
-- nur genehmigte Adapter dürfen Monitoring-SDKs importieren;
-- nur serverseitige Composition darf Secrets lesen;
-- Browserpakete dürfen keine Server-Secrets importieren.
-
-In S51A werden diese Anbieter selbst noch nicht installiert.
-
-## 16. Boundary-Automation
-
-S51A muss einen deterministischen Check einführen, der mindestens fehlschlägt bei:
-
-- nicht deklarierter Package-Abhängigkeit;
-- verbotener Import-Richtung;
-- zyklischer Package-Abhängigkeit;
-- Production-Import von `packages/testing`;
-- Drizzle-Import außerhalb `packages/db`;
-- AI-SDK-Import außerhalb `packages/ai-core`;
-- Next.js-Import in `packages/domain`;
-- React-Import in `packages/domain`;
-- fehlendem Package-Manifest;
-- fehlendem Package-Entry-Point;
-- fehlender TypeScript-Konfiguration;
-- unzulässigem direkten Quellpfadimport.
-
-Der Check läuft lokal und in CI.
-
-## 17. Package-Manifeste
-
-Jedes `package.json` muss:
-
-- einen eindeutigen Package-Namen besitzen;
-- `private: true` verwenden, solange keine Veröffentlichung freigegeben ist;
-- kontrollierte `exports` definieren;
-- keine unnötige Runtime-Abhängigkeit besitzen;
-- keine ungepinnte Toolchain einführen;
-- den vorhandenen Package Manager respektieren;
-- keine Publish-Konfiguration aktivieren.
-
-## 18. TypeScript
-
-S51A soll:
-
-- gemeinsame strenge TypeScript-Regeln verwenden;
-- alle Package-Entry-Points prüfen;
-- keine impliziten `any`-Fluchtwege einführen;
-- keine produktiven Stubwerte vortäuschen;
-- Type-only Imports korrekt behandeln;
-- Build-Reihenfolge reproduzierbar machen.
-
-Ein Interface darf leer oder minimal sein, wenn klar dokumentiert wird, dass
-keine Runtime-Implementierung existiert.
-
-## 19. README je Package
-
-Jedes Package-README dokumentiert:
-
-- Zweck;
-- erlaubte Imports;
-- verbotene Imports;
-- öffentliche Exports;
-- aktueller Implementierungsstatus;
-- spätere verantwortliche Slices;
-- Sicherheits- und Datenschutzgrenzen.
-
-Kein README darf eine noch nicht existierende Funktion als implementiert
-darstellen.
-
-## 20. Keine neuen Produktabhängigkeiten ohne Bedarf
-
-S51A soll nach Möglichkeit keine neue produktive Drittanbieterabhängigkeit
-benötigen.
-
-Wenn für den Boundary-Check eine neue Dev Dependency notwendig ist:
-
-- genaue Notwendigkeit dokumentieren;
-- Alternativen prüfen;
-- Version festlegen;
-- Supply-Chain- und Vulnerability-Gates ausführen;
-- gesonderte menschliche Dependency-Prüfung beachten.
-
-Ein eigenes kleines deterministisches Skript ist zulässig, wenn es einfacher und
-prüfbarer ist.
-
-## 21. Bestehende CI-Gates
-
-Alle bestehenden CI-#152-Schutzwirkungen bleiben erhalten:
-
-- gepinnte Toolchain;
-- Governance-Check;
-- Frozen Install;
-- Supply-Chain-Policy;
-- Dependency Audit;
-- Production Dependency Audit;
-- Produktionsbuild;
-- Standalone-Prüfung;
-- Lint;
-- Content Quality;
-- Quellenintegrität;
-- Lesson Integrity;
-- Playwright;
-- Responsive Regression;
-- Hydration Regression;
-- Accessibility Regression;
-- Practice Engine;
-- Progress- und Persistence-Smokes;
-- Reset;
-- Cross-Tab;
-- UI Guardrails.
-
-S51A darf keine bestehende Prüfung entfernen oder abschwächen.
-
-## 22. Neue S51A-Prüfungen
-
-Zusätzlich erforderlich:
+S51A musste einen deterministischen lokalen und CI-fähigen Check einführen,
+der mindestens folgende Fehlerklassen ablehnt:
 
 ~~~text
 workspace_manifest_check
@@ -419,189 +147,79 @@ provider_sdk_boundary_check
 git_diff_check
 ~~~
 
-Die Namen können technisch abweichen, die Schutzwirkung nicht.
+Die technische Benennung durfte abweichen; die Schutzwirkung durfte nicht
+abgeschwächt werden.
 
-## 23. Exakte Acceptance Criteria
+Diese Schutzwirkung ist inzwischen in `main` integriert und wird durch die
+aktuelle CI ausgeführt.
 
-S51A ist nur abnahmefähig, wenn:
+## 7. Ursprüngliche Acceptance Criteria
 
-1. exakt acht Package-Skeletons vorhanden sind;
-2. jedes Package eine dokumentierte Verantwortung besitzt;
-3. der Dependency Graph azyklisch ist;
-4. verbotene Imports automatisiert abgelehnt werden;
-5. Production-Code `packages/testing` nicht importieren kann;
-6. das bestehende Webverhalten unverändert bleibt;
-7. keine produktive Datenbankverbindung existiert;
-8. keine Migration existiert;
-9. keine Authroute existiert;
-10. kein Cookie oder Credential implementiert ist;
-11. keine Adminfunktion existiert;
-12. keine AI-Provider-Abhängigkeit existiert;
-13. keine externe AI-Anfrage existiert;
-14. keine serverseitige Suche existiert;
-15. kein Hintergrundworker existiert;
-16. keine Railway-Datei, kein Environment und kein Deployment verändert wird;
-17. alle alten und neuen CI-Gates grün sind;
-18. `git diff --check` besteht;
-19. keine Secrets enthalten sind;
-20. der PR ausschließlich S51A enthält.
+S51A war nur abnahmefähig, wenn insbesondere:
 
-## 24. Ausdrücklich verboten in S51A
+1. exakt acht Package-Skeletons vorhanden waren;
+2. jedes Package eine dokumentierte Verantwortung besaß;
+3. der Dependency Graph azyklisch blieb;
+4. verbotene Imports automatisiert abgelehnt wurden;
+5. Produktionscode `packages/testing` nicht importieren konnte;
+6. das bestehende Webverhalten unverändert blieb;
+7. keine produktive Datenbankverbindung oder Migration entstand;
+8. keine Auth-, Admin-, KI-, Search- oder Worker-Runtime entstand;
+9. keine Railway-Datei, kein Environment und kein Deployment verändert wurde;
+10. alle bestehenden und neuen CI-Gates grün waren;
+11. `git diff --check` bestand;
+12. keine Secrets enthalten waren;
+13. der PR ausschließlich S51A enthielt.
 
-Nicht zulässig sind:
+## 8. Historisch ausdrücklich ausgeschlossener Scope
 
-- Drizzle-Schema;
-- Datenbankmigration;
-- MySQL-Verbindung;
-- Sessiontabelle;
-- Login;
-- Registrierung;
-- Passwort-Hashing;
-- Recovery;
-- MFA;
-- Rollenpersistenz;
-- Adminseite;
-- Content Editor;
-- Publikationsworkflow;
-- Auditpersistenz;
-- Learning-Datenbank;
-- serverseitiger Fortschritt;
-- Assessment Scoring;
-- Wiederholungslogik;
-- Outboxtabelle;
-- Worker;
-- Scheduler;
-- externe Queue;
-- serverseitige Search Route;
-- Search-Index;
-- Embeddings;
-- Vektordatenbank;
-- AI-Provider;
-- Dokumentupload;
-- Analytics;
-- Tracking;
-- Payment;
-- Organisationserstellung;
-- White Label;
-- Railway-Staging;
-- Production-Deploy.
+Nicht Teil von S51A waren unter anderem:
 
-## 25. Git- und Branch-Grenze
+- Drizzle-Schema und Datenbankmigration;
+- MySQL-Verbindung oder produktive Repositories;
+- Login, Registrierung, Sessions, MFA oder Rollenpersistenz;
+- Adminseite, Content Editor oder Publikationsworkflow;
+- serverseitiger Lernfortschritt und Assessment Scoring;
+- Worker, Scheduler, Outbox oder externe Queue;
+- Search-Route oder Search-Index;
+- Embeddings, Vektordatenbank oder KI-Provider;
+- Analytics, Tracking oder Payment;
+- Organisationen, B2B oder White Label;
+- Railway-Staging oder Production-Deploy.
 
-S51A soll erst nach einem gegebenenfalls genehmigten Merge von PR #73 auf einem
-neuen kleinen Branch vom dann aktuellen `main` beginnen.
+## 9. Tatsächlicher Abschluss
 
-Vorgeschlagener Branchname:
+S51A wurde durch PR #76 auf Grundlage des freigegebenen Vertrags umgesetzt und
+per Squash in `main` integriert.
 
 ~~~text
-feat/s51a-package-skeleton-20260717
+PR76_MERGED=YES
+PR76_MERGE_METHOD=SQUASH
+PR76_MERGE_COMMIT=4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8
+S51A_PACKAGE_STRUCTURE_IMPLEMENTED=YES
+S51A_BOUNDARY_AUTOMATION_IMPLEMENTED=YES
+S51A_PACKAGE_TYPECHECK_IMPLEMENTED=YES
+S51A_WEB_BEHAVIOR_INTENTIONALLY_UNCHANGED=YES
 ~~~
 
-Vorgeschlagener Commit-Betreff:
+Nach S51A wurden S51B-A, der S51B-B-Scope-Lock und das lokale
+S51B-B-MySQL-/Drizzle-Adapterfundament separat autorisiert und integriert.
+Diese späteren Integrationen ändern nicht den historischen S51A-Scope.
+
+## 10. Weiterhin nicht freigegeben
 
 ~~~text
-feat: establish S51A package boundaries
-~~~
-
-Beides sind Kandidaten und noch nicht autorisiert.
-
-## 26. Stop-Bedingungen
-
-Ohne Commit oder Push stoppen, wenn:
-
-- der erwartete Basis-Commit nicht stimmt;
-- `main` unerwartet verändert wurde;
-- der Worktree nicht sauber ist;
-- Package-DAG mehrdeutig ist;
-- sichtbares Produktverhalten verändert wird;
-- eine neue ungeprüfte Dependency notwendig wird;
-- bestehende CI-Gates geschwächt werden;
-- Product Code über Konfiguration hinaus verändert wird;
-- Datenbank-, Auth-, Admin-, AI- oder Search-Implementierung in den Diff gelangt;
-- Railway- oder Environment-Dateien verändert werden;
-- Secrets erscheinen;
-- der Scope größer als S51A wird.
-
-## 27. Reviewfokus für S51A
-
-Reviewer prüfen insbesondere:
-
-- exakte Anzahl der Packages;
-- Package-Namen;
-- öffentliche Exports;
-- Dependency Graph;
-- verbotene Importpfade;
-- Production/Test-Trennung;
-- bestehende CI-Abdeckung;
-- unnötige Dependencies;
-- unveränderte Weboberfläche;
-- Abwesenheit späterer S51B- bis S57-Funktionen.
-
-## 28. Nicht Bestandteil der S51A-Abnahme
-
-Die S51A-Abnahme bewertet nicht:
-
-- Qualität eines Datenbankschemas;
-- Authentifizierungsimplementierung;
-- Passwortsicherheit;
-- Admin-UX;
-- Lernwirkungsmodell in Runtime;
-- Assessment-Scoring;
-- AI-Modellqualität;
-- Search-Ranking;
-- Railway-Staging;
-- Production Readiness.
-
-Diese Themen gehören in spätere Slices.
-
-## 29. Nach S51A
-
-Erst nach vollständiger S51A-Abnahme kann separat geplant werden:
-
-~~~text
-S51B Persistenzfundament
-S51C Betriebsfundament
-S51D isoliertes Railway-Staging
-S52 Auth, Sessions, Rollen und Ownership
-S53 Admin, Content, Quellen und Medien
-S54/S55 Lernen und Assessments
-S56 AI und RAG
-S57 Monitoring, Restore und Pilotbetrieb
-~~~
-
-Keine dieser Phasen wird durch S51A automatisch freigegeben.
-
-## 30. Autorisierungsgate
-
-~~~text
-S51A_SCOPE_DOCUMENTED=YES
-S51A_SCOPE_APPROVED=NO
-S51A_IMPLEMENTATION_AUTHORIZED=NO
-S51A_BRANCH_CREATION_AUTHORIZED=NO
-S51A_PRODUCT_CODE_CHANGE_AUTHORIZED=NO
-S51A_DEPENDENCY_CHANGE_AUTHORIZED=NO
-S51A_COMMIT_AUTHORIZED=NO
-S51A_PUSH_AUTHORIZED=NO
-S51A_PR_AUTHORIZED=NO
-S51A_READY_FOR_REVIEW_AUTHORIZED=NO
-S51A_MERGE_AUTHORIZED=NO
-S51A_DEPLOY_AUTHORIZED=NO
-DATABASE_CHANGE_AUTHORIZED=NO
-RAILWAY_CHANGE_AUTHORIZED=NO
+S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
+S51B_C_SCHEMA_AUTHORIZED=NO
+DATABASE_CONNECTION_AUTHORIZED=NO
+MIGRATION_AUTHORIZED=NO
+AUTH_RUNTIME_AUTHORIZED=NO
+ADMIN_RUNTIME_AUTHORIZED=NO
+AI_RUNTIME_AUTHORIZED=NO
+RAILWAY_STAGING_AUTHORIZED=NO
+DEPLOY_AUTHORIZED=NO
 PRODUCTION_CHANGE_AUTHORIZED=NO
 ~~~
 
-## 31. Aktueller Status
-
-Dieses Dokument definiert ausschließlich den exakten Kandidatenscope.
-
-Es erteilt keine Umsetzungsfreigabe.
-
-~~~text
-HUMAN_ARCHITECTURE_APPROVAL=YES
-HUMAN_IMPLEMENTATION_APPROVAL=NO
-COMMIT_AUTHORIZED=NO
-PUSH_AUTHORIZED=NO
-MERGE_AUTHORIZED=NO
-DEPLOY_AUTHORIZED=NO
-~~~
+Dieses Dokument erteilt keine weitere Produktcode-, Dependency-, Commit-,
+Push-, PR-, Merge-, Datenbank-, Railway- oder Deploymentfreigabe.
