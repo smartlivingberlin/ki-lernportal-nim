@@ -1,8 +1,8 @@
 # S51A – Historischer Workspace- und Package-Skeleton-Implementierungsvertrag
 
-**Status:** vollständig umgesetzt und in `main` integriert  
-**Ursprünglicher Vertragsstand:** 17. Juli 2026  
-**Tatsachenabgleich:** 26. Juli 2026  
+**Status:** vollständig umgesetzt und in `main` integriert
+**Ursprünglicher Vertragsstand:** 17. Juli 2026
+**Tatsachenabgleich:** 26. Juli 2026
 **Merge:** PR #76, Squash-Commit `4bd8abeceac7e7b6bcd3b6cf4852653a8d0942c8`
 
 ## 1. Zweck dieses Dokuments

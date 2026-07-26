@@ -1,9 +1,9 @@
 # Zielarchitektur – freigegebenes und teilweise integriertes S50B-R3-Zielbild
 
-**Status:** S50B-R3 freigegeben; S51A-Package-Skeleton sowie S51B-A- und lokales S51B-B-Adapterfundament in `main` integriert; produktive Persistenz, Auth, Admin, KI und Betrieb weiterhin ausstehend  
-**Stand:** 26. Juli 2026  
-**Baseline `main`:** `dc2d594c2993c0094c6accf4a23a45379077bf2d`  
-**Historische Grundlage:** S50B-R2 bleibt als nachvollziehbare Evidenz erhalten  
+**Status:** S50B-R3 freigegeben; S51A-Package-Skeleton sowie S51B-A- und lokales S51B-B-Adapterfundament in `main` integriert; produktive Persistenz, Auth, Admin, KI und Betrieb weiterhin ausstehend
+**Stand:** 26. Juli 2026
+**Baseline `main`:** `30e88dcd0516f5c2ddf3562a2f492f6f756f7e7a`
+**Historische Grundlage:** S50B-R2 bleibt als nachvollziehbare Evidenz erhalten
 **Ersetzt:** frühere FastAPI-, NestJS-, PostgreSQL-, Qdrant- und Microservice-Zielbeschreibung
 
 ## 1. Kanonische Dokumente

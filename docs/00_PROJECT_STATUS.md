@@ -1,13 +1,13 @@
 # Projektstatus: KI-Lernportal NIM
 
-**Stand:** 26. Juli 2026  
-**Baseline `main`:** `dc2d594c2993c0094c6accf4a23a45379077bf2d`  
-**Status:** Phase-0-Master-Baseline abgeschlossen; Source-of-Truth-, Backlog- und Railway-Readiness-Bereinigung bleiben getrennt freigabepflichtig
+**Stand:** 26. Juli 2026
+**Baseline `main`:** `30e88dcd0516f5c2ddf3562a2f492f6f756f7e7a`
+**Status:** Phase-0A-Source-of-Truth-Abgleich abgeschlossen; Backlog-Normalisierung und die staging-only Remediation von PR #68 bleiben getrennt freigabepflichtig
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
-PHASE0A_CORRECTION_PLAN=DOCUMENTED
-BASELINE_MAIN_SHA=dc2d594c2993c0094c6accf4a23a45379077bf2d
+PHASE0A_SOURCE_OF_TRUTH_SYNC=COMPLETE
+BASELINE_MAIN_SHA=30e88dcd0516f5c2ddf3562a2f492f6f756f7e7a
 ~~~
 
 ## 1. Verbindliche Einordnung
@@ -194,7 +194,7 @@ Push-, Merge- oder Deploymentfreigabe.
 ARCHITECTURE_DIRECTION=GO
 REBUILD_REQUIRED=NO
 CONTROLLED_HARDENING_REQUIRED=YES
-ARCHITECTURE_DOCUMENTATION_SYNC_REQUIRED=YES
+ARCHITECTURE_DOCUMENTATION_SYNC_REQUIRED=NO
 BACKLOG_NORMALIZATION_REQUIRED=YES
 PR68_STAGING_ONLY_REMEDIATION_REQUIRED=YES
 ~~~

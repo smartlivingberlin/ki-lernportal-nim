@@ -1,9 +1,9 @@
 # S50B-R3 – Package-DAG und Importregeln
 
-**Status:** S51A-Package-Struktur und zentrale Boundary-Gates in `main` integriert  
-**Stand:** 26. Juli 2026  
-**Baseline `main`:** `dc2d594c2993c0094c6accf4a23a45379077bf2d`  
-**Geltung:** verbindliche Package-Grenzen für alle späteren Plattform-Slices  
+**Status:** S51A-Package-Struktur und zentrale Boundary-Gates in `main` integriert
+**Stand:** 26. Juli 2026
+**Baseline `main`:** `30e88dcd0516f5c2ddf3562a2f492f6f756f7e7a`
+**Geltung:** verbindliche Package-Grenzen für alle späteren Plattform-Slices
 **Historischer S51A-Vertrag:** [`S51A_IMPLEMENTATION_SCOPE.md`](S51A_IMPLEMENTATION_SCOPE.md)
 
 S50B-R2 bleibt historische Grundlage. Für den gegenwärtigen Integrationsstand
