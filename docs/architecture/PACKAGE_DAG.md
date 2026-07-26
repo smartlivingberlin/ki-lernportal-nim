@@ -1,18 +1,18 @@
 # S50B-R3 – Package-DAG und Importregeln
 
-**Status:** In S50B-R3 menschlich freigegeben; S51A- und Umsetzungsfreigaben ausstehend
-**Stand:** 17. Juli 2026
-**Geltung:** Zielstruktur für S51A und alle späteren Plattform-Slices
-**Aktueller Freigabekandidat:** [`S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md`](S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md)
-**Exakte S51A-Grenze:** [`S51A_IMPLEMENTATION_SCOPE.md`](S51A_IMPLEMENTATION_SCOPE.md)
+**Status:** S51A-Package-Struktur und zentrale Boundary-Gates in `main` integriert  
+**Stand:** 26. Juli 2026  
+**Baseline `main`:** `dc2d594c2993c0094c6accf4a23a45379077bf2d`  
+**Geltung:** verbindliche Package-Grenzen für alle späteren Plattform-Slices  
+**Historischer S51A-Vertrag:** [`S51A_IMPLEMENTATION_SCOPE.md`](S51A_IMPLEMENTATION_SCOPE.md)
 
-S50B-R2 bleibt historische Grundlage. Für den tatsächlichen S51A-Datei-,
-Dependency- und Implementierungsscope hat `S51A_IMPLEMENTATION_SCOPE.md`
-Vorrang.
+S50B-R2 bleibt historische Grundlage. Für den gegenwärtigen Integrationsstand
+haben [`../00_PROJECT_STATUS.md`](../00_PROJECT_STATUS.md) und die tatsächlichen
+Boundary-Gates in `main` Vorrang vor alten Planungsmarkern.
 
-## 1. Zielstruktur
+## 1. Implementierte Struktur
 
-```text
+~~~text
 apps/
   web/
 
@@ -25,34 +25,37 @@ packages/
   admin/
   ai-core/
   testing/
-```
+~~~
 
-Die Verzeichnisse unter `packages/*` sind noch nicht implementiert. Ihre
-technische Einführung gehört ausschließlich zu S51A.
+Die acht Verzeichnisse unter `packages/*` sind physisch implementiert und in
+`main` integriert.
 
-## 2. Verantwortungen
+~~~text
+PACKAGE_DAG_IMPLEMENTED=YES
+S51A_PACKAGE_STRUCTURE_INTEGRATED=YES
+S51A_BOUNDARY_GATE_IN_CI=YES
+S51A_PACKAGE_TYPECHECK_IN_CI=YES
+~~~
 
-| Paket | Darf enthalten | Darf nicht enthalten |
-|---|---|---|
-| `ui` | UI-Primitives, Design Tokens, barrierearme Komponenten | Drizzle, Auth-Entscheidungen, Provider-SDKs |
-| `contracts` | Zod-Schemas, DTOs, Events, Fehlercodes | Datenzugriff, React-Komponenten, Providerlogik |
-| `domain` | Entitäten, Value Objects, Policies, Use-Case-Interfaces | Next.js, Drizzle, Railway, Provider-SDKs |
-| `db` | Drizzle-Schema, Migrationen, Repositories, Transaktionen | React, KI-Provider, UI |
-| `auth` | Credentials, Sessions, Rollen, Scopes, Ownership | React-Seiten, direkte KI-Aufrufe |
-| `admin` | Review, Publish, Rollback, Audit-Use-Cases | versteckte Client-Autorisierung |
-| `ai-core` | Provideradapter, Retrieval, Zitate, Budgets, Safety | direkte UI- oder Drizzle-Kopplung |
-| `testing` | Fixtures, Test-DB, Policy- und Browserhelfer | Produktionslaufzeitlogik |
+Das Vorhandensein einer Package-Grenze bedeutet nicht, dass ihre langfristige
+Fachfunktion bereits produktiv implementiert ist.
 
-Die Tabelle beschreibt die langfristige Zielverantwortung der Pakete.
+## 2. Verantwortungen und Reifestand
 
-S51A führt ausschließlich das Package-Skeleton und die Importgrenzen ein.
-Insbesondere entstehen in S51A noch kein Drizzle-Schema, keine Migration,
-keine Testdatenbank, keine Auth-Laufzeit, keine Adminfunktion und keine
-produktive KI-Integration.
+| Package | Langfristige Verantwortung | Darf nicht enthalten | Gegenwärtiger Stand |
+|---|---|---|---|
+| `ui` | UI-Primitives, Design Tokens, barrierearme Komponenten | Drizzle, Auth-Entscheidungen, Provider-SDKs | Skeleton integriert |
+| `contracts` | Zod-Schemas, DTOs, Events und kontrollierte Fehler | Datenzugriff, React-Komponenten, Providerlogik | Skeleton integriert |
+| `domain` | Entitäten, Value Objects, Policies und Use-Case-Interfaces | Next.js, Drizzle, Railway, Provider-SDKs | Skeleton integriert |
+| `db` | Drizzle-Schema, Migrationen, Repositories und Transaktionen | React, KI-Provider, UI | lokales Adapterfundament integriert; Schema ausstehend |
+| `auth` | Credentials, Sessions, Rollen, Scopes und Ownership | React-Seiten, direkte KI-Aufrufe | Skeleton integriert; Runtime ausstehend |
+| `admin` | Review, Publish, Rollback und Audit-Use-Cases | versteckte Client-Autorisierung | Skeleton integriert; Runtime ausstehend |
+| `ai-core` | Provideradapter, Retrieval, Zitate, Budgets und Safety | direkte UI- oder Drizzle-Kopplung | Skeleton integriert; Provider ausstehend |
+| `testing` | Fixtures, Test-DB, Policy- und Browserhelfer | Produktionslaufzeitlogik | Skeleton integriert |
 
 ## 3. Erlaubte Import-Richtung
 
-```text
+~~~text
 ui
   -> contracts
   -> domain
@@ -90,29 +93,35 @@ apps/web production code
 
 apps/web test code
   -> testing
-```
+~~~
+
+Eine erlaubte Richtung ist keine automatische Freigabe für eine neue
+Abhängigkeit. Jede tatsächlich neue Kante benötigt Begründung, Review,
+Dependency-Erklärung und einen aktualisierten Boundary-Nachweis.
 
 ## 4. Harte Invarianten
 
-1. `domain` importiert kein Infrastruktur- oder Frameworkpaket.
-2. Nur `packages/db` importiert Drizzle oder den MySQL-Treiber.
-3. Nur `packages/ai-core` importiert KI-, Embedding- oder Reranking-SDKs.
+1. `domain` bleibt frei von Infrastruktur- und Frameworkabhängigkeiten.
+2. Nur `packages/db` darf Drizzle oder den MySQL-Treiber importieren.
+3. Nur `packages/ai-core` darf KI-, Embedding- oder Reranking-SDKs importieren.
 4. React-Komponenten importieren weder Drizzle noch Provider-SDKs.
-5. Browsercode entscheidet niemals endgültig über Rollen, Scopes oder Ownership.
-6. Next.js Route Handler und Server Actions validieren, autorisieren und
-   delegieren an Use Cases.
-7. IDs, Routen und sichtbare Navigation sind kein Berechtigungsnachweis.
-8. Produktionscode unter `apps/web` importiert `packages/testing` nicht.
-9. Testdateien, Testkonfigurationen und Testhelfer dürfen `packages/testing`
-   importieren.
-10. Pakete dürfen keine zyklischen Abhängigkeiten erzeugen.
-11. Feature Flags müssen zentral registriert und serverseitig auswertbar sein.
-12. Datenbanktransaktionen bleiben innerhalb klarer Repository- oder Use-Case-
-    Grenzen.
+5. Produktionscode importiert `packages/testing` nicht.
+6. Testdateien, Testkonfigurationen und Testhelfer dürfen
+   `packages/testing` verwenden.
+7. Pakete dürfen keine zyklischen Abhängigkeiten erzeugen.
+8. Browsercode entscheidet niemals endgültig über Rollen, Scopes oder
+   Ownership.
+9. IDs, Routen und sichtbare Navigation sind kein Berechtigungsnachweis.
+10. Next.js Route Handler und Server Actions validieren, autorisieren und
+    delegieren an Use Cases, sobald geschützte Serverfunktionen entstehen.
+11. Feature Flags für risikoreiche Funktionen werden später zentral
+    registriert und serverseitig ausgewertet.
+12. Echte Datenbanktransaktionen bleiben später innerhalb klarer Repository-
+    oder Use-Case-Grenzen.
 
 ## 5. Verbotene Beispiele
 
-```text
+~~~text
 packages/domain -> next/*
 packages/domain -> drizzle-orm
 packages/ui -> packages/db
@@ -123,16 +132,18 @@ client hook -> endgültige Rollenfreigabe
 packages/db -> packages/admin
 packages/db -> packages/auth
 packages/ai-core -> packages/db
-```
+production code -> packages/testing
+~~~
 
-`ai-core` darf Daten nur über fachliche Interfaces erhalten. Eine spätere
-Persistenzintegration wird in der Composition Boundary verdrahtet.
+`ai-core` erhält Daten über fachliche Interfaces. Eine spätere
+Persistenzintegration wird in der Composition Boundary verdrahtet und nicht
+als direkte Package-Kopplung eingeführt.
 
 ## 6. Composition Boundary
 
 `apps/web` ist die technische Zusammensetzungsgrenze:
 
-```text
+~~~text
 Request
 -> Contract Validation
 -> Authentication
@@ -140,27 +151,58 @@ Request
 -> Domain Use Case
 -> Repository- oder Provider-Interface
 -> Adapter
-```
+~~~
 
-Die Composition Boundary darf Pakete verbinden, aber keine fachliche Policy
+Die Composition Boundary darf Packages verbinden, aber keine fachliche Policy
 heimlich duplizieren.
 
-## 7. Geplante S51A-Prüfungen
+## 7. Implementierte S51A-Prüfungen
 
-S51A soll mindestens folgende statische Gates einführen:
+Der aktuelle deterministische Package-Check und die CI prüfen unter anderem:
 
-- Workspace erkennt `apps/*` und `packages/*`;
-- keine verbotenen Importpfade;
-- keine zyklischen Paketabhängigkeiten;
-- Drizzle ausschließlich in `packages/db`;
-- KI-SDKs ausschließlich in `packages/ai-core`;
-- keine direkten DB-Importe aus React-Komponenten;
-- keine nicht registrierten Feature Flags;
+- Workspace-Erkennung für `apps/*` und `packages/*`;
+- exakte Package-Namen und private Manifeste;
+- kontrollierte Exports und TypeScript-Konfigurationen;
+- deklarierte Package-Abhängigkeiten;
+- verbotene Importpfade;
+- zyklische Package-Abhängigkeiten;
+- Drizzle und MySQL nur in `packages/db`;
+- KI-SDK-Grenze für `packages/ai-core`;
+- kein direkter Datenbankimport aus React-Komponenten;
+- kein `packages/testing` im Produktionscode;
 - keine neue zweite Hauptruntime;
-- keine unzulässige Kopplung an Railway;
-- jedes Paket besitzt klaren `package.json`-, TypeScript- und Exportvertrag.
+- keine unzulässige Railway-Kopplung aus Packages;
+- Package-Typecheck in CI.
 
-## 8. Testvertrag
+~~~text
+WORKSPACE_MANIFEST_CHECK=IMPLEMENTED
+PACKAGE_ENTRYPOINT_CHECK=IMPLEMENTED
+PACKAGE_TYPECHECK=IMPLEMENTED
+PACKAGE_DEPENDENCY_CHECK=IMPLEMENTED
+FORBIDDEN_IMPORT_CHECK=IMPLEMENTED
+CYCLE_CHECK=IMPLEMENTED
+TESTING_IMPORT_BOUNDARY_CHECK=IMPLEMENTED
+PROVIDER_SDK_BOUNDARY_CHECK=IMPLEMENTED
+~~~
+
+Die genaue technische Benennung darf sich ändern; die Schutzwirkung darf
+nicht abgeschwächt werden.
+
+## 8. Noch nicht durch das Skeleton implementiert
+
+Die folgenden Fähigkeiten bleiben späteren, separat freizugebenden Slices
+vorbehalten:
+
+- echtes Drizzle-Schema und Migrationen;
+- produktive Repositories und Transaktionen;
+- Login, Sessions, Rollen und Ownership;
+- Admin-, Review- und Publikationsfunktionen;
+- produktive KI-, Retrieval- oder Search-Laufzeit;
+- serverseitiger Lernfortschritt;
+- Worker, Outbox und Scheduler;
+- Railway-Staging oder Production-Deploy.
+
+## 9. Testvertrag für spätere Slices
 
 Jeder Plattform-Slice benötigt passend zum Risiko:
 
@@ -170,31 +212,40 @@ Jeder Plattform-Slice benötigt passend zum Risiko:
 - Contract-Tests für Route Handler und Provideradapter;
 - Browsertests für kritische Nutzerwege;
 - Accessibility-Tests für neue UI;
-- Regressionstests für vorhandene zwölf Lektionen und Übungen.
+- Regressionstests für die vorhandenen zwölf Lektionen und Übungen.
 
-## 9. Änderungsregel
+## 10. Änderungsregel
 
-Eine neue Abhängigkeit zwischen Paketen benötigt:
+Eine neue Abhängigkeit zwischen Packages benötigt:
 
-1. begründeten Architekturzweck;
+1. einen begründeten Architekturzweck;
 2. Prüfung gegen diese DAG;
 3. Security-, Privacy- und Testauswirkung;
-4. menschliche Freigabe;
-5. aktualisierten automatischen Import-Gate.
+4. eine ausdrückliche menschliche Freigabe;
+5. einen aktualisierten automatischen Import-Gate;
+6. einen vollständigen CI-Nachweis.
 
-## 10. Exit-Gate
+## 11. Aktueller Exit- und Freigabestatus
 
-```text
+~~~text
 PACKAGE_DAG_DOCUMENTED=YES
+PACKAGE_DAG_APPROVED=YES
+PACKAGE_DAG_IMPLEMENTED=YES
 FORBIDDEN_IMPORTS_DOCUMENTED=YES
 COMPOSITION_BOUNDARY_DOCUMENTED=YES
-S51A_AUTOMATION_SCOPE_DOCUMENTED=YES
-PACKAGE_DAG_APPROVED=YES
-HUMAN_ARCHITECTURE_APPROVAL=YES
-S51A_SCOPE_APPROVED=NO
-S51A_IMPLEMENTATION_AUTHORIZED=NO
-```
+S51A_PACKAGE_STRUCTURE_INTEGRATED=YES
+S51A_AUTOMATION_INTEGRATED=YES
+S51A_PACKAGE_TYPECHECK_IN_CI=YES
 
-`PACKAGE_DAG_APPROVED` ist seit der menschlichen Architekturentscheidung vom
-17. Juli 2026 `YES`. Dieses Dokument ändert weiterhin keinen Workspace und
-keinen Produktcode und erteilt keine S51A-Implementierungsfreigabe.
+S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
+S51B_C_SCHEMA_AUTHORIZED=NO
+AUTH_RUNTIME_AUTHORIZED=NO
+ADMIN_RUNTIME_AUTHORIZED=NO
+AI_RUNTIME_AUTHORIZED=NO
+RAILWAY_STAGING_AUTHORIZED=NO
+DEPLOY_AUTHORIZED=NO
+~~~
+
+Dieses Dokument verändert keinen Workspace und keinen Produktcode. Es erteilt
+keine neue Implementierungs-, Datenbank-, Railway-, Merge- oder
+Deploymentfreigabe.
