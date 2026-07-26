@@ -2,11 +2,14 @@
 
 ## Unterstützter Projektstand
 
-Sicherheitskorrekturen werden für den aktuellen Stand der Standardbranch `main`
-und für die aktive, aufeinander aufbauende Draft-PR-Kette geprüft.
+Sicherheitskorrekturen werden für den aktuellen Stand des Standardbranches
+`main` sowie für einzeln autorisierte Draft-PRs geprüft, die auf dem jeweils
+aktuellen `main` basieren.
 
-Ältere, abgelöste oder konfliktbehaftete Entwicklungsbranches erhalten keine
-eigenständige Sicherheitsunterstützung.
+Es besteht keine automatisch unterstützte Draft-PR-Kette. Abgelöste,
+geschlossene, veraltete oder konfliktbehaftete Entwicklungsbranches sind keine
+zulässige Entwicklungsbasis und erhalten keine eigenständige
+Sicherheitsunterstützung.
 
 ## Sicherheitslücken melden
 
@@ -38,15 +41,21 @@ werden, niemals der vollständige Wert.
 
 ## Projektgrenzen
 
-Dieses Repository enthält derzeit eine öffentliche Konzeptdemo.
+Dieses Repository enthält derzeit eine öffentliche Konzeptdemo und ein lokal
+getestetes, noch nicht produktiv verbundenes Persistenzfundament.
 
 Es gibt gegenwärtig insbesondere:
 
 - keine Zahlungsaktivierung;
 - keine produktive Benutzerkontenverwaltung;
 - keine produktive Lerndatenbank;
+- keine freigegebene produktive KI-/RAG-Laufzeit;
 - keinen freigegebenen Deployment-Ablauf aus Pull Requests;
 - keine Berechtigung für PR-Workflows, Repository-Inhalte zu verändern.
+
+Datenbank-, Railway-, Deployment- und Produktionsaktionen benötigen jeweils
+eine eigene menschliche Freigabe. Historische Betriebsbeobachtungen sind vor
+einer neuen Entscheidung erneut read-only zu verifizieren.
 
 ## Offenlegung
 
