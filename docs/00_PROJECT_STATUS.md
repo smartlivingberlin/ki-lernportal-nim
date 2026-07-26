@@ -2,11 +2,12 @@
 
 **Stand:** 26. Juli 2026
 **Baseline `main`:** `30e88dcd0516f5c2ddf3562a2f492f6f756f7e7a`
-**Status:** Phase-0A-Source-of-Truth-Abgleich abgeschlossen; Backlog-Normalisierung und die staging-only Remediation von PR #68 bleiben getrennt freigabepflichtig
+**Status:** Phase-0A-Source-of-Truth-Abgleich und Backlog-Normalisierung abgeschlossen; PR #68 staging-only remediert und CI-grün, weiterhin Draft und nicht zum Merge freigegeben
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
 PHASE0A_SOURCE_OF_TRUTH_SYNC=COMPLETE
+BACKLOG_NORMALIZATION=COMPLETE
 BASELINE_MAIN_SHA=30e88dcd0516f5c2ddf3562a2f492f6f756f7e7a
 ~~~
 
@@ -171,22 +172,28 @@ read-only zu prüfen.
 
 ## 7. Offener PR #68
 
-PR #68 ist ein separater Draft-PR für Railway-Readiness. Sein aktueller
-Repository-Diff wurde fachlich geprüft, ist aber wegen des Konflikts zwischen
-einer allgemeinen Root-/pnpm-Konfiguration und dem tatsächlichen
-Production-Vertrag nicht für einen Merge freigegeben.
+PR #68 ist ein separater Draft-PR für Railway-Readiness. Er wurde auf den
+aktuellen `main`-Stand restackt und staging-only remediert. Der Repository-Diff
+enthält keine Standarddatei `railway.json`, sondern ausschließlich die explizit
+zu konfigurierende Datei `railway.staging.json`. Der vollständige CI-Lauf #221
+war erfolgreich.
 
 ~~~text
 PR68_STATE=OPEN
 PR68_DRAFT=YES
 PR68_MERGED=NO
-PR68_HEAD=444f68313935942dfe27ae66852405c2fa6db3fb
-PR68_CURRENT_MERGE_DECISION=NO-GO
-PR68_STAGING_ONLY_REMEDIATION_REQUIRED=YES
+PR68_HEAD=78a07401dd157c92422e0e7c53754c68824c94f4
+PR68_RESTACKED=YES
+PR68_STAGING_ONLY_REMEDIATION=COMPLETE
+PR68_FULL_CI=PASS
+PR68_READY_CANDIDATE=YES
+PR68_READY_EXECUTED=NO
+PR68_MERGE_AUTHORIZED=NO
+RAILWAY_REVERIFY_BEFORE_PR68_MERGE=REQUIRED
 ~~~
 
-Dieses Dokument verändert PR #68 nicht und erteilt keine Remediation-, Commit-,
-Push-, Merge- oder Deploymentfreigabe.
+Dieses Dokument verändert PR #68 nicht und erteilt keine Ready-, Merge-,
+Railway- oder Deploymentfreigabe.
 
 ## 8. Phase-0- und Phase-0A-Befunde
 
@@ -195,12 +202,15 @@ ARCHITECTURE_DIRECTION=GO
 REBUILD_REQUIRED=NO
 CONTROLLED_HARDENING_REQUIRED=YES
 ARCHITECTURE_DOCUMENTATION_SYNC_REQUIRED=NO
-BACKLOG_NORMALIZATION_REQUIRED=YES
-PR68_STAGING_ONLY_REMEDIATION_REQUIRED=YES
+BACKLOG_NORMALIZATION_REQUIRED=NO
+BACKLOG_NORMALIZATION_COMPLETE=YES
+PR68_STAGING_ONLY_REMEDIATION_REQUIRED=NO
+PR68_STAGING_ONLY_REMEDIATION_COMPLETE=YES
 ~~~
 
-Die Backlog-Bereinigung, Änderungen an PR #68 und jede Produktumsetzung bleiben
-separate Arbeitspakete.
+Die Backlog-Normalisierung ist abgeschlossen. Ready, Merge, Railway-Verifikation
+und jedes Deployment für PR #68 bleiben getrennte, ausdrücklich
+freigabepflichtige Arbeitsschritte.
 
 ## 9. Dauerhafte Arbeits- und Freigabegrenzen
 
