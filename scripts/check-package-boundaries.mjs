@@ -76,7 +76,7 @@ const approvedExternalManifestDependencies = new Map([
 
 const expectedPackages = [
   { dir: "ui", name: `${scope}/ui`, allowed: ["contracts", "domain"] },
-  { dir: "contracts", name: `${scope}/contracts`, allowed: [] },
+  { dir: "contracts", name: `${scope}/contracts`, allowed: ["domain"] },
   { dir: "domain", name: `${scope}/domain`, allowed: [] },
   { dir: "db", name: `${scope}/db`, allowed: ["contracts", "domain"] },
   {
@@ -1501,6 +1501,55 @@ function validatePackageSkeletons() {
             `${rel(
               manifestPath,
             )} must not declare ${field} in S51B-B`,
+          );
+        }
+      }
+    } else if (pkg.dir === "contracts") {
+      const actualDependencies = Object.keys(
+        manifest.dependencies ?? {},
+      ).sort();
+
+      const expectedDependencies = [
+        `${scope}/domain`,
+      ];
+
+      if (
+        JSON.stringify(actualDependencies) !==
+        JSON.stringify(expectedDependencies)
+      ) {
+        fail(
+          `${rel(
+            manifestPath,
+          )} must declare exactly ${scope}/domain ` +
+          "as its only normal dependency in S51C-B0",
+        );
+      }
+
+      if (
+        manifest.dependencies?.[`${scope}/domain`] !==
+        "workspace:*"
+      ) {
+        fail(
+          `${rel(
+            manifestPath,
+          )} must declare ${scope}/domain as workspace:*`,
+        );
+      }
+
+      for (const field of [
+        "devDependencies",
+        "peerDependencies",
+        "optionalDependencies",
+      ]) {
+        if (
+          Object.keys(
+            manifest[field] ?? {},
+          ).length > 0
+        ) {
+          fail(
+            `${rel(
+              manifestPath,
+            )} must not declare ${field} in S51C-B0`,
           );
         }
       }
