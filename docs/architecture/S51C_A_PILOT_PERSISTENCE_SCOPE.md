@@ -326,8 +326,17 @@ created_at
 **Verbindliche Regeln:**
 
 - eindeutige Kombination aus Lauf, Item und response_sequence;
-- Antworten werden append-only gespeichert und nie überschrieben;
-- pro Lauf und Item darf nach Abschluss genau eine Antwort is_final=true sein;
+- `answer_code`, `is_correct`, `score_numerator`, `score_denominator`
+  und `response_sequence` bleiben nach dem Einfügen unveränderlich;
+- ausschließlich `is_final` darf beim Abschluss genau einmal von `false`
+  auf `true` wechseln;
+- dieser Wechsel erfolgt atomar mit
+  `assessment_runs.in_progress -> completed` und nur für die letzte gültige
+  Antwort je Lauf und Item;
+- `is_final=true` darf niemals wieder auf `false` zurückgesetzt werden;
+- jede andere Änderung an einer vorhandenen Antwort ist verboten;
+- pro Lauf und Item darf nach Abschluss genau eine Antwort `is_final=true`
+  besitzen;
 - abgeschlossene oder abgebrochene Läufe akzeptieren keine neue Antwort;
 - keine freien personenbezogenen Texte;
 - Zugriff nur über autorisierten Elternlauf;
@@ -645,9 +654,12 @@ die engere Regel dieses Abschnitts.
     `clarity`, `confidence`, `content_problem` und `technical_problem`.
     Freitext bleibt ausgeschlossen.
 
-11. Assessmentantworten werden append-only gespeichert.
-    Eine neue Antwort erhält eine höhere `response_sequence`; beim
-    Abschluss wird die letzte gültige Antwort als final markiert.
+11. Assessmentantworten werden append-only eingefügt.
+    Antwortinhalt und `response_sequence` bleiben danach unveränderlich.
+    Ausschließlich `is_final` darf beim Abschluss genau einmal atomar mit
+    `assessment_runs.in_progress -> completed` von `false` auf `true`
+    wechseln. Jede andere Änderung an einer vorhandenen Antwort sowie ein
+    Zurücksetzen von `is_final=true` auf `false` bleiben verboten.
 
 12. Lokaler Fortschritt wird vollständig vorgeprüft und danach atomar
     übernommen. Teilimporte sind verboten.
