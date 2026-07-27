@@ -9,5 +9,8 @@
       "types": "./src/index.ts",
       "default": "./src/index.ts"
     }
+  },
+  "dependencies": {
+    "@ki-lernportal-nim/domain": "workspace:*"
   }
 }

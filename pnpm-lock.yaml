@@ -62,7 +62,11 @@ importers:
 
   packages/auth: {}
 
-  packages/contracts: {}
+  packages/contracts:
+    dependencies:
+      '@ki-lernportal-nim/domain':
+        specifier: workspace:*
+        version: link:../domain
 
   packages/db:
     dependencies:
