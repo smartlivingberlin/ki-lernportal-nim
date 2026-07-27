@@ -313,17 +313,22 @@ updated_at
 id
 assessment_run_id
 item_id
+response_sequence
 answer_code
 is_correct
 score_numerator
 score_denominator
+is_final
 submitted_at
 created_at
 ```
 
 **Verbindliche Regeln:**
 
-- eindeutige Kombination aus Lauf und Item;
+- eindeutige Kombination aus Lauf, Item und response_sequence;
+- Antworten werden append-only gespeichert und nie überschrieben;
+- pro Lauf und Item darf nach Abschluss genau eine Antwort is_final=true sein;
+- abgeschlossene oder abgebrochene Läufe akzeptieren keine neue Antwort;
 - keine freien personenbezogenen Texte;
 - Zugriff nur über autorisierten Elternlauf;
 
@@ -339,6 +344,7 @@ membership_id
 event_type
 learning_path_id
 lesson_id
+assessment_run_id
 occurred_at
 duration_ms
 idempotency_key
@@ -349,6 +355,13 @@ created_at
 **Verbindliche Regeln:**
 
 - Eventtyp nur aus Allowlist;
+- assessment_started und assessment_completed benötigen assessment_run_id
+  und setzen lesson_id auf NULL;
+- lesson_started, lesson_completed, lesson_reopened und practice_submitted
+  benötigen lesson_id und setzen assessment_run_id auf NULL;
+- learning_path_started setzt lesson_id und assessment_run_id auf NULL;
+- help_opened darf optional lesson_id referenzieren, setzt aber
+  assessment_run_id auf NULL;
 - keine beliebigen JSON-Payloads;
 - keine IP-, Werbe-, Chat- oder Promptdaten;
 - keine sensiblen Freitexte;
@@ -639,6 +652,31 @@ die engere Regel dieses Abschnitts.
 12. Lokaler Fortschritt wird vollständig vorgeprüft und danach atomar
     übernommen. Teilimporte sind verboten.
 
+    Ein erfolgreicher Import antwortet ausschließlich mit:
+
+    ```text
+    status=imported
+    import_id
+    client_snapshot_hash
+    imported_lesson_ids
+    already_present_lesson_ids
+    imported_lesson_count
+    already_present_lesson_count
+    ```
+
+    Bei mindestens einer unbekannten oder ungültigen Lektions-ID wird
+    keinerlei Fortschritt geschrieben und kein Importnachweis angelegt.
+    Die Ablehnung antwortet ausschließlich mit:
+
+    ```text
+    status=rejected
+    error_code=LOCAL_PROGRESS_IMPORT_REJECTED
+    rejected_lesson_ids
+    ```
+
+    Die ID-Listen sind nur Bestandteil der unmittelbaren Antwort und werden
+    nicht dauerhaft im Importnachweis gespeichert.
+
 13. Der Nutzerexport enthält die eigenen strukturierten Lernereignisse,
     aber keine Tokens, Credentials, Secrets oder Daten anderer Nutzer.
 
@@ -652,7 +690,40 @@ assessment_runs=in_progress,completed,abandoned
 privacy_requests=requested,processing,completed,failed
 ```
 
-Terminale Zustände dürfen nicht wieder aktiviert werden.
+Zulässige Statusübergänge sind ausschließlich:
+
+```text
+users:
+  active -> suspended | pending_deletion
+  suspended -> active | pending_deletion
+  pending_deletion -> deidentified
+
+pilot_cohorts:
+  draft -> active | archived
+  active -> closed
+  closed -> archived
+
+pilot_memberships:
+  active -> suspended | ended
+  suspended -> active | ended
+
+assessment_runs:
+  in_progress -> completed | abandoned
+
+privacy_requests:
+  requested -> processing | failed
+  processing -> completed | failed
+  failed -> processing
+```
+
+`privacy_requests.failed -> processing` ist nur als ausdrücklich
+autorisierter Wiederholungsversuch mit unverändertem Request-Typ und
+erhaltener Fehlerhistorie zulässig.
+
+Terminale Zustände sind `users.deidentified`, `pilot_cohorts.archived`,
+`pilot_memberships.ended`, `assessment_runs.completed`,
+`assessment_runs.abandoned` und `privacy_requests.completed`.
+Jeder nicht ausdrücklich aufgeführte Übergang ist verboten.
 
 15. Bei Pilotende werden Mitgliedschaft und Lernzugriff beendet sowie
     Sessions widerrufen. Ein eingeschränktes Privacy-Fenster von
@@ -682,6 +753,7 @@ LEARNING_EVENT_ALLOWLIST=learning_path_started,lesson_started,lesson_completed,l
 FEEDBACK_KIND_ALLOWLIST=clarity,confidence,content_problem,technical_problem
 ASSESSMENT_ANSWER_POLICY=APPEND_ONLY_SEQUENCE_FINAL_ON_COMPLETION
 LOCAL_IMPORT_POLICY=VALIDATE_ALL_THEN_ATOMIC_APPLY
+LOCAL_IMPORT_RESULT_CONTRACT_DEFINED=YES
 PARTIAL_LOCAL_IMPORT=FORBIDDEN
 LEARNING_EVENT_EXPORT_POLICY=EXPORT_OWN_STRUCTURED_EVENTS
 STATUS_ENUMS_AND_TRANSITIONS_DEFINED=YES
@@ -691,7 +763,7 @@ RETENTION_VALUES_APPROVED=NO
 HUMAN_DOCUMENT_APPROVAL_EXECUTED=YES
 ```
 
-Die menschliche Endabnahme bleibt ein eigener nachfolgender Schritt.
+Die menschliche Endabnahme wurde durchgeführt und ist in Abschnitt 16 mit dem genehmigten Inhalts-Hash sowie dem GitHub-Nachweis dokumentiert.
 
 ## 15. Abnahmekriterien
 
