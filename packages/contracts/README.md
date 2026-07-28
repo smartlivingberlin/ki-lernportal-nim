@@ -47,3 +47,41 @@ externen Requests, produktiven Providerzugriffe oder Persistenz.
 
 Jede spätere Erweiterung benötigt eine eigene fachliche,
 sicherheitsbezogene und datenschutzbezogene Prüfung.
+
+## S51C-B1B Local Progress Import Contract V1
+
+`S51C_B1B_LOCAL_PROGRESS_IMPORT_V1` defines provider-neutral TypeScript
+transport contracts for importing a complete local lesson-progress snapshot.
+
+The request contains exactly:
+
+- `idempotency_key`
+- `client_snapshot_hash`
+- `lesson_ids`
+
+A successful response contains exactly:
+
+- `status="imported"`
+- `import_id`
+- `client_snapshot_hash`
+- `imported_lesson_ids`
+- `already_present_lesson_ids`
+- `imported_lesson_count`
+- `already_present_lesson_count`
+
+A rejected response contains exactly:
+
+- `status="rejected"`
+- `error_code="LOCAL_PROGRESS_IMPORT_REJECTED"`
+- `rejected_lesson_ids`
+
+Validation is fail-closed. Unknown string or symbol fields, inherited required
+fields, accessors, invalid prototypes, invalid identifiers, duplicate lesson
+IDs, inconsistent counters, inconsistent ordering, incomplete partitions and
+partial imports are rejected.
+
+The contract does not authenticate users, determine ownership, access a
+database, persist data, calculate snapshot hashes, call providers or implement
+runtime import behavior. A later authenticated server runtime remains
+responsible for authorization, catalogue checks, atomic persistence and
+idempotency enforcement.
