@@ -1,5 +1,4 @@
 /**
- * S51A package boundary only.
- * No runtime implementation is authorized in this slice.
+ * Provider-neutral public contracts.
  */
-export {};
+export * from "./local-progress-import.ts";
