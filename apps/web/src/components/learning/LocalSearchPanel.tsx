@@ -117,6 +117,7 @@ export function LocalSearchPanel({
       data-testid="local-search-panel"
       role="search"
       aria-labelledby="portal-search-title"
+      data-explain="suche"
       className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-6"
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">

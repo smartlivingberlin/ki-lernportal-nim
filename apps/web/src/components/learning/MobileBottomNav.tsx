@@ -16,6 +16,7 @@ export function MobileBottomNav({ simpleMode }: MobileBottomNavProps) {
   return (
     <nav
       aria-label="Mobile Schnellnavigation"
+      data-explain="mobilnav"
       className={[
         "fixed inset-x-0 bottom-0 z-50 border-t border-[var(--nim-border)] bg-[var(--nim-surface)]/95 px-2 py-2 backdrop-blur md:hidden",
         simpleMode ? "pb-[max(0.5rem,env(safe-area-inset-bottom))]" : "pb-[max(0.5rem,env(safe-area-inset-bottom))]",

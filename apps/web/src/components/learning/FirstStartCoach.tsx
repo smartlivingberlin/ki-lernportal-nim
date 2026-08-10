@@ -118,6 +118,7 @@ export function FirstStartCoach({
     <section
       id="erststart"
       aria-labelledby="erststart-title"
+      data-explain="erststart"
       className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border-2 border-[var(--nim-primary)] bg-[var(--nim-primary-soft)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 md:p-6 lg:scroll-mt-36"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -143,6 +144,8 @@ export function FirstStartCoach({
 
       <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
         Kein langer Rundgang. Nur drei klare Schritte — du kannst jederzeit abbrechen.
+        Tipp: Fahre mit der Maus über Bereiche und Buttons — am Cursor erscheint die
+        Erklärungswolke mit Bedienungshinweisen.
       </p>
 
       {!simpleMode ? (

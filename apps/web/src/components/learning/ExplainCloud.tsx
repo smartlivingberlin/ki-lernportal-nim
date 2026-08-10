@@ -1,162 +1,93 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import { helpTipById, type HelpTip } from "../../data/help-tips";
+import { pinExplainTip } from "./CursorExplainLayer";
 
 type ExplainCloudProps = {
   tipId: string;
   tip?: HelpTip;
   className?: string;
   compact?: boolean;
+  triggerLabel?: string;
 };
 
-type Layer = "closed" | "short" | "medium" | "deep";
+type ExplainHotspotProps = {
+  tipId: string;
+  tip?: HelpTip;
+  className?: string;
+  children: ReactNode;
+  triggerLabel?: string;
+};
 
 /**
- * 3-Schichten-Hilfe: Kurz → Mittel → Tief.
- * Primär per Klick/Tap und Tastatur — Hover nur als Desktop-Extra für Kurzinfo.
+ * Sichtbarer Hilfe-Chip. Pinnt die globale Cursor-Erklärungswolke
+ * (besonders wichtig auf Touch-Geräten ohne Hover).
  */
 export function ExplainCloud({
   tipId,
   tip: tipProp,
   className = "",
   compact = false,
+  triggerLabel = "Hilfe",
 }: ExplainCloudProps) {
   const tip = tipProp ?? helpTipById(tipId);
-  const panelId = useId();
-  const rootRef = useRef<HTMLSpanElement>(null);
-  const [layer, setLayer] = useState<Layer>("closed");
-
-  useEffect(() => {
-    if (layer === "closed") return;
-
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setLayer("closed");
-      }
-    };
-
-    const onPointer = (event: MouseEvent | TouchEvent) => {
-      const target = event.target as Node | null;
-      if (rootRef.current && target && !rootRef.current.contains(target)) {
-        setLayer("closed");
-      }
-    };
-
-    window.addEventListener("keydown", onKey);
-    window.addEventListener("mousedown", onPointer);
-    window.addEventListener("touchstart", onPointer);
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      window.removeEventListener("mousedown", onPointer);
-      window.removeEventListener("touchstart", onPointer);
-    };
-  }, [layer]);
-
   if (!tip) return null;
 
-  const open = layer !== "closed";
-  const panelWidth = compact
-    ? "w-[min(20rem,calc(100vw-2rem))]"
-    : "w-[min(22rem,calc(100vw-2rem))]";
-
   return (
-    <span ref={rootRef} className={`relative inline-flex align-middle ${className}`}>
+    <span className={`relative inline-flex align-middle ${className}`} data-explain={tipId}>
       <button
         type="button"
         className={[
-          "nim-interactive inline-flex items-center justify-center rounded-full border-2 border-[var(--nim-border-strong)] bg-[var(--nim-surface)] font-black text-[var(--nim-primary-strong)]",
-          "h-11 w-11 min-h-11 min-w-11",
+          "nim-interactive inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border-2 border-[var(--nim-border-strong)] bg-[var(--nim-accent-soft)] px-3 font-black text-[var(--nim-primary-strong)]",
           compact ? "text-xs" : "text-sm",
           "hover:bg-[var(--nim-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nim-focus)]",
         ].join(" ")}
-        aria-expanded={open}
-        aria-controls={panelId}
-        aria-label={`Hilfe: ${tip.label}`}
-        title={tip.short}
-        onClick={() => setLayer((current) => (current === "closed" ? "short" : "closed"))}
+        aria-label={`Hilfe anpinnen: ${tip.label}`}
+        onClick={() => pinExplainTip(tipId)}
       >
-        ?
-      </button>
-
-      {open ? (
         <span
-          id={panelId}
-          role="region"
-          aria-label={`Erklärung: ${tip.label}`}
-          className={`absolute left-0 top-full z-40 mt-2 ${panelWidth} rounded-[var(--nim-radius-lg)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 text-left shadow-[var(--shadow-lift)]`}
+          aria-hidden="true"
+          className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[var(--nim-surface)] text-sm"
         >
-          <span className="block text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
-            {tip.label}
-          </span>
-          <span className="mt-2 block text-sm font-bold leading-6 text-[var(--foreground)]">
-            {tip.short}
-          </span>
-
-          {layer === "medium" || layer === "deep" ? (
-            <span className="mt-3 block text-sm font-medium leading-6 text-[var(--nim-secondary)]">
-              {tip.medium}
-            </span>
-          ) : null}
-
-          {layer === "deep" ? (
-            <span className="mt-3 block space-y-2 text-sm font-medium leading-6 text-[var(--nim-secondary)]">
-              <span className="block">
-                <strong className="text-[var(--foreground)]">Wozu?</strong> {tip.deep.whatFor}
-              </span>
-              <span className="block">
-                <strong className="text-[var(--foreground)]">So gehst du vor:</strong>
-              </span>
-              <ol className="list-decimal space-y-1 pl-5">
-                {tip.deep.howTo.map((step) => (
-                  <li key={step}>{step}</li>
-                ))}
-              </ol>
-              <span className="block">
-                <strong className="text-[var(--foreground)]">Beispiel:</strong> {tip.deep.example}
-              </span>
-              <span className="block">
-                <strong className="text-[var(--foreground)]">Typischer Fehler:</strong>{" "}
-                {tip.deep.mistake}
-              </span>
-              {tip.deep.nextHint ? (
-                <span className="block">
-                  <strong className="text-[var(--foreground)]">Als Nächstes:</strong>{" "}
-                  {tip.deep.nextHint}
-                </span>
-              ) : null}
-            </span>
-          ) : null}
-
-          <span className="mt-4 flex flex-wrap gap-2">
-            {layer === "short" ? (
-              <button
-                type="button"
-                className="nim-interactive min-h-10 rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-3 text-xs font-black text-white"
-                onClick={() => setLayer("medium")}
-              >
-                Mehr dazu
-              </button>
-            ) : null}
-            {layer === "medium" ? (
-              <button
-                type="button"
-                className="nim-interactive min-h-10 rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-3 text-xs font-black text-white"
-                onClick={() => setLayer("deep")}
-              >
-                Genaue Anleitung
-              </button>
-            ) : null}
-            <button
-              type="button"
-              className="nim-interactive min-h-10 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-3 text-xs font-black text-[var(--nim-primary)]"
-              onClick={() => setLayer("closed")}
-            >
-              Schließen
-            </button>
-          </span>
+          ?
         </span>
-      ) : null}
+        <span>{triggerLabel}</span>
+      </button>
     </span>
+  );
+}
+
+/**
+ * Markiert einen Abschnitts-Kopf als Erklär-Bereich (`data-explain`)
+ * und bietet optional denselben Hilfe-Chip zum Anpinnen.
+ */
+export function ExplainHotspot({
+  tipId,
+  tip: tipProp,
+  className = "",
+  children,
+  triggerLabel = "Hilfe",
+}: ExplainHotspotProps) {
+  const tip = tipProp ?? helpTipById(tipId);
+  if (!tip) {
+    return <div className={className}>{children}</div>;
+  }
+
+  return (
+    <div
+      data-explain={tipId}
+      data-explain-hotspot={tipId}
+      className={[
+        "relative rounded-[var(--nim-radius-lg)] transition-[background-color] duration-280 ease-[var(--nim-ease)]",
+        "hover:bg-[var(--nim-surface-soft)]",
+        className,
+      ].join(" ")}
+    >
+      <div className="flex flex-wrap items-start justify-between gap-3 p-1 sm:p-2">
+        <div className="min-w-0 flex-1">{children}</div>
+        <ExplainCloud tipId={tipId} tip={tip} compact triggerLabel={triggerLabel} />
+      </div>
+    </div>
   );
 }

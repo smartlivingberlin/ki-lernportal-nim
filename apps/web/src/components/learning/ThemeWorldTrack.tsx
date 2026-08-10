@@ -1,7 +1,8 @@
 "use client";
 
 import type { MicroLearningUnitV2 } from "../../data/types";
-import { ExplainCloud } from "./ExplainCloud";
+import { explainAttrs } from "../../data/help-tips";
+import { ExplainHotspot } from "./ExplainCloud";
 
 type ThemeWorldTrackProps = {
   worldTitle: string;
@@ -24,24 +25,24 @@ export function ThemeWorldTrack({
     <section
       id="themenwelt"
       aria-labelledby="themenwelt-title"
+      {...explainAttrs("themenwelt")}
       className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 md:p-6 lg:scroll-mt-36"
     >
-      <div className="flex flex-wrap items-center gap-2">
+      <ExplainHotspot tipId="themenwelt">
         <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
           Themenwelt · Schema v2
         </p>
-        <ExplainCloud tipId="themenwelt" compact />
-      </div>
-      <h2
-        id="themenwelt-title"
-        className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)]"
-      >
-        {worldTitle}
-      </h2>
-      <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
-        {units.length} Micro-Einheiten: Warum → Beispiel → Schritte → Üben → Prüfen.
-        Einheiten mit Lektion öffnen den Lernraum; die anderen lernst du direkt hier.
-      </p>
+        <h2
+          id="themenwelt-title"
+          className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)]"
+        >
+          {worldTitle}
+        </h2>
+        <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
+          {units.length} Micro-Einheiten: Warum → Beispiel → Schritte → Üben → Prüfen.
+          Einheiten mit Lektion öffnen den Lernraum; die anderen lernst du direkt hier.
+        </p>
+      </ExplainHotspot>
 
       <ol className="mt-5 grid gap-3 sm:grid-cols-2">
         {visible.map((unit) => {
@@ -50,6 +51,7 @@ export function ThemeWorldTrack({
             <li key={unit.id}>
               <button
                 type="button"
+                data-explain="themenwelt"
                 onClick={() => onSelectUnit(unit)}
                 aria-pressed={selected}
                 className={[

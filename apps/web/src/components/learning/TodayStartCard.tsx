@@ -21,6 +21,7 @@ export function TodayStartCard({
     <section
       data-testid="today-start-card"
       aria-labelledby="today-start-title"
+      data-explain="heute"
       className="rounded-[var(--nim-radius-xl)] border border-white/25 bg-white/12 p-5 backdrop-blur-sm"
     >
       <p className="text-xs font-black uppercase tracking-widest text-white">

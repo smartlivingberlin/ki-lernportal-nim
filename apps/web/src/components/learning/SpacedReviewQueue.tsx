@@ -4,7 +4,8 @@ import { useMemo, useState } from "react";
 import { publicSources } from "../../data/sources";
 import { useLocalReviewQueue } from "../../hooks/useLocalReviewQueue";
 import type { ConfidenceLevel } from "../../data/types";
-import { ExplainCloud } from "./ExplainCloud";
+import { explainAttrs } from "../../data/help-tips";
+import { ExplainHotspot } from "./ExplainCloud";
 
 /**
  * Lokale Spaced-Review-Queue auf kuratierter Karten-"Datenbank" mit Quellenangaben.
@@ -44,31 +45,30 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
     <section
       id="wiederholen"
       aria-labelledby="wiederholen-title"
+      {...explainAttrs("wiederholen")}
       className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 md:p-6 lg:scroll-mt-36"
     >
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-2">
+      <ExplainHotspot tipId="wiederholen" className="mb-1">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
             Wiederholen · lokal
           </p>
-          <ExplainCloud tipId="fortschritt" compact />
+          <p className="text-sm font-black text-[var(--nim-secondary)]">
+            Fällig: {dueCards.length} / {totalCards}
+          </p>
         </div>
-        <p className="text-sm font-black text-[var(--nim-secondary)]">
-          Fällig: {dueCards.length} / {totalCards}
+        <h2
+          id="wiederholen-title"
+          className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)]"
+        >
+          Kurze Abruf-Übungen mit Abstand
+        </h2>
+        <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
+          Statt nur zu lesen: aktiv abrufen. Unsichere Karten kommen früher wieder —
+          alles bleibt in deinem Browser. Die Karten sind kuratiert und mit Quellenangaben versehen
+          (keine Server-Datenbank).
         </p>
-      </div>
-
-      <h2
-        id="wiederholen-title"
-        className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)]"
-      >
-        Kurze Abruf-Übungen mit Abstand
-      </h2>
-      <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
-        Statt nur zu lesen: aktiv abrufen. Unsichere Karten kommen früher wieder —
-        alles bleibt in deinem Browser. Die Karten sind kuratiert und mit Quellenangaben versehen
-        (keine Server-Datenbank).
-      </p>
+      </ExplainHotspot>
 
       {!card ? (
         <p className="mt-5 rounded-[var(--nim-radius-md)] bg-[var(--nim-success-soft)] p-4 text-sm font-bold text-[var(--nim-success)]">

@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import type { GlossaryTerm } from "../../data/types";
 import { seedGlossary } from "../../data/glossary";
 
@@ -27,17 +34,34 @@ export function InlineGlossaryTerm({
   const term = findTerm(termId);
   const panelId = useId();
   const rootRef = useRef<HTMLSpanElement>(null);
+  const closeTimer = useRef<number | null>(null);
+  const openedByHoverRef = useRef(false);
   const [layer, setLayer] = useState<Layer>("closed");
+
+  const clearCloseTimer = useCallback(() => {
+    if (closeTimer.current !== null) {
+      window.clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  }, []);
+
+  const close = useCallback(() => {
+    clearCloseTimer();
+    openedByHoverRef.current = false;
+    setLayer("closed");
+  }, [clearCloseTimer]);
+
+  useEffect(() => () => clearCloseTimer(), [clearCloseTimer]);
 
   useEffect(() => {
     if (layer === "closed") return;
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setLayer("closed");
+      if (event.key === "Escape") close();
     };
     const onPointer = (event: MouseEvent | TouchEvent) => {
       const target = event.target as Node | null;
       if (rootRef.current && target && !rootRef.current.contains(target)) {
-        setLayer("closed");
+        close();
       }
     };
     window.addEventListener("keydown", onKey);
@@ -48,7 +72,7 @@ export function InlineGlossaryTerm({
       window.removeEventListener("mousedown", onPointer);
       window.removeEventListener("touchstart", onPointer);
     };
-  }, [layer]);
+  }, [layer, close]);
 
   if (!term) {
     return <span className={className}>{children ?? termId}</span>;
@@ -57,13 +81,45 @@ export function InlineGlossaryTerm({
   const open = layer !== "closed";
 
   return (
-    <span ref={rootRef} className={`relative inline ${className}`}>
+    <span
+      ref={rootRef}
+      className={`relative inline ${className}`}
+      onMouseLeave={() => {
+        if (!openedByHoverRef.current) return;
+        clearCloseTimer();
+        closeTimer.current = window.setTimeout(() => {
+          openedByHoverRef.current = false;
+          setLayer("closed");
+        }, 220);
+      }}
+      onMouseEnter={() => {
+        clearCloseTimer();
+        if (
+          typeof window === "undefined" ||
+          !window.matchMedia("(hover: hover) and (pointer: fine)").matches
+        ) {
+          return;
+        }
+        if (layer === "closed") {
+          openedByHoverRef.current = true;
+          setLayer("short");
+        }
+      }}
+    >
       <button
         type="button"
         className="nim-interactive inline-flex min-h-11 min-w-11 items-center justify-center border-b-2 border-dotted border-[var(--nim-primary)] px-2 font-bold text-[var(--nim-primary-strong)] hover:bg-[var(--nim-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nim-focus)]"
         aria-expanded={open}
         aria-controls={panelId}
-        onClick={() => setLayer((current) => (current === "closed" ? "short" : "closed"))}
+        onClick={() => {
+          clearCloseTimer();
+          if (openedByHoverRef.current) {
+            openedByHoverRef.current = false;
+            setLayer((current) => (current === "closed" ? "short" : current));
+            return;
+          }
+          setLayer((current) => (current === "closed" ? "short" : "closed"));
+        }}
       >
         {children ?? term.term}
       </button>
@@ -72,7 +128,8 @@ export function InlineGlossaryTerm({
           id={panelId}
           role="region"
           aria-label={`Begriff: ${term.term}`}
-          className="absolute left-0 top-full z-40 mt-2 w-[min(20rem,calc(100vw-2rem))] rounded-[var(--nim-radius-lg)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 text-left shadow-[var(--shadow-lift)]"
+          onMouseEnter={clearCloseTimer}
+          className="absolute left-0 top-full z-[60] mt-2 w-[min(20rem,calc(100vw-2rem))] rounded-[var(--nim-radius-lg)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 text-left shadow-[var(--shadow-lift)]"
         >
           <span className="block text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
             Begriff
@@ -93,7 +150,10 @@ export function InlineGlossaryTerm({
               <button
                 type="button"
                 className="nim-interactive min-h-10 rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-3 text-xs font-black text-white"
-                onClick={() => setLayer("deep")}
+                onClick={() => {
+                  openedByHoverRef.current = false;
+                  setLayer("deep");
+                }}
               >
                 Beispiel zeigen
               </button>
@@ -101,7 +161,7 @@ export function InlineGlossaryTerm({
             <button
               type="button"
               className="nim-interactive min-h-10 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-3 text-xs font-black text-[var(--nim-primary)]"
-              onClick={() => setLayer("closed")}
+              onClick={close}
             >
               Schließen
             </button>

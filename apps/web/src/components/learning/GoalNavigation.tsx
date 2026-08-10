@@ -1,7 +1,8 @@
 "use client";
 
 import type { ThemeWorld } from "../../data/types";
-import { ExplainCloud } from "./ExplainCloud";
+import { explainAttrs } from "../../data/help-tips";
+import { ExplainHotspot } from "./ExplainCloud";
 
 type GoalNavigationProps = {
   worlds: ThemeWorld[];
@@ -29,24 +30,24 @@ export function GoalNavigation({
     <section
       id="ziele"
       aria-labelledby="ziele-title"
+      {...explainAttrs("ziele")}
       className="scroll-mt-52 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] lg:scroll-mt-32 md:p-7"
     >
-      <div className="flex flex-wrap items-center gap-2">
+      <ExplainHotspot tipId="ziele">
         <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--nim-primary)]">
           Ziel wählen
         </p>
-        <ExplainCloud tipId="ziele" compact />
-      </div>
-      <h2
-        id="ziele-title"
-        className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[var(--foreground)] md:text-4xl"
-      >
-        Was möchtest du heute mit KI schaffen?
-      </h2>
-      <p className="mt-3 max-w-3xl text-base font-medium leading-7 text-[var(--nim-secondary)]">
-        Such dir ein Ziel. Wir führen dich danach Schritt für Schritt — in klarer Sprache,
-        mit Übungen und kurzen Challenges.
-      </p>
+        <h2
+          id="ziele-title"
+          className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[var(--foreground)] md:text-4xl"
+        >
+          Was möchtest du heute mit KI schaffen?
+        </h2>
+        <p className="mt-3 max-w-3xl text-base font-medium leading-7 text-[var(--nim-secondary)]">
+          Such dir ein Ziel. Wir führen dich danach Schritt für Schritt — in klarer Sprache,
+          mit Übungen und kurzen Challenges.
+        </p>
+      </ExplainHotspot>
 
       <ul className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {visibleWorlds.map((world) => {
@@ -63,6 +64,7 @@ export function GoalNavigation({
             <li key={world.id}>
               <button
                 type="button"
+                {...explainAttrs("ziele-kachel")}
                 onClick={() => onSelectWorld(world)}
                 aria-pressed={selected}
                 aria-describedby={`world-${world.id}-desc`}
