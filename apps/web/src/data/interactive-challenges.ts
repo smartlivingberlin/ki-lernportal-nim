@@ -1075,6 +1075,227 @@ export const interactiveChallenges: InteractiveChallenge[] = [
     methodIds: ["method-retrieval", "method-confidence", "method-scenario"],
     scenarioDomain: "beruf",
   },
+  {
+    id: "challenge-school-homework-ai",
+    worldId: "world-work-life",
+    lessonId: null,
+    title: "Hausaufgabe mit KI — was ist okay?",
+    plainIntro:
+      "Dein Kind (oder du) soll einen Aufsatz schreiben. KI könnte „helfen“.",
+    prompt: "Welche Nutzung ist am ehesten fair und lernförderlich?",
+    options: [
+      {
+        id: "a",
+        label: "Kompletten Aufsatz erzeugen und unverändert abgeben.",
+        feedback:
+          "Das umgeht das Lernziel und kann als Täuschung gelten. Außerdem können Fehler und erfundene Zitate drin sein.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "KI für Gliederung und Gegenfragen nutzen, Text selbst schreiben, Quellen und KI-Hilfe transparent machen.",
+        feedback:
+          "Gut. Du behältst das Denken, nutzt KI als Sparringspartner und bleibst ehrlich.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "KI den Text schreiben lassen und nur die Einleitung umformulieren.",
+        feedback:
+          "Das ist immer noch fremde Arbeit mit kosmetischer Änderung — riskant und lernarm.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Erklär in einem Satz, wann KI bei Hausaufgaben helfen darf — und wann nicht.",
+    methodIds: ["method-scenario", "method-teachback", "method-playful"],
+    scenarioDomain: "alltag",
+  },
+  {
+    id: "challenge-authority-email",
+    worldId: "world-safety-law",
+    lessonId: null,
+    title: "„Behörde“ schreibt per Chat",
+    plainIntro:
+      "Du bekommst eine Nachricht: Gebühr sofort zahlen, sonst Zwangsvollstreckung — Link inklusive.",
+    prompt: "Was ist der sicherste nächste Schritt?",
+    options: [
+      {
+        id: "a",
+        label: "Link öffnen und mit Karte zahlen, bevor die Frist abläuft.",
+        feedback:
+          "Genau das wollen Betrüger. Echte Behördenfristen prüfst du über selbst gewählte Kanäle.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Nicht klicken. Offizielle Website/Telefonnummer selbst suchen und nachfragen — oder Nachricht ignorieren und später prüfen.",
+        feedback:
+          "Richtig. Stopp, selbst nachwählen, keine Daten aus der Nachricht verwenden.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Zuerst den Link an Freunde weiterleiten „zur Sicherheit“.",
+        feedback:
+          "Weiterleiten kann andere gefährden. Verdächtige Links nicht verbreiten.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt: "Nenne zwei Warnsignale in solchen Behörden-Betrugsmails.",
+    methodIds: ["method-scenario", "method-retrieval", "method-playful"],
+    scenarioDomain: "sicherheit",
+  },
+  {
+    id: "challenge-boss-voice-ai",
+    worldId: "world-safety-law",
+    lessonId: null,
+    title: "Chef-Stimme am Telefon",
+    plainIntro:
+      "Jemand klingt wie deine Chefin und will sofort einen Geschenkkarten-Kauf — „vertraulich“.",
+    prompt: "Was tust du?",
+    options: [
+      {
+        id: "a",
+        label: "Sofort kaufen — die Stimme klingt echt und es ist eilig.",
+        feedback:
+          "KI kann Stimmen nachahmen. Eile + Geheimhaltung + Geld = klassisches Muster.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Auflegen und über einen bekannten Kanal (Diensthandy/Chat) kurz nachfragen, ob der Auftrag echt ist.",
+        feedback:
+          "Genau. Zweiter Kanal schlägt Stimmklonen. Im Zweifel: kein Geld.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Die Geschenkkarten-Codes erst fotografieren und „zur Sicherheit“ speichern.",
+        feedback:
+          "Codes sind wie Bargeld. Speichern und Teilen hilft Betrügern.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Warum reicht „die Stimme klingt echt“ nicht als Beweis?",
+    methodIds: ["method-scenario", "method-confidence", "method-playful"],
+    scenarioDomain: "sicherheit",
+  },
+  {
+    id: "challenge-health-advice",
+    worldId: "world-research-truth",
+    lessonId: null,
+    title: "Gesundheits-Tipp von der KI",
+    plainIntro:
+      "Eine KI empfiehlt dir eine „sichere“ Hausmittel-Kur gegen starke Brustschmerzen.",
+    prompt: "Wie gehst du damit um?",
+    options: [
+      {
+        id: "a",
+        label: "Kur sofort ausprobieren — KI kennt ja viele Studien.",
+        feedback:
+          "Bei Warnsymptomen zählt medizinische Hilfe, nicht eine Chat-Antwort. KI kann irren.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Als unverbindliche Info behandeln, bei Beschwerden ärztliche Hilfe suchen, keine Diagnose aus dem Chat ableiten.",
+        feedback:
+          "Richtig. Gesundheit ist High-Stakes: prüfen, Fachpersonen, keine Selbstexperimente aus dem Chat.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Den Tipp in der Familie als „ärztlich bestätigt“ weiterleiten.",
+        feedback:
+          "Das verstärkt Fehlinformation. Kennzeichne unsichere Quellen klar — oder leite nicht weiter.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Wann darf eine KI-Antwort dich nicht allein entscheiden lassen?",
+    methodIds: ["method-scenario", "method-retrieval", "method-teachback"],
+    scenarioDomain: "alltag",
+  },
+  {
+    id: "challenge-shopping-review-fake",
+    worldId: "world-research-truth",
+    lessonId: null,
+    title: "Perfekte Produktbewertungen",
+    plainIntro:
+      "Im Shop sind 200 Fünf-Sterne-Texte, alle ähnlich begeistert, wenige Details.",
+    prompt: "Was ist die klügste Haltung?",
+    options: [
+      {
+        id: "a",
+        label: "Kaufen — so viele Stimmen können nicht irren.",
+        feedback:
+          "Masse allein sagt wenig. Texte können generiert oder gekauft sein.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Kritisch bleiben: nach konkreten Details, unabhängigen Tests und Rückgaberegeln suchen.",
+        feedback:
+          "Gut. Gegenprüfung schützt vor Fake-Social-Proof.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Die Bewertungen 1:1 in den Freundeskreis kopieren.",
+        feedback:
+          "Dann verbreitest du möglicherweise Werbung oder Fakes.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Nenne zwei Zeichen, die auf unnatürliche Bewertungen hindeuten können.",
+    methodIds: ["method-scenario", "method-retrieval", "method-playful"],
+    scenarioDomain: "alltag",
+  },
+  {
+    id: "challenge-job-ai-disclosure",
+    worldId: "world-work-life",
+    lessonId: null,
+    title: "KI im Bewerbungsschreiben",
+    plainIntro:
+      "Du hast KI für Formulierungen genutzt. Das Unternehmen fragt nicht explizit danach.",
+    prompt: "Welche Haltung ist am robustesten?",
+    options: [
+      {
+        id: "a",
+        label: "Verschweigen und so tun, als wäre jedes Wort spontan entstanden.",
+        feedback:
+          "Riskant, wenn nachgefragt wird — und du lernst weniger, wenn du den Text nicht wirklich besitzt.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Inhalt und Wahrhaftigkeit selbst verantworten; KI nur als Formhilfe; bei Bedarf transparent sagen, dass du Werkzeuge genutzt hast.",
+        feedback:
+          "Stimmt. Du bleibst für Fakten haftbar und kannst den Text verteidigen.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Den kompletten Text von der KI schreiben lassen und nur den Namen ändern.",
+        feedback:
+          "Unecht, oft fehlerhaft und in Gesprächen sofort auffällig.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Was musst du an einem Bewerbungstext immer selbst prüfen, auch wenn KI half?",
+    methodIds: ["method-scenario", "method-teachback", "method-confidence"],
+    scenarioDomain: "beruf",
+  },
 ];
 
 export function challengesForLesson(lessonId: string): InteractiveChallenge[] {
