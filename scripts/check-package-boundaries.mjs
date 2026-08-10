@@ -79,6 +79,12 @@ const approvedExternalManifestDependencies = new Map([
       ...approvedDatabaseToolingProviders,
     ]),
   ],
+  [
+    "package:auth",
+    new Set([
+      "@types/node",
+    ]),
+  ],
 ]);
 
 const expectedPackages = [
@@ -1601,6 +1607,50 @@ function validatePackageSkeletons() {
           );
         }
       }
+    } else if (pkg.dir === "auth") {
+      if (
+        Object.keys(manifest.dependencies ?? {}).length > 0
+      ) {
+        fail(
+          `${rel(
+            manifestPath,
+          )} must not declare runtime dependencies in S52-B`,
+        );
+      }
+
+      const actualDevDependencies = Object.keys(
+        manifest.devDependencies ?? {},
+      ).sort();
+      const expectedDevDependencies = ["@types/node"];
+
+      if (
+        JSON.stringify(actualDevDependencies) !==
+        JSON.stringify(expectedDevDependencies)
+      ) {
+        fail(
+          `${rel(
+            manifestPath,
+          )} must declare exactly @types/node as its only ` +
+          "devDependency in S52-B",
+        );
+      }
+
+      for (const field of [
+        "peerDependencies",
+        "optionalDependencies",
+      ]) {
+        if (
+          Object.keys(
+            manifest[field] ?? {},
+          ).length > 0
+        ) {
+          fail(
+            `${rel(
+              manifestPath,
+            )} must not declare ${field} in S52-B`,
+          );
+        }
+      }
     } else if (pkg.dir === "contracts") {
       const actualDependencies = Object.keys(
         manifest.dependencies ?? {},
@@ -1702,7 +1752,7 @@ function validatePackageSkeletons() {
         );
       }
 
-      if (pkg.dir === "db") {
+      if (pkg.dir === "db" || pkg.dir === "auth") {
         if (
           JSON.stringify(tsconfig?.exclude) !==
           JSON.stringify(["src/**/*.test.ts"])
@@ -1710,7 +1760,7 @@ function validatePackageSkeletons() {
           fail(
             `${rel(
               tsconfigPath,
-            )} must exclude src/**/*.test.ts in S51B-C1`,
+            )} must exclude src/**/*.test.ts for authorized runtime packages`,
           );
         }
       } else if (tsconfig?.exclude) {
@@ -1761,6 +1811,22 @@ function validatePackageSkeletons() {
               `${rel(
                 readmePath,
               )} is missing S51B-C1 runtime status text: ` +
+              requiredText,
+            );
+          }
+        }
+      } else if (pkg.dir === "auth") {
+        for (const requiredText of [
+          "S52-B",
+          "AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY",
+          "LOGIN_UI=NO",
+          "DATABASE_CONNECTION=NO",
+        ]) {
+          if (!readme.includes(requiredText)) {
+            fail(
+              `${rel(
+                readmePath,
+              )} is missing S52-B auth runtime status text: ` +
               requiredText,
             );
           }

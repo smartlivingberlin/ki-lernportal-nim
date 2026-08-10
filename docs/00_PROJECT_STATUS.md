@@ -1,8 +1,8 @@
 # Projektstatus: KI-Lernportal NIM
 
 **Stand:** 10. August 2026
-**Baseline `main`:** `8d01f606a1621a5b41d8e3c4020eddcaf97cafd7`
-**Status:** S51C-OPS-A und S52-A integriert; S51D-A Staging-Scope-Lock gemerged; S51D-B GitHub-Reverify/Runbook (Environment-Anlage blockiert ohne Railway-Token); Auth-Runtime/Live-Migrate weiterhin gesperrt
+**Baseline `main`:** `74354d758688c71a4da9b04bb6773fc64927fc76`
+**Status:** S51D-B Reverify/Runbook und S52-B Auth-Runtime-Foundation integriert bzw. in Merge; Staging-Environment noch nicht erstellt; Login-UI/DB-Sessions/Live-Migrate weiterhin gesperrt
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
@@ -33,7 +33,10 @@ S51D_B_EXECUTED=NO
 STAGING_ENVIRONMENT_CREATED=NO
 APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=YES
 S52_A_IMPLEMENTATION_AUTHORIZED=YES
-AUTH_RUNTIME_AUTHORIZED=NO
+S52_B_IMPLEMENTATION_AUTHORIZED=YES
+AUTH_RUNTIME_AUTHORIZED=YES
+AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
+LOGIN_UI=NO
 S51B_C_SCHEMA_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
 ~~~
@@ -55,6 +58,7 @@ zusammen mit den nachfolgenden Integrationsnachweisen beschrieben durch:
 - [S51D-A Staging Scope-Lock](architecture/S51D_A_STAGING_SCOPE.md)
 - [S51D-B Staging Execution / Reverify](architecture/S51D_B_STAGING_EXECUTION.md)
 - [S52-A Auth Session-/Rollen-Scope](architecture/S52_A_IMPLEMENTATION_SCOPE.md)
+- [S52-B Auth-Runtime Foundation](architecture/S52_B_IMPLEMENTATION_SCOPE.md)
 - [Zielarchitektur](architecture/ARCHITECTURE_TARGET.md)
 - [Package-DAG](architecture/PACKAGE_DAG.md)
 - [Plattformverträge](architecture/PLATFORM_CONTRACTS.md)

@@ -11,13 +11,15 @@ Grenze für Auth-, Session-, Rollen-, Scope- und Ownership-Logik.
 - `@ki-lernportal-nim/db`
 
 Die aufgeführten Grenzen beschreiben die maximal erlaubte Richtung.
-S52-A deklariert bewusst keine Package-Dependencies.
+S52-A/S52-B deklarieren bewusst keine Package-Dependencies; Runtime nutzt
+nur Node.js `crypto`.
 
 ## Verbotene Imports
 
 - UI und React
-- Login-, Registrierungs- oder Cookie-Runtime in S52-A
-- OAuth-, MFA-, Passkey- oder Recovery-Provider-SDKs in S52-A
+- Login-/Registrierungsseiten in `apps/web` (noch nicht freigegeben)
+- OAuth-, MFA-, Passkey- oder Recovery-Provider-SDKs in S52-B
+- Direkte Datenbankimports in S52-B (`DATABASE_CONNECTION_AUTHORIZED=NO`)
 
 Unzulässig bleiben außerdem zyklische Abhängigkeiten und direkte
 Quellpfadimporte in andere Packages.
@@ -26,31 +28,30 @@ Quellpfadimporte in andere Packages.
 
 Der kontrollierte Entry-Point ist `src/index.ts`.
 
-S52-A exportiert ausschließlich Plattformrollen-, Sitzungszustands- und
-Policy-Vokabular sowie reine Prädikate.
+- **S52-A:** Plattformrollen, Sitzungszustände, Policy-Prädikate
+- **S52-B:** Passwort-Hashing (`scrypt`), opake Tokens, Cookie-Vertrag,
+  Memory-Session-Store, Session-Runtime (create/resolve/rotate/revoke/logout)
 
 ## Status
 
-S52-A enthält infrastrukturfreies Auth-Policy-Vokabular.
-
-Keine Runtime-Implementierung von Cookies, Passwort-Hashing, Datenbankzugriff,
-Login-UI, Route Handlern, Railway oder Deploymentlogik ist Bestandteil von
-S52-A.
-
 ```text
 S52_A_VOCABULARY=INTEGRATED
-AUTH_RUNTIME_AUTHORIZED=NO
+S52_B_AUTH_RUNTIME_FOUNDATION=AUTHORIZED
+AUTH_RUNTIME_AUTHORIZED=YES
+AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
+LOGIN_UI=NO
+DATABASE_CONNECTION=NO
+PRODUCTION_USERS=NO
 ```
 
 ## Spätere Slices
 
-S52-B und spätere Auth-Slices dürfen erst nach getrennter Freigabe Cookie-
-Runtime, Credential-Prüfung, Session-Persistenz und Web-Integration einführen.
+S52-C+ dürfen erst nach getrennter Freigabe Web-Integration, Recovery,
+persistente Session-Stores über `packages/db` und MFA einführen.
 
 ## Sicherheit und Datenschutz
 
-S52-A enthält keine Secrets, Credentials, personenbezogenen Daten,
-externen Requests, produktiven Providerzugriffe oder Persistenz.
-
-Jede spätere Erweiterung benötigt eine eigene fachliche,
-sicherheitsbezogene und datenschutzbezogene Prüfung.
+- Rohe Sitzungstokens und Klartextpasswörter werden nicht persistiert.
+- Cookie-Attribute: `HttpOnly`, `Secure`, `SameSite=Lax`, `Path=/`.
+- Keine Secrets, personenbezogenen Produktivdaten oder Railway-Änderungen
+  in diesem Package-Slice.
