@@ -62,7 +62,11 @@ async function expectFailure(
   try {
     await action();
   } catch (error: unknown) {
-    assertTrue(predicate(error), `${label}: unexpected error ${String(error)}`);
+    if (!predicate(error)) {
+      throw new Error(
+        `${label}: unexpected error ${JSON.stringify(error)}`,
+      );
+    }
     return;
   }
   throw new Error(`${label}: expected failure`);
@@ -95,6 +99,18 @@ async function main(): Promise<void> {
     const names = await tableNames(connection, expectedDatabase!);
     equal(names, [...PILOT_CORE_TABLE_NAMES].sort(), "core tables present");
     assertTrue(!names.includes("practice_attempts"), "deferred table absent");
+
+    const [fkRows] = await connection.query(
+      `SELECT COUNT(*) AS c
+       FROM information_schema.TABLE_CONSTRAINTS
+       WHERE CONSTRAINT_SCHEMA = ?
+         AND CONSTRAINT_TYPE = 'FOREIGN KEY'`,
+      [expectedDatabase],
+    );
+    const fkCount = Number((fkRows as Array<{ c: number }>)[0]?.c ?? 0);
+    assertTrue(fkCount >= 8, `foreign key count >= 8 (got ${fkCount})`);
+
+    await connection.query("SET FOREIGN_KEY_CHECKS=1");
 
     const userA = "11111111-1111-4111-8111-111111111111";
     const userB = "22222222-2222-4222-8222-222222222222";

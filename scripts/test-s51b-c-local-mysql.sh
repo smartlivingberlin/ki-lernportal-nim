@@ -96,10 +96,37 @@ if [[ "$ready" -ne 1 ]]; then
   exit 1
 fi
 
-# Apply only the committed SQL migration (strip drizzle breakpoints).
-sed '/--> statement-breakpoint/d' "$MIGRATION_SQL" \
-  | "${DOCKER[@]}" exec -i "$CONTAINER" \
-    mysql -uroot -p"$ROOT_PASSWORD" --database="$DATABASE"
+# Apply only the committed SQL migration.
+# Drizzle places `--> statement-breakpoint` on the same line as ALTER/INDEX
+# statements — strip the marker in-place; never delete the whole line.
+TMP_SQL="$(mktemp)"
+sed 's/-->[[:space:]]*statement-breakpoint//g' "$MIGRATION_SQL" >"$TMP_SQL"
+"${DOCKER[@]}" cp "$TMP_SQL" "$CONTAINER:/tmp/s51bc_migrate.sql"
+rm -f "$TMP_SQL"
+"${DOCKER[@]}" exec "$CONTAINER" sh -c \
+  "mysql -h127.0.0.1 -uroot -p'${ROOT_PASSWORD}' --default-character-set=utf8mb4 '${DATABASE}' < /tmp/s51bc_migrate.sql"
+
+"${DOCKER[@]}" exec "$CONTAINER" \
+  mysql -h127.0.0.1 -uroot -p"$ROOT_PASSWORD" --database="$DATABASE" \
+  -e "SET GLOBAL FOREIGN_KEY_CHECKS=1; SET SESSION FOREIGN_KEY_CHECKS=1;"
+
+FK_COUNT="$("${DOCKER[@]}" exec "$CONTAINER" \
+  mysql -h127.0.0.1 -uroot -p"$ROOT_PASSWORD" -N -e \
+  "SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA='${DATABASE}' AND CONSTRAINT_TYPE='FOREIGN KEY';")"
+FK_COUNT="$(printf '%s' "$FK_COUNT" | tr -d '[:space:]')"
+echo "S51B_C2_FOREIGN_KEY_COUNT=${FK_COUNT}"
+if [[ -z "$FK_COUNT" || "$FK_COUNT" -lt 8 ]]; then
+  echo "ERROR=expected at least 8 foreign keys after migration, got '${FK_COUNT}'"
+  "${DOCKER[@]}" exec "$CONTAINER" \
+    mysql -h127.0.0.1 -uroot -p"$ROOT_PASSWORD" -e \
+    "SELECT TABLE_NAME, CONSTRAINT_NAME FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA='${DATABASE}' AND CONSTRAINT_TYPE='FOREIGN KEY';" \
+    || true
+  "${DOCKER[@]}" exec "$CONTAINER" \
+    mysql -h127.0.0.1 -uroot -p"$ROOT_PASSWORD" --database="$DATABASE" \
+    -e "SHOW CREATE TABLE auth_credentials\G" \
+    || true
+  exit 1
+fi
 
 export DATABASE_URL="mysql://root:${ROOT_PASSWORD}@127.0.0.1:${HOST_PORT}/${DATABASE}"
 export S51B_C2_DISPOSABLE="1"
