@@ -79,6 +79,9 @@ jobs:
       - name: Test S52-A auth session and role policy vocabulary
         run: pnpm test:s52-a-auth-policy
 
+      - name: Test S52-B auth runtime foundation
+        run: pnpm test:s52-b-auth-runtime
+
       - name: Test S51B-B database runtime with local fakes
         run: pnpm test:s51b-b-db-runtime
 

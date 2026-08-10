@@ -66,7 +66,11 @@ importers:
 
   packages/ai-core: {}
 
-  packages/auth: {}
+  packages/auth:
+    devDependencies:
+      '@types/node':
+        specifier: 20.19.43
+        version: 20.19.43
 
   packages/contracts:
     dependencies:

@@ -63,7 +63,9 @@ S51D_STAGING_ENVIRONMENT_CREATED=NO
 S51D_RAILWAY_STAGING_AUTHORIZED=NO
 APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=YES
 S52_A_AUTH_POLICY_VOCABULARY=INTEGRATED
-AUTH_RUNTIME=NOT_AUTHORIZED
+S52_B_AUTH_RUNTIME_FOUNDATION=AUTHORIZED
+AUTH_RUNTIME=PACKAGES_AUTH_ONLY
+LOGIN_UI=NOT_AUTHORIZED
 ~~~
 
 ## 2. Nächster kontrollierter Plattform-Scope
@@ -133,15 +135,27 @@ Pflicht vor Staging-Anlage.
 
 S52-A liefert infrastrukturfreies Rollen- und Session-Policy-Vokabular in
 `packages/auth` (siehe [S52_A_IMPLEMENTATION_SCOPE.md](S52_A_IMPLEMENTATION_SCOPE.md)).
-`AUTH_RUNTIME_AUTHORIZED` bleibt `NO`.
+
+S52-B liefert die lokale Auth-Runtime-Foundation in `packages/auth`
+(siehe [S52_B_IMPLEMENTATION_SCOPE.md](S52_B_IMPLEMENTATION_SCOPE.md)):
+Passwort-Hashing, Cookie-Vertrag, opake Tokens, Memory-Session-Store und
+Lifecycle-Operationen. `AUTH_RUNTIME_AUTHORIZED=YES` gilt nur für diese
+Package-Oberfläche.
+
+Noch nicht freigegeben:
+
+- Login-/Registrierungs-UI;
+- Route Handler in `apps/web`;
+- DB-gestützte Session-Persistenz;
+- Produktionsnutzer;
+- OAuth/MFA/Passkeys/Recovery-Runtime.
 
 Spätere S52-Slices (eigene Freigabe) können umfassen:
 
-- serverseitig widerrufbare Sessions;
-- Rollen `Visitor`, `Learner`, `Editor`, `Reviewer`, `Admin` und `Owner`;
+- Web-Integration der Auth-Runtime;
 - Scope- und Ownership-Prüfungen;
 - negative IDOR- und Privilege-Escalation-Tests;
-- sichere Recovery- und Session-Lifecycle-Regeln;
+- sichere Recovery- und MFA-Regeln;
 - keine automatische First-User-Admin-Regel.
 
 ### S53 – Content-, Quellen- und Medienadmin
@@ -287,7 +301,11 @@ S51D_B_EXECUTED=NO
 S51D_RAILWAY_STAGING_AUTHORIZED=NO
 APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=YES
 S52_A_AUTHORIZED=YES
-AUTH_RUNTIME_AUTHORIZED=NO
+S52_B_AUTHORIZED=YES
+AUTH_RUNTIME_AUTHORIZED=YES
+AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
+LOGIN_UI=NO
+PRODUCTION_USERS=NO
 ADMIN_RUNTIME_AUTHORIZED=NO
 AI_RUNTIME_AUTHORIZED=NO
 DATABASE_CHANGE_APPROVED=NO

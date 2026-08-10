@@ -28,6 +28,7 @@
     "test:s51c-b1b-local-progress-import": "node --experimental-strip-types packages/contracts/src/local-progress-import.test.ts",
     "test:s51c-ops-a-operations": "node --experimental-strip-types packages/contracts/src/operations.test.ts",
     "test:s52-a-auth-policy": "node --experimental-strip-types packages/auth/src/platform-roles.test.ts && node --experimental-strip-types packages/auth/src/session-policy.test.ts",
+    "test:s52-b-auth-runtime": "node --experimental-strip-types packages/auth/src/password-hashing.test.ts && node --experimental-strip-types packages/auth/src/session-token.test.ts && node --experimental-strip-types packages/auth/src/session-cookie.test.ts && node --experimental-strip-types packages/auth/src/session-runtime.test.ts",
     "packages:verify": "pnpm packages:boundaries && pnpm packages:typecheck"
   },
   "devDependencies": {
