@@ -6,6 +6,8 @@ import {
   publicModelCards,
 } from "../../data/model-cards";
 import type { ModelCapability } from "../../data/types";
+import { ExplainCloud } from "./ExplainCloud";
+import { InlineGlossaryText } from "./InlineGlossary";
 
 const filters: Array<{ id: "all" | ModelCapability; label: string }> = [
   { id: "all", label: "Alle" },
@@ -30,9 +32,12 @@ export function ModelNavigator() {
       aria-labelledby="modelle-title"
       className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 md:p-7 lg:scroll-mt-36"
     >
-      <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
-        Model-Navigator
-      </p>
+      <div className="flex flex-wrap items-center gap-2">
+        <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
+          Model-Navigator
+        </p>
+        <ExplainCloud tipId="modelle" compact />
+      </div>
       <h2
         id="modelle-title"
         className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)]"
@@ -40,8 +45,7 @@ export function ModelNavigator() {
         Modelle nach Aufgabe wählen — nicht nach Hype
       </h2>
       <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
-        Kurzer Überblick: Zweck, Stärken, Grenzen, Datenschutz- und Kostenhinweis.
-        Statische Demo-Karten — kein automatisches Web-Update.
+        <InlineGlossaryText text="Kurzer Überblick: Zweck, Stärken, Grenzen, Datenschutz- und Kostenhinweis. Statische Demo-Karten — kein automatisches Web-Update. Auch RAG-Hinweise findest du bei Suche/Quellenbezug." />
       </p>
 
       <div

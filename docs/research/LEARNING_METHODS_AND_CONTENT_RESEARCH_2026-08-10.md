@@ -75,8 +75,8 @@ Zielkorridor: 80–120 Micro-Einheiten — **nicht** in einem PR.
 
 1. Micro-Einheiten aller zehn Themenwelten (Schema v2) — umgesetzt  
 2. Lokale Werkzeuge/Workspaces (Prompt, Privacy, Quellen, Modell) — umgesetzt  
-3. Laien-Hilfe-System (3-Schichten-Erklärungswolken + Erststart-Coach)  
-4. Inline-Glossar und Spaced-Review-Queue (lokal)
+3. Laien-Hilfe-System (3-Schichten-Erklärungswolken + Erststart-Coach + Inline-Glossar) — umgesetzt  
+4. Spaced-Review-Queue (lokal)
 
 ## 7. Bewusst nicht in diesem Slice
 

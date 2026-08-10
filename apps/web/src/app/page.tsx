@@ -35,6 +35,9 @@ import { ThemeWorldTrack } from "../components/learning/ThemeWorldTrack";
 import { MicroLearningUnitView } from "../components/learning/MicroLearningUnitView";
 import { ModelNavigator } from "../components/learning/ModelNavigator";
 import { LearningWorkspaces } from "../components/learning/LearningWorkspaces";
+import { FirstStartCoach } from "../components/learning/FirstStartCoach";
+import { ExplainCloud } from "../components/learning/ExplainCloud";
+import { InlineGlossaryText } from "../components/learning/InlineGlossary";
 import { useLocalProgress } from "../hooks/useLocalProgress";
 import { useSimpleMode } from "../hooks/useSimpleMode";
 import { designSystemMeta } from "../design/tokens";
@@ -341,6 +344,8 @@ export default function Home() {
             </div>
           </section>
 
+          <FirstStartCoach simpleMode={simpleMode} />
+
           <GoalNavigation
             worlds={themeWorlds}
             selectedWorldId={selectedWorldId}
@@ -425,6 +430,12 @@ export default function Home() {
           )}
 
           <section id="challenge" aria-label="Interaktive Challenges" className="scroll-mt-72 space-y-4 sm:scroll-mt-64 lg:scroll-mt-36">
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[var(--foreground)]">
+                Challenges zur aktuellen Lektion
+              </h2>
+              <ExplainCloud tipId="challenge" compact />
+            </div>
             {lessonChallenges.map((challenge) => (
               <InteractiveChallengeCard key={challenge.id} challenge={challenge} />
             ))}
@@ -521,7 +532,7 @@ export default function Home() {
             <div className="mt-5 space-y-3">
               {trustRules.map((rule) => (
                 <p key={rule} className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface)]/90 p-4 text-sm font-semibold leading-7 text-[var(--foreground)]">
-                  {rule}
+                  <InlineGlossaryText text={rule} />
                 </p>
               ))}
             </div>
@@ -575,7 +586,13 @@ export default function Home() {
           </section>
 
           <section className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]">
-            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Begriffe</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Begriffe</p>
+              <ExplainCloud tipId="glossar" compact />
+            </div>
+            <p className="mt-2 text-sm font-medium leading-6 text-[var(--nim-secondary)]">
+              Antippe unterstrichene Wörter im Text — oder öffne hier die Kurzdefinitionen.
+            </p>
             <div className="mt-4 space-y-3">
               {beginnerGlossary.map((item) => (
                 <details key={item.id} className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] p-4">
@@ -583,6 +600,9 @@ export default function Home() {
                     {item.term}
                   </summary>
                   <p className="mt-2 text-sm leading-7 text-[var(--nim-secondary)]">{item.definition}</p>
+                  <p className="mt-2 text-sm leading-7 text-[var(--nim-secondary)]">
+                    <strong>Beispiel:</strong> {item.example}
+                  </p>
                 </details>
               ))}
             </div>
