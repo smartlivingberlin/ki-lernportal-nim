@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * S51D-B – read-only GitHub Deployments reverify for Railway Production.
+ * S51D-B – optional live GitHub Deployments reverify for Railway Production.
  *
- * Does not call Railway API (no token in agent). Captures evidence that
- * railway-app[bot] deploys the production environment on main merges.
+ * Does not call Railway API. Requires local `gh` auth.
+ * Not run in CI (governance forbids explicit github.token exposure).
  *
  * Usage:
- *   node scripts/check-s51d-b-github-reverify.mjs
- *   S51D_B_EXPECT_SHA=<full-sha> node scripts/check-s51d-b-github-reverify.mjs
+ *   S51D_B_LIVE_GITHUB=1 node scripts/check-s51d-b-github-reverify.mjs
+ *   S51D_B_LIVE_GITHUB=1 S51D_B_EXPECT_SHA=<full-sha> node scripts/check-s51d-b-github-reverify.mjs
  */
 
 import { execFileSync } from "node:child_process";
@@ -17,16 +17,23 @@ const EXPECTED_ENV = "ki-lernportal-nim-private-demo / production";
 const EXPECTED_PROJECT_ID = "f69a0054-8cd9-4481-a461-bd17ddde296d";
 const EXPECTED_ENVIRONMENT_ID = "f30e6e3b-60b5-4b3e-8949-2ca868f4e2da";
 
+function fail(message) {
+  console.error(`S51D-B live reverify FAILED: ${message}`);
+  process.exit(1);
+}
+
+if (process.env.S51D_B_LIVE_GITHUB !== "1") {
+  fail(
+    "refusing to call GitHub API without S51D_B_LIVE_GITHUB=1 " +
+      "(use scripts/check-s51d-b-staging-static.mjs in CI)",
+  );
+}
+
 function ghJson(args) {
   const stdout = execFileSync("gh", ["api", ...args], {
     encoding: "utf8",
   });
   return JSON.parse(stdout);
-}
-
-function fail(message) {
-  console.error(`S51D-B reverify FAILED: ${message}`);
-  process.exit(1);
 }
 
 function main() {
@@ -74,7 +81,7 @@ function main() {
   const apparentAutodeploy =
     creator === "railway-app[bot]" ? "YES" : "UNKNOWN";
 
-  console.log("S51D-B GitHub reverify PASS");
+  console.log("S51D-B live GitHub reverify PASS");
   console.log(
     JSON.stringify(
       {

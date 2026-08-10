@@ -100,10 +100,8 @@ jobs:
       - name: Railway readiness policy check
         run: node scripts/check-s50d1-railway-readiness.mjs
 
-      - name: S51D-B GitHub Railway production reverify
-        run: node scripts/check-s51d-b-github-reverify.mjs
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: S51D-B staging execution static contract
+        run: node scripts/check-s51d-b-staging-static.mjs
 
       - name: Build web app and package standalone assets
         run: pnpm --filter web build

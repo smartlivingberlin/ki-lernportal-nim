@@ -61,7 +61,11 @@ CURRENT_PRODUCTION_DEPLOYED_SHA=8d01f606a1621a5b41d8e3c4020eddcaf97cafd7
   (via GitHub Deployments API; Dashboard-Abgleich offen)
 ```
 
-Lokaler CI-Check: `node scripts/check-s51d-b-github-reverify.mjs`
+Lokaler CI-Check (statisch, ohne Token):
+`node scripts/check-s51d-b-staging-static.mjs`
+
+Optionaler Live-Check (Operator, benötigt `gh` Auth):
+`S51D_B_LIVE_GITHUB=1 node scripts/check-s51d-b-github-reverify.mjs`
 
 ## 4. Operator-Runbook (menschlich / mit Railway-Zugang)
 
