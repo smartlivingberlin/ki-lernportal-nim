@@ -48,6 +48,15 @@ externen Requests, produktiven Providerzugriffe oder Persistenz.
 Jede spätere Erweiterung benötigt eine eigene fachliche,
 sicherheitsbezogene und datenschutzbezogene Prüfung.
 
+## S51C-OPS-A Operations Foundation V1
+
+`S51C_OPS_A_OPERATIONS_V1` defines provider-neutral live/ready/version
+response shapes, safe-default feature flags, correlation IDs and redacted
+operational log fields.
+
+Web routes under `apps/web` stay self-contained (no workspace dependency) so
+Railway Production with Root Directory `apps/web` continues to build.
+
 ## S51C-B1B Local Progress Import Contract V1
 
 `S51C_B1B_LOCAL_PROGRESS_IMPORT_V1` defines provider-neutral TypeScript

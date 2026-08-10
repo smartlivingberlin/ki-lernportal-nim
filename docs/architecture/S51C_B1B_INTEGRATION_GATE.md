@@ -62,5 +62,5 @@ pnpm test:s51c-b1b-local-progress-import
 
 ## 4. Nächster Slice
 
-S51C Betriebsfundament (Health/Readiness/Flags/redigierte Logs) benötigt einen
-eigenen Scope-Lock und eine getrennte Implementierungsfreigabe.
+S51C Betriebsfundament: siehe `S51C_OPS_A_OPERATIONS_FOUNDATION_SCOPE.md`
+(live/ready/version, Flags, redigierte Logs).

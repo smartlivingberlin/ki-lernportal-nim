@@ -140,7 +140,10 @@ S51C_B1B_IMPLEMENTATION_AUTHORIZED=YES
 S51C_B1B_INTEGRATED_TO_MAIN=YES
 S51C_B1B_IMPLEMENTATION_PR_NUMBER=104
 S51C_B1B_IMPLEMENTATION_MERGE_COMMIT=caa1168acbbe3d64d59934c800629853a2cfebb8
-S51C_OPERATIONS_FOUNDATION_AUTHORIZED=NO
+S51C_OPS_A_SCOPE_AUTHORIZED=YES
+S51C_OPS_A_IMPLEMENTATION_AUTHORIZED=YES
+S51C_OPERATIONS_FOUNDATION_AUTHORIZED=YES
+S51C_OPS_A_SLICE=LIVE_READY_VERSION_FLAGS_REDACTED_LOGS
 
 NEXT_COMMIT_AUTHORIZED=YES
 NEXT_PUSH_AUTHORIZED=YES
@@ -162,6 +165,10 @@ S51C-B1A pilot domain vocabulary is integrated (PR #102; CI via
 `pnpm test:s51c-b1a-pilot-domain`).
 S51C-B1B local progress import contracts are integrated (PR #104; CI via
 `pnpm test:s51c-b1b-local-progress-import`).
+S51C-OPS-A operations foundation is authorized for live/ready/version,
+safe-default feature flags and redacted log helpers. Public `/metrics`,
+monitoring providers, live DB readiness checks and Railway config changes
+remain unauthorized.
 Live migrate against persistent DBs, Railway DB and production migration
 remain unauthorized.
 
@@ -185,7 +192,7 @@ Do not add tracking, analytics, payment or auth providers without explicit appro
 Before modifying code:
 1. Read README.md.
 2. Read docs/00_PROJECT_STATUS.md.
-3. Read docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md, docs/architecture/S51A_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_B_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_C_SCHEMA_MIGRATION_SCOPE.md, docs/architecture/S51C_B1_DOMAIN_CONTRACT_TYPES_SCOPE.md, docs/architecture/S51C_B1A_IMPLEMENTATION_SCOPE.md and docs/architecture/S51C_B1B_INTEGRATION_GATE.md. Treat docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md only as historical evidence.
+3. Read docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md, docs/architecture/S51A_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_B_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_C_SCHEMA_MIGRATION_SCOPE.md, docs/architecture/S51C_B1_DOMAIN_CONTRACT_TYPES_SCOPE.md, docs/architecture/S51C_B1A_IMPLEMENTATION_SCOPE.md, docs/architecture/S51C_B1B_INTEGRATION_GATE.md and docs/architecture/S51C_OPS_A_OPERATIONS_FOUNDATION_SCOPE.md. Treat docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md only as historical evidence.
 4. Read docs/architecture/ARCHITECTURE_TARGET.md.
 5. Read docs/architecture/adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md.
 6. Read docs/architecture/adr/ADR-0002-SERVER-BOUNDARIES.md.
