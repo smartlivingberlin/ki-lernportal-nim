@@ -10,12 +10,14 @@ import { learningMethods } from "../data/learning-methods";
 import {
   challengesByDomain,
   challengesForLesson,
+  challengesForWorld,
   interactiveChallenges,
 } from "../data/interactive-challenges";
 import {
   microUnitForLesson,
   microUnitsForWorld,
   worldHasMicroUnits,
+  worldsWithMicroUnits,
 } from "../data/micro-units";
 import type { MicroLearningUnitV2, ThemeWorld } from "../data/types";
 import { LessonWorkspace } from "../components/learning/LessonWorkspace";
@@ -32,6 +34,7 @@ import { MobileBottomNav } from "../components/learning/MobileBottomNav";
 import { ThemeWorldTrack } from "../components/learning/ThemeWorldTrack";
 import { MicroLearningUnitView } from "../components/learning/MicroLearningUnitView";
 import { ModelNavigator } from "../components/learning/ModelNavigator";
+import { LearningWorkspaces } from "../components/learning/LearningWorkspaces";
 import { useLocalProgress } from "../hooks/useLocalProgress";
 import { useSimpleMode } from "../hooks/useSimpleMode";
 import { designSystemMeta } from "../design/tokens";
@@ -147,11 +150,18 @@ export default function Home() {
     : interactiveChallenges.slice(0, 1);
   const scenarioChallenges = (() => {
     const lessonIds = new Set(lessonChallenges.map((challenge) => challenge.id));
-    const pool = [
+    const worldPool = selectedWorldId
+      ? challengesForWorld(selectedWorldId).filter(
+          (challenge) => !lessonIds.has(challenge.id),
+        )
+      : [];
+    const domainPool = [
       ...challengesByDomain("alltag"),
       ...challengesByDomain("beruf"),
+      ...challengesByDomain("sicherheit"),
     ].filter((challenge) => !lessonIds.has(challenge.id));
-    return simpleMode ? pool.slice(0, 2) : pool;
+    const pool = worldPool.length > 0 ? worldPool : domainPool;
+    return simpleMode ? pool.slice(0, 2) : pool.slice(0, 6);
   })();
   const visibleMethods = simpleMode ? learningMethods.slice(0, 4) : learningMethods.slice(0, 6);
   const selectedWorld =
@@ -203,16 +213,16 @@ export default function Home() {
       if (firstUnit?.lessonId) {
         openLesson(firstUnit.lessonId);
       }
-      setProgressAnnouncement(`Themenwelt „${world.title}“ geöffnet.`);
+      setProgressAnnouncement(
+        `Themenwelt „${world.title}“ mit ${microUnitsForWorld(world.id).length} Einheiten geöffnet.`,
+      );
       return;
     }
     if (world.starterLessonId) {
       openLesson(world.starterLessonId);
       setProgressAnnouncement(`${world.title}: Einstieg geöffnet.`);
     } else {
-      setProgressAnnouncement(
-        `${world.title} ist als Themenwelt geplant. Der Einstieg folgt im nächsten Content-Ausbau.`,
-      );
+      setProgressAnnouncement(`${world.title}: Inhalte folgen.`);
     }
   };
 
@@ -336,6 +346,7 @@ export default function Home() {
             selectedWorldId={selectedWorldId}
             onSelectWorld={selectWorld}
             simpleMode={simpleMode}
+            worldsReady={worldsWithMicroUnits}
           />
 
           {selectedWorldId && worldHasMicroUnits(selectedWorldId) && worldUnits.length > 0 ? (
@@ -354,6 +365,8 @@ export default function Home() {
               sources={activeMicroSources}
             />
           ) : null}
+
+          <LearningWorkspaces simpleMode={simpleMode} />
 
           <section className="overflow-hidden rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-6 shadow-[var(--shadow-lift)] md:p-8">
             <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--nim-primary)]">Heute im Lernraum</p>

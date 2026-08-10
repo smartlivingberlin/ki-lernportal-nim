@@ -2,8 +2,9 @@ import type { ThemeWorld } from "./types";
 
 /**
  * Zehn Themenwelten als skalierbare Content-Architektur.
- * Schema-v2-Micro-Einheiten: KI ohne Angst, Chat & Prompting,
- * Recherche & Wahrheit, Arbeit & Alltag.
+ * Schema-v2-Micro-Einheiten aktiv: KI ohne Angst, Chat & Prompting,
+ * Recherche & Wahrheit, Arbeit & Alltag, Daten/Sicherheit & Recht,
+ * Bilder/Audio & Video, Modelle, Agenten, Vibe Coding, Fortgeschrittene Praxis.
  */
 export const themeWorlds: ThemeWorld[] = [
   {
@@ -87,7 +88,7 @@ export const themeWorlds: ThemeWorld[] = [
       "Generieren, bearbeiten, Rechte, Qualität und gute Prompts für multimodale KI.",
     audienceLevel: 2,
     estimatedUnits: 12,
-    status: "planned",
+    status: "active",
     accent: "teal",
     starterLessonId: null,
     learningOutcomes: [
@@ -105,7 +106,7 @@ export const themeWorlds: ThemeWorld[] = [
       "Chat, Reasoning, Vision, Audio, Video, Embeddings und Open Models verständlich einordnen.",
     audienceLevel: 3,
     estimatedUnits: 10,
-    status: "planned",
+    status: "active",
     accent: "coral",
     starterLessonId: null,
     learningOutcomes: [
@@ -123,7 +124,7 @@ export const themeWorlds: ThemeWorld[] = [
       "Tools, Aktionen, MCP, Workflows und Human-in-the-loop in einfacher Sprache.",
     audienceLevel: 3,
     estimatedUnits: 12,
-    status: "planned",
+    status: "active",
     accent: "teal",
     starterLessonId: null,
     learningOutcomes: [
@@ -141,7 +142,7 @@ export const themeWorlds: ThemeWorld[] = [
       "Vom Wunsch zur App: Prompt, Plan, Dateien, Git, Tests, Debugging und Deploy.",
     audienceLevel: 4,
     estimatedUnits: 16,
-    status: "planned",
+    status: "active",
     accent: "coral",
     starterLessonId: null,
     learningOutcomes: [
@@ -177,7 +178,7 @@ export const themeWorlds: ThemeWorld[] = [
       "APIs, RAG, Evaluation, Kosten, Guardrails und Monitoring — klar und praxisnah.",
     audienceLevel: 5,
     estimatedUnits: 12,
-    status: "planned",
+    status: "active",
     accent: "coral",
     starterLessonId: null,
     learningOutcomes: [
