@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import type { GlossaryTerm } from "../../data/types";
 import { seedGlossary } from "../../data/glossary";
 
@@ -31,20 +38,20 @@ export function InlineGlossaryTerm({
   const openedByHoverRef = useRef(false);
   const [layer, setLayer] = useState<Layer>("closed");
 
-  const clearCloseTimer = () => {
+  const clearCloseTimer = useCallback(() => {
     if (closeTimer.current !== null) {
       window.clearTimeout(closeTimer.current);
       closeTimer.current = null;
     }
-  };
+  }, []);
 
-  const close = () => {
+  const close = useCallback(() => {
     clearCloseTimer();
     openedByHoverRef.current = false;
     setLayer("closed");
-  };
+  }, [clearCloseTimer]);
 
-  useEffect(() => () => clearCloseTimer(), []);
+  useEffect(() => () => clearCloseTimer(), [clearCloseTimer]);
 
   useEffect(() => {
     if (layer === "closed") return;
@@ -65,7 +72,7 @@ export function InlineGlossaryTerm({
       window.removeEventListener("mousedown", onPointer);
       window.removeEventListener("touchstart", onPointer);
     };
-  }, [layer]);
+  }, [layer, close]);
 
   if (!term) {
     return <span className={className}>{children ?? termId}</span>;

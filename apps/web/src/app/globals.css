@@ -2,29 +2,29 @@
 
 :root {
   --background: #f3fbfa;
-  --foreground: #062c33;
-  --nim-primary: #0d7377;
-  --nim-primary-strong: #095e61;
+  --foreground: #042429;
+  --nim-primary: #0b6569;
+  --nim-primary-strong: #07494c;
   --nim-primary-soft: #d8f1ef;
-  --nim-secondary: #355f66;
-  --nim-accent: #b83a2e;
+  --nim-secondary: #1f454c;
+  --nim-accent: #a83228;
   --nim-accent-soft: #ffe1dc;
-  --nim-success: #0f5c4a;
+  --nim-success: #0c4f40;
   --nim-success-soft: #d5f3ea;
-  --nim-warning: #c47a12;
+  --nim-warning: #a8670e;
   --nim-paper-deep: #d7f0ec;
   --nim-surface: #ffffff;
   --nim-surface-soft: #e8f7f4;
-  --nim-border: #9ed0cb;
-  --nim-border-strong: #0d7377;
-  --nim-focus: #0a5c7a;
+  --nim-border: #7fbfb8;
+  --nim-border-strong: #0b6569;
+  --nim-focus: #08506a;
   --nim-card-bg: #ffffff;
   --nim-radius-sm: 0.75rem;
   --nim-radius-md: 1.25rem;
   --nim-radius-lg: 1.75rem;
   --nim-radius-xl: 2.25rem;
   --nim-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --shadow-lift: 0 12px 28px rgba(6, 44, 51, 0.08);
+  --shadow-lift: 0 12px 28px rgba(6, 44, 51, 0.1);
   --font-display: var(--font-fraunces);
   --font-body: var(--font-source-sans);
 }
@@ -44,21 +44,60 @@
   --font-mono: var(--font-source-sans);
 }
 
+html {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   background:
-    radial-gradient(1200px 480px at 10% -10%, rgba(232, 93, 76, 0.12), transparent 55%),
-    radial-gradient(900px 420px at 90% 0%, rgba(13, 115, 119, 0.16), transparent 50%),
+    radial-gradient(1200px 480px at 10% -10%, rgba(232, 93, 76, 0.1), transparent 55%),
+    radial-gradient(900px 420px at 90% 0%, rgba(13, 115, 119, 0.14), transparent 50%),
     linear-gradient(180deg, var(--nim-paper-deep) 0%, var(--background) 42%, #eef9f7 100%);
   background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-body), "Segoe UI", sans-serif;
   font-size: 18px;
-  line-height: 1.65;
+  line-height: 1.7;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
 body.simple-mode {
   font-size: 20px;
-  line-height: 1.7;
+  line-height: 1.75;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--foreground);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+p,
+li,
+label,
+summary {
+  text-wrap: pretty;
+}
+
+a,
+button,
+[role="button"],
+[role="switch"],
+[role="tab"] {
+  transition:
+    color 280ms var(--nim-ease),
+    background-color 280ms var(--nim-ease),
+    border-color 280ms var(--nim-ease),
+    box-shadow 280ms var(--nim-ease),
+    transform 280ms var(--nim-ease),
+    opacity 280ms var(--nim-ease);
 }
 
 .nim-interactive:hover {
@@ -69,9 +108,18 @@ body.simple-mode {
   transform: translateY(0);
 }
 
+section,
+aside,
+article {
+  transition:
+    background-color 280ms var(--nim-ease),
+    border-color 280ms var(--nim-ease),
+    box-shadow 280ms var(--nim-ease);
+}
+
 .portal-hero-plane {
   background:
-    linear-gradient(135deg, rgba(9, 94, 97, 0.94), rgba(13, 115, 119, 0.88)),
+    linear-gradient(135deg, rgba(7, 73, 76, 0.96), rgba(11, 101, 105, 0.9)),
     radial-gradient(circle at 80% 20%, rgba(232, 93, 76, 0.35), transparent 42%),
     radial-gradient(circle at 15% 80%, rgba(184, 228, 225, 0.35), transparent 45%);
 }
@@ -109,6 +157,10 @@ body.simple-mode {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
