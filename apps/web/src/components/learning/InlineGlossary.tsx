@@ -28,6 +28,7 @@ export function InlineGlossaryTerm({
   const panelId = useId();
   const rootRef = useRef<HTMLSpanElement>(null);
   const closeTimer = useRef<number | null>(null);
+  const openedByHoverRef = useRef(false);
   const [layer, setLayer] = useState<Layer>("closed");
 
   const clearCloseTimer = () => {
@@ -37,17 +38,23 @@ export function InlineGlossaryTerm({
     }
   };
 
+  const close = () => {
+    clearCloseTimer();
+    openedByHoverRef.current = false;
+    setLayer("closed");
+  };
+
   useEffect(() => () => clearCloseTimer(), []);
 
   useEffect(() => {
     if (layer === "closed") return;
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setLayer("closed");
+      if (event.key === "Escape") close();
     };
     const onPointer = (event: MouseEvent | TouchEvent) => {
       const target = event.target as Node | null;
       if (rootRef.current && target && !rootRef.current.contains(target)) {
-        setLayer("closed");
+        close();
       }
     };
     window.addEventListener("keydown", onKey);
@@ -71,10 +78,26 @@ export function InlineGlossaryTerm({
       ref={rootRef}
       className={`relative inline ${className}`}
       onMouseLeave={() => {
+        if (!openedByHoverRef.current) return;
         clearCloseTimer();
-        closeTimer.current = window.setTimeout(() => setLayer("closed"), 220);
+        closeTimer.current = window.setTimeout(() => {
+          openedByHoverRef.current = false;
+          setLayer("closed");
+        }, 220);
       }}
-      onMouseEnter={clearCloseTimer}
+      onMouseEnter={() => {
+        clearCloseTimer();
+        if (
+          typeof window === "undefined" ||
+          !window.matchMedia("(hover: hover) and (pointer: fine)").matches
+        ) {
+          return;
+        }
+        if (layer === "closed") {
+          openedByHoverRef.current = true;
+          setLayer("short");
+        }
+      }}
     >
       <button
         type="button"
@@ -83,16 +106,12 @@ export function InlineGlossaryTerm({
         aria-controls={panelId}
         onClick={() => {
           clearCloseTimer();
-          setLayer((current) => (current === "closed" ? "short" : "closed"));
-        }}
-        onMouseEnter={() => {
-          if (
-            typeof window !== "undefined" &&
-            window.matchMedia("(hover: hover) and (pointer: fine)").matches
-          ) {
-            clearCloseTimer();
+          if (openedByHoverRef.current) {
+            openedByHoverRef.current = false;
             setLayer((current) => (current === "closed" ? "short" : current));
+            return;
           }
+          setLayer((current) => (current === "closed" ? "short" : "closed"));
         }}
       >
         {children ?? term.term}
@@ -103,7 +122,7 @@ export function InlineGlossaryTerm({
           role="region"
           aria-label={`Begriff: ${term.term}`}
           onMouseEnter={clearCloseTimer}
-          className="absolute left-0 top-full z-40 mt-2 w-[min(20rem,calc(100vw-2rem))] rounded-[var(--nim-radius-lg)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 text-left shadow-[var(--shadow-lift)]"
+          className="absolute left-0 top-full z-[60] mt-2 w-[min(20rem,calc(100vw-2rem))] rounded-[var(--nim-radius-lg)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 text-left shadow-[var(--shadow-lift)]"
         >
           <span className="block text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
             Begriff
@@ -124,7 +143,10 @@ export function InlineGlossaryTerm({
               <button
                 type="button"
                 className="nim-interactive min-h-10 rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-3 text-xs font-black text-white"
-                onClick={() => setLayer("deep")}
+                onClick={() => {
+                  openedByHoverRef.current = false;
+                  setLayer("deep");
+                }}
               >
                 Beispiel zeigen
               </button>
@@ -132,7 +154,7 @@ export function InlineGlossaryTerm({
             <button
               type="button"
               className="nim-interactive min-h-10 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-3 text-xs font-black text-[var(--nim-primary)]"
-              onClick={() => setLayer("closed")}
+              onClick={close}
             >
               Schließen
             </button>

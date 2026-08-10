@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
   type ReactNode,
+  type RefObject,
 } from "react";
 import { helpTipById, type HelpTip } from "../../data/help-tips";
 
@@ -65,7 +66,7 @@ function CloudPanel({
       aria-label={`Erklärung: ${tip.label}`}
       onMouseEnter={onKeepOpen}
       className={[
-        "absolute left-0 top-full z-50 mt-3",
+        "absolute left-0 top-full z-[60] mt-3",
         panelWidth,
         "rounded-[1.75rem] border-2 border-[var(--nim-primary)] bg-[var(--nim-surface)] p-5 text-left shadow-[var(--shadow-lift)] sm:p-6",
       ].join(" ")}
@@ -190,7 +191,7 @@ function HelpTriggerButton({
 
 function useOutsideAndEscape(
   open: boolean,
-  rootRef: React.RefObject<HTMLElement | null>,
+  rootRef: RefObject<HTMLElement | null>,
   onClose: () => void,
 ) {
   useEffect(() => {
@@ -218,22 +219,9 @@ function useOutsideAndEscape(
   }, [open, onClose, rootRef]);
 }
 
-/**
- * 3-Schichten-Erklärungswolke am Hilfe-Button.
- * Desktop: Hover auf den Button öffnet Kurzinfo; Maus in der Wolke halten zum Weiterlesen.
- * Klick/Tap: öffnen/schließen; Buttons „Mehr dazu“ / „Genaue Anleitung“.
- */
-export function ExplainCloud({
-  tipId,
-  tip: tipProp,
-  className = "",
-  compact = false,
-  triggerLabel = "Hilfe",
-}: ExplainCloudProps) {
-  const tip = tipProp ?? helpTipById(tipId);
-  const panelId = useId();
-  const rootRef = useRef<HTMLSpanElement>(null);
+function useExplainCloudController() {
   const closeTimer = useRef<number | null>(null);
+  const openedByHoverRef = useRef(false);
   const [layer, setLayer] = useState<Layer>("closed");
   const [openedByHover, setOpenedByHover] = useState(false);
 
@@ -246,24 +234,95 @@ export function ExplainCloud({
 
   const close = useCallback(() => {
     clearCloseTimer();
-    setLayer("closed");
+    openedByHoverRef.current = false;
     setOpenedByHover(false);
+    setLayer("closed");
   }, [clearCloseTimer]);
 
   const scheduleClose = useCallback(() => {
+    // Nur Hover-Sessions automatisch schließen. Gepinnte Wolken bleiben bis Klick/Escape.
+    if (!openedByHoverRef.current) return;
     clearCloseTimer();
     closeTimer.current = window.setTimeout(() => {
-      setLayer("closed");
+      openedByHoverRef.current = false;
       setOpenedByHover(false);
+      setLayer("closed");
     }, 280);
   }, [clearCloseTimer]);
 
+  const openFromHover = useCallback(() => {
+    if (!canHoverFinePointer()) return;
+    clearCloseTimer();
+    setLayer((current) => {
+      // Bereits offen (z. B. gepinnt): kein neues Hover-Flag — sonst schließt der nächste Klick nicht.
+      if (current !== "closed") return current;
+      openedByHoverRef.current = true;
+      return "short";
+    });
+    setOpenedByHover(openedByHoverRef.current);
+  }, [clearCloseTimer]);
+
+  /**
+   * Klick/Tap: öffnen oder schließen.
+   * Sonderfall Desktop: Hover hat schon geöffnet → erster Klick pinnt die Wolke
+   * (schließt nicht sofort wieder).
+   */
+  const toggleFromClick = useCallback(() => {
+    clearCloseTimer();
+    if (openedByHoverRef.current) {
+      openedByHoverRef.current = false;
+      setOpenedByHover(false);
+      setLayer((current) => (current === "closed" ? "short" : current));
+      return;
+    }
+    setLayer((current) => {
+      if (current === "closed") {
+        setOpenedByHover(false);
+        return "short";
+      }
+      openedByHoverRef.current = false;
+      setOpenedByHover(false);
+      return "closed";
+    });
+  }, [clearCloseTimer]);
+
   useEffect(() => () => clearCloseTimer(), [clearCloseTimer]);
-  useOutsideAndEscape(layer !== "closed", rootRef, close);
+
+  return {
+    layer,
+    setLayer,
+    openedByHover,
+    setOpenedByHover,
+    clearCloseTimer,
+    scheduleClose,
+    openFromHover,
+    toggleFromClick,
+    close,
+  };
+}
+
+/**
+ * 3-Schichten-Erklärungswolke am Hilfe-Button.
+ * Desktop: Hover öffnet Kurzinfo; Klick pinnt oder schließt.
+ * Touch: Tippen öffnet/schließt.
+ */
+export function ExplainCloud({
+  tipId,
+  tip: tipProp,
+  className = "",
+  compact = false,
+  triggerLabel = "Hilfe",
+}: ExplainCloudProps) {
+  const tip = tipProp ?? helpTipById(tipId);
+  const panelId = useId();
+  const rootRef = useRef<HTMLSpanElement>(null);
+  const state = useExplainCloudController();
+
+  useOutsideAndEscape(state.layer !== "closed", rootRef, state.close);
 
   if (!tip) return null;
 
-  const open = layer !== "closed";
+  const open = state.layer !== "closed";
   const panelWidth = compact
     ? "w-[min(26rem,calc(100vw-1.5rem))]"
     : "w-[min(32rem,calc(100vw-1.5rem))]";
@@ -272,13 +331,8 @@ export function ExplainCloud({
     <span
       ref={rootRef}
       className={`relative inline-flex align-middle ${className}`}
-      onMouseEnter={() => {
-        if (!canHoverFinePointer()) return;
-        clearCloseTimer();
-        setOpenedByHover(true);
-        setLayer((current) => (current === "closed" ? "short" : current));
-      }}
-      onMouseLeave={scheduleClose}
+      onMouseEnter={state.openFromHover}
+      onMouseLeave={state.scheduleClose}
     >
       <HelpTriggerButton
         tip={tip}
@@ -286,28 +340,24 @@ export function ExplainCloud({
         open={open}
         compact={compact}
         triggerLabel={triggerLabel}
-        onClick={() => {
-          clearCloseTimer();
-          setOpenedByHover(false);
-          setLayer((current) => (current === "closed" ? "short" : "closed"));
-        }}
+        onClick={state.toggleFromClick}
       />
       <CloudPanel
         tip={tip}
         panelId={panelId}
-        layer={layer}
-        openedByHover={openedByHover}
+        layer={state.layer}
+        openedByHover={state.openedByHover}
         panelWidth={panelWidth}
-        onKeepOpen={clearCloseTimer}
+        onKeepOpen={state.clearCloseTimer}
         onMedium={() => {
-          setOpenedByHover(false);
-          setLayer("medium");
+          state.setOpenedByHover(false);
+          state.setLayer("medium");
         }}
         onDeep={() => {
-          setOpenedByHover(false);
-          setLayer("deep");
+          state.setOpenedByHover(false);
+          state.setLayer("deep");
         }}
-        onClose={close}
+        onClose={state.close}
       />
     </span>
   );
@@ -328,43 +378,20 @@ export function ExplainHotspot({
   const tip = tipProp ?? helpTipById(tipId);
   const panelId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
-  const closeTimer = useRef<number | null>(null);
-  const [layer, setLayer] = useState<Layer>("closed");
-  const [openedByHover, setOpenedByHover] = useState(false);
+  const state = useExplainCloudController();
 
-  const clearCloseTimer = useCallback(() => {
-    if (closeTimer.current !== null) {
-      window.clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
-  }, []);
-
-  const close = useCallback(() => {
-    clearCloseTimer();
-    setLayer("closed");
-    setOpenedByHover(false);
-  }, [clearCloseTimer]);
-
-  const scheduleClose = useCallback(() => {
-    clearCloseTimer();
-    closeTimer.current = window.setTimeout(() => {
-      setLayer("closed");
-      setOpenedByHover(false);
-    }, 280);
-  }, [clearCloseTimer]);
-
-  useEffect(() => () => clearCloseTimer(), [clearCloseTimer]);
-  useOutsideAndEscape(layer !== "closed", rootRef, close);
+  useOutsideAndEscape(state.layer !== "closed", rootRef, state.close);
 
   if (!tip) {
     return <div className={className}>{children}</div>;
   }
 
-  const open = layer !== "closed";
+  const open = state.layer !== "closed";
 
   return (
     <div
       ref={rootRef}
+      data-explain-hotspot={tipId}
       className={[
         "relative rounded-[var(--nim-radius-lg)] transition-[box-shadow,background-color] duration-280 ease-[var(--nim-ease)]",
         open
@@ -372,13 +399,8 @@ export function ExplainHotspot({
           : "hover:bg-[var(--nim-surface-soft)]",
         className,
       ].join(" ")}
-      onMouseEnter={() => {
-        if (!canHoverFinePointer()) return;
-        clearCloseTimer();
-        setOpenedByHover(true);
-        setLayer((current) => (current === "closed" ? "short" : current));
-      }}
-      onMouseLeave={scheduleClose}
+      onMouseEnter={state.openFromHover}
+      onMouseLeave={state.scheduleClose}
     >
       <div className="flex flex-wrap items-start justify-between gap-3 p-1 sm:p-2">
         <div className="min-w-0 flex-1">{children}</div>
@@ -388,29 +410,25 @@ export function ExplainHotspot({
           open={open}
           compact
           triggerLabel={triggerLabel}
-          onClick={() => {
-            clearCloseTimer();
-            setOpenedByHover(false);
-            setLayer((current) => (current === "closed" ? "short" : "closed"));
-          }}
+          onClick={state.toggleFromClick}
         />
       </div>
       <CloudPanel
         tip={tip}
         panelId={panelId}
-        layer={layer}
-        openedByHover={openedByHover}
+        layer={state.layer}
+        openedByHover={state.openedByHover}
         panelWidth="w-[min(34rem,calc(100vw-1.5rem))]"
-        onKeepOpen={clearCloseTimer}
+        onKeepOpen={state.clearCloseTimer}
         onMedium={() => {
-          setOpenedByHover(false);
-          setLayer("medium");
+          state.setOpenedByHover(false);
+          state.setLayer("medium");
         }}
         onDeep={() => {
-          setOpenedByHover(false);
-          setLayer("deep");
+          state.setOpenedByHover(false);
+          state.setLayer("deep");
         }}
-        onClose={close}
+        onClose={state.close}
       />
     </div>
   );
