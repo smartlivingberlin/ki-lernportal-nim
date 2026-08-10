@@ -1,8 +1,8 @@
 # S51B-A – Persistenz-Scope-Lock
 
-**Status:** S51B-A, der S51B-B-Dokumentations- und Runtime-Scope-Lock und das lokale S51B-B-MySQL-/Drizzle-Adapterfundament sind in `main` integriert; echte Datenbankverbindungen, S51B-C, Schema, Migration, Railway und Betrieb bleiben gesperrt
+**Status:** S51B-A, der S51B-B-Dokumentations- und Runtime-Scope-Lock und das lokale S51B-B-MySQL-/Drizzle-Adapterfundament sind in `main` integriert; der S51B-C-Schema-/Migrations-Scope-Lock ist dokumentiert und merge-fähig; echte Datenbankverbindungen, Schema-Implementierung (C1), C2-DB-Tests, Railway und Betrieb bleiben gesperrt
 
-**Stand:** 23. Juli 2026
+**Stand:** 10. August 2026
 
 **S51B-A Integration Commit:** `fbdedec8f3e67ce99678c41779b99b22be506710`
 

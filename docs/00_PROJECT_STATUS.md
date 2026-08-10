@@ -1,18 +1,19 @@
 # Projektstatus: KI-Lernportal NIM
 
 **Stand:** 10. August 2026
-**Baseline `main`:** `caa1168acbbe3d64d59934c800629853a2cfebb8`
-**Status:** S51B-B Adapter integriert; PR #105 (S51B-C Scope-Lock) offen als Draft; Design-/Content-Foundation in PR #108; menschliche Agency-Freigabe für Merge/Deploy der Konzeptdemo erteilt (kein Schema/DB)
+**Baseline `main`:** `c66a68281f0dc62e436c5481cdd94a7c8ea9f4e5`
+**Status:** S51B-B Adapter integriert; Welle A Literacy live; S51B-C Scope-Lock rebaselined (ersetzt Draft PR #105); Schema/DB weiterhin gesperrt; menschliche Agency-Freigabe für Merge/Deploy der Konzeptdemo erteilt
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
 PHASE0A_SOURCE_OF_TRUTH_SYNC=COMPLETE
 BACKLOG_NORMALIZATION=COMPLETE
-BASELINE_MAIN_SHA=caa1168acbbe3d64d59934c800629853a2cfebb8
+BASELINE_MAIN_SHA=c66a68281f0dc62e436c5481cdd94a7c8ea9f4e5
 PR68_MERGED=YES
-PR105_OPEN_DRAFT_S51B_C_SCOPE_LOCK=YES
-PR108_DESIGN_CONTENT_FOUNDATION=OPEN
+PR105_SUPERSEDED_BY_S51B_C_SCOPE_LOCK_REBASE=YES
+PR118_WAVE_A_MERGED=YES
 HUMAN_AGENCY_FREIGABE_MERGE_DEPLOY_CONCEPT_DEMO=YES
+S51B_C_SCOPE_MERGE_AUTHORIZED=YES
 S51B_C_SCHEMA_AUTHORIZED=NO
 ~~~
 
@@ -25,6 +26,7 @@ zusammen mit den nachfolgenden Integrationsnachweisen beschrieben durch:
 - [Historischer S51A-Implementierungsvertrag](architecture/S51A_IMPLEMENTATION_SCOPE.md)
 - [S51B-Persistenz-Scope und Integrationsstatus](architecture/S51B_IMPLEMENTATION_SCOPE.md)
 - [S51B-B Adapter-Scope-Lock](architecture/S51B_B_IMPLEMENTATION_SCOPE.md)
+- [S51B-C Schema-/Migrations-Scope-Lock](architecture/S51B_C_SCHEMA_MIGRATION_SCOPE.md)
 - [Zielarchitektur](architecture/ARCHITECTURE_TARGET.md)
 - [Package-DAG](architecture/PACKAGE_DAG.md)
 - [Plattformverträge](architecture/PLATFORM_CONTRACTS.md)
@@ -197,20 +199,23 @@ erneut read-only zu prüfen.
 
 ## 7b. Offener PR #105 (S51B-C Scope-Lock)
 
-PR #105 ist ein separater **Draft**-PR und dokumentiert ausschließlich den
-S51B-C-Schema-/Migrations-Scope. Er autorisiert keine Schemaimplementierung,
-keine Migration und keine Datenbankverbindung.
+PR #105 bleibt als historischer Draft bestehen und wird durch den rebaselineden
+S51B-C-Scope-Lock auf aktuellem `main` ersetzt. Der neue Scope-Lock autorisiert
+ausschließlich die Dokumentation; Schemaimplementierung, Migration und
+Datenbankverbindung bleiben gesperrt.
 
 ~~~text
-PR105_STATE=OPEN
-PR105_DRAFT=YES
+PR105_STATE=OPEN_DRAFT_SUPERSEDED
 PR105_MERGED=NO
-PR105_HEAD=2fc71ae3a2b5efae4bc4bd3e3a87454ff619f88e
+S51B_C_SCOPE_LOCK_REBASE_BRANCH=cursor/s51b-c-scope-lock-b554
+S51B_C_SCOPE_MERGE_AUTHORIZED=YES
 S51B_C_SCHEMA_AUTHORIZED=NO
+S51B_C1_SCHEMA_IMPLEMENTATION_AUTHORIZED=NO
+S51B_C2_DATABASE_TEST_AUTHORIZED=NO
 ~~~
 
-Dieses Dokument verändert PR #105 nicht und erteilt keine Ready-, Merge-,
-Datenbank- oder Deploymentfreigabe.
+Dieses Dokument erteilt keine Schema-, Migrations-, Datenbank- oder
+Deploymentfreigabe über den dokumentarischen Scope-Lock hinaus.
 
 ## 7c. PR #108 (Design-/Content-Foundation) und Agency-Freigabe
 

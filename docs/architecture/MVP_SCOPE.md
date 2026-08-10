@@ -1,8 +1,8 @@
 # MVP-Scope – KI-Lernportal NIM
 
-**Status:** Architektur freigegeben; S51A sowie S51B-A und das lokale S51B-B-Adapterfundament integriert; weitere Plattform-Slices separat freigabepflichtig
-**Stand:** 26. Juli 2026
-**Baseline `main`:** `30e88dcd0516f5c2ddf3562a2f492f6f756f7e7a`
+**Status:** Architektur freigegeben; S51A sowie S51B-A und das lokale S51B-B-Adapterfundament integriert; S51B-C Scope-Lock dokumentiert und merge-fähig; Schema/Migration (C1/C2) weiterhin separat freigabepflichtig
+**Stand:** 10. August 2026
+**Baseline `main`:** `c66a68281f0dc62e436c5481cdd94a7c8ea9f4e5`
 
 Dieses Dokument beschreibt den realistischen nächsten Plattform-Scope ausgehend
 vom tatsächlich integrierten Stand. Es ist keine pauschale
@@ -47,6 +47,7 @@ S51B_B_SCOPE_LOCK=INTEGRATED
 S51B_B_LOCAL_ADAPTER_FOUNDATION=INTEGRATED
 
 S51B_B_REAL_CONNECTION=NOT_AUTHORIZED
+S51B_C_SCOPE_LOCK=DOCUMENTED_MERGE_AUTHORIZED
 S51B_C_SCHEMA_AND_MIGRATIONS=NOT_AUTHORIZED
 S51C_OPERATIONS_FOUNDATION=NOT_AUTHORIZED
 S51D_RAILWAY_STAGING=NOT_AUTHORIZED
@@ -56,7 +57,12 @@ S51D_RAILWAY_STAGING=NOT_AUTHORIZED
 
 ### S51B-C – Schema- und Migrationsfundament
 
-Dieser Slice beginnt nur nach einer neuen ausdrücklichen Freigabe.
+Der dokumentarische Scope-Lock liegt unter
+[S51B_C_SCHEMA_MIGRATION_SCOPE.md](S51B_C_SCHEMA_MIGRATION_SCOPE.md) und darf
+nach menschlicher Freigabe gemerged werden.
+
+S51B-C1 (Schema + Migrationen ohne DB-Verbindung) und S51B-C2 (disposable
+lokale MySQL-Tests) beginnen nur nach jeweils neuer ausdrücklicher Freigabe.
 
 Möglicher späterer Scope:
 

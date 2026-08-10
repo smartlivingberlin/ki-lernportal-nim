@@ -111,7 +111,12 @@ S51B_B_LAZY_ADAPTER_INTEGRATED=YES
 S51B_B_FAKE_TESTS_INTEGRATED=YES
 S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
 
+S51B_C_SCOPE_LOCK_DOCUMENT_READY=YES
+S51B_C_SCOPE_LOCK_PR_SUPERSEDES=105
+S51B_C_SCOPE_MERGE_AUTHORIZED=YES
 S51B_C_SCHEMA_AUTHORIZED=NO
+S51B_C1_SCHEMA_IMPLEMENTATION_AUTHORIZED=NO
+S51B_C2_DATABASE_TEST_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
 MIGRATION_AUTHORIZED=NO
 NEXT_COMMIT_AUTHORIZED=YES
@@ -128,7 +133,8 @@ HUMAN_AGENCY_FREIGABE_MERGE_DEPLOY_CONCEPT_DEMO=YES
 Conditional examples do not override this current gate.
 Human agency freigabe for concept-demo merge/deploy supersedes the prior
 NEXT_* / DEPLOY_AUTHORIZED=NO markers for that content slice only.
-Schema, migration and real DB connection remain unauthorized.
+The S51B-C scope-lock document may be merged; schema, migration and real DB
+connection remain unauthorized until a separate S51B-C1/C2 gate.
 
 ## Hard safety rules
 
