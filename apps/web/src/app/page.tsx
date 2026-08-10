@@ -38,6 +38,7 @@ import { LearningWorkspaces } from "../components/learning/LearningWorkspaces";
 import { FirstStartCoach } from "../components/learning/FirstStartCoach";
 import { ExplainCloud } from "../components/learning/ExplainCloud";
 import { InlineGlossaryText } from "../components/learning/InlineGlossary";
+import { SpacedReviewQueue } from "../components/learning/SpacedReviewQueue";
 import { useLocalProgress } from "../hooks/useLocalProgress";
 import { useSimpleMode } from "../hooks/useSimpleMode";
 import { designSystemMeta } from "../design/tokens";
@@ -147,7 +148,7 @@ export default function Home() {
   const activeLessonIdForAction = activeLesson?.id ?? null;
   const reviewedSources = publicSources.slice(0, 4);
   const beginnerResources = seedResources.slice(0, 3);
-  const beginnerGlossary = seedGlossary.slice(0, 5);
+  const beginnerGlossary = seedGlossary.slice(0, 8);
   const lessonChallenges = activeLesson
     ? challengesForLesson(activeLesson.id)
     : interactiveChallenges.slice(0, 1);
@@ -372,6 +373,8 @@ export default function Home() {
           ) : null}
 
           <LearningWorkspaces simpleMode={simpleMode} />
+
+          <SpacedReviewQueue simpleMode={simpleMode} />
 
           <section className="overflow-hidden rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-6 shadow-[var(--shadow-lift)] md:p-8">
             <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--nim-primary)]">Heute im Lernraum</p>

@@ -56,6 +56,9 @@ export function ExplainCloud({
   if (!tip) return null;
 
   const open = layer !== "closed";
+  const panelWidth = compact
+    ? "w-[min(20rem,calc(100vw-2rem))]"
+    : "w-[min(22rem,calc(100vw-2rem))]";
 
   return (
     <span ref={rootRef} className={`relative inline-flex align-middle ${className}`}>
@@ -63,7 +66,8 @@ export function ExplainCloud({
         type="button"
         className={[
           "nim-interactive inline-flex items-center justify-center rounded-full border-2 border-[var(--nim-border-strong)] bg-[var(--nim-surface)] font-black text-[var(--nim-primary-strong)]",
-          "h-11 w-11 min-h-11 min-w-11 text-sm",
+          "h-11 w-11 min-h-11 min-w-11",
+          compact ? "text-xs" : "text-sm",
           "hover:bg-[var(--nim-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nim-focus)]",
         ].join(" ")}
         aria-expanded={open}
@@ -80,7 +84,7 @@ export function ExplainCloud({
           id={panelId}
           role="region"
           aria-label={`Erklärung: ${tip.label}`}
-          className="absolute left-0 top-full z-40 mt-2 w-[min(22rem,calc(100vw-2rem))] rounded-[var(--nim-radius-lg)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 text-left shadow-[var(--shadow-lift)]"
+          className={`absolute left-0 top-full z-40 mt-2 ${panelWidth} rounded-[var(--nim-radius-lg)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 text-left shadow-[var(--shadow-lift)]`}
         >
           <span className="block text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
             {tip.label}

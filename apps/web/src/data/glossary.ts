@@ -26,8 +26,8 @@ export const seedGlossary: GlossaryTerm[] = [
   {
     id: 'quelle',
     term: 'Quelle',
-    definition: 'Der Ursprung einer Information, also woher die KI ihr Wissen hat.',
-    example: 'Ein Zeitungsartikel oder ein Buch, das als Beleg für eine Aussage dient.',
+    definition: 'Der Ursprung einer Information, also woher eine Aussage nachprüfbar kommt — nicht nur die Formulierung der KI.',
+    example: 'Ein Zeitungsartikel oder eine Behörden-Webseite, die als Beleg für eine Aussage dient.',
     priority: 1
   },
   {
@@ -35,6 +35,13 @@ export const seedGlossary: GlossaryTerm[] = [
     term: 'Datenschutz',
     definition: 'Regeln, die bestimmen, wie deine persönlichen Informationen (wie Name oder Adresse) geschützt werden.',
     example: 'Dass du keine privaten Passwörter oder Bankdaten in einen öffentlichen KI-Chat eingeben solltest.',
+    priority: 1
+  },
+  {
+    id: 'modell',
+    term: 'KI-Modell',
+    definition: 'Die „Engine“ hinter einem Chat oder Bildgenerator. Verschiedene Modelle sind für verschiedene Aufgaben besser geeignet.',
+    example: 'Ein Text-Modell für E-Mails, ein Vision-Modell für Bilderklärungen.',
     priority: 1
   },
   // Priority 2
@@ -56,7 +63,35 @@ export const seedGlossary: GlossaryTerm[] = [
     id: 'ai-act',
     term: 'AI Act',
     definition: 'Ein neues Gesetz der Europäischen Union, das Regeln für den sicheren Einsatz von KI festlegt.',
-    example: 'Ein Gesetz, das verbietet, KI für gefährliche Überwachung einzusetzen.',
+    example: 'Ein Gesetz, das u. a. AI Literacy und risikobasierte Pflichten thematisiert.',
+    priority: 2
+  },
+  {
+    id: 'agent',
+    term: 'KI-Agent',
+    definition: 'Ein KI-System, das nicht nur antwortet, sondern Schritte ausführen oder Werkzeuge nutzen kann — deshalb braucht es klare Grenzen.',
+    example: 'Ein Assistent, der Termine vorschlägt und erst nach deiner Freigabe etwas bucht.',
+    priority: 2
+  },
+  {
+    id: 'automation',
+    term: 'Automatisierung',
+    definition: 'Wiederkehrende Abläufe werden ganz oder teilweise von Software erledigt.',
+    example: 'Eingehende Formulare werden sortiert, und du prüfst nur die Grenzfälle.',
+    priority: 2
+  },
+  {
+    id: 'multimodal',
+    term: 'Multimodal',
+    definition: 'KI, die mit mehreren Medienarten umgehen kann — z. B. Text und Bild.',
+    example: 'Du lädst ein Foto einer Speisekarte hoch und lässt sie in Alltagssprache erklären.',
+    priority: 2
+  },
+  {
+    id: 'vibe-coding',
+    term: 'Vibe Coding',
+    definition: 'Mit KI kleine Software-Ideen bauen: Wunsch beschreiben, Code vorschlagen lassen, prüfen, testen, absichern.',
+    example: 'Du baust eine Checklisten-App und lässt die KI den ersten Entwurf schreiben — du prüfst Secrets und Fehler.',
     priority: 2
   },
   // Priority 3
@@ -73,5 +108,19 @@ export const seedGlossary: GlossaryTerm[] = [
     definition: 'Ein zweiter Prüfschritt, bei dem gefundene Antworten oder Quellen noch einmal nach ihrer Wichtigkeit sortiert werden.',
     example: 'Von 10 gefundenen Antworten werden die 3 ausgewählt, die wirklich am besten zur Frage passen.',
     priority: 3
+  },
+  {
+    id: 'guardrail',
+    term: 'Guardrail',
+    definition: 'Eine Schutzregel oder technische Grenze, die riskante KI-Ausgaben oder -Aktionen verhindern soll.',
+    example: 'Das System darf keine Passwörter speichern und keine Buchungen ohne Freigabe ausführen.',
+    priority: 3
+  },
+  {
+    id: 'spaced-review',
+    term: 'Wiederholen mit Abstand',
+    definition: 'Du rufst Wissen später erneut ab, statt alles an einem Tag zu pauken — das stärkt die Erinnerung.',
+    example: 'Heute unsicher markiert → morgen kommt die Abruffrage wieder.',
+    priority: 2
   }
 ];

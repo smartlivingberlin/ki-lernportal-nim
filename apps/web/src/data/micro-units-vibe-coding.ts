@@ -319,4 +319,316 @@ export const microUnitsVibeCoding: MicroLearningUnitV2[] = [
     estimatedMinutes: 7,
     methodIds: ["method-teachback", "method-spaced", "method-progressive"],
   },
+  {
+    id: "mu-vibe-09",
+    worldId: "world-vibe-coding",
+    lessonId: null,
+    order: 9,
+    title: "Projektstruktur: Ordner statt Chaos",
+    whyUseful:
+      "Du findest Dateien wieder und verstehst, was die KI wo ändern soll.",
+    oneSentence:
+      "Halte eine einfache Struktur: eine Startseite, getrennte Skripte und klare Namen — und bitte die KI, nur dort zu ändern.",
+    everydayExample:
+      "Statt alles in einer riesigen Datei: `index.html`, `styles.css`, `app.js` — und im Prompt: „Ändere nur app.js.“",
+    steps: [
+      "Skizziere 3–5 Dateien mit Zweck.",
+      "Gib der KI den gewünschten Ordnerplan vor.",
+      "Prüfe nach dem Vorschlag, ob neue Dateien wirklich nötig sind.",
+    ],
+    practiceTask:
+      "Schreibe einen Mini-Ordnerplan für dein aktuelles Projekt in fünf Zeilen.",
+    samplePath:
+      "1) index.html 2) styles.css 3) app.js 4) README 5) .gitignore — keine Secrets",
+    whyItWorks:
+      "Klare Orte machen KI-Änderungen prüfbarer und rückgängig machbar.",
+    commonMistake:
+      "KI „überall“ ändern lassen und danach nicht mehr wissen, was neu ist.",
+    safetyNote:
+      "Keine `.env` oder Schlüsseldateien in den Chat oder ins Repo legen.",
+    retrievalQuestions: [
+      "Warum helfen klare Dateinamen?",
+      "Was sagst du der KI zur Änderungsgrenze?",
+      "Wann streichst du unnötige neue Dateien?",
+    ],
+    teachBackPrompt:
+      "Erklär einem Anfänger, warum Struktur vor dem großen Umbau kommt.",
+    sourceIds: ["digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-worked-example", "method-progressive", "method-retrieval"],
+  },
+  {
+    id: "mu-vibe-10",
+    worldId: "world-vibe-coding",
+    lessonId: null,
+    order: 10,
+    title: "Abhängigkeiten: Pakete mit Vorsicht",
+    whyUseful:
+      "Du vermeidest unnötige und riskante Bibliotheken aus KI-Vorschlägen.",
+    oneSentence:
+      "Jedes neue Paket ist eine Vertrauensentscheidung — nur bekannte, nötige Abhängigkeiten und nie blind installieren.",
+    everydayExample:
+      "Die KI schlägt drei unbekannte npm-Pakete vor: du fragst nach einer Variante ohne Extra-Pakete oder prüfst den Namen genau.",
+    steps: [
+      "Frage: Brauche ich dieses Paket wirklich?",
+      "Prüfe Schreibweise und Herkunft grob (Tippfehler-Fallen).",
+      "Installiere erst nach dem Verstehen des Zwecks.",
+    ],
+    practiceTask:
+      "Formuliere einen Prompt, der zuerst eine Lösung ohne neue Pakete verlangt.",
+    samplePath:
+      "„Löse es mit Standard-HTML/JS. Schlage nur ein Paket vor, wenn es unvermeidbar ist — und erkläre warum.“",
+    whyItWorks:
+      "Weniger Abhängigkeiten bedeuten weniger Angriffsfläche und weniger Wartung.",
+    commonMistake:
+      "Alles installieren, was die KI nennt — inkl. Tippfehler-Pakete.",
+    safetyNote:
+      "Keine Install-Befehle mit Admin-Rechten und unbekannten Quellen ausführen.",
+    retrievalQuestions: [
+      "Warum sind neue Pakete riskant?",
+      "Was prüfst du vor dem Install?",
+      "Wie forderst du eine schlanke Lösung?",
+    ],
+    teachBackPrompt:
+      "Sag die Regel „Paket nur wenn nötig“ in eigenen Worten.",
+    sourceIds: ["nist-ai-rmf", "digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
+  },
+  {
+    id: "mu-vibe-11",
+    worldId: "world-vibe-coding",
+    lessonId: null,
+    order: 11,
+    title: "Barrierearmut und Klarheit in der Oberfläche",
+    whyUseful:
+      "Dein Mini-Tool bleibt nutzbar — auch für dich in Stress und für andere.",
+    oneSentence:
+      "Gute Texte, erkennbare Buttons und einfache Kontraste sind Teil des Bauens — nicht nur „schönes Design“.",
+    everydayExample:
+      "Statt grauer Schrift auf grauem Grund: klarer Button „Speichern“, sichtbarer Fokus, kurze Beschriftungen.",
+    steps: [
+      "Beschrifte Buttons mit Verben („Speichern“, nicht nur Icons).",
+      "Prüfe Kontrast und Lesbarkeit grob.",
+      "Bitte die KI um eine barriereärmere Variante und teste selbst.",
+    ],
+    practiceTask:
+      "Schreibe drei UI-Verbesserungen für eine einfache Checklisten-Seite.",
+    samplePath:
+      "1) Klare Button-Texte 2) Fehlermeldung sichtbar 3) Fokus auf dem ersten Feld",
+    whyItWorks:
+      "Klarheit reduziert Bedienfehler — und macht Prüfung leichter.",
+    commonMistake:
+      "Nur auf Optik achten und Bedienung vergessen.",
+    safetyNote:
+      "Keine echten Nutzerdaten in Demo-Oberflächen speichern.",
+    retrievalQuestions: [
+      "Warum helfen klare Button-Texte?",
+      "Was prüfst du außer Farben?",
+      "Warum selbst testen?",
+    ],
+    teachBackPrompt:
+      "Erklär in einem Satz, warum Klarheit zur Sicherheit gehört.",
+    sourceIds: ["digcomp-30", "oecd-ai-principles"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 5,
+    methodIds: ["method-worked-example", "method-scenario", "method-retrieval"],
+  },
+  {
+    id: "mu-vibe-12",
+    worldId: "world-vibe-coding",
+    lessonId: null,
+    order: 12,
+    title: "Scope halten: Nein zu Feature-Wucher",
+    whyUseful:
+      "Du bleibst fertig statt endlos „noch eine Idee“ anzuhängen.",
+    oneSentence:
+      "Schreibe auf, was Version 1 nicht kann — und bitte die KI, den Scope nicht zu erweitern.",
+    everydayExample:
+      "Checkliste ja, Login-System und Chat und Zahlungen „gleich mit“: nein für Version 1.",
+    steps: [
+      "Liste Nicht-Ziele für Version 1.",
+      "Sage im Prompt explizit: keine Extra-Features.",
+      "Streiche Vorschläge, die den Scope sprengen.",
+    ],
+    practiceTask:
+      "Formuliere drei Nicht-Ziele für dein Mini-Projekt.",
+    samplePath:
+      "Kein Account, keine Cloud-Sync, keine Werbung — nur lokale Liste.",
+    whyItWorks:
+      "Enge Grenzen machen Prüfung und Deploy machbar.",
+    commonMistake:
+      "Jeden KI-Vorschlag als Pflichtfeature übernehmen.",
+    safetyNote:
+      "Mehr Features bedeuten oft mehr Daten und mehr Risiko — bewusst klein starten.",
+    retrievalQuestions: [
+      "Was sind Nicht-Ziele?",
+      "Wie stoppst du Feature-Wucher im Prompt?",
+      "Warum ist klein fertig besser?",
+    ],
+    teachBackPrompt:
+      "Erklär Scope-Halten an einem Alltagsbeispiel.",
+    sourceIds: ["digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 5,
+    methodIds: ["method-progressive", "method-playful", "method-retrieval"],
+  },
+  {
+    id: "mu-vibe-13",
+    worldId: "world-vibe-coding",
+    lessonId: null,
+    order: 13,
+    title: "Eigene Notizen: README für dich",
+    whyUseful:
+      "Du findest nach einer Pause wieder hinein — ohne den Chat zu durchsuchen.",
+    oneSentence:
+      "Schreibe in wenigen Zeilen: Ziel, Startbefehl, wichtige Dateien und bekannte Grenzen.",
+    everydayExample:
+      "README: „Start: open index.html. Speichert lokal. Keine Accounts. Bekanntes Problem: Mobile Layout grob.“",
+    steps: [
+      "Ziel und Start in zwei Sätzen.",
+      "Wichtige Dateien und ein Known-Issue notieren.",
+      "Nach größeren KI-Umbauten die Notiz aktualisieren.",
+    ],
+    practiceTask:
+      "Schreibe eine README mit genau sechs Zeilen für dein Projekt.",
+    samplePath:
+      "Ziel · Start · Dateien · Daten · Grenzen · nächster Schritt",
+    whyItWorks:
+      "Kurze Doku ist ein Gedächtnis — besonders wenn KI viel verändert hat.",
+    commonMistake:
+      "Nur im Chat dokumentieren und den Thread später nicht mehr finden.",
+    safetyNote:
+      "Keine Secrets oder echten Schlüssel in der README.",
+    retrievalQuestions: [
+      "Welche sechs Punkte gehören rein?",
+      "Wann aktualisierst du?",
+      "Was gehört nicht in die README?",
+    ],
+    teachBackPrompt:
+      "Warum ist eine kurze README beim Vibe Coding hilfreich?",
+    sourceIds: ["digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 5,
+    methodIds: ["method-worked-example", "method-retrieval", "method-teachback"],
+  },
+  {
+    id: "mu-vibe-14",
+    worldId: "world-vibe-coding",
+    lessonId: null,
+    order: 14,
+    title: "Feedback einholen — ohne Blinddeploy",
+    whyUseful:
+      "Du lernst von echten Nutzungsproblemen, bevor etwas öffentlich und riskant wird.",
+    oneSentence:
+      "Zeige Version 1 einer Vertrauensperson lokal oder mit Demo-Daten — und notiere zwei Verbesserungen.",
+    everydayExample:
+      "Freund:in klickt durch die Checkliste: „Speichern-Button unklar“ — du fixst das vor dem Teilen.",
+    steps: [
+      "Bereite Demo-Daten ohne echte Personen vor.",
+      "Bitte um zwei konkrete Beobachtungen.",
+      "Priorisiere einen Fix, bevor du weiter baust.",
+    ],
+    practiceTask:
+      "Schreibe drei Fragen, die du einer Testperson stellen würdest.",
+    samplePath:
+      "1) Was war unklar? 2) Was hat funktioniert? 3) Was fehlt für den Alltag?",
+    whyItWorks:
+      "Frühes Feedback spart große Fehlbauten.",
+    commonMistake:
+      "Sofort öffentlich teilen und erst danach zuhören.",
+    safetyNote:
+      "Keine echten Kundendaten oder Geheimnisse in Feedback-Demos.",
+    retrievalQuestions: [
+      "Warum Demo-Daten?",
+      "Wie viele Beobachtungen holst du zuerst?",
+      "Was kommt vor dem öffentlichen Teilen?",
+    ],
+    teachBackPrompt:
+      "Erklär dein Mini-Feedback-Ritual.",
+    sourceIds: ["digcomp-30", "oecd-ai-principles"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
+  },
+  {
+    id: "mu-vibe-15",
+    worldId: "world-vibe-coding",
+    lessonId: null,
+    order: 15,
+    title: "Rollback: wenn etwas schiefgeht",
+    whyUseful:
+      "Du bleibst ruhig, weil du weißt, wie du zurückgehst.",
+    oneSentence:
+      "Vor riskanten Umbauten speichern — und bei Fehlern zur letzten guten Version zurück, statt chaotisch weiterzupatchen.",
+    everydayExample:
+      "Nach einem KI-Refactor ist Speichern kaputt: du setzt auf den letzten Commit zurück und änderst kleiner.",
+    steps: [
+      "Kennzeichne einen „letzten guten Stand“.",
+      "Bei Bruch: zurücksetzen statt zehn Sofort-Fixes stapeln.",
+      "Danach einen kleineren Prompt mit klarer Grenze.",
+    ],
+    practiceTask:
+      "Formuliere deine persönliche Rollback-Regel in zwei Sätzen.",
+    samplePath:
+      "„Bei Kernbruch: zurück zum letzten guten Commit. Dann ein Fix mit maximal einer Datei.“",
+    whyItWorks:
+      "Rückwege machen Experimente mit KI sicher.",
+    commonMistake:
+      "Immer weiter „reparieren“ ohne zum funktionierenden Stand zurückzukehren.",
+    safetyNote:
+      "Nach Rollback erneut auf Secrets und unerwartete Änderungen prüfen.",
+    retrievalQuestions: [
+      "Wann rollst du zurück?",
+      "Was ist ein letzter guter Stand?",
+      "Wie sieht der nächste Prompt aus?",
+    ],
+    teachBackPrompt:
+      "Erklär Rollback wie ein Sicherheitsnetz.",
+    sourceIds: ["digcomp-30", "nist-ai-rmf"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-scenario", "method-progressive", "method-retrieval"],
+  },
+  {
+    id: "mu-vibe-16",
+    worldId: "world-vibe-coding",
+    lessonId: null,
+    order: 16,
+    title: "Abschluss: Deine Bau-Routine fürs nächste Projekt",
+    whyUseful:
+      "Du nimmst eine wiederholbare Reihenfolge mit — von Idee bis vorsichtigem Teilen.",
+    oneSentence:
+      "Planen → klar prompten → lesen → Secrets schützen → testen → Scope halten → kurz dokumentieren → erst dann teilen.",
+    everydayExample:
+      "Ob Checkliste oder Mini-Rechner: dieselbe Routine verhindert „schnell live“-Unfälle.",
+    steps: [
+      "Schreibe die acht Schritte auf eine Karte.",
+      "Wende sie auf ein neues Mini-Ziel an.",
+      "Streiche alles, was für Version 1 nicht nötig ist.",
+    ],
+    practiceTask:
+      "Notiere deine Bau-Routine in acht Stichpunkten.",
+    samplePath:
+      "Plan · Prompt · Lesen · Secrets · Test · Scope · README · Teilen/Deploy-Check",
+    whyItWorks:
+      "Routinen bleiben, Tools und Modellnamen ändern sich.",
+    commonMistake:
+      "Nach dem Kurs ohne Ritual wieder blind kopieren.",
+    safetyNote:
+      "Kein Deploy und kein Teilen ohne Secret-Scan und Datengrenze.",
+    retrievalQuestions: [
+      "Welche acht Schritte gehören zur Routine?",
+      "Was kommt vor dem Teilen?",
+      "Warum Routine statt Zufall?",
+    ],
+    teachBackPrompt:
+      "Führe jemanden in 45 Sekunden durch deine Bau-Routine.",
+    sourceIds: ["nist-ai-rmf", "eu-gdpr", "digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 7,
+    methodIds: ["method-teachback", "method-spaced", "method-progressive"],
+  },
 ];

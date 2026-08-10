@@ -1,3 +1,7 @@
+"use client";
+
+import { ExplainCloud } from "./ExplainCloud";
+
 type PortalHeroProps = {
   progressText: string;
   progressPercent: number;
@@ -14,12 +18,15 @@ export function PortalHero({
       aria-labelledby="portalstatus-title"
       className="rounded-[var(--nim-radius-xl)] bg-[var(--nim-primary)] p-5 text-white shadow-[var(--shadow-lift)]"
     >
-      <h2
-        id="portalstatus-title"
-        className="text-xs font-black uppercase tracking-widest text-white"
-      >
-        Portalstatus
-      </h2>
+      <div className="flex flex-wrap items-center gap-2">
+        <h2
+          id="portalstatus-title"
+          className="text-xs font-black uppercase tracking-widest text-white"
+        >
+          Portalstatus
+        </h2>
+        <ExplainCloud tipId="fortschritt" compact className="[&_button]:border-white [&_button]:text-[var(--nim-primary-strong)]" />
+      </div>
 
       <div className="mt-4 flex items-end justify-between gap-4">
         <div>

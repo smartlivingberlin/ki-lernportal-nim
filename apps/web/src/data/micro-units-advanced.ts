@@ -241,4 +241,238 @@ export const microUnitsAdvanced: MicroLearningUnitV2[] = [
     estimatedMinutes: 7,
     methodIds: ["method-scenario", "method-retrieval", "method-spaced"],
   },
+  {
+    id: "mu-advanced-07",
+    worldId: "world-advanced",
+    lessonId: null,
+    order: 7,
+    title: "Prompt- und Systemregeln: wer steuert die KI?",
+    whyUseful:
+      "Du verstehst, dass feste Regeln im System den Ton und die Grenzen mitbestimmen.",
+    oneSentence:
+      "Neben deinem Prompt gibt es oft System- oder Nutzungsregeln: sie setzen Rolle, Stil und Verbote — du prüfst trotzdem das Ergebnis.",
+    everydayExample:
+      "Ein Vereins-Bot darf höflich helfen, aber keine Rechtsberatung geben — das steht in den Regeln, nicht nur in deiner Frage.",
+    steps: [
+      "Unterscheide: deine Anfrage vs. feste Systemregeln.",
+      "Frage: Welche Verbote und Rollen sind gesetzt?",
+      "Teste mit harmlosen Beispielen, ob Grenzen greifen.",
+    ],
+    practiceTask:
+      "Schreibe drei Systemregeln für einen internen FAQ-Helfer.",
+    samplePath:
+      "1) Einfache Sprache 2) Keine Personalschätzungen 3) Bei Unsicherheit: auf Mensch verweisen",
+    whyItWorks:
+      "Klare Regeln reduzieren Überraschungen — ersetzen aber keine Prüfung.",
+    commonMistake:
+      "Nur den sichtbaren Chat-Prompt beachten und Systemgrenzen ignorieren.",
+    safetyNote:
+      "Systemregeln dürfen keine echten Secrets oder unnötige personenbezogene Daten enthalten.",
+    retrievalQuestions: [
+      "Was sind Systemregeln grob?",
+      "Warum testest du Grenzen?",
+      "Was ersetzen Regeln nicht?",
+    ],
+    teachBackPrompt:
+      "Erklär Systemregeln vs. Nutzer-Prompt in zwei Sätzen.",
+    sourceIds: ["nist-genai-profile", "digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-worked-example", "method-retrieval", "method-teachback"],
+  },
+  {
+    id: "mu-advanced-08",
+    worldId: "world-advanced",
+    lessonId: null,
+    order: 8,
+    title: "Datenfluss skizzieren: wohin geht die Anfrage?",
+    whyUseful:
+      "Du siehst Risiken früher, wenn du den Weg der Daten grob zeichnest.",
+    oneSentence:
+      "Skizziere: Wer tippt → welches System → welcher Anbieter → welche Speicherung — und streiche unnötige Stationen.",
+    everydayExample:
+      "Notiz-App → Firmen-Server → KI-Dienst: Kundennamen vorher entfernen oder gar nicht senden.",
+    steps: [
+      "Zeichne drei bis fünf Stationen auf Papier.",
+      "Markiere, wo personenbezogene Daten landen könnten.",
+      "Kürze den Fluss oder setze Platzhalter ein.",
+    ],
+    practiceTask:
+      "Skizziere den Datenfluss für „Zusammenfassung einer Meeting-Notiz“ in vier Kästen.",
+    samplePath:
+      "Du → App → KI-Dienst → Antwort zurück — und: Was wird geloggt?",
+    whyItWorks:
+      "Sichtbarer Fluss macht Datenschutz und Freigaben konkret.",
+    commonMistake:
+      "Nur die schöne Oberfläche sehen und den Weg der Daten vergessen.",
+    safetyNote:
+      "Unklare Speicherung und Weitergabe ohne Freigabe vermeiden.",
+    retrievalQuestions: [
+      "Welche Stationen skizzierst du?",
+      "Was markierst du besonders?",
+      "Wie kürzst du den Fluss?",
+    ],
+    teachBackPrompt:
+      "Erklär Datenfluss an einem Alltagsbeispiel ohne Fachjargon.",
+    sourceIds: ["eu-gdpr", "nist-ai-rmf", "digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 7,
+    methodIds: ["method-scenario", "method-progressive", "method-retrieval"],
+  },
+  {
+    id: "mu-advanced-09",
+    worldId: "world-advanced",
+    lessonId: null,
+    order: 9,
+    title: "Menschliche Freigabe bei hohem Risiko",
+    whyUseful:
+      "Du baust Stopps ein, bevor KI-Ausgaben reale Folgen haben.",
+    oneSentence:
+      "Bei Geld, Recht, Gesundheit und Personenbewertung: KI entwirft — ein Mensch gibt frei oder stoppt.",
+    everydayExample:
+      "Automatischer Textvorschlag für eine Abmahnung: juristische Prüfung durch eine Person, kein Auto-Versand.",
+    steps: [
+      "Liste Situationen mit hohem Schaden.",
+      "Setze dort eine Pflicht-Freigabe.",
+      "Dokumentiere kurz, wer freigegeben hat.",
+    ],
+    practiceTask:
+      "Nenne vier Aufgaben, die bei dir immer menschliche Freigabe brauchen.",
+    samplePath:
+      "Kundenvertrag, Gehaltsfrage, medizinischer Rat, öffentliche Aussagen über Personen",
+    whyItWorks:
+      "Freigaben sind Kontrolle — kein Misstrauen gegen Technik um ihrer selbst willen.",
+    commonMistake:
+      "„Die KI klingt sicher“ als Freigabe behandeln.",
+    safetyNote:
+      "Hohes Risiko heißt: zusätzliche Quelle oder Fachperson, nicht nur zweiter Prompt.",
+    retrievalQuestions: [
+      "Wann ist Freigabe Pflicht?",
+      "Was dokumentierst du grob?",
+      "Warum reicht guter Stil nicht?",
+    ],
+    teachBackPrompt:
+      "Erklär die Freigabe-Regel einer Kollegin in 20 Sekunden.",
+    sourceIds: ["eu-ai-act", "oecd-ai-principles", "nist-ai-rmf"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 5,
+    methodIds: ["method-scenario", "method-confidence", "method-teachback"],
+  },
+  {
+    id: "mu-advanced-10",
+    worldId: "world-advanced",
+    lessonId: null,
+    order: 10,
+    title: "Versionen von Prompts und Regeln pflegen",
+    whyUseful:
+      "Du weißt, welche Prompt-Version gut war — und kannst zurück.",
+    oneSentence:
+      "Speichere kurze Prompt-/Regel-Versionen mit Datum und Zweck, statt nur im Chat zu experimentieren.",
+    everydayExample:
+      "„FAQ-Prompt v3 (2026-08-10): kürzer, keine Rechtsberatung“ — bei Fehlern zurück zu v2.",
+    steps: [
+      "Gib Version und Datum.",
+      "Notiere, was sich geändert hat.",
+      "Teste mit denselben Beispielaufgaben wie zuvor.",
+    ],
+    practiceTask:
+      "Schreibe zwei Versionseinträge für einen Alltags-Prompt.",
+    samplePath:
+      "v1: grob. v2: Format + Unsicherheit markieren — getestet mit 5 Beispielen.",
+    whyItWorks:
+      "Versionen machen Verbesserung nachvollziehbar — wie bei Code.",
+    commonMistake:
+      "Ständig ändern ohne Notiz und ohne Vergleichstest.",
+    safetyNote:
+      "In Prompt-Archiven keine echten Kundendaten oder Secrets speichern.",
+    retrievalQuestions: [
+      "Was gehört in einen Versionseintrag?",
+      "Warum gleiche Beispielaufgaben?",
+      "Was speicherst du nicht?",
+    ],
+    teachBackPrompt:
+      "Warum Prompt-Versionen wie kleine Releases behandeln?",
+    sourceIds: ["nist-genai-profile", "digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-progressive", "method-retrieval", "method-worked-example"],
+  },
+  {
+    id: "mu-advanced-11",
+    worldId: "world-advanced",
+    lessonId: null,
+    order: 11,
+    title: "Vorfall ruhig behandeln: wenn etwas schiefging",
+    whyUseful:
+      "Du hast einen Plan, statt in Panik mehr Schaden anzurichten.",
+    oneSentence:
+      "Stoppen, eingrenzen, informieren, nachbessern — und unnötiges Weitersenden vermeiden.",
+    everydayExample:
+      "Falsche Preisinfo im Bot: Feature pausieren, betroffene Texte korrigieren, Team kurz informieren.",
+    steps: [
+      "Stoppe riskante Ausgaben oder Automationen.",
+      "Sammle 2–3 Beispiele des Fehlers (ohne Extra-Secrets).",
+      "Informiere Zuständige und plane den Fix.",
+    ],
+    practiceTask:
+      "Schreibe einen Vier-Punkte-Vorfallplan für „Bot gab falsche Öffnungszeiten“.",
+    samplePath:
+      "1) Pause 2) Beispiele 3) Quelle/Prompt prüfen 4) Korrektur + Hinweis",
+    whyItWorks:
+      "Klare Schritte begrenzen Schaden und Lernzeit.",
+    commonMistake:
+      "Sofort „weiterprompten“, während falsche Infos noch live sind.",
+    safetyNote:
+      "Vorfallsnotizen datensparsam halten — keine unnötigen personenbezogenen Details.",
+    retrievalQuestions: [
+      "Was kommt zuerst bei einem Vorfall?",
+      "Warum Beispiele sammeln?",
+      "Was vermeidest du beim Dokumentieren?",
+    ],
+    teachBackPrompt:
+      "Führe jemanden durch deinen Vorfallplan.",
+    sourceIds: ["nist-ai-rmf", "eu-gdpr", "oecd-ai-principles"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-scenario", "method-retrieval", "method-spaced"],
+  },
+  {
+    id: "mu-advanced-12",
+    worldId: "world-advanced",
+    lessonId: null,
+    order: 12,
+    title: "Abschluss: Deine Praxis+-Checkliste",
+    whyUseful:
+      "Du nimmst eine kompakte Liste für RAG, APIs, Kosten und Betrieb mit.",
+    oneSentence:
+      "Freigegebene Daten → klare Regeln → sparsam senden → prüfen/messen → beobachten → bei Risiko Mensch freigeben.",
+    everydayExample:
+      "Ob FAQ-Bot oder API-Anbindung: dieselbe Liste vor dem „Wir schalten live“.",
+    steps: [
+      "Schreibe die sechs Punkte auf.",
+      "Wende sie auf ein reales Vorhaben an.",
+      "Markiere, was noch Freigabe braucht.",
+    ],
+    practiceTask:
+      "Fülle die Praxis+-Checkliste für ein erfundenes Vereins-FAQ aus.",
+    samplePath:
+      "Daten freigegeben · Regeln · Sparsam · Evaluation · Monitoring · Freigabe bei Risiko",
+    whyItWorks:
+      "Eine Checkliste schlägt Bauchgefühl unter Zeitdruck.",
+    commonMistake:
+      "Nur Features bauen und Betrieb/Prüfung „später“ planen.",
+    safetyNote:
+      "Kein Go-live mit Secrets im Frontend oder ungeprüften Hochrisiko-Antworten.",
+    retrievalQuestions: [
+      "Welche sechs Punkte stehen auf der Liste?",
+      "Was kommt vor dem Live-Schalten?",
+      "Wann ist menschliche Freigabe Pflicht?",
+    ],
+    teachBackPrompt:
+      "Erklär deine Praxis+-Checkliste in 40 Sekunden.",
+    sourceIds: ["nist-ai-rmf", "eu-ai-act", "digcomp-30", "oecd-ai-principles"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 7,
+    methodIds: ["method-teachback", "method-progressive", "method-spaced"],
+  },
 ];
