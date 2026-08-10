@@ -1,6 +1,7 @@
 "use client";
 
 import type { MicroLearningUnitV2 } from "../../data/types";
+import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
 
 type ThemeWorldTrackProps = {
@@ -24,6 +25,7 @@ export function ThemeWorldTrack({
     <section
       id="themenwelt"
       aria-labelledby="themenwelt-title"
+      {...explainAttrs("themenwelt")}
       className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 md:p-6 lg:scroll-mt-36"
     >
       <ExplainHotspot tipId="themenwelt">
@@ -49,6 +51,7 @@ export function ThemeWorldTrack({
             <li key={unit.id}>
               <button
                 type="button"
+                data-explain="themenwelt"
                 onClick={() => onSelectUnit(unit)}
                 aria-pressed={selected}
                 className={[

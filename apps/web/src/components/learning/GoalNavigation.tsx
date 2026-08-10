@@ -1,6 +1,7 @@
 "use client";
 
 import type { ThemeWorld } from "../../data/types";
+import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
 
 type GoalNavigationProps = {
@@ -29,6 +30,7 @@ export function GoalNavigation({
     <section
       id="ziele"
       aria-labelledby="ziele-title"
+      {...explainAttrs("ziele")}
       className="scroll-mt-52 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] lg:scroll-mt-32 md:p-7"
     >
       <ExplainHotspot tipId="ziele">
@@ -62,6 +64,7 @@ export function GoalNavigation({
             <li key={world.id}>
               <button
                 type="button"
+                {...explainAttrs("ziele-kachel")}
                 onClick={() => onSelectWorld(world)}
                 aria-pressed={selected}
                 aria-describedby={`world-${world.id}-desc`}

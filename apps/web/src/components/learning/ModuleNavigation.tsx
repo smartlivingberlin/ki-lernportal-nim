@@ -27,7 +27,7 @@ export function ModuleNavigation({
   onOpenLesson,
 }: ModuleNavigationProps) {
   return (
-    <details open className="rounded-3xl bg-slate-50 p-4">
+    <details open className="rounded-3xl bg-slate-50 p-4" data-explain="lernpfad">
       <summary className="cursor-pointer list-none">
         <div className="flex min-w-0 items-start justify-between gap-3">
           <div className="min-w-0">
@@ -53,6 +53,7 @@ export function ModuleNavigation({
           <button
             key={lesson.id}
             type="button"
+            data-explain="lektion"
             aria-current={
               activeLessonId === lesson.id ? "step" : undefined
             }

@@ -16,6 +16,7 @@ export function PortalHero({
   return (
     <section
       aria-labelledby="portalstatus-title"
+      data-explain="fortschritt"
       className="rounded-[var(--nim-radius-xl)] bg-[var(--nim-primary)] p-5 text-white shadow-[var(--shadow-lift)]"
     >
       <div className="flex flex-wrap items-center gap-2">

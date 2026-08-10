@@ -9,7 +9,7 @@ type SimpleModeToggleProps = {
 
 export function SimpleModeToggle({ enabled, onChange }: SimpleModeToggleProps) {
   return (
-    <span className="inline-flex items-center gap-2">
+    <span className="inline-flex items-center gap-2" data-explain="simple-mode">
       <button
         type="button"
         role="switch"

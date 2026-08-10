@@ -6,6 +6,7 @@ import {
   publicModelCards,
 } from "../../data/model-cards";
 import type { ModelCapability } from "../../data/types";
+import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
 import { InlineGlossaryText } from "./InlineGlossary";
 
@@ -30,6 +31,7 @@ export function ModelNavigator() {
     <section
       id="modelle"
       aria-labelledby="modelle-title"
+      {...explainAttrs("modelle")}
       className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 md:p-7 lg:scroll-mt-36"
     >
       <ExplainHotspot tipId="modelle">

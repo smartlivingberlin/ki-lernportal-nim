@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { publicSources } from "../../data/sources";
 import { useLocalReviewQueue } from "../../hooks/useLocalReviewQueue";
 import type { ConfidenceLevel } from "../../data/types";
+import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
 
 /**
@@ -44,9 +45,10 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
     <section
       id="wiederholen"
       aria-labelledby="wiederholen-title"
+      {...explainAttrs("wiederholen")}
       className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 md:p-6 lg:scroll-mt-36"
     >
-      <ExplainHotspot tipId="fortschritt" className="mb-1">
+      <ExplainHotspot tipId="wiederholen" className="mb-1">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
             Wiederholen · lokal

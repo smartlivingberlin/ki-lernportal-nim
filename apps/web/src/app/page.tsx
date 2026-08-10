@@ -37,8 +37,10 @@ import { ModelNavigator } from "../components/learning/ModelNavigator";
 import { LearningWorkspaces } from "../components/learning/LearningWorkspaces";
 import { FirstStartCoach } from "../components/learning/FirstStartCoach";
 import { ExplainHotspot } from "../components/learning/ExplainCloud";
+import { CursorExplainLayer } from "../components/learning/CursorExplainLayer";
 import { InlineGlossaryText } from "../components/learning/InlineGlossary";
 import { SpacedReviewQueue } from "../components/learning/SpacedReviewQueue";
+import { explainAttrs } from "../data/help-tips";
 import { useLocalProgress } from "../hooks/useLocalProgress";
 import { useSimpleMode } from "../hooks/useSimpleMode";
 import { designSystemMeta } from "../design/tokens";
@@ -263,6 +265,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen pb-24 text-[var(--foreground)] md:pb-0">
+      <CursorExplainLayer />
       <a
         href="#lernraum"
         className="sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:block focus:rounded-xl focus:bg-[var(--nim-surface)] focus:px-4 focus:py-3 focus:font-black focus:text-[var(--nim-primary)] focus:shadow-xl"
@@ -274,7 +277,10 @@ export default function Home() {
         {progressAnnouncement}
       </p>
 
-      <header className="sticky top-0 z-50 border-b border-[var(--nim-border)] bg-[var(--nim-surface)]/95 backdrop-blur">
+      <header
+        {...explainAttrs("navigation")}
+        className="sticky top-0 z-50 border-b border-[var(--nim-border)] bg-[var(--nim-surface)]/95 backdrop-blur"
+      >
         <div className="mx-auto flex w-full min-w-0 max-w-[1500px] flex-col gap-2 px-4 py-3 lg:flex-row lg:items-center lg:justify-between lg:gap-4 lg:px-6 lg:py-4">
           <div className="min-w-0">
             <h1 className="font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight text-[var(--nim-primary)] sm:text-2xl md:text-3xl">
@@ -287,10 +293,10 @@ export default function Home() {
           <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between lg:justify-end">
             <SimpleModeToggle enabled={simpleMode} onChange={setSimpleMode} />
             <nav className="flex min-w-0 max-w-full flex-wrap gap-2 text-sm font-black text-[var(--nim-primary)]" aria-label="Portalnavigation">
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#lernraum">Lernraum</a>
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#pfad">Pfad</a>
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#coach">Coach</a>
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#quellen">Quellen</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#lernraum" {...explainAttrs("hero")}>Lernraum</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#pfad" {...explainAttrs("lernpfad")}>Pfad</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#coach" {...explainAttrs("sicherheit")}>Coach</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#quellen" {...explainAttrs("quellen")}>Quellen</a>
             </nav>
           </div>
         </div>
@@ -305,6 +311,7 @@ export default function Home() {
         >
           <section
             aria-label="Willkommen"
+            {...explainAttrs("hero")}
             className="portal-hero-plane relative overflow-hidden rounded-[var(--nim-radius-xl)] text-white shadow-[var(--shadow-lift)]"
           >
             <div className="grid min-w-0 gap-5 p-6 md:grid-cols-[minmax(0,1fr)_minmax(220px,260px)] md:p-8">
@@ -322,12 +329,14 @@ export default function Home() {
                 <div className="mt-6 flex flex-wrap gap-3">
                   <a
                     href="#ziele"
+                    {...explainAttrs("ziele")}
                     className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-5 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
                   >
                     Ziel wählen
                   </a>
                   <button
                     type="button"
+                    {...explainAttrs("naechste")}
                     onClick={() => nextOpenLesson && openLesson(nextOpenLesson.id)}
                     className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/20"
                   >
@@ -376,7 +385,10 @@ export default function Home() {
 
           <SpacedReviewQueue simpleMode={simpleMode} />
 
-          <section className="overflow-hidden rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-6 shadow-[var(--shadow-lift)] md:p-8">
+          <section
+            {...explainAttrs("methoden")}
+            className="overflow-hidden rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-6 shadow-[var(--shadow-lift)] md:p-8"
+          >
             <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--nim-primary)]">Heute im Lernraum</p>
             <h2 id="lernraum-title" className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)] md:text-4xl">
               Lernen mit Methode — nicht nur lesen
@@ -432,7 +444,12 @@ export default function Home() {
             </div>
           )}
 
-          <section id="challenge" aria-label="Interaktive Challenges" className="scroll-mt-72 space-y-4 sm:scroll-mt-64 lg:scroll-mt-36">
+          <section
+            id="challenge"
+            aria-label="Interaktive Challenges"
+            {...explainAttrs("challenge")}
+            className="scroll-mt-72 space-y-4 sm:scroll-mt-64 lg:scroll-mt-36"
+          >
             <ExplainHotspot tipId="challenge">
               <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[var(--foreground)]">
                 Challenges zur aktuellen Lektion
@@ -487,11 +504,15 @@ export default function Home() {
         <aside
           id="pfad"
           aria-label="Lernpfad und Fortschritt"
+          {...explainAttrs("lernpfad")}
           className="min-w-0 scroll-mt-72 space-y-5 sm:scroll-mt-64 lg:scroll-mt-36 xl:col-start-1 xl:row-start-1 xl:sticky xl:top-32 xl:max-h-[calc(100vh-8rem)] xl:self-start xl:overflow-y-auto xl:pb-1 xl:pr-1"
         >
           <PortalHero progressText={progressText} progressPercent={progressPercent} totalLessons={totalLessons} />
 
-          <section className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 shadow-[var(--shadow-lift)]">
+          <section
+            {...explainAttrs("lernpfad")}
+            className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 shadow-[var(--shadow-lift)]"
+          >
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Lernpfad</p>
@@ -499,6 +520,7 @@ export default function Home() {
               </div>
               <button
                 type="button"
+                {...explainAttrs("fortschritt")}
                 onClick={resetProgress}
                 className="rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-3 py-2 text-xs font-black text-[var(--nim-primary)] hover:border-[var(--nim-primary)]"
               >
@@ -531,8 +553,13 @@ export default function Home() {
           aria-label="Sicherheits-Coach, nächste Lektion, Quellen und Begriffe"
           className="min-w-0 scroll-mt-72 space-y-5 sm:scroll-mt-64 lg:scroll-mt-36 xl:col-start-3 xl:row-start-1 xl:sticky xl:top-32 xl:max-h-[calc(100vh-8rem)] xl:self-start xl:overflow-y-auto xl:pb-1 xl:pr-1"
         >
-          <section className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-success)]/30 bg-[var(--nim-success-soft)] p-5 shadow-[var(--shadow-lift)]">
-            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary-strong)]">Sicherheits-Coach</p>
+          <section
+            {...explainAttrs("sicherheit")}
+            className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-success)]/30 bg-[var(--nim-success-soft)] p-5 shadow-[var(--shadow-lift)]"
+          >
+            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary-strong)]">
+              Sicherheits-Coach
+            </p>
             <h2 className="mt-2 text-2xl font-black text-[var(--foreground)]">Erst prüfen, dann übernehmen.</h2>
             <div className="mt-5 space-y-3">
               {trustRules.map((rule) => (
@@ -543,7 +570,10 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]">
+          <section
+            {...explainAttrs("naechste")}
+            className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]"
+          >
             <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Als nächstes offen</p>
             <h2 className="mt-2 text-2xl font-black text-[var(--nim-primary)]">
               {nextOpenLesson ? `Lektion ${nextOpenLesson.order}` : "Pfad abgeschlossen"}
@@ -567,6 +597,7 @@ export default function Home() {
           <section
             id="quellen"
             aria-labelledby="quellen-title"
+            {...explainAttrs("quellen")}
             className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 lg:scroll-mt-36"
           >
             <h2 id="quellen-title" className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
@@ -590,7 +621,10 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]">
+          <section
+            {...explainAttrs("glossar")}
+            className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]"
+          >
             <ExplainHotspot tipId="glossar">
               <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
                 Begriffe
@@ -620,6 +654,7 @@ export default function Home() {
       {!simpleMode ? (
         <section
           aria-labelledby="weiterlernen-title"
+          {...explainAttrs("ressourcen")}
           className="mx-auto max-w-[1500px] px-4 pb-10 lg:px-6"
         >
           <div className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-6 shadow-[var(--shadow-lift)]">

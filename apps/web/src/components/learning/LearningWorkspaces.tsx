@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
 import { InlineGlossaryText } from "./InlineGlossary";
 
@@ -110,6 +111,7 @@ export function LearningWorkspaces({ simpleMode = false }: { simpleMode?: boolea
     <section
       id="werkzeuge"
       aria-labelledby="werkzeuge-title"
+      {...explainAttrs("werkzeuge")}
       className="scroll-mt-72 space-y-4 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 md:p-6 lg:scroll-mt-36"
     >
       <ExplainHotspot tipId="werkzeuge">

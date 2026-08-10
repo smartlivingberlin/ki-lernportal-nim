@@ -46,6 +46,7 @@ export function LessonWorkspace({
 
   return (
     <article
+      data-explain="lektion"
       className="min-w-0 overflow-hidden rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] shadow-[var(--shadow-lift)]"
       id={`lesson-${lesson.id}`}
     >
