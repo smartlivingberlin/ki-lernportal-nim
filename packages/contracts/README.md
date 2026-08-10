@@ -29,10 +29,10 @@ vorgetäuschten Stubwert.
 
 ## Status
 
-Keine Runtime-Implementierung ist in S51A vorhanden.
+S51C-B1B Local Progress Import Contract V1 ist integriert.
 
-Das Package ist ausschließlich ein privates Architektur- und
-Workspace-Skeleton.
+Keine Runtime-Implementierung von Persistenz, Auth, Web-Handlern, Railway oder
+Deployment ist Bestandteil von S51C-B1B.
 
 ## Spätere Slices
 

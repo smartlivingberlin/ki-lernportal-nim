@@ -90,6 +90,6 @@ pnpm test:s51c-b1a-pilot-domain
 
 ## 6. Nächster Slice
 
-S51C-B1B (Contract-Typen) ist code-seitig über PR #104 vorhanden und benötigt
-einen eigenen Gate-/CI-Nachzug. Betriebsfundament (Health/Readiness/Flags/Logs)
+S51C-B1B (Contract-Typen) ist über PR #104 integriert; Gate-/CI-Nachzug siehe
+`S51C_B1B_INTEGRATION_GATE.md`. Betriebsfundament (Health/Readiness/Flags/Logs)
 bleibt separat freizugeben.

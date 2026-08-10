@@ -70,6 +70,9 @@ jobs:
       - name: Test S51C-B1A pilot domain vocabulary
         run: pnpm test:s51c-b1a-pilot-domain
 
+      - name: Test S51C-B1B local progress import contracts
+        run: pnpm test:s51c-b1b-local-progress-import
+
       - name: Test S51B-B database runtime with local fakes
         run: pnpm test:s51b-b-db-runtime
 

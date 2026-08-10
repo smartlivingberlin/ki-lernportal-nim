@@ -1,10 +1,11 @@
 # S51C-B1B – Contract-Implementierungs-Scope-Lock
 
-**Status:** Dokumentarischer Scope-Lock. Keine Implementierungs-, Test-, Manifest-, Lockfile-, Schema-, Migrations-, Datenbank-, Auth-, Web-, Railway-, Vercel- oder Deployment-Freigabe.
+**Status:** Dokumentarischer Scope-Lock. Implementierung über PR #104 auf
+`main` integriert; Gate-/CI-Nachzug siehe `S51C_B1B_INTEGRATION_GATE.md`.
 
 **Parent:** Issue #94
-**Baseline:** `588cbadce7803825b464170a9d402b6c0f6c7d62`
-**Branch:** `docs/s51c-b1b-contract-implementation-scope-lock-20260728`
+**Baseline:** `caa1168acbbe3d64d59934c800629853a2cfebb8`
+**Branch:** `cursor/s51c-b1b-ci-gate-docs-b554`
 
 ## 1. Zweck und Vorrang
 
@@ -307,7 +308,9 @@ DEPLOYMENT_EXECUTED=NO
 
 ```text
 S51C_B1B_SCOPE_LOCK_DOCUMENT_AUTHORIZED=YES
-S51C_B1B_IMPLEMENTATION_AUTHORIZED=NO
+S51C_B1B_IMPLEMENTATION_AUTHORIZED=YES
+S51C_B1B_INTEGRATED_TO_MAIN=YES
+S51C_B1B_IMPLEMENTATION_PR_NUMBER=104
 PACKAGE_CHANGE_AUTHORIZED=NO
 TEST_IMPLEMENTATION_AUTHORIZED=NO
 MANIFEST_CHANGE_AUTHORIZED=NO
@@ -322,10 +325,6 @@ DATABASE_CONNECTION_AUTHORIZED=NO
 AUTH_RUNTIME_AUTHORIZED=NO
 WEB_INTEGRATION_AUTHORIZED=NO
 STAGING_AUTHORIZED=NO
-COMMIT_AUTHORIZED=NO
-PUSH_AUTHORIZED=NO
-PR_AUTHORIZED=NO
-GITHUB_WRITE_AUTHORIZED=NO
 RAILWAY_CHANGE_AUTHORIZED=NO
 VERCEL_CHANGE_AUTHORIZED=NO
 DEPLOY_AUTHORIZED=NO
