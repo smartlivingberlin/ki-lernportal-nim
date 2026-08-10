@@ -2,12 +2,10 @@
 
 import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import { helpTipById, type HelpTip } from "../../data/help-tips";
+import { helpTipById, type HelpLink, type HelpTip } from "../../data/help-tips";
 
 export const EXPLAIN_PIN_EVENT = "nim-explain-pin";
 export const EXPLAIN_UNPIN_EVENT = "nim-explain-unpin";
-
-type Layer = "short" | "medium" | "deep";
 
 type AvoidRect = { x: number; y: number; width: number; height: number };
 
@@ -15,54 +13,65 @@ type CloudState = {
   tip: HelpTip;
   x: number;
   y: number;
-  layer: Layer;
   pinned: boolean;
   avoid: AvoidRect | null;
 };
 
-const PANEL_WIDTH = 352;
-const PANEL_HEIGHT = 220;
+/** Große Manual-Wolke (Konzept A) — Maße für Viewport-Clamp. */
+const PANEL_WIDTH = 480;
+const PANEL_HEIGHT = 520;
 
 function canHoverFinePointer(): boolean {
   if (typeof window === "undefined") return false;
   return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 }
 
+function containsPoint(
+  left: number,
+  top: number,
+  width: number,
+  height: number,
+  x: number,
+  y: number,
+) {
+  return x >= left && x <= left + width && y >= top && y <= top + height;
+}
+
 function clampPosition(x: number, y: number, avoid?: AvoidRect | null) {
   const pad = 12;
-  const maxX = Math.max(pad, window.innerWidth - PANEL_WIDTH - pad);
-  const maxY = Math.max(pad, window.innerHeight - PANEL_HEIGHT - pad);
+  const width = Math.min(PANEL_WIDTH, window.innerWidth - pad * 2);
+  const height = Math.min(PANEL_HEIGHT, window.innerHeight * 0.7);
+  const maxX = Math.max(pad, window.innerWidth - width - pad);
+  const maxY = Math.max(pad, window.innerHeight - height - pad);
 
-  let left = x + 28;
-  let top = y + 28;
+  const candidates: Array<{ left: number; top: number }> = [
+    { left: x + 22, top: y + 22 },
+    { left: x - width - 22, top: y + 22 },
+    { left: x + 22, top: y - height - 22 },
+    { left: x - width - 22, top: y - height - 22 },
+    { left: x + 22, top: Math.min(maxY, Math.max(pad, y - height / 3)) },
+    { left: Math.min(maxX, Math.max(pad, x - width / 3)), top: y + 22 },
+  ];
 
   if (avoid) {
-    const avoidRight = avoid.x + avoid.width;
-    const avoidBottom = avoid.y + avoid.height;
-    const overlaps =
-      left < avoidRight + 8 &&
-      left + PANEL_WIDTH > avoid.x - 8 &&
-      top < avoidBottom + 8 &&
-      top + PANEL_HEIGHT > avoid.y - 8;
+    candidates.unshift(
+      { left: avoid.x + avoid.width + 12, top: avoid.y },
+      { left: avoid.x - width - 12, top: avoid.y },
+      { left: avoid.x, top: avoid.y + avoid.height + 10 },
+    );
+  }
 
-    if (overlaps) {
-      const rightSlot = avoidRight + 16;
-      const leftSlot = avoid.x - PANEL_WIDTH - 16;
-      if (rightSlot <= maxX) left = rightSlot;
-      else if (leftSlot >= pad) left = leftSlot;
-      else left = Math.min(maxX, Math.max(pad, avoid.x));
-
-      const below = avoidBottom + 12;
-      const above = avoid.y - PANEL_HEIGHT - 12;
-      if (below <= maxY) top = below;
-      else if (above >= pad) top = above;
-      else top = Math.min(maxY, Math.max(pad, y + 28));
+  for (const candidate of candidates) {
+    const left = Math.max(pad, Math.min(candidate.left, maxX));
+    const top = Math.max(pad, Math.min(candidate.top, maxY));
+    if (!containsPoint(left, top, width, height, x, y)) {
+      return { left, top };
     }
   }
 
   return {
-    left: Math.max(pad, Math.min(left, maxX)),
-    top: Math.max(pad, Math.min(top, maxY)),
+    left: Math.max(pad, Math.min(x + 22, maxX)),
+    top: Math.max(pad, Math.min(y + 22, maxY)),
   };
 }
 
@@ -76,9 +85,9 @@ function hostRectFromTarget(target: EventTarget | null): AvoidRect | null {
 
 function tipFromEventTarget(target: EventTarget | null): HelpTip | null {
   if (!(target instanceof Element)) return null;
+  if (target.closest("[data-explain-cloud-root]")) return null;
   const host = target.closest("[data-explain]");
   if (!host) return null;
-  if (host.closest("[data-explain-cloud-root]")) return null;
   const id = host.getAttribute("data-explain");
   if (!id) return null;
   return helpTipById(id);
@@ -92,12 +101,92 @@ function useIsClient() {
   );
 }
 
+function ManualLinks({ links, interactive }: { links: HelpLink[]; interactive: boolean }) {
+  if (!links.length) return null;
+
+  return (
+    <ul className="mt-2 space-y-2">
+      {links.map((link) => (
+        <li key={`${link.href}-${link.label}`}>
+          {interactive ? (
+            <a
+              href={link.href}
+              {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className="font-semibold text-[var(--nim-primary-strong)] underline decoration-2 underline-offset-2 hover:text-[var(--nim-primary)]"
+            >
+              {link.label}
+              {link.external ? " (neuer Tab)" : ""}
+            </a>
+          ) : (
+            <span className="font-semibold text-[var(--nim-primary-strong)]">
+              {link.label}
+              <span className="font-medium text-[var(--nim-secondary)]"> → {link.href}</span>
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function ManualBody({ tip, interactive }: { tip: HelpTip; interactive: boolean }) {
+  return (
+    <div className="space-y-4 text-[0.95rem] font-medium leading-7 text-[var(--foreground)] sm:text-base">
+      <section>
+        <h3 className="font-[family-name:var(--font-display)] text-base font-semibold text-[var(--nim-primary-strong)] sm:text-lg">
+          Was ist das?
+        </h3>
+        <p className="mt-1 text-[var(--nim-secondary)]">{tip.whatIs}</p>
+      </section>
+
+      <section>
+        <h3 className="font-[family-name:var(--font-display)] text-base font-semibold text-[var(--nim-primary-strong)] sm:text-lg">
+          Wozu ist das gut — was löst es?
+        </h3>
+        <p className="mt-1 text-[var(--nim-secondary)]">{tip.whatFor}</p>
+      </section>
+
+      <section>
+        <h3 className="font-[family-name:var(--font-display)] text-base font-semibold text-[var(--nim-primary-strong)] sm:text-lg">
+          Was kannst du hier tun?
+        </h3>
+        <ol className="mt-1 list-decimal space-y-1.5 pl-5 text-[var(--nim-secondary)]">
+          {tip.canDo.map((step) => (
+            <li key={step}>{step}</li>
+          ))}
+        </ol>
+      </section>
+
+      <section>
+        <h3 className="font-[family-name:var(--font-display)] text-base font-semibold text-[var(--nim-primary-strong)] sm:text-lg">
+          Beispiel aus dem Alltag
+        </h3>
+        <p className="mt-1 text-[var(--nim-secondary)]">{tip.example}</p>
+      </section>
+
+      <section>
+        <h3 className="font-[family-name:var(--font-display)] text-base font-semibold text-[var(--nim-primary-strong)] sm:text-lg">
+          Typischer Anfängerfehler
+        </h3>
+        <p className="mt-1 text-[var(--nim-secondary)]">{tip.mistake}</p>
+      </section>
+
+      <section>
+        <h3 className="font-[family-name:var(--font-display)] text-base font-semibold text-[var(--nim-primary-strong)] sm:text-lg">
+          Hilfreiche Links
+        </h3>
+        <ManualLinks links={tip.links} interactive={interactive} />
+      </section>
+    </div>
+  );
+}
+
 /**
- * Globale Cursor-Erklärungswolke.
- * Maus in `[data-explain]`-Bereich/Button → Wolke am Cursor mit Kurzinfo.
+ * Globale Cursor-Erklärungswolke — Konzept A: Mini-Handbuch am Cursor.
  *
- * Ungepinnt: komplett pointer-events-none (kein Scroll-/Klick-Fang).
- * Gepinnt (Hilfe-Button): Interaktion für Mehr dazu / Schließen.
+ * Hover: große Manual-Wolke mit allen Kapiteln (pointer-events-none,
+ * damit Seite/Sidebar weiter scrollen).
+ * Hilfe-Pin: scrollbar + klickbare Links.
  */
 export function CursorExplainLayer() {
   const panelId = useId();
@@ -128,7 +217,7 @@ export function CursorExplainLayer() {
           lastTipIdRef.current = null;
           setCloud(null);
         }
-      }, 160);
+      }, 200);
     };
 
     const onPointerMove = (event: PointerEvent) => {
@@ -142,20 +231,20 @@ export function CursorExplainLayer() {
       }
 
       clearHide();
-      const tipChanged = lastTipIdRef.current !== tip.id;
       lastTipIdRef.current = tip.id;
-      setCloud((current) => ({
+      setCloud({
         tip,
         x: event.clientX,
         y: event.clientY,
-        layer: tipChanged ? "short" : current?.layer ?? "short",
         pinned: false,
         avoid: hostRectFromTarget(event.target),
-      }));
+      });
     };
 
-    const onPointerDown = () => {
-      // Während Klicks Wolke kurz weg — kein Kontrast-Überdecken in Tests/UI.
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.target instanceof Element && event.target.closest("[data-explain-cloud-root]")) {
+        return;
+      }
       if (pinnedRef.current) return;
       clearHide();
       lastTipIdRef.current = null;
@@ -171,9 +260,8 @@ export function CursorExplainLayer() {
       pinnedRef.current = true;
       setCloud((current) => ({
         tip,
-        x: current?.x ?? Math.min(window.innerWidth / 2, window.innerWidth - 360),
-        y: current?.y ?? 100,
-        layer: current?.tip.id === tip.id ? current.layer : "short",
+        x: current?.x ?? Math.min(window.innerWidth / 2 - 40, window.innerWidth - 500),
+        y: current?.y ?? 72,
         pinned: true,
         avoid: current?.avoid ?? null,
       }));
@@ -223,78 +311,33 @@ export function CursorExplainLayer() {
       id={panelId}
       data-explain-cloud-root=""
       role="region"
-      aria-label={`Erklärung: ${cloud.tip.label}`}
+      aria-label={`Handbuch: ${cloud.tip.label}`}
       aria-hidden={interactive ? undefined : true}
       className={[
-        "fixed z-[80] w-[min(22rem,calc(100vw-1.5rem))] rounded-[1.5rem] border-2 border-[var(--nim-primary)] bg-[var(--nim-surface)] p-4 text-left text-[var(--foreground)] shadow-[var(--shadow-lift)] sm:p-5",
+        "fixed z-[80] flex w-[min(30rem,calc(100vw-1.25rem))] max-h-[min(70vh,40rem)] flex-col overflow-hidden rounded-[1.35rem] border-2 border-[var(--nim-primary)] bg-[var(--nim-surface)] text-left text-[var(--foreground)] shadow-[var(--shadow-lift)]",
         interactive ? "pointer-events-auto" : "pointer-events-none",
       ].join(" ")}
       style={{ left: pos.left, top: pos.top }}
     >
-      <p className="text-[0.7rem] font-black uppercase tracking-[0.14em] text-[var(--nim-primary-strong)]">
-        Erklärungswolke · {cloud.tip.label}
-      </p>
-      <p className="mt-2 font-[family-name:var(--font-display)] text-lg font-semibold leading-7 text-[var(--foreground)] sm:text-xl">
-        {cloud.tip.short}
-      </p>
-
-      {cloud.layer === "medium" || cloud.layer === "deep" ? (
-        <p className="mt-3 text-sm font-medium leading-7 text-[var(--nim-secondary)] sm:text-base">
-          {cloud.tip.medium}
+      <div className="shrink-0 border-b border-[var(--nim-border)] bg-[var(--nim-surface-soft)] px-4 py-3 sm:px-5 sm:py-4">
+        <p className="text-sm font-semibold text-[var(--nim-primary-strong)]">Mini-Handbuch</p>
+        <p className="mt-1 font-[family-name:var(--font-display)] text-xl font-semibold leading-snug text-[var(--foreground)] sm:text-2xl">
+          {cloud.tip.label}
         </p>
-      ) : null}
+        <p className="mt-2 text-sm font-medium leading-6 text-[var(--nim-secondary)] sm:text-[0.95rem]">
+          {cloud.tip.short}
+        </p>
+      </div>
 
-      {cloud.layer === "deep" ? (
-        <div className="mt-3 space-y-2 text-sm font-medium leading-7 text-[var(--nim-secondary)] sm:text-base">
-          <p>
-            <strong className="text-[var(--foreground)]">Wozu?</strong> {cloud.tip.deep.whatFor}
-          </p>
-          <p>
-            <strong className="text-[var(--foreground)]">So bedienst du es:</strong>
-          </p>
-          <ol className="list-decimal space-y-1 pl-5">
-            {cloud.tip.deep.howTo.map((step) => (
-              <li key={step}>{step}</li>
-            ))}
-          </ol>
-          <p>
-            <strong className="text-[var(--foreground)]">Beispiel:</strong> {cloud.tip.deep.example}
-          </p>
-          <p>
-            <strong className="text-[var(--foreground)]">Typischer Fehler:</strong>{" "}
-            {cloud.tip.deep.mistake}
-          </p>
-        </div>
-      ) : null}
+      <div
+        className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 sm:px-5 sm:py-5"
+        style={{ WebkitOverflowScrolling: "touch" }}
+      >
+        <ManualBody tip={cloud.tip} interactive={interactive} />
+      </div>
 
-      {interactive ? (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {cloud.layer === "short" ? (
-            <button
-              type="button"
-              className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 text-sm font-black text-white"
-              onClick={() =>
-                setCloud((current) =>
-                  current ? { ...current, layer: "medium", pinned: true } : current,
-                )
-              }
-            >
-              Mehr dazu
-            </button>
-          ) : null}
-          {cloud.layer === "medium" ? (
-            <button
-              type="button"
-              className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 text-sm font-black text-white"
-              onClick={() =>
-                setCloud((current) =>
-                  current ? { ...current, layer: "deep", pinned: true } : current,
-                )
-              }
-            >
-              Bedienung genau
-            </button>
-          ) : null}
+      <div className="shrink-0 border-t border-[var(--nim-border)] bg-[var(--nim-surface)] px-4 py-3 sm:px-5">
+        {interactive ? (
           <button
             type="button"
             className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-4 text-sm font-black text-[var(--nim-primary)]"
@@ -302,12 +345,12 @@ export function CursorExplainLayer() {
           >
             Schließen
           </button>
-        </div>
-      ) : (
-        <p className="mt-3 text-xs font-semibold leading-5 text-[var(--nim-secondary)]">
-          Für mehr Details: orangenen Hilfe-Button antippen.
-        </p>
-      )}
+        ) : (
+          <p className="text-xs font-semibold leading-5 text-[var(--nim-secondary)]">
+            Orangenen Hilfe-Button antippen: Wolke festhalten, darin scrollen und Links öffnen.
+          </p>
+        )}
+      </div>
     </div>,
     document.body,
   );
