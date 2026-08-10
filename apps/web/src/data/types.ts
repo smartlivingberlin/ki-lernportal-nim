@@ -89,6 +89,15 @@ export interface GlossaryTerm {
   category?: string;
 }
 
+export type ModelCapability =
+  | "chat"
+  | "reasoning"
+  | "vision"
+  | "image"
+  | "coding"
+  | "search-rag"
+  | "local-open";
+
 export interface ModelCard {
   id: string;
   name: string;
@@ -99,6 +108,14 @@ export interface ModelCard {
   trustLevel: TrustLevel;
   displayAllowed: boolean;
   riskNote?: string;
+  plainPurpose: string;
+  strengths: string[];
+  limits: string[];
+  capabilities: ModelCapability[];
+  costHint: string;
+  officialSourceName: string;
+  officialSourceUrl: string;
+  lastChecked: string;
 }
 
 export enum ResourceType {
@@ -142,5 +159,85 @@ export interface ResourceCard {
   trustLevel: TrustLevel;
   lastReviewed: string;
   tags: string[];
+}
+
+/** Content Schema v2 — Themenwelten und interaktive Lernbausteine */
+
+export type AudienceLevel = 0 | 1 | 2 | 3 | 4 | 5;
+
+export type ThemeWorldStatus = "active" | "planned" | "locked";
+
+export type ThemeWorldAccent = "teal" | "coral";
+
+export type ConfidenceLevel = "sure" | "unsure" | "unclear";
+
+export interface ThemeWorld {
+  id: string;
+  title: string;
+  shortLabel: string;
+  goalPrompt: string;
+  description: string;
+  audienceLevel: AudienceLevel;
+  estimatedUnits: number;
+  status: ThemeWorldStatus;
+  accent: ThemeWorldAccent;
+  starterLessonId: string | null;
+  learningOutcomes: string[];
+}
+
+export interface LearningMethod {
+  id: string;
+  name: string;
+  plainName: string;
+  summary: string;
+  whyItHelps: string;
+  howWeUseIt: string;
+  interactionHint: string;
+}
+
+export interface ChallengeOption {
+  id: string;
+  label: string;
+  feedback: string;
+  isGood: boolean;
+}
+
+export interface InteractiveChallenge {
+  id: string;
+  worldId: string;
+  lessonId: string | null;
+  title: string;
+  plainIntro: string;
+  prompt: string;
+  options: ChallengeOption[];
+  teachBackPrompt: string;
+  methodIds: string[];
+  scenarioDomain?: "alltag" | "beruf" | "sicherheit" | "grundlagen";
+}
+
+/**
+ * Micro-Einheit nach Content Schema v2.
+ */
+export interface MicroLearningUnitV2 {
+  id: string;
+  worldId: string;
+  lessonId: string | null;
+  order: number;
+  title: string;
+  whyUseful: string;
+  oneSentence: string;
+  everydayExample: string;
+  steps: string[];
+  practiceTask: string;
+  samplePath: string;
+  whyItWorks: string;
+  commonMistake: string;
+  safetyNote: string;
+  retrievalQuestions: string[];
+  teachBackPrompt: string;
+  sourceIds: string[];
+  lastReviewed: string;
+  estimatedMinutes: number;
+  methodIds: string[];
 }
 

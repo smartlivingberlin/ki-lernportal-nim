@@ -165,7 +165,12 @@ const workspace = read(
 );
 
 const requiredWorkspaceRules = [
-  '  "next>postcss": "8.5.22"',
+  '  "next>postcss": "8.5.26"',
+  '  "postcss": "8.5.26"',
+  '  "brace-expansion@1": "1.1.18"',
+  '  "brace-expansion@5": "5.0.9"',
+  '  "js-yaml@4": "4.3.1"',
+  '  "nanoid@3": "3.3.18"',
   "nodeVersion: 22.22.1",
   "engineStrict: true",
   "strictDepBuilds: true",
@@ -186,39 +191,19 @@ const ignoredAuditGhsas =
   workspace.match(/GHSA-[23456789cfghjmpqrvwx]{4}-[23456789cfghjmpqrvwx]{4}-[23456789cfghjmpqrvwx]{4}/g) ?? [];
 
 check(
-  ignoredAuditGhsas.length === 1,
-  "Exactly one temporary audit GHSA exception exists",
+  ignoredAuditGhsas.length === 0,
+  "No temporary audit GHSA exceptions remain",
 );
 
 check(
-  ignoredAuditGhsas[0] === "GHSA-mh99-v99m-4gvg",
-  "Temporary audit exception is restricted to GHSA-mh99-v99m-4gvg",
-);
-
-const auditExpiryMatch = workspace.match(
-  /AUDIT_EXCEPTION_EXPIRES=(\d{4}-\d{2}-\d{2})/,
+  !workspace.includes("ignoreGhsas:"),
+  "Workspace auditConfig has no ignoreGhsas list",
 );
 
 check(
-  Boolean(auditExpiryMatch),
-  "Temporary audit exception has an expiry date",
+  !workspace.includes("AUDIT_EXCEPTION_EXPIRES="),
+  "No temporary audit exception expiry marker remains",
 );
-
-if (auditExpiryMatch) {
-  const expiresAt = Date.parse(
-    `${auditExpiryMatch[1]}T23:59:59Z`,
-  );
-
-  check(
-    Number.isFinite(expiresAt),
-    "Temporary audit exception expiry is valid",
-  );
-
-  check(
-    Date.now() <= expiresAt,
-    "Temporary audit exception has not expired",
-  );
-}
 
 check(
   !workspace.includes(

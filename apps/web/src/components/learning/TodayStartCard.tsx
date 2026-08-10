@@ -1,3 +1,5 @@
+"use client";
+
 import type { Lesson } from "../../data/types";
 
 type TodayStartCardProps = {
@@ -19,7 +21,7 @@ export function TodayStartCard({
     <section
       data-testid="today-start-card"
       aria-labelledby="today-start-title"
-      className="rounded-[2rem] border border-white/15 bg-white/10 p-5"
+      className="rounded-[var(--nim-radius-xl)] border border-white/25 bg-white/12 p-5 backdrop-blur-sm"
     >
       <p className="text-xs font-black uppercase tracking-widest text-white">
         Heute empfohlen
@@ -32,7 +34,7 @@ export function TodayStartCard({
           </p>
           <p
             id="today-start-title"
-            className="mt-2 text-2xl font-black leading-tight text-white"
+            className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold leading-tight text-white"
           >
             {lesson.title}
           </p>
@@ -45,7 +47,7 @@ export function TodayStartCard({
           <button
             type="button"
             onClick={() => onOpenLesson(lesson.id)}
-            className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-2xl bg-white px-4 py-3 text-sm font-black text-nim-primary hover:bg-slate-100"
+            className="nim-interactive mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-4 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
           >
             Heute hier weitermachen
           </button>
@@ -54,7 +56,7 @@ export function TodayStartCard({
         <>
           <p
             id="today-start-title"
-            className="mt-3 text-2xl font-black text-white"
+            className="mt-3 font-[family-name:var(--font-display)] text-2xl font-semibold text-white"
           >
             Lernpfad abgeschlossen
           </p>

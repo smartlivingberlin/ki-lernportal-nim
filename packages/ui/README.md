@@ -2,7 +2,7 @@
 
 ## Zweck
 
-Wiederverwendbare UI-Primitives, Design-System-Grenzen und zugängliche Darstellungsverträge.
+Wiederverwendbare Design-Tokens, UI-Primitives und barrierearme Darstellungsverträge.
 
 ## Erlaubte Imports
 
@@ -18,6 +18,7 @@ S51A erzeugt keine künstlichen Demonstrationsimporte.
 - Auth-, Rollen- oder Ownership-Entscheidungen
 - AI-, Search-, Railway- oder Monitoring-SDKs
 - Secret-Zugriffe
+- React-/Next-Runtime in diesem Foundation-Slice
 
 Unzulässig bleiben außerdem zyklische Abhängigkeiten und direkte
 Quellpfadimporte in andere Packages.
@@ -26,21 +27,23 @@ Quellpfadimporte in andere Packages.
 
 Der kontrollierte Entry-Point ist `src/index.ts`.
 
-S51A exportiert keine produktive Runtime-Funktion und keinen
-vorgetäuschten Stubwert.
+Exportiert werden reine Design-Token-Daten (Farbe, Typografie, Spacing,
+Radius, Motion). Es gibt keine React-Komponenten und keine DOM-Runtime.
 
 ## Status
 
 Keine Runtime-Implementierung ist in S51A vorhanden.
 
-Das Package ist ausschließlich ein privates Architektur- und
-Workspace-Skeleton.
+Das Package enthält in diesem Slice ausschließlich Design-System-2.0-Tokens
+als reine Datenfoundation — ohne React-Primitives, ohne Provider und ohne
+UI-Laufzeitverhalten.
 
 ## Spätere Slices
 
-Spätere UI- und Design-System-Slices.
+Spätere UI-Primitives, zugängliche Komponenten und Design-System-Erweiterungen.
 
-Diese späteren Slices sind durch S51A nicht freigegeben.
+Diese späteren Slices sind durch S51A nicht freigegeben und brauchen jeweils
+eine eigene Freigabe.
 
 ## Sicherheit und Datenschutz
 
@@ -49,3 +52,11 @@ externen Requests, produktiven Providerzugriffe oder Persistenz.
 
 Jede spätere Erweiterung benötigt eine eigene fachliche,
 sicherheitsbezogene und datenschutzbezogene Prüfung.
+
+## Designprinzipien (Foundation)
+
+- keine Grautöne als UI-Chrome
+- WCAG 2.2 AA als Kontrastziel
+- `prefers-reduced-motion` respektieren
+- Touch-Ziele mindestens 44 CSS-Pixel
+- deutschsprachige, verständliche Oberfläche
