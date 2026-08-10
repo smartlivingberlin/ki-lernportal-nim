@@ -8,7 +8,7 @@ const items = [
   { href: "#erststart", label: "Start" },
   { href: "#ziele", label: "Ziele" },
   { href: "#werkzeuge", label: "Tools" },
-  { href: "#szenarien", label: "Üben" },
+  { href: "#wiederholen", label: "Üben" },
   { href: "#coach", label: "Hilfe" },
 ] as const;
 

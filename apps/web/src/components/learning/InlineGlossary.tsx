@@ -121,6 +121,14 @@ const aliases: GlossaryAlias[] = [
   { pattern: String.raw`\bQuelle(n)?\b`, flags: "gi", termId: "quelle" },
   { pattern: String.raw`\bAI Act\b`, flags: "gi", termId: "ai-act" },
   { pattern: String.raw`\bRAG\b`, flags: "g", termId: "rag" },
+  { pattern: String.raw`\bGuardrail(s)?\b`, flags: "gi", termId: "guardrail" },
+  { pattern: String.raw`\bVibe Coding\b`, flags: "gi", termId: "vibe-coding" },
+  { pattern: String.raw`\bAutomatisierung(en)?\b`, flags: "gi", termId: "automation" },
+  { pattern: String.raw`\bKI-Agent(en)?\b`, flags: "gi", termId: "agent" },
+  { pattern: String.raw`\bAgent(en)?\b`, flags: "gi", termId: "agent" },
+  { pattern: String.raw`\bmultimodal(e|en|er|es)?\b`, flags: "gi", termId: "multimodal" },
+  { pattern: String.raw`\bKI-Modell(e|en)?\b`, flags: "gi", termId: "modell" },
+  { pattern: String.raw`\bModell(e|en)?\b`, flags: "gi", termId: "modell" },
   { pattern: String.raw`\bKI\b`, flags: "g", termId: "ki" },
 ];
 

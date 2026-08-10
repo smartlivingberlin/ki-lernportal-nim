@@ -319,4 +319,160 @@ export const microUnitsAgents: MicroLearningUnitV2[] = [
     estimatedMinutes: 6,
     methodIds: ["method-teachback", "method-progressive", "method-spaced"],
   },
+  {
+    id: "mu-agents-09",
+    worldId: "world-agents",
+    lessonId: null,
+    order: 9,
+    title: "Beobachtbarkeit: Was hat der Agent getan?",
+    whyUseful:
+      "Du kannst Fehler finden, wenn Schritte sichtbar und nachvollziehbar sind.",
+    oneSentence:
+      "Gute Automationen zeigen grob ihre Schritte und Ergebnisse — ohne unnötig private Details zu speichern.",
+    everydayExample:
+      "Protokoll: „Kalender gelesen (3 Termine) → Entwurf erzeugt → warte auf Freigabe“ — nicht: komplette Mailinhalte für immer.",
+    steps: [
+      "Fordere eine kurze Schritt-Liste nach dem Lauf.",
+      "Prüfe: Stimmen die genutzten Werkzeuge?",
+      "Halte Logs kurz und zugriffsgeschützt.",
+    ],
+    practiceTask:
+      "Schreibe, welche drei Infos ein sinnvolles Agenten-Protokoll enthalten soll.",
+    samplePath:
+      "1) Welche Tools 2) Was vorgeschlagen 3) Ob Freigabe aussteht — ohne Secrets",
+    whyItWorks:
+      "Sichtbarkeit macht Kontrolle möglich.",
+    commonMistake:
+      "Alles speichern „für immer“ oder gar nichts sehen wollen.",
+    safetyNote:
+      "Protokolle können personenbezogene Daten enthalten — sparsam und geschützt.",
+    retrievalQuestions: [
+      "Was soll ein Protokoll zeigen?",
+      "Was gehört nicht dauerhaft hinein?",
+      "Warum Werkzeuge prüfen?",
+    ],
+    teachBackPrompt:
+      "Erklär Beobachtbarkeit in Alltagssprache.",
+    sourceIds: ["nist-ai-rmf", "eu-gdpr", "digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
+  },
+  {
+    id: "mu-agents-10",
+    worldId: "world-agents",
+    lessonId: null,
+    order: 10,
+    title: "Zeitpläne und Trigger: wann darf es laufen?",
+    whyUseful:
+      "Du verhinderst, dass Automationen zur falschen Zeit oder zu oft handeln.",
+    oneSentence:
+      "Plane Trigger bewusst: nur zu erlaubten Zeiten, mit Limits und ohne unwiderrufliche Aktionen.",
+    everydayExample:
+      "Täglich 8 Uhr: To-do-Vorschlag erzeugen — okay. Nachts automatisch E-Mails senden: riskant.",
+    steps: [
+      "Definiere erlaubte Zeiten und Häufigkeit.",
+      "Setze ein Maximum pro Tag.",
+      "Verknüpfe riskante Aktionen weiter mit Freigabe.",
+    ],
+    practiceTask:
+      "Formuliere Trigger-Regeln für eine Wochenplan-Automation.",
+    samplePath:
+      "Nur Mo–Fr 7–9 Uhr, max. 1 Lauf/Tag, nur Entwurf, kein Senden.",
+    whyItWorks:
+      "Zeitgrenzen reduzieren Überraschungen und Kosten.",
+    commonMistake:
+      "„Immer live“ ohne Limit und ohne Stopp.",
+    safetyNote:
+      "Keine Trigger, die Zahlungen oder Löschungen ohne Mensch auslösen.",
+    retrievalQuestions: [
+      "Was legst du bei Triggern fest?",
+      "Warum ein Maximum?",
+      "Welche Aktionen bleiben freigabepflichtig?",
+    ],
+    teachBackPrompt:
+      "Erklär gute Trigger-Regeln an einem Beispiel.",
+    sourceIds: ["digcomp-30", "nist-ai-rmf"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 5,
+    methodIds: ["method-worked-example", "method-progressive", "method-retrieval"],
+  },
+  {
+    id: "mu-agents-11",
+    worldId: "world-agents",
+    lessonId: null,
+    order: 11,
+    title: "Rechte entziehen und Aufräumen",
+    whyUseful:
+      "Du beendest Experimente sauber, statt vergessene Zugänge offen zu lassen.",
+    oneSentence:
+      "Nach Tests: Verbindungen trennen, Tokens widerrufen, unnötige Rechte entfernen.",
+    everydayExample:
+      "Demo-Agent durfte Testkalender lesen — danach Zugriff entfernen, nicht „für später“ liegen lassen.",
+    steps: [
+      "Liste aktive Verbindungen und Rechte.",
+      "Entferne alles, was du nicht mehr brauchst.",
+      "Prüfe nach einer Woche erneut auf vergessene Zugänge.",
+    ],
+    practiceTask:
+      "Schreibe eine Aufräum-Checkliste mit fünf Punkten.",
+    samplePath:
+      "1) Tools 2) Tokens 3) gespeicherte Secrets 4) Zeitpläne 5) wer noch Zugriff hat",
+    whyItWorks:
+      "Vergessene Rechte sind unsichtbare Risiken.",
+    commonMistake:
+      "Nur bauen, nie aufräumen.",
+    safetyNote:
+      "Kompromittierte oder geteilte Schlüssel sofort rotieren/ändern.",
+    retrievalQuestions: [
+      "Wann räumst du auf?",
+      "Was prüfst du nach einer Woche?",
+      "Was tun bei verdächtigen Schlüsseln?",
+    ],
+    teachBackPrompt:
+      "Erklär Aufräumen als Teil von Agenten-Sicherheit.",
+    sourceIds: ["eu-gdpr", "nist-ai-rmf", "digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 5,
+    methodIds: ["method-scenario", "method-retrieval", "method-spaced"],
+  },
+  {
+    id: "mu-agents-12",
+    worldId: "world-agents",
+    lessonId: null,
+    order: 12,
+    title: "Abschluss: Agenten im Alltag bewusst klein halten",
+    whyUseful:
+      "Du startest sicher und skalierst nur mit Freigabe und Beobachtung.",
+    oneSentence:
+      "Kleine Aufgabe, minimale Rechte, sichtbare Schritte, Freigabe, Limit — dann erst erweitern.",
+    everydayExample:
+      "Von „Notiz strukturieren“ zu „Kalender lesen“ erst nach erfolgreicher Woche mit Freigaben.",
+    steps: [
+      "Wähle eine Automation und bewerte sie an der Sicherheitskarte.",
+      "Streiche ein Recht, bevor du startest.",
+      "Plane nach einer Woche Review: behalten, einschränken oder stoppen.",
+    ],
+    practiceTask:
+      "Notiere deinen Erweiterungsplan in fünf Zeilen (Start klein → Review).",
+    samplePath:
+      "Start: Entwurf · Rechte: lesen · Freigabe: ja · Limit: 1/Tag · Review: Freitag",
+    whyItWorks:
+      "Bewusst klein halten verhindert teure Vollautomatik-Fehler.",
+    commonMistake:
+      "Sofort alle Tools verbinden, weil es beeindruckend wirkt.",
+    safetyNote:
+      "Keine Erweiterung von Rechten als „schnelle Fehlerumgehung“.",
+    retrievalQuestions: [
+      "Welche fünf Prinzipien nimmst du mit?",
+      "Was streichst du vor dem Start?",
+      "Wann reviewst du?",
+    ],
+    teachBackPrompt:
+      "Erklär „klein starten, bewusst erweitern“ in 30 Sekunden.",
+    sourceIds: ["nist-ai-rmf", "eu-ai-act", "oecd-ai-principles", "digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-teachback", "method-progressive", "method-spaced"],
+  },
 ];

@@ -927,6 +927,154 @@ export const interactiveChallenges: InteractiveChallenge[] = [
     methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
     scenarioDomain: "beruf",
   },
+  {
+    id: "challenge-chat-02",
+    worldId: "world-chat-prompting",
+    lessonId: "l4",
+    title: "Rolle setzen — wozu eigentlich?",
+    plainIntro:
+      "Du willst eine verständliche Erklärung zu einem schwierigen Thema. Jemand tippt nur das Stichwort.",
+    prompt: "Was verbessert die Antwort am meisten?",
+    options: [
+      {
+        id: "a",
+        label: "Nur Großbuchstaben und „WICHTIG!!!“ schreiben.",
+        feedback:
+          "Lautstärke ersetzt keine klaren Vorgaben zu Zielgruppe und Format.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Rolle und Zielgruppe nennen: z. B. „Erklär mir das wie für einen Anfänger in 5 kurzen Sätzen.“",
+        feedback:
+          "Richtig. Rolle, Zielgruppe und Format machen Antworten brauchbarer.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Den Prompt so kurz wie möglich halten — ein Wort reicht immer.",
+        feedback:
+          "Zu kurz führt oft zu vagen Antworten. Ein paar klare Bausteine helfen.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Schreibe einen Prompt mit Rolle, Zielgruppe und Format zu einem Alltagsthema.",
+    methodIds: ["method-worked-example", "method-retrieval", "method-playful"],
+    scenarioDomain: "grundlagen",
+  },
+  {
+    id: "challenge-chat-03",
+    worldId: "world-chat-prompting",
+    lessonId: "l6",
+    title: "Nachbessern statt neu raten",
+    plainIntro:
+      "Die erste KI-Antwort ist zu lang und zu förmlich. Du brauchst drei kurze Stichpunkte.",
+    prompt: "Was ist der beste nächste Schritt?",
+    options: [
+      {
+        id: "a",
+        label: "Einen komplett neuen Chat starten und dasselbe nochmal vage tippen.",
+        feedback:
+          "Manchmal okay — aber gezieltes Nachbessern spart Zeit und hält den Kontext.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Konkret nachbessern: „Kürze auf 3 Stichpunkte, alltägliche Sprache, kein Fachjargon.“",
+        feedback:
+          "Genau. Iteration mit klaren Kriterien steuert das Ergebnis.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Die lange Antwort ungeprüft an Kolleg:innen weiterleiten.",
+        feedback:
+          "Nein. Erst Format und Inhalt prüfen, dann teilen.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Formuliere eine Nachbesserungs-Anweisung mit zwei klaren Kriterien.",
+    methodIds: ["method-scenario", "method-retrieval", "method-progressive"],
+    scenarioDomain: "beruf",
+  },
+  {
+    id: "challenge-chat-04",
+    worldId: "world-chat-prompting",
+    lessonId: null,
+    title: "Alltag: Beispiel im Prompt nutzen",
+    plainIntro:
+      "Du willst Einladungstexte für ein Familienessen. Die KI liefert jedes Mal einen anderen Ton.",
+    prompt: "Wie machst du den Ton stabiler?",
+    options: [
+      {
+        id: "a",
+        label: "Hoffen, dass die nächste Antwort zufällig passt.",
+        feedback:
+          "Zufall ist keine Strategie. Beispiele und Kriterien helfen.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Ein kurzes Beispiel oder Muster nennen: „Schreib im Stil wie …, max. 4 Sätze, freundlich.“",
+        feedback:
+          "Richtig. Beispiele und Grenzen machen den Ton nachvollziehbar.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Alle privaten Adressen und Handynummern der Gäste mitliefern.",
+        feedback:
+          "Unnötig und riskant. Für den Ton brauchst du keine Kontaktdaten.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Schreibe einen Alltags-Prompt mit einem Mini-Beispiel und einer Längengrenze.",
+    methodIds: ["method-worked-example", "method-scenario", "method-playful"],
+    scenarioDomain: "alltag",
+  },
+  {
+    id: "challenge-advanced-eval",
+    worldId: "world-advanced",
+    lessonId: null,
+    title: "Praxis+: Evaluation statt Bauchgefühl",
+    plainIntro:
+      "Ein Team sagt: „Der Bot fühlt sich gut an — also ist er produktionsreif.“",
+    prompt: "Was fehlt für eine ehrliche Einschätzung?",
+    options: [
+      {
+        id: "a",
+        label: "Nichts — gutes Gefühl reicht als Qualitätsnachweis.",
+        feedback:
+          "Bauchgefühl allein ist kein Nachweis. Kriterien und Beispiele fehlen.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Klare Kriterien, ein Satz echter Beispielaufgaben und wiederholte Prüfung von Fehlern.",
+        feedback:
+          "Genau. Evaluation macht Qualität sichtbar — ohne Marketingversprechen.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Nur den Prompt noch poetischer formulieren.",
+        feedback:
+          "Stil hilft wenig, wenn du nicht misst, ob Antworten stimmen und sicher sind.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Nenne drei Kriterien, mit denen du eine Bot-Antwort bewerten würdest.",
+    methodIds: ["method-retrieval", "method-confidence", "method-scenario"],
+    scenarioDomain: "beruf",
+  },
 ];
 
 export function challengesForLesson(lessonId: string): InteractiveChallenge[] {

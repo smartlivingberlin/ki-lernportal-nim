@@ -319,4 +319,82 @@ export const microUnitsModels: MicroLearningUnitV2[] = [
     estimatedMinutes: 6,
     methodIds: ["method-teachback", "method-progressive", "method-spaced"],
   },
+  {
+    id: "mu-models-09",
+    worldId: "world-models",
+    lessonId: null,
+    order: 9,
+    title: "Temperatur und Zufall — grob verstehen",
+    whyUseful:
+      "Du weißt, warum dieselbe Frage manchmal unterschiedliche Antworten liefert.",
+    oneSentence:
+      "Viele Chat-Systeme dürfen variieren: gut für Ideen, riskant wenn du Stabilität und Fakten brauchst.",
+    everydayExample:
+      "Drei Slogan-Ideen: Variation hilfreich. Dreimal dieselbe Rechenformel „frei erfunden“: Variation schädlich — nachrechnen.",
+    steps: [
+      "Unterscheide: Kreativaufgabe vs. Fakten-/Zahlenaufgabe.",
+      "Bei Fakten: Unsicherheit fordern und extern prüfen.",
+      "Bei Bedarf dieselbe Aufgabe erneut stellen und vergleichen.",
+    ],
+    practiceTask:
+      "Schreibe je einen Prompt für „Ideen sammeln“ und für „stabile Fakten mit Kennzeichnung“.",
+    samplePath:
+      "Ideen: „5 Varianten“. Fakten: „Keine Erfindung. Unsicher markieren. Quellenempfehlung.“",
+    whyItWorks:
+      "Erwartung an Zufall steuert, wie streng du prüfst.",
+    commonMistake:
+      "Unterschiedliche Antworten als „die KI hat sich entschieden, also stimmt’s“ lesen.",
+    safetyNote:
+      "Bei hohem Risiko nie auf eine einzelne, variable Antwort vertrauen.",
+    retrievalQuestions: [
+      "Wann ist Variation nützlich?",
+      "Wann ist sie riskant?",
+      "Was tust du bei Faktenaufgaben?",
+    ],
+    teachBackPrompt:
+      "Erklär Zufall in KI-Antworten ohne Technikjargon.",
+    sourceIds: ["nist-genai-profile", "digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 5,
+    methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
+  },
+  {
+    id: "mu-models-10",
+    worldId: "world-models",
+    lessonId: null,
+    order: 10,
+    title: "Abschluss: Modellwahl im echten Alltag üben",
+    whyUseful:
+      "Du festigst die Entscheidungszettel-Routine an drei konkreten Fällen.",
+    oneSentence:
+      "Für Chat, Bild und sensible Daten jeweils Aufgabe, Risiko und Prüfung festlegen — dann erst das Tool wählen.",
+    everydayExample:
+      "Mail kürzen (Chat, gering). Flyer-Motiv (Bild, Rechte). Kundendaten (vielleicht gar kein öffentliches Modell).",
+    steps: [
+      "Nimm drei Aufgaben aus deinem Alltag.",
+      "Fülle je Aufgabe den Entscheidungszettel.",
+      "Entscheide bewusst: nutzen, internes Tool oder lassen.",
+    ],
+    practiceTask:
+      "Fülle drei Mini-Zettel (Aufgabe / Daten & Risiko / Typ / Prüfung).",
+    samplePath:
+      "1) Einladung 2) Vereinslogo-Idee 3) Krankmeldung formulieren — mit klaren Datengrenzen",
+    whyItWorks:
+      "Übung macht die Checkliste zur Gewohnheit.",
+    commonMistake:
+      "Immer dasselbe Hypemodell für jede Aufgabe nehmen.",
+    safetyNote:
+      "Sensible Fälle: Platzhalter, Freigabe, ggf. kein externes Modell.",
+    retrievalQuestions: [
+      "Welche vier Felder füllst du pro Aufgabe?",
+      "Wann lässt du ein öffentliches Tool weg?",
+      "Was kommt nach der Wahl?",
+    ],
+    teachBackPrompt:
+      "Zeig an einem Beispiel, wie du Modellwahl entscheidest.",
+    sourceIds: ["digcomp-30", "eu-gdpr", "oecd-ai-principles"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 7,
+    methodIds: ["method-teachback", "method-spaced", "method-progressive"],
+  },
 ];

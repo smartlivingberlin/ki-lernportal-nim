@@ -319,4 +319,82 @@ export const microUnitsSafetyLaw: MicroLearningUnitV2[] = [
     estimatedMinutes: 6,
     methodIds: ["method-teachback", "method-confidence", "method-spaced"],
   },
+  {
+    id: "mu-safety-09",
+    worldId: "world-safety-law",
+    lessonId: null,
+    order: 9,
+    title: "Löschen, Auskunft, Kontrolle — deine Rechte grob",
+    whyUseful:
+      "Du weißt, dass Datenschutz nicht nur „nichts tippen“ heißt — sondern auch Kontrolle über Daten.",
+    oneSentence:
+      "Bei personenbezogenen Daten zählen Zweck, Sparsamkeit und oft Rechte wie Auskunft oder Löschung — je nach Kontext und Anbieter.",
+    everydayExample:
+      "Du hast versehentlich einen Namen in ein Tool getippt: Zugang prüfen, Eintrag löschen falls möglich, Vorgang notieren, künftig Platzhalter.",
+    steps: [
+      "Frage: Welche personenbezogenen Daten waren betroffen?",
+      "Nutze verfügbare Lösch-/Kontofunktionen des Tools.",
+      "Passe deine Prompt-Gewohnheit an, damit es nicht wieder passiert.",
+    ],
+    practiceTask:
+      "Schreibe drei Schritte nach einem versehentlichen Daten-Leak in einen Chat.",
+    samplePath:
+      "1) Inhalt sichern/notieren (ohne zu teilen) 2) Löschen/widerrufen wo möglich 3) Regel verschärfen",
+    whyItWorks:
+      "Schnelle Reaktion begrenzt Schaden — Prävention bleibt wichtiger.",
+    commonMistake:
+      "Ignorieren („ist ja nur ein Name“) und weitermachen wie bisher.",
+    safetyNote:
+      "Bei beruflichen Leaks: interne Meldewege nutzen, nicht allein „aussitzen“.",
+    retrievalQuestions: [
+      "Was tust du nach einem versehentlichen Leak?",
+      "Warum Prävention wichtiger ist?",
+      "Wen informierst du im Beruf?",
+    ],
+    teachBackPrompt:
+      "Erklär in einfachen Worten, warum Löschen und Sparsamkeit zusammengehören.",
+    sourceIds: ["eu-gdpr", "digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-scenario", "method-retrieval", "method-teachback"],
+  },
+  {
+    id: "mu-safety-10",
+    worldId: "world-safety-law",
+    lessonId: null,
+    order: 10,
+    title: "Abschluss: Sicherheitsregeln im Team teilen",
+    whyUseful:
+      "Du machst aus persönlichen Gewohnheiten kurze, teilbare Regeln für Familie oder Kolleg:innen.",
+    oneSentence:
+      "Drei bis fünf klare Sätze reichen oft: was nie in Prompts darf, wann Freigabe nötig ist, wie Prüfung aussieht.",
+    everydayExample:
+      "Teamkarte: „Keine Kundendaten in öffentliche Chats. Platzhalter. Entwürfe gegenlesen. Bei Zweifel: nachfragen.“",
+    steps: [
+      "Wähle deine drei wichtigsten Regeln.",
+      "Formuliere sie in Alltagssprache.",
+      "Hänge sie sichtbar an (Notiz, Wiki) und reviewt sie regelmäßig.",
+    ],
+    practiceTask:
+      "Schreibe eine Team- oder Familienkarte mit fünf Zeilen.",
+    samplePath:
+      "1) Keine Geheimnisse 2) Platzhalter 3) Freigegebene Tools 4) Risiko steuert Prüfung 5) Mensch entscheidet",
+    whyItWorks:
+      "Geteilte Regeln verhindern „jede:r tippt anders“.",
+    commonMistake:
+      "Lange Richtlinien schreiben, die niemand liest — statt kurzer Karten.",
+    safetyNote:
+      "Karten selbst ohne echte Fallbeispiele mit Kundendaten formulieren.",
+    retrievalQuestions: [
+      "Wie viele Regeln reichen oft?",
+      "Warum Alltagssprache?",
+      "Wann reviewst du die Karte?",
+    ],
+    teachBackPrompt:
+      "Trage deine Sicherheitskarte jemandem in 30 Sekunden vor.",
+    sourceIds: ["eu-gdpr", "eu-ai-act", "nist-ai-rmf", "digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-teachback", "method-spaced", "method-progressive"],
+  },
 ];

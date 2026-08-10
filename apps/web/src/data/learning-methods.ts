@@ -39,8 +39,8 @@ export const learningMethods: LearningMethod[] = [
     whyItHelps:
       "Abstand macht das Abrufen etwas schwerer und dadurch nachhaltiger.",
     howWeUseIt:
-      "Später: Wiederholungsqueue nach Confidence-Signalen (sicher / unsicher).",
-    interactionHint: "Markiere „noch unklar“, damit der Begriff später wiederkommt.",
+      "Lokale Wiederholungsqueue: Abruffragen mit Abstand nach Confidence (sicher / unsicher / unklar).",
+    interactionHint: "Markiere „noch unklar“, damit die Karte früher wiederkommt.",
   },
   {
     id: "method-teachback",

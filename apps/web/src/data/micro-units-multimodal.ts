@@ -319,4 +319,160 @@ export const microUnitsMultimodal: MicroLearningUnitV2[] = [
     estimatedMinutes: 6,
     methodIds: ["method-teachback", "method-progressive", "method-spaced"],
   },
+  {
+    id: "mu-multi-09",
+    worldId: "world-multimodal",
+    lessonId: null,
+    order: 9,
+    title: "Bild bearbeiten lassen — mit klarer Absicht",
+    whyUseful:
+      "Du steuerst Änderungen statt zufällig „schöner“ zu machen und wichtige Details zu verlieren.",
+    oneSentence:
+      "Sag genau, was bleiben und was sich ändern soll — und prüfe danach, ob der Zweck noch erfüllt ist.",
+    everydayExample:
+      "„Entferne den Hintergrund, behalte die Tasse scharf, keine neuen Logos, kein Text.“",
+    steps: [
+      "Ausgangsbild und Ziel in einem Satz nennen.",
+      "Verbote setzen (keine Personen hinzufügen, keine Marken).",
+      "Vorher/Nachher grob vergleichen.",
+    ],
+    practiceTask:
+      "Schreibe einen Bearbeitungs-Prompt mit zwei Verboten.",
+    samplePath:
+      "„Helle den Hintergrund auf. Verboten: Gesichter ändern, Text einfügen.“",
+    whyItWorks:
+      "Klare Absicht reduziert unerwünschte Erfindungen im Bild.",
+    commonMistake:
+      "Nur „mach es besser“ tippen und Details verlieren.",
+    safetyNote:
+      "Fremde Personenfotos nicht ohne Einwilligung bearbeiten oder veröffentlichen.",
+    retrievalQuestions: [
+      "Was nennst du außer dem Ziel?",
+      "Warum Verbote?",
+      "Was vergleichst du danach?",
+    ],
+    teachBackPrompt:
+      "Sag deine Bearbeitungs-Formel laut.",
+    sourceIds: ["digcomp-30", "nist-genai-profile"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 5,
+    methodIds: ["method-worked-example", "method-playful", "method-retrieval"],
+  },
+  {
+    id: "mu-multi-10",
+    worldId: "world-multimodal",
+    lessonId: null,
+    order: 10,
+    title: "Alt-Text und Beschreibung: inklusiv denken",
+    whyUseful:
+      "Du machst Bilder für mehr Menschen verständlich — und prüfst, was wirklich zu sehen ist.",
+    oneSentence:
+      "Beschreibe in kurzen Worten, was auf dem Bild wichtig ist — ohne erfundene Details.",
+    everydayExample:
+      "Statt „schönes Bild“: „Holzstuhl vor weißem Tisch, links eine grüne Pflanze, kein Text sichtbar.“",
+    steps: [
+      "Nenne die wichtigsten sichtbaren Elemente.",
+      "Lass Unsichtbares oder Unklares weg bzw. markiere Unsicherheit.",
+      "Prüfe, ob die Beschreibung zum Zweck passt (Barrierefreiheit, Archiv).",
+    ],
+    practiceTask:
+      "Schreibe einen Alt-Text (max. 25 Wörter) für ein erfundenes Produktfoto.",
+    samplePath:
+      "„Blaue Keramiktasse auf Holztisch, Dampf steigt auf, Querformat.“",
+    whyItWorks:
+      "Gute Beschreibungen trainieren genaue Wahrnehmung — und helfen anderen.",
+    commonMistake:
+      "Stimmung dichten und Fakten erfinden, die nicht im Bild sind.",
+    safetyNote:
+      "Keine sensiblen Identifizierer in Beschreibungen aufnehmen, wenn nicht nötig.",
+    retrievalQuestions: [
+      "Was gehört in einen guten Alt-Text?",
+      "Was lässt du weg?",
+      "Warum keine erfundenen Details?",
+    ],
+    teachBackPrompt:
+      "Erklär Alt-Text an einem Alltagsbeispiel.",
+    sourceIds: ["digcomp-30", "oecd-ai-principles"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 5,
+    methodIds: ["method-retrieval", "method-teachback", "method-confidence"],
+  },
+  {
+    id: "mu-multi-11",
+    worldId: "world-multimodal",
+    lessonId: null,
+    order: 11,
+    title: "Synthetische Medien kennzeichnen",
+    whyUseful:
+      "Du bleibst transparent und vermeidest, dass andere KI-Medien für echte Aufnahmen halten.",
+    oneSentence:
+      "Wenn ein Bild, Clip oder eine Stimme erzeugt oder stark verändert wurde, sage es klar — besonders öffentlich.",
+    everydayExample:
+      "Vereinsflyer: kleiner Hinweis „KI-generierte Illustration“ statt als Foto auszugeben.",
+    steps: [
+      "Entscheide: privat üben oder öffentlich teilen?",
+      "Bei Öffentlich: Kennzeichnung und Zweck nennen.",
+      "Keine realen Personen ohne Einwilligung nachahmen.",
+    ],
+    practiceTask:
+      "Formuliere einen kurzen Kennzeichnungs-Satz für ein KI-Bild im Newsletter.",
+    samplePath:
+      "„Illustration mit KI erstellt; Motiv und Freigabe vom Redaktionsteam geprüft.“",
+    whyItWorks:
+      "Transparenz schützt Vertrauen — und passt zu verantwortlicher Nutzung.",
+    commonMistake:
+      "Synthetisches Material stillschweigend als Dokumentation ausgeben.",
+    safetyNote:
+      "Irreführende Deepfake-Nutzung realer Personen vermeiden.",
+    retrievalQuestions: [
+      "Wann kennzeichnest du?",
+      "Was gehört in den Hinweis?",
+      "Was ist bei Personen tabu?",
+    ],
+    teachBackPrompt:
+      "Erklär, warum Kennzeichnung keine Schwäche ist.",
+    sourceIds: ["nist-genai-profile", "oecd-ai-principles", "eu-ai-act"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-scenario", "method-retrieval", "method-teachback"],
+  },
+  {
+    id: "mu-multi-12",
+    worldId: "world-multimodal",
+    lessonId: null,
+    order: 12,
+    title: "Abschluss: Medien sicher in den Alltag holen",
+    whyUseful:
+      "Du verbindest Prompt, Rechte, Qualität und Transparenz zu einer Gewohnheit.",
+    oneSentence:
+      "Zweck klären → sparsam hochladen → klar prompten → prüfen → Rechte & Kennzeichnung → erst dann teilen.",
+    everydayExample:
+      "Ob Sprachnotiz oder Flyer-Bild: dieselbe Reihenfolge hält dich ruhig und korrekt.",
+    steps: [
+      "Wähle eine kleine Medienaufgabe für diese Woche.",
+      "Geh die sechs Schritte durch.",
+      "Notiere eine Verbesserung fürs nächste Mal.",
+    ],
+    practiceTask:
+      "Schreibe deine Medien-Alltagsregel in sechs Stichpunkten.",
+    samplePath:
+      "Zweck · Upload sparsam · Prompt · Qualität · Rechte/Kennzeichnung · Teilen oder lassen",
+    whyItWorks:
+      "Gewohnheit schützt besser als einzelne Warnungen.",
+    commonMistake:
+      "Nur bei Skandalen vorsichtig sein — und dazwischen alles hochladen.",
+    safetyNote:
+      "Private Gesichter, Stimmen und Dokumente bleiben draußen ohne Erlaubnis und klaren Zweck.",
+    retrievalQuestions: [
+      "Welche sechs Schritte gehören dazu?",
+      "Was kommt vor dem Teilen?",
+      "Warum Gewohnheit?",
+    ],
+    teachBackPrompt:
+      "Führe jemanden durch deine Medien-Alltagsregel.",
+    sourceIds: ["digcomp-30", "eu-gdpr", "nist-genai-profile"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-teachback", "method-spaced", "method-progressive"],
+  },
 ];
