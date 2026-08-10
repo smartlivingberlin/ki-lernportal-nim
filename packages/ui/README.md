@@ -38,6 +38,11 @@ Das Package enthält in diesem Slice ausschließlich Design-System-2.0-Tokens
 als reine Datenfoundation — ohne React-Primitives, ohne Provider und ohne
 UI-Laufzeitverhalten.
 
+Die Web-App spiegelt dieselben Token-Werte unter
+`apps/web/src/design/tokens.ts`, damit Railway Production mit Root Directory
+`apps/web` und npm ohne `workspace:`-Protokoll bauen kann. Werte bei
+Token-Änderungen in beiden Orten synchron halten.
+
 ## Spätere Slices
 
 Spätere UI-Primitives, zugängliche Komponenten und Design-System-Erweiterungen.
