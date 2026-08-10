@@ -37,7 +37,7 @@ export function InteractiveChallengeCard({
       aria-labelledby={`${baseId}-title`}
       className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-accent-soft)] p-5 md:p-6"
     >
-      <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-accent)]">
+      <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary-strong)]">
         Wissensblitz · spielerisch üben
       </p>
       <h3
