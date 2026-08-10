@@ -2,7 +2,7 @@
 
 ## Zweck
 
-Grenze für spätere Auth-, Session-, Rollen-, Scope- und Ownership-Adapter.
+Grenze für Auth-, Session-, Rollen-, Scope- und Ownership-Logik.
 
 ## Erlaubte Imports
 
@@ -11,13 +11,13 @@ Grenze für spätere Auth-, Session-, Rollen-, Scope- und Ownership-Adapter.
 - `@ki-lernportal-nim/db`
 
 Die aufgeführten Grenzen beschreiben die maximal erlaubte Richtung.
-S51A erzeugt keine künstlichen Demonstrationsimporte.
+S52-A deklariert bewusst keine Package-Dependencies.
 
 ## Verbotene Imports
 
 - UI und React
-- Login-, Registrierungs- oder Cookie-Runtime in S51A
-- OAuth-, MFA-, Passkey- oder Recovery-Implementierung
+- Login-, Registrierungs- oder Cookie-Runtime in S52-A
+- OAuth-, MFA-, Passkey- oder Recovery-Provider-SDKs in S52-A
 
 Unzulässig bleiben außerdem zyklische Abhängigkeiten und direkte
 Quellpfadimporte in andere Packages.
@@ -26,25 +26,30 @@ Quellpfadimporte in andere Packages.
 
 Der kontrollierte Entry-Point ist `src/index.ts`.
 
-S51A exportiert keine produktive Runtime-Funktion und keinen
-vorgetäuschten Stubwert.
+S52-A exportiert ausschließlich Plattformrollen-, Sitzungszustands- und
+Policy-Vokabular sowie reine Prädikate.
 
 ## Status
 
-Keine Runtime-Implementierung ist in S51A vorhanden.
+S52-A enthält infrastrukturfreies Auth-Policy-Vokabular.
 
-Das Package ist ausschließlich ein privates Architektur- und
-Workspace-Skeleton.
+Keine Runtime-Implementierung von Cookies, Passwort-Hashing, Datenbankzugriff,
+Login-UI, Route Handlern, Railway oder Deploymentlogik ist Bestandteil von
+S52-A.
+
+```text
+S52_A_VOCABULARY=INTEGRATED
+AUTH_RUNTIME_AUTHORIZED=NO
+```
 
 ## Spätere Slices
 
-S52 Auth, Sessions, Rollen und Ownership.
-
-Diese späteren Slices sind durch S51A nicht freigegeben.
+S52-B und spätere Auth-Slices dürfen erst nach getrennter Freigabe Cookie-
+Runtime, Credential-Prüfung, Session-Persistenz und Web-Integration einführen.
 
 ## Sicherheit und Datenschutz
 
-S51A enthält keine Secrets, Credentials, personenbezogenen Daten,
+S52-A enthält keine Secrets, Credentials, personenbezogenen Daten,
 externen Requests, produktiven Providerzugriffe oder Persistenz.
 
 Jede spätere Erweiterung benötigt eine eigene fachliche,

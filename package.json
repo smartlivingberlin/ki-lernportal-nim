@@ -27,6 +27,7 @@
     "test:s51c-b1a-pilot-domain": "node --experimental-strip-types packages/domain/src/pilot-domain.test.ts",
     "test:s51c-b1b-local-progress-import": "node --experimental-strip-types packages/contracts/src/local-progress-import.test.ts",
     "test:s51c-ops-a-operations": "node --experimental-strip-types packages/contracts/src/operations.test.ts",
+    "test:s52-a-auth-policy": "node --experimental-strip-types packages/auth/src/platform-roles.test.ts && node --experimental-strip-types packages/auth/src/session-policy.test.ts",
     "packages:verify": "pnpm packages:boundaries && pnpm packages:typecheck"
   },
   "devDependencies": {

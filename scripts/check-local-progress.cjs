@@ -15,6 +15,7 @@ async function openPortal(page) {
     state: "visible",
     timeout: navigationTimeout,
   });
+  await dismissExplainClouds(page);
 }
 
 async function resetBrowserProgress(page) {
@@ -25,6 +26,7 @@ async function resetBrowserProgress(page) {
   await page.reload({ waitUntil: "load", timeout: navigationTimeout });
   await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({ state: "visible" });
   await page.waitForTimeout(500);
+  await dismissExplainClouds(page);
   await waitForStoredLessonIds(page, []);
 }
 
@@ -53,6 +55,34 @@ async function waitForStoredLessonIds(page, expectedIds) {
   );
 }
 
+async function dismissExplainClouds(page) {
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    const cloud = page.locator("[data-explain-cloud-root]").first();
+    if ((await cloud.count()) === 0) {
+      return;
+    }
+
+    const closeButton = cloud.getByRole("button", { name: "Schließen" });
+    if ((await closeButton.count()) === 0) {
+      await page.evaluate(() => {
+        document
+          .querySelectorAll("[data-explain-cloud-root]")
+          .forEach((node) => node.remove());
+      });
+      return;
+    }
+
+    await closeButton.click({ timeout: 2_000 }).catch(async () => {
+      await page.evaluate(() => {
+        document
+          .querySelectorAll("[data-explain-cloud-root]")
+          .forEach((node) => node.remove());
+      });
+    });
+    await page.waitForTimeout(150);
+  }
+}
+
 async function lessonButton(page, title) {
   const button = page.getByRole("button").filter({ hasText: title }).first();
   await button.waitFor({ state: "visible", timeout: 10_000 });
@@ -60,7 +90,10 @@ async function lessonButton(page, title) {
 }
 
 async function clickFirstLessonDone(page) {
-  await page.getByRole("button", { name: "Als erledigt markieren" }).click();
+  await dismissExplainClouds(page);
+  await page.getByRole("button", { name: "Als erledigt markieren" }).click({
+    timeout: 15_000,
+  });
 }
 
 async function markFirstLesson(page) {
@@ -80,6 +113,7 @@ async function markFirstTwoLessons(page) {
       exact: true,
     })
     .waitFor({ state: "visible" });
+  await dismissExplainClouds(page);
   await page.getByRole("button", { name: "Als erledigt markieren" }).click();
   await expectExactText(page, "2/12");
   await waitForStoredLessonIds(page, ["l1", "l2"]);

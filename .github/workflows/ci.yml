@@ -76,6 +76,9 @@ jobs:
       - name: Test S51C-OPS-A operations foundation contracts
         run: pnpm test:s51c-ops-a-operations
 
+      - name: Test S52-A auth session and role policy vocabulary
+        run: pnpm test:s52-a-auth-policy
+
       - name: Test S51B-B database runtime with local fakes
         run: pnpm test:s51b-b-db-runtime
 
