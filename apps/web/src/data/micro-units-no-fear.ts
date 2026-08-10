@@ -397,13 +397,3 @@ export const microUnitsNoFear: MicroLearningUnitV2[] = [
     methodIds: ["method-teachback", "method-confidence", "method-progressive"],
   },
 ];
-
-export function microUnitsForWorld(worldId: string): MicroLearningUnitV2[] {
-  return microUnitsNoFear
-    .filter((unit) => unit.worldId === worldId)
-    .sort((a, b) => a.order - b.order);
-}
-
-export function microUnitForLesson(lessonId: string): MicroLearningUnitV2 | null {
-  return microUnitsNoFear.find((unit) => unit.lessonId === lessonId) ?? null;
-}

@@ -1,6 +1,6 @@
 # Content Schema v2 — Microlearning & Interaktion
 
-**Status:** Schema v2 dokumentiert; Themenwelt „KI ohne Angst“ mit 10 Micro-Einheiten befüllt  
+**Status:** Schema v2 dokumentiert; Themenwelten „KI ohne Angst“, „Chat & Prompting“ und „Arbeit & Alltag“ befüllt  
 **Stand:** 10. August 2026  
 **Autorisierung:** Design-/Content-Foundation-Slice (kein S51B-C, kein Deploy)
 

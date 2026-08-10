@@ -31,7 +31,7 @@ export const themeWorlds: ThemeWorld[] = [
     description:
       "Gute Prompts, Kontext, Rollen, Beispiele und Iteration — Schritt für Schritt.",
     audienceLevel: 1,
-    estimatedUnits: 12,
+    estimatedUnits: 8,
     status: "active",
     accent: "coral",
     starterLessonId: "l4",
@@ -67,8 +67,8 @@ export const themeWorlds: ThemeWorld[] = [
     description:
       "Schreiben, Organisieren, Lernen und Arbeitsabläufe mit klaren Sicherheitsregeln.",
     audienceLevel: 2,
-    estimatedUnits: 14,
-    status: "planned",
+    estimatedUnits: 8,
+    status: "active",
     accent: "coral",
     starterLessonId: "l11",
     learningOutcomes: [

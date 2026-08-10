@@ -15,7 +15,8 @@ import {
 import {
   microUnitForLesson,
   microUnitsForWorld,
-} from "../data/micro-units-no-fear";
+  worldHasMicroUnits,
+} from "../data/micro-units";
 import type { MicroLearningUnitV2, ThemeWorld } from "../data/types";
 import { LessonWorkspace } from "../components/learning/LessonWorkspace";
 import { ModuleNavigation } from "../components/learning/ModuleNavigation";
@@ -155,8 +156,7 @@ export default function Home() {
   const visibleMethods = simpleMode ? learningMethods.slice(0, 4) : learningMethods.slice(0, 6);
   const selectedWorld =
     themeWorlds.find((world) => world.id === selectedWorldId) ?? themeWorlds[0] ?? null;
-  const worldUnits =
-    selectedWorldId === "world-no-fear" ? microUnitsForWorld("world-no-fear") : [];
+  const worldUnits = selectedWorldId ? microUnitsForWorld(selectedWorldId) : [];
   const activeMicroUnit =
     worldUnits.find((unit) => unit.id === activeMicroUnitId) ??
     (activeLesson ? microUnitForLesson(activeLesson.id) : null) ??
@@ -197,13 +197,13 @@ export default function Home() {
 
   const selectWorld = (world: ThemeWorld) => {
     setSelectedWorldId(world.id);
-    if (world.id === "world-no-fear") {
-      const firstUnit = microUnitsForWorld("world-no-fear")[0] ?? null;
+    if (worldHasMicroUnits(world.id)) {
+      const firstUnit = microUnitsForWorld(world.id)[0] ?? null;
       setActiveMicroUnitId(firstUnit?.id ?? null);
       if (firstUnit?.lessonId) {
         openLesson(firstUnit.lessonId);
       }
-      setProgressAnnouncement("Themenwelt „KI ohne Angst“ geöffnet.");
+      setProgressAnnouncement(`Themenwelt „${world.title}“ geöffnet.`);
       return;
     }
     if (world.starterLessonId) {
@@ -338,9 +338,9 @@ export default function Home() {
             simpleMode={simpleMode}
           />
 
-          {selectedWorldId === "world-no-fear" && worldUnits.length > 0 ? (
+          {selectedWorldId && worldHasMicroUnits(selectedWorldId) && worldUnits.length > 0 ? (
             <ThemeWorldTrack
-              worldTitle={selectedWorld?.title ?? "KI ohne Angst"}
+              worldTitle={selectedWorld?.title ?? "Themenwelt"}
               units={worldUnits}
               activeUnitId={activeMicroUnit?.id ?? null}
               onSelectUnit={selectMicroUnit}

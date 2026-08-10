@@ -1,4 +1,4 @@
-import { microUnitForLesson } from "../../data/micro-units-no-fear";
+import { microUnitForLesson } from "../../data/micro-units";
 import { practiceByLessonId } from "../../data/practice";
 import type { Lesson, Source } from "../../data/types";
 import { LearningBlock } from "./LearningBlock";
