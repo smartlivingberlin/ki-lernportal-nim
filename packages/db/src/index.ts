@@ -23,3 +23,19 @@ export type {
   MySqlRuntime,
   MySqlRuntimeOptions,
 } from "./mysql-runtime.ts";
+
+export {
+  DEFERRED_PILOT_TABLE_NAMES,
+  PILOT_CORE_TABLE_NAMES,
+  authCredentials,
+  authSessions,
+  lessonProgress,
+  localProgressImports,
+  pilotCohorts,
+  pilotInvitations,
+  pilotMemberships,
+  pilotSchema,
+  users,
+} from "./pilot-schema.ts";
+
+export type { PilotSchema } from "./pilot-schema.ts";

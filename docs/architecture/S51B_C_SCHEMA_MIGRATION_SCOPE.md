@@ -1,10 +1,10 @@
 # S51B-C – Schema- und Migrations-Scope-Lock
 
-**Status:** Dokumentarischer Scope-Lock auf aktuellem `main`. Keine Schema-, SQL-, Migrations-, Datenbank-, Docker-, Railway-, Runtime- oder Deploymentfreigabe. S51B-C1/C2 bleiben gesperrt, bis separat freigegeben.
+**Status:** Dokumentarischer Scope-Lock auf `main` integriert. S51B-C1 (Schema + generierte Migration + statische Tests) ist der nächste freigegebene Implementierungsslice. S51B-C2, echte DB-Verbindungen, Railway-DB und Produktionsmigration bleiben gesperrt.
 
 **Parent:** GitHub Issue #94 (supersedes Draft PR #105)  
-**Baseline:** `c66a68281f0dc62e436c5481cdd94a7c8ea9f4e5`  
-**Arbeitsbranch:** `cursor/s51b-c-scope-lock-b554`
+**Baseline:** `bb4f383a582dee17b21b02d948c4f1668c24cf33`  
+**Arbeitsbranch:** `cursor/s51b-c1-schema-migrations-b554`
 
 ## 1. Zweck
 
@@ -379,10 +379,10 @@ S51B_C_SCOPE_PUSH_AUTHORIZED=YES
 S51B_C_SCOPE_PR_AUTHORIZED=YES
 S51B_C_SCOPE_MERGE_AUTHORIZED=YES
 
-S51B_C1_SCHEMA_IMPLEMENTATION_AUTHORIZED=NO
-S51B_C1_MIGRATION_GENERATION_AUTHORIZED=NO
-S51B_C1_DEPENDENCY_CHANGE_AUTHORIZED=NO
-S51B_C1_CI_CHANGE_AUTHORIZED=NO
+S51B_C1_SCHEMA_IMPLEMENTATION_AUTHORIZED=YES
+S51B_C1_MIGRATION_GENERATION_AUTHORIZED=YES
+S51B_C1_DEPENDENCY_CHANGE_AUTHORIZED=YES
+S51B_C1_CI_CHANGE_AUTHORIZED=YES
 
 S51B_C2_DATABASE_TEST_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO

@@ -1,20 +1,25 @@
 # Projektstatus: KI-Lernportal NIM
 
 **Stand:** 10. August 2026
-**Baseline `main`:** `c66a68281f0dc62e436c5481cdd94a7c8ea9f4e5`
-**Status:** S51B-B Adapter integriert; Welle A Literacy live; S51B-C Scope-Lock rebaselined (ersetzt Draft PR #105); Schema/DB weiterhin gesperrt; menschliche Agency-Freigabe für Merge/Deploy der Konzeptdemo erteilt
+**Baseline `main`:** `bb4f383a582dee17b21b02d948c4f1668c24cf33`
+**Status:** S51B-B Adapter integriert; S51B-C Scope-Lock integriert; S51B-C1 Schema/Migration (statisch, ohne DB-Verbindung) in Umsetzung; echte DB/C2 weiterhin gesperrt
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
 PHASE0A_SOURCE_OF_TRUTH_SYNC=COMPLETE
 BACKLOG_NORMALIZATION=COMPLETE
-BASELINE_MAIN_SHA=c66a68281f0dc62e436c5481cdd94a7c8ea9f4e5
+BASELINE_MAIN_SHA=bb4f383a582dee17b21b02d948c4f1668c24cf33
 PR68_MERGED=YES
 PR105_SUPERSEDED_BY_S51B_C_SCOPE_LOCK_REBASE=YES
 PR118_WAVE_A_MERGED=YES
+PR119_WAVE_B_MERGED=YES
+PR120_S51B_C_SCOPE_LOCK_MERGED=YES
 HUMAN_AGENCY_FREIGABE_MERGE_DEPLOY_CONCEPT_DEMO=YES
 S51B_C_SCOPE_MERGE_AUTHORIZED=YES
+S51B_C1_SCHEMA_IMPLEMENTATION_AUTHORIZED=YES
+S51B_C2_DATABASE_TEST_AUTHORIZED=NO
 S51B_C_SCHEMA_AUTHORIZED=NO
+DATABASE_CONNECTION_AUTHORIZED=NO
 ~~~
 
 ## 1. Verbindliche Einordnung

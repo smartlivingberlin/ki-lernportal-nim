@@ -114,8 +114,12 @@ S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
 S51B_C_SCOPE_LOCK_DOCUMENT_READY=YES
 S51B_C_SCOPE_LOCK_PR_SUPERSEDES=105
 S51B_C_SCOPE_MERGE_AUTHORIZED=YES
+S51B_C_SCOPE_INTEGRATED_TO_MAIN=YES
+S51B_C1_SCHEMA_IMPLEMENTATION_AUTHORIZED=YES
+S51B_C1_MIGRATION_GENERATION_AUTHORIZED=YES
+S51B_C1_DEPENDENCY_CHANGE_AUTHORIZED=YES
+S51B_C1_CI_CHANGE_AUTHORIZED=YES
 S51B_C_SCHEMA_AUTHORIZED=NO
-S51B_C1_SCHEMA_IMPLEMENTATION_AUTHORIZED=NO
 S51B_C2_DATABASE_TEST_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
 MIGRATION_AUTHORIZED=NO
@@ -133,8 +137,9 @@ HUMAN_AGENCY_FREIGABE_MERGE_DEPLOY_CONCEPT_DEMO=YES
 Conditional examples do not override this current gate.
 Human agency freigabe for concept-demo merge/deploy supersedes the prior
 NEXT_* / DEPLOY_AUTHORIZED=NO markers for that content slice only.
-The S51B-C scope-lock document may be merged; schema, migration and real DB
-connection remain unauthorized until a separate S51B-C1/C2 gate.
+S51B-C1 may land schema + generated SQL/snapshots with static tests only.
+S51B-C2 disposable MySQL tests, live migrate, Railway DB and production
+migration remain unauthorized.
 
 ## Hard safety rules
 
@@ -156,7 +161,7 @@ Do not add tracking, analytics, payment or auth providers without explicit appro
 Before modifying code:
 1. Read README.md.
 2. Read docs/00_PROJECT_STATUS.md.
-3. Read docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md, docs/architecture/S51A_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_IMPLEMENTATION_SCOPE.md and docs/architecture/S51B_B_IMPLEMENTATION_SCOPE.md. Treat docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md only as historical evidence.
+3. Read docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md, docs/architecture/S51A_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_B_IMPLEMENTATION_SCOPE.md and docs/architecture/S51B_C_SCHEMA_MIGRATION_SCOPE.md. Treat docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md only as historical evidence.
 4. Read docs/architecture/ARCHITECTURE_TARGET.md.
 5. Read docs/architecture/adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md.
 6. Read docs/architecture/adr/ADR-0002-SERVER-BOUNDARIES.md.

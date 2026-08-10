@@ -19,6 +19,7 @@ blockExoticSubdeps: true
 minimumReleaseAge: 1440
 
 allowBuilds:
+  esbuild: true
   "sharp@0.35.3": false
   "unrs-resolver@1.12.2": false
 

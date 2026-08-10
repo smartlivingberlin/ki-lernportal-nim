@@ -12,6 +12,11 @@ const approvedDatabaseProviders = [
   "mysql2",
 ];
 
+/** Dev-only tooling allowed in packages/db manifests, never as src imports. */
+const approvedDatabaseToolingProviders = [
+  "drizzle-kit",
+];
+
 const forbiddenDatabaseProviders = [
   "@electric-sql/pglite",
   "@libsql/client",
@@ -22,7 +27,6 @@ const forbiddenDatabaseProviders = [
   "@upstash/redis",
   "@vercel/postgres",
   "better-sqlite3",
-  "drizzle-kit",
   "dexie",
   "idb",
   "ioredis",
@@ -70,7 +74,10 @@ const approvedExternalManifestDependencies = new Map([
   ],
   [
     "package:db",
-    new Set(approvedDatabaseProviders),
+    new Set([
+      ...approvedDatabaseProviders,
+      ...approvedDatabaseToolingProviders,
+    ]),
   ],
 ]);
 
@@ -509,7 +516,14 @@ function isExternalModuleSpecifier(specifier) {
 function databaseImportViolation(
   owner,
   specifier,
+  options = {},
 ) {
+  const allowTooling = options.allowTooling === true;
+  const dependencyField = options.dependencyField;
+  const sourcePath = options.sourcePath
+    ? toPosix(options.sourcePath)
+    : null;
+
   const isDbPackage =
     owner.kind === "package" &&
     owner.dir === "db";
@@ -518,6 +532,12 @@ function databaseImportViolation(
     matchesProvider(
       specifier,
       approvedDatabaseProviders,
+    );
+
+  const toolingProvider =
+    matchesProvider(
+      specifier,
+      approvedDatabaseToolingProviders,
     );
 
   const forbiddenProvider =
@@ -529,6 +549,26 @@ function databaseImportViolation(
   if (isDbPackage) {
     if (approvedProvider) {
       return null;
+    }
+
+    if (toolingProvider) {
+      if (
+        allowTooling &&
+        dependencyField === "devDependencies"
+      ) {
+        return null;
+      }
+
+      if (
+        sourcePath &&
+        /(?:^|\/)drizzle\.config\.ts$/.test(
+          sourcePath,
+        )
+      ) {
+        return null;
+      }
+
+      return "UNAPPROVED_DATABASE_SDK_IN_DB";
     }
 
     if (forbiddenProvider) {
@@ -546,6 +586,7 @@ function databaseImportViolation(
 
   if (
     approvedProvider ||
+    toolingProvider ||
     forbiddenProvider
   ) {
     return "DATABASE_SDK_OUTSIDE_DB";
@@ -557,6 +598,7 @@ function databaseImportViolation(
 function databaseViolationsForSpecifiers(
   owner,
   specifiers,
+  options = {},
 ) {
   return specifiers
     .map((specifier) => ({
@@ -564,6 +606,7 @@ function databaseViolationsForSpecifiers(
       violation: databaseImportViolation(
         owner,
         specifier,
+        options,
       ),
     }))
     .filter(
@@ -579,6 +622,7 @@ function databaseSourceViolations(
   return databaseViolationsForSpecifiers(
     sourceOwner(path),
     importSpecifiers(source),
+    { sourcePath: path },
   );
 }
 
@@ -622,11 +666,16 @@ function dependencyTargetSpecifier(target) {
 function manifestSpecifierViolation(
   owner,
   specifier,
+  dependencyField,
 ) {
   const databaseViolation =
     databaseImportViolation(
       owner,
       specifier,
+      {
+        allowTooling: true,
+        dependencyField,
+      },
     );
 
   if (databaseViolation) {
@@ -689,6 +738,7 @@ function databaseManifestViolations(
         manifestSpecifierViolation(
           owner,
           subject,
+          field,
         );
 
       if (!violation) {
@@ -733,7 +783,9 @@ function reportDatabaseViolation(
     fail(
       `${rel(path)} declares or imports unapproved ` +
       `database SDK ${subject} in packages/db; ` +
-      "only drizzle-orm and mysql2 are allowed",
+      "runtime SDKs are drizzle-orm and mysql2; " +
+      "drizzle-kit is allowed only as a packages/db " +
+      "devDependency and must not be imported from src",
     );
     return;
   }
@@ -1147,13 +1199,26 @@ function runDatabaseManifestSelfTests() {
       ],
     },
     {
-      label: "db_drizzle_kit_dependency_blocked",
+      label: "db_drizzle_kit_dev_dependency_allowed",
       owner: {
         kind: "package",
         dir: "db",
       },
       manifest: {
         devDependencies: {
+          "drizzle-kit": "0.0.0",
+        },
+      },
+      expected: [],
+    },
+    {
+      label: "db_drizzle_kit_runtime_dependency_blocked",
+      owner: {
+        kind: "package",
+        dir: "db",
+      },
+      manifest: {
+        dependencies: {
           "drizzle-kit": "0.0.0",
         },
       },
@@ -1472,6 +1537,7 @@ function validatePackageSkeletons() {
       ).sort();
 
       const expectedDependencies = [
+        `${scope}/domain`,
         ...approvedDatabaseProviders,
       ].sort();
 
@@ -1482,13 +1548,44 @@ function validatePackageSkeletons() {
         fail(
           `${rel(
             manifestPath,
-          )} must declare exactly drizzle-orm and mysql2 ` +
-          "as normal dependencies in S51B-B",
+          )} must declare exactly ${scope}/domain, ` +
+          "drizzle-orm and mysql2 as normal dependencies " +
+          "in S51B-C1",
+        );
+      }
+
+      if (
+        manifest.dependencies?.[`${scope}/domain`] !==
+        "workspace:*"
+      ) {
+        fail(
+          `${rel(
+            manifestPath,
+          )} must declare ${scope}/domain as workspace:*`,
+        );
+      }
+
+      const actualDevDependencies = Object.keys(
+        manifest.devDependencies ?? {},
+      ).sort();
+
+      const expectedDevDependencies = [
+        ...approvedDatabaseToolingProviders,
+      ].sort();
+
+      if (
+        JSON.stringify(actualDevDependencies) !==
+        JSON.stringify(expectedDevDependencies)
+      ) {
+        fail(
+          `${rel(
+            manifestPath,
+          )} must declare exactly drizzle-kit as its only ` +
+          "devDependency in S51B-C1",
         );
       }
 
       for (const field of [
-        "devDependencies",
         "peerDependencies",
         "optionalDependencies",
       ]) {
@@ -1500,7 +1597,7 @@ function validatePackageSkeletons() {
           fail(
             `${rel(
               manifestPath,
-            )} must not declare ${field} in S51B-B`,
+            )} must not declare ${field} in S51B-C1`,
           );
         }
       }
@@ -1604,6 +1701,26 @@ function validatePackageSkeletons() {
           )} must include only src/**/*.ts`,
         );
       }
+
+      if (pkg.dir === "db") {
+        if (
+          JSON.stringify(tsconfig?.exclude) !==
+          JSON.stringify(["src/**/*.test.ts"])
+        ) {
+          fail(
+            `${rel(
+              tsconfigPath,
+            )} must exclude src/**/*.test.ts in S51B-C1`,
+          );
+        }
+      } else if (tsconfig?.exclude) {
+        fail(
+          `${rel(
+            tsconfigPath,
+          )} must not declare exclude before a ` +
+          "separately authorized implementation slice",
+        );
+      }
     }
 
     const readmePath = resolve(
@@ -1635,13 +1752,15 @@ function validatePackageSkeletons() {
       if (pkg.dir === "db") {
         for (const requiredText of [
           "S51B-B",
+          "S51B-C1",
           "keine echte Datenbankverbindung",
+          "drizzle-kit",
         ]) {
           if (!readme.includes(requiredText)) {
             fail(
               `${rel(
                 readmePath,
-              )} is missing S51B-B runtime status text: ` +
+              )} is missing S51B-C1 runtime status text: ` +
               requiredText,
             );
           }
@@ -1801,6 +1920,7 @@ function validateImportsAndGraph() {
       } of databaseViolationsForSpecifiers(
         owner,
         specifiers,
+        { sourcePath: file },
       )
     ) {
       reportDatabaseViolation(

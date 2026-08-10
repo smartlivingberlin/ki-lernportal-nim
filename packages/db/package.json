@@ -11,7 +11,14 @@
     }
   },
   "dependencies": {
+    "@ki-lernportal-nim/domain": "workspace:*",
     "drizzle-orm": "0.45.2",
     "mysql2": "3.23.1"
+  },
+  "devDependencies": {
+    "drizzle-kit": "0.31.10"
+  },
+  "scripts": {
+    "generate:pilot-schema": "node ./node_modules/drizzle-kit/bin.cjs generate --name=s51bc_pilot_core"
   }
 }

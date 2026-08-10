@@ -70,6 +70,9 @@ jobs:
       - name: Test S51B-B database runtime with local fakes
         run: pnpm test:s51b-b-db-runtime
 
+      - name: Test S51B-C1 pilot schema statically
+        run: pnpm test:s51b-c1-pilot-schema
+
       - name: Supply-chain policy check
         run: pnpm supply-chain:check
 
