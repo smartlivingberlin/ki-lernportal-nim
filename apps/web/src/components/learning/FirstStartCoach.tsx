@@ -143,6 +143,8 @@ export function FirstStartCoach({
 
       <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
         Kein langer Rundgang. Nur drei klare Schritte — du kannst jederzeit abbrechen.
+        Tipp: Bei den orangenen Buttons „Hilfe ?“ mit der Maus darüberfahren oder antippen —
+        dort öffnet sich die Erklärungswolke.
       </p>
 
       {!simpleMode ? (

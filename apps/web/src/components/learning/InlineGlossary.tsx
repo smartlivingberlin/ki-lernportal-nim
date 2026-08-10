@@ -27,7 +27,17 @@ export function InlineGlossaryTerm({
   const term = findTerm(termId);
   const panelId = useId();
   const rootRef = useRef<HTMLSpanElement>(null);
+  const closeTimer = useRef<number | null>(null);
   const [layer, setLayer] = useState<Layer>("closed");
+
+  const clearCloseTimer = () => {
+    if (closeTimer.current !== null) {
+      window.clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+
+  useEffect(() => () => clearCloseTimer(), []);
 
   useEffect(() => {
     if (layer === "closed") return;
@@ -57,13 +67,33 @@ export function InlineGlossaryTerm({
   const open = layer !== "closed";
 
   return (
-    <span ref={rootRef} className={`relative inline ${className}`}>
+    <span
+      ref={rootRef}
+      className={`relative inline ${className}`}
+      onMouseLeave={() => {
+        clearCloseTimer();
+        closeTimer.current = window.setTimeout(() => setLayer("closed"), 220);
+      }}
+      onMouseEnter={clearCloseTimer}
+    >
       <button
         type="button"
         className="nim-interactive inline-flex min-h-11 min-w-11 items-center justify-center border-b-2 border-dotted border-[var(--nim-primary)] px-2 font-bold text-[var(--nim-primary-strong)] hover:bg-[var(--nim-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nim-focus)]"
         aria-expanded={open}
         aria-controls={panelId}
-        onClick={() => setLayer((current) => (current === "closed" ? "short" : "closed"))}
+        onClick={() => {
+          clearCloseTimer();
+          setLayer((current) => (current === "closed" ? "short" : "closed"));
+        }}
+        onMouseEnter={() => {
+          if (
+            typeof window !== "undefined" &&
+            window.matchMedia("(hover: hover) and (pointer: fine)").matches
+          ) {
+            clearCloseTimer();
+            setLayer((current) => (current === "closed" ? "short" : current));
+          }
+        }}
       >
         {children ?? term.term}
       </button>
@@ -72,6 +102,7 @@ export function InlineGlossaryTerm({
           id={panelId}
           role="region"
           aria-label={`Begriff: ${term.term}`}
+          onMouseEnter={clearCloseTimer}
           className="absolute left-0 top-full z-40 mt-2 w-[min(20rem,calc(100vw-2rem))] rounded-[var(--nim-radius-lg)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 text-left shadow-[var(--shadow-lift)]"
         >
           <span className="block text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">

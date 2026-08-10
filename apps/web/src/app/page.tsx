@@ -36,7 +36,7 @@ import { MicroLearningUnitView } from "../components/learning/MicroLearningUnitV
 import { ModelNavigator } from "../components/learning/ModelNavigator";
 import { LearningWorkspaces } from "../components/learning/LearningWorkspaces";
 import { FirstStartCoach } from "../components/learning/FirstStartCoach";
-import { ExplainCloud } from "../components/learning/ExplainCloud";
+import { ExplainHotspot } from "../components/learning/ExplainCloud";
 import { InlineGlossaryText } from "../components/learning/InlineGlossary";
 import { SpacedReviewQueue } from "../components/learning/SpacedReviewQueue";
 import { useLocalProgress } from "../hooks/useLocalProgress";
@@ -433,12 +433,14 @@ export default function Home() {
           )}
 
           <section id="challenge" aria-label="Interaktive Challenges" className="scroll-mt-72 space-y-4 sm:scroll-mt-64 lg:scroll-mt-36">
-            <div className="flex flex-wrap items-center gap-2">
+            <ExplainHotspot tipId="challenge">
               <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[var(--foreground)]">
                 Challenges zur aktuellen Lektion
               </h2>
-              <ExplainCloud tipId="challenge" compact />
-            </div>
+              <p className="mt-2 max-w-2xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
+                Kurze Entscheidungen mit Feedback — Fehler sind erlaubt.
+              </p>
+            </ExplainHotspot>
             {lessonChallenges.map((challenge) => (
               <InteractiveChallengeCard key={challenge.id} challenge={challenge} />
             ))}
@@ -589,13 +591,15 @@ export default function Home() {
           </section>
 
           <section className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]">
-            <div className="flex flex-wrap items-center gap-2">
-              <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Begriffe</p>
-              <ExplainCloud tipId="glossar" compact />
-            </div>
-            <p className="mt-2 text-sm font-medium leading-6 text-[var(--nim-secondary)]">
-              Antippe unterstrichene Wörter im Text — oder öffne hier die Kurzdefinitionen.
-            </p>
+            <ExplainHotspot tipId="glossar">
+              <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
+                Begriffe
+              </p>
+              <p className="mt-2 text-sm font-medium leading-6 text-[var(--nim-secondary)]">
+                Unterstrichene Wörter im Text öffnen sich per Hover oder Tippen — hier findest du
+                die Kurzdefinitionen.
+              </p>
+            </ExplainHotspot>
             <div className="mt-4 space-y-3">
               {beginnerGlossary.map((item) => (
                 <details key={item.id} className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] p-4">

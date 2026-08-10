@@ -140,13 +140,13 @@ export const helpTips: HelpTip[] = [
   {
     id: "glossar",
     label: "Glossar / Fachbegriffe",
-    short: "Antippe unterstrichene Begriffe — Erklärung kommt in Schichten.",
+    short: "Unterstrichene Begriffe: Maus darüber oder tippen — Erklärung in Schichten.",
     medium:
       "Fachwörter werden sofort in Alltagssprache übersetzt. Du musst nichts auswendig lernen.",
     deep: {
       whatFor: "Angst vor Fachchinesisch nehmen und mitreden können.",
       howTo: [
-        "Auf den markierten Begriff tippen oder klicken.",
+        "Mit der Maus über den markierten Begriff fahren — oder tippen/klicken.",
         "Kurz lesen; bei Bedarf „Mehr“ öffnen.",
         "Teach-back: dem Begriff einen eigenen Satz geben.",
       ],
