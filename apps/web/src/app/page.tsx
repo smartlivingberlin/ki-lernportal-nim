@@ -386,6 +386,7 @@ export default function Home() {
           <SpacedReviewQueue simpleMode={simpleMode} />
 
           <section
+            id="methoden"
             {...explainAttrs("methoden")}
             className="overflow-hidden rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-6 shadow-[var(--shadow-lift)] md:p-8"
           >
@@ -571,6 +572,7 @@ export default function Home() {
           </section>
 
           <section
+            id="naechste"
             {...explainAttrs("naechste")}
             className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]"
           >
@@ -622,6 +624,7 @@ export default function Home() {
           </section>
 
           <section
+            id="glossar"
             {...explainAttrs("glossar")}
             className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]"
           >
