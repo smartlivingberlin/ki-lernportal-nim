@@ -11,6 +11,8 @@ export function LiteracyPathPanel() {
   const total = literacyStations.length;
   const allDone = doneCount === total;
   const percent = Math.round((doneCount / total) * 100);
+  const nextStation =
+    literacyStations.find((station) => !completedStationIds.includes(station.id)) ?? null;
 
   const printProof = () => {
     window.print();
@@ -69,13 +71,46 @@ export function LiteracyPathPanel() {
         </p>
       </div>
 
+      {nextStation ? (
+        <div className="rounded-[var(--nim-radius-md)] border border-[var(--nim-primary)]/30 bg-[var(--nim-primary-soft)] p-4">
+          <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
+            Nächste Station · {nextStation.order}/{total}
+          </p>
+          <p className="mt-2 font-[family-name:var(--font-display)] text-xl font-semibold text-[var(--foreground)]">
+            {nextStation.title}
+          </p>
+          <p className="mt-1 text-sm leading-6 text-[var(--nim-secondary)]">{nextStation.summary}</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <a
+              href={nextStation.href}
+              className="nim-interactive inline-flex min-h-11 items-center rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 text-sm font-black text-white"
+            >
+              {nextStation.actionLabel}
+            </a>
+            <button
+              type="button"
+              className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-white px-4 text-sm font-black text-[var(--nim-primary)]"
+              onClick={() => markComplete(nextStation.id)}
+            >
+              Station erledigen
+            </button>
+          </div>
+        </div>
+      ) : null}
+
       <ol className="space-y-3">
         {literacyStations.map((station) => {
           const done = completedStationIds.includes(station.id);
+          const isNext = nextStation?.id === station.id;
           return (
             <li
               key={station.id}
-              className="rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface-soft)] p-4"
+              className={[
+                "rounded-[var(--nim-radius-md)] border p-4",
+                isNext
+                  ? "border-[var(--nim-primary)] bg-[var(--nim-primary-soft)]"
+                  : "border-[var(--nim-border)] bg-[var(--nim-surface-soft)]",
+              ].join(" ")}
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">
@@ -95,7 +130,7 @@ export function LiteracyPathPanel() {
                       : "bg-white text-[var(--nim-secondary)]",
                   ].join(" ")}
                 >
-                  {done ? "erledigt" : "offen"}
+                  {done ? "erledigt" : isNext ? "als Nächstes" : "offen"}
                 </span>
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -129,15 +164,25 @@ export function LiteracyPathPanel() {
           {literacyPathMeta.disclaimer}
         </p>
         {allDone ? (
-          <div className="mt-4 space-y-3 rounded-[var(--nim-radius-md)] bg-[var(--nim-surface)] p-4 print:border print:border-black">
-            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
-              KI-Lernportal NIM
-            </p>
-            <p className="font-[family-name:var(--font-display)] text-xl font-semibold text-[var(--foreground)]">
-              Teilnahme-Nachweis: {literacyPathMeta.title}
-            </p>
-            <p className="text-sm leading-7 text-[var(--nim-secondary)]">
-              In diesem Browser wurden alle {total} Stationen des Kurzpfads als erledigt markiert.
+          <div className="literacy-proof mt-4 space-y-4 rounded-[var(--nim-radius-md)] bg-[var(--nim-surface)] p-5 print:border-2 print:border-black print:p-8">
+            <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[var(--nim-border)] pb-4 print:border-black">
+              <div>
+                <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)] print:text-black">
+                  KI-Lernportal NIM
+                </p>
+                <p className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold text-[var(--foreground)]">
+                  Teilnahme-Nachweis
+                </p>
+                <p className="mt-1 text-sm font-semibold text-[var(--nim-secondary)] print:text-black">
+                  {literacyPathMeta.title}
+                </p>
+              </div>
+              <p className="text-sm font-black text-[var(--nim-primary)] print:text-black">
+                {total}/{total} Stationen
+              </p>
+            </div>
+            <p className="text-sm leading-7 text-[var(--nim-secondary)] print:text-black">
+              In diesem Browser wurden alle Stationen des Kurzpfads als erledigt markiert.
               Datum (Gerät):{" "}
               {new Date().toLocaleDateString("de-DE", {
                 year: "numeric",
@@ -146,8 +191,18 @@ export function LiteracyPathPanel() {
               })}
               .
             </p>
-            <p className="text-xs font-semibold text-[var(--nim-secondary)]">
-              Hinweis: lokal erzeugt, ohne Benutzerkonto, ohne Server-Prüfung.
+            <ul className="grid gap-2 sm:grid-cols-2">
+              {literacyStations.map((station) => (
+                <li
+                  key={station.id}
+                  className="rounded-[var(--nim-radius-sm)] bg-[var(--nim-surface-soft)] px-3 py-2 text-sm font-semibold text-[var(--foreground)] print:border print:border-black print:bg-white"
+                >
+                  {station.order}. {station.title}
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs font-semibold text-[var(--nim-secondary)] print:text-black">
+              Hinweis: lokal erzeugt, ohne Benutzerkonto, ohne Server-Prüfung — kein amtliches Zertifikat.
             </p>
             <button
               type="button"

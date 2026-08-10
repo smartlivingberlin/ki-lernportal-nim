@@ -78,13 +78,13 @@ export const literacyStations: LiteracyStation[] = [
     actionLabel: "Zu den Szenarien",
   },
   {
-    id: "lit-truth",
+    id: "lit-review",
     order: 7,
-    title: "Aussagen gegenprüfen",
+    title: "Kurz abrufen (Spaced Review)",
     minutes: 8,
-    summary: "Quellenraum: Behauptungen nicht blind übernehmen.",
-    href: "#quellen",
-    actionLabel: "Zum Quellenraum",
+    summary: "Eine Abruffrage beantworten und einschätzen, wie sicher du bist.",
+    href: "#wiederholen",
+    actionLabel: "Zur Abruf-Übung",
   },
   {
     id: "lit-proof",

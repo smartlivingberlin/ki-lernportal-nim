@@ -124,25 +124,47 @@ export const helpTips: HelpTip[] = [
   {
     id: "erststart",
     label: "3-Minuten-Coach",
-    short: "Drei kurze Schritte für den sicheren Start — jederzeit abbrechbar.",
+    short: "Drei kurze Schritte: Selbstcheck, 60-Minuten-Pfad, Abruf.",
     whatIs:
-      "Ein kleiner Begleiter für den ersten Besuch. Er schlägt drei Mini-Schritte vor: Ziel wählen, eine kleine Einheit öffnen, ein Werkzeug ausprobieren.",
+      "Ein kleiner Begleiter für den ersten Besuch. Er führt dich durch Selbstcheck, den 60-Minuten-Literacy-Pfad und eine kurze Abruf-Übung.",
     whatFor:
       "Er nimmt Angst vor dem „großen Portal“. Du brauchst kein Vorwissen über KI. Drei Minuten reichen für ein Erfolgserlebnis.",
     canDo: [
-      "Schritt 1 antippen und zur Zielwahl springen.",
-      "Eine Themenwelt und eine Micro-Einheit öffnen.",
-      "Ein lokales Werkzeug testen (z. B. Prompt-Werkbank) — ohne echte Cloud-KI.",
+      "Selbstcheck öffnen und eine Themenwelt-Empfehlung holen.",
+      "Den 60-Minuten-Pfad Station für Station gehen.",
+      "Eine Abruffrage beantworten und die Sicherheit einschätzen.",
       "Den Coach ausblenden, wenn du allein weitergehen willst.",
     ],
     example:
-      "In drei Minuten: Welt „Chat & Prompting“ → kurze Einheit lesen → Prompt-Bausteine einmal ausfüllen.",
+      "In drei Minuten: Selbstcheck → Station 1 im Literacy-Pfad markieren → eine Abrufkarte üben.",
     mistake:
       "Den Coach als Pflicht-Tutorial sehen und deshalb gar nicht starten. Er ist optional und darf geschlossen werden.",
     links: [
-      { href: "#ziele", label: "Ziel wählen" },
-      { href: "#werkzeuge", label: "Zu den Werkzeugen" },
-      { href: "#coach", label: "Sicherheits-Coach" },
+      { href: "#selbstcheck", label: "Selbstcheck" },
+      { href: "#literacy-pfad", label: "60-Minuten-Pfad" },
+      { href: "#wiederholen", label: "Abruf" },
+    ],
+  },
+  {
+    id: "einstieg-route",
+    label: "Einstieg in drei Schritten",
+    short: "Der rote Faden: einschätzen → Kurzpfad → abrufen.",
+    whatIs:
+      "Eine Übersichtskarte mit drei klaren Stationen. Sie ersetzt das Suchen im Portal durch eine feste Reihenfolge.",
+    whatFor:
+      "Du siehst sofort, was zuerst dran ist — ohne dich in Themenwelten oder Werkzeugen zu verlieren.",
+    canDo: [
+      "Schritt 1: Selbstcheck starten.",
+      "Schritt 2: 60-Minuten-Pfad öffnen.",
+      "Schritt 3: Abruf-Übung machen.",
+    ],
+    example:
+      "Du tippst „Selbstcheck“, bekommst eine Welt-Empfehlung, gehst weiter zum Pfad und schließt mit einer Abrufkarte ab.",
+    mistake:
+      "Alle drei Schritte parallel öffnen und keinem zu Ende folgen. Besser: einen Schritt fertig machen, dann den nächsten.",
+    links: [
+      { href: "#einstieg-route", label: "Zur Einstiegsroute" },
+      { href: "#erststart", label: "Zum 3-Minuten-Coach" },
     ],
   },
   {
@@ -259,6 +281,7 @@ export const helpTips: HelpTip[] = [
       "Sofort „Antwort anzeigen“ tippen ohne nachzudenken. Dann trainierst du Klicken, nicht Erinnern.",
     links: [
       { href: "#methoden", label: "Lernmethoden erklären" },
+      { href: "#literacy-pfad", label: "Im Literacy-Pfad (Station 7)" },
       { href: "#pfad", label: "Zurück zu den Lektionen" },
     ],
   },
@@ -566,21 +589,22 @@ export const helpTips: HelpTip[] = [
     label: "60-Minuten AI-Literacy",
     short: "Ein klarer Kurzpfad mit Stationen und lokalem Teilnahme-Nachweis.",
     whatIs:
-      "Ein geführter 60-Minuten-Weg aus acht Stationen: Selbstcheck, Grundlagen, Sicherheit, Scam, Prompts, Szenarien, Quellen, Nachweis.",
+      "Ein geführter 60-Minuten-Weg aus acht Stationen: Selbstcheck, Grundlagen, Sicherheit, Scam, Prompts, Szenarien, Abruf, Nachweis.",
     whatFor:
       "Du brauchst keinen langen Kursplan. In etwa einer Stunde bekommst du Orientierung und einen lokalen Beleg — ohne Konto.",
     canDo: [
-      "Stationen der Reihe nach öffnen.",
+      "Die hervorgehobene „Nächste Station“ öffnen.",
       "Jede Station als erledigt markieren, wenn du sie bearbeitet hast.",
-      "Am Ende den lokalen Nachweis drucken oder als PDF speichern.",
+      "Am Ende den lokalen Nachweis mit Stationsliste drucken oder als PDF speichern.",
     ],
     example:
-      "Nach dem Selbstcheck markierst du Station 1, gehst zum Scam-Modul, übst ein Szenario und schließt mit dem Nachweis ab.",
+      "Nach dem Selbstcheck markierst du Station 1, gehst zum Scam-Modul, übst Abruf und schließt mit dem Nachweis ab.",
     mistake:
       "Den Nachweis für ein amtliches Zertifikat halten. Er gilt nur als lokaler Lernbeleg in diesem Browser.",
     links: [
       { href: "#literacy-pfad", label: "Zum Literacy-Pfad" },
       { href: "#selbstcheck", label: "Zum Selbstcheck" },
+      { href: "#wiederholen", label: "Zur Abruf-Übung" },
       { href: "#literacy-nachweis", label: "Zum Nachweis" },
     ],
   },

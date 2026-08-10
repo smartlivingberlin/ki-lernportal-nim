@@ -32,25 +32,25 @@ function useCoachDismissed() {
 
 const steps = [
   {
-    id: "ziel",
-    title: "1. Ziel wählen",
-    body: "Antippe eine Themenwelt — zum Beispiel „KI ohne Angst“ oder „Chat & Prompting“.",
-    href: "#ziele",
-    cta: "Zu den Zielen",
+    id: "check",
+    title: "1. Selbstcheck machen",
+    body: "Beantworte kurze Alltagsfragen. Du bekommst eine Themenwelt-Empfehlung — ohne Note und ohne Konto.",
+    href: "#selbstcheck",
+    cta: "Zum Selbstcheck",
   },
   {
-    id: "lernen",
-    title: "2. Eine kleine Einheit öffnen",
-    body: "Lies Warum, Beispiel und Schritte. Mach die kurze Übung — 5 Minuten reichen.",
-    href: "#themenwelt",
-    cta: "Zum Lernen",
+    id: "path",
+    title: "2. 60-Minuten-Pfad starten",
+    body: "Folge den acht Stationen: Sicherheit, Scam, Prompts, Szenarien — am Ende ein lokaler Teilnahme-Nachweis.",
+    href: "#literacy-pfad",
+    cta: "Zum Literacy-Pfad",
   },
   {
-    id: "werkzeug",
-    title: "3. Ein Werkzeug ausprobieren",
-    body: "Baue einen Prompt oder nutze den Datenschutz-Check — alles bleibt lokal im Browser.",
-    href: "#werkzeuge",
-    cta: "Zu den Werkzeugen",
+    id: "review",
+    title: "3. Kurz wiederholen",
+    body: "Aktives Abrufen statt nur lesen. Unsichere Karten kommen früher wieder — alles bleibt im Browser.",
+    href: "#wiederholen",
+    cta: "Zur Abruf-Übung",
   },
 ] as const;
 

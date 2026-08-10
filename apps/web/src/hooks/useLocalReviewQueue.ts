@@ -111,5 +111,11 @@ export function useLocalReviewQueue() {
     cards: reviewCards,
     recordConfidence,
     resetQueue,
+    countDue(nowMs = Date.now()) {
+      return reviewCards.filter((card) => {
+        const entry = store.entries.find((item) => item.cardId === card.id);
+        return !entry || entry.dueAt <= nowMs;
+      }).length;
+    },
   };
 }
