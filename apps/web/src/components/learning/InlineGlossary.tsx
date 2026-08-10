@@ -60,7 +60,7 @@ export function InlineGlossaryTerm({
     <span ref={rootRef} className={`relative inline ${className}`}>
       <button
         type="button"
-        className="nim-interactive border-b-2 border-dotted border-[var(--nim-primary)] font-bold text-[var(--nim-primary-strong)] hover:bg-[var(--nim-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nim-focus)]"
+        className="nim-interactive inline-flex min-h-11 min-w-11 items-center justify-center border-b-2 border-dotted border-[var(--nim-primary)] px-2 font-bold text-[var(--nim-primary-strong)] hover:bg-[var(--nim-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nim-focus)]"
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setLayer((current) => (current === "closed" ? "short" : "closed"))}

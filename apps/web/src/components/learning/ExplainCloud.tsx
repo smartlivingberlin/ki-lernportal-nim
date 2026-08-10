@@ -63,7 +63,7 @@ export function ExplainCloud({
         type="button"
         className={[
           "nim-interactive inline-flex items-center justify-center rounded-full border-2 border-[var(--nim-border-strong)] bg-[var(--nim-surface)] font-black text-[var(--nim-primary-strong)]",
-          compact ? "h-7 w-7 text-xs" : "h-9 w-9 text-sm",
+          "h-11 w-11 min-h-11 min-w-11 text-sm",
           "hover:bg-[var(--nim-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nim-focus)]",
         ].join(" ")}
         aria-expanded={open}
