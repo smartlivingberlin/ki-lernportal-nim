@@ -18,7 +18,7 @@ type CloudState = {
 };
 
 const PANEL_WIDTH = 352;
-const PANEL_HEIGHT = 200;
+const PANEL_HEIGHT = 220;
 
 function canHoverFinePointer(): boolean {
   if (typeof window === "undefined") return false;
@@ -56,13 +56,15 @@ function useIsClient() {
 /**
  * Globale Cursor-Erklärungswolke.
  * Maus in `[data-explain]`-Bereich/Button → Wolke am Cursor mit Kurzinfo.
+ *
+ * Ungepinnt: komplett pointer-events-none (kein Scroll-/Klick-Fang).
+ * Gepinnt (Hilfe-Button): Interaktion für Mehr dazu / Schließen.
  */
 export function CursorExplainLayer() {
   const panelId = useId();
   const isClient = useIsClient();
   const [cloud, setCloud] = useState<CloudState | null>(null);
   const pinnedRef = useRef(false);
-  const overCloudRef = useRef(false);
   const lastTipIdRef = useRef<string | null>(null);
   const hideTimerRef = useRef<number | null>(null);
 
@@ -83,7 +85,7 @@ export function CursorExplainLayer() {
     const scheduleHide = () => {
       clearHide();
       hideTimerRef.current = window.setTimeout(() => {
-        if (!pinnedRef.current && !overCloudRef.current) {
+        if (!pinnedRef.current) {
           lastTipIdRef.current = null;
           setCloud(null);
         }
@@ -182,6 +184,7 @@ export function CursorExplainLayer() {
   if (!isClient || !cloud) return null;
 
   const pos = clampPosition(cloud.x, cloud.y);
+  const interactive = cloud.pinned;
 
   return createPortal(
     <div
@@ -189,22 +192,11 @@ export function CursorExplainLayer() {
       data-explain-cloud-root=""
       role="region"
       aria-label={`Erklärung: ${cloud.tip.label}`}
-      className="pointer-events-none fixed z-[80] w-[min(22rem,calc(100vw-1.5rem))] rounded-[1.5rem] border-2 border-[var(--nim-primary)] bg-[var(--nim-surface)] p-4 text-left text-[var(--foreground)] shadow-[var(--shadow-lift)] sm:p-5"
+      className={[
+        "fixed z-[80] w-[min(22rem,calc(100vw-1.5rem))] rounded-[1.5rem] border-2 border-[var(--nim-primary)] bg-[var(--nim-surface)] p-4 text-left text-[var(--foreground)] shadow-[var(--shadow-lift)] sm:p-5",
+        interactive ? "pointer-events-auto" : "pointer-events-none",
+      ].join(" ")}
       style={{ left: pos.left, top: pos.top }}
-      onPointerEnter={() => {
-        overCloudRef.current = true;
-        if (hideTimerRef.current !== null) {
-          window.clearTimeout(hideTimerRef.current);
-          hideTimerRef.current = null;
-        }
-      }}
-      onPointerLeave={() => {
-        overCloudRef.current = false;
-        if (!pinnedRef.current) {
-          lastTipIdRef.current = null;
-          setCloud(null);
-        }
-      }}
     >
       <p className="text-[0.7rem] font-black uppercase tracking-[0.14em] text-[var(--nim-primary-strong)]">
         Erklärungswolke · {cloud.tip.label}
@@ -242,41 +234,47 @@ export function CursorExplainLayer() {
         </div>
       ) : null}
 
-      <div className="pointer-events-auto mt-3 flex flex-wrap gap-2">
-        {cloud.layer === "short" ? (
+      {interactive ? (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {cloud.layer === "short" ? (
+            <button
+              type="button"
+              className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 text-sm font-black text-white"
+              onClick={() =>
+                setCloud((current) =>
+                  current ? { ...current, layer: "medium", pinned: true } : current,
+                )
+              }
+            >
+              Mehr dazu
+            </button>
+          ) : null}
+          {cloud.layer === "medium" ? (
+            <button
+              type="button"
+              className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 text-sm font-black text-white"
+              onClick={() =>
+                setCloud((current) =>
+                  current ? { ...current, layer: "deep", pinned: true } : current,
+                )
+              }
+            >
+              Bedienung genau
+            </button>
+          ) : null}
           <button
             type="button"
-            className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 text-sm font-black text-white"
-            onClick={() =>
-              setCloud((current) =>
-                current ? { ...current, layer: "medium", pinned: true } : current,
-              )
-            }
+            className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-4 text-sm font-black text-[var(--nim-primary)]"
+            onClick={close}
           >
-            Mehr dazu
+            Schließen
           </button>
-        ) : null}
-        {cloud.layer === "medium" ? (
-          <button
-            type="button"
-            className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 text-sm font-black text-white"
-            onClick={() =>
-              setCloud((current) =>
-                current ? { ...current, layer: "deep", pinned: true } : current,
-              )
-            }
-          >
-            Bedienung genau
-          </button>
-        ) : null}
-        <button
-          type="button"
-          className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-4 text-sm font-black text-[var(--nim-primary)]"
-          onClick={close}
-        >
-          Schließen
-        </button>
-      </div>
+        </div>
+      ) : (
+        <p className="mt-3 text-xs font-semibold leading-5 text-[var(--nim-secondary)]">
+          Für mehr Details: orangenen Hilfe-Button antippen.
+        </p>
+      )}
     </div>,
     document.body,
   );

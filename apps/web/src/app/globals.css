@@ -63,6 +63,8 @@ body {
   line-height: 1.7;
   font-weight: 500;
   letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body.simple-mode {
