@@ -1,10 +1,10 @@
 # S51B-C – Schema- und Migrations-Scope-Lock
 
-**Status:** Dokumentarischer Scope-Lock auf `main` integriert. S51B-C1 (Schema + generierte Migration + statische Tests) ist der nächste freigegebene Implementierungsslice. S51B-C2, echte DB-Verbindungen, Railway-DB und Produktionsmigration bleiben gesperrt.
+**Status:** Dokumentarischer Scope-Lock auf `main` integriert. S51B-C1 (Schema + generierte Migration + statische Tests) und S51B-C2 (disposable lokaler MySQL-Constraint-Proof) sind integriert. Persistente DB-Verbindungen, Live-Migrate, Railway-DB und Produktionsmigration bleiben gesperrt.
 
 **Parent:** GitHub Issue #94 (supersedes Draft PR #105)  
-**Baseline:** `bb4f383a582dee17b21b02d948c4f1668c24cf33`  
-**Arbeitsbranch:** `cursor/s51b-c1-schema-migrations-b554`
+**Baseline:** `e0791383d726fcf0cbbea7f9101ab53cd8753154`  
+**Arbeitsbranch:** `cursor/s51b-c2-gate-docs-b554`
 
 ## 1. Zweck
 
@@ -352,6 +352,9 @@ S51B-C2 muss später nachweisen:
 - keine Verbindung zu Railway oder Production;
 - Container und Testdatenbank werden vollständig entfernt.
 
+Abnahmehinweis: Diese Kriterien sind durch PR #122 / CI-Run `31421822999`
+(`S51B_C2_LOCAL_MYSQL=PASS`, `FOREIGN_KEY_COUNT=9`) auf `main` nachgewiesen.
+
 ## 14. Rollback
 
 Dieser Dokumentationsstand ist rücknehmbar durch:
@@ -383,11 +386,15 @@ S51B_C1_SCHEMA_IMPLEMENTATION_AUTHORIZED=YES
 S51B_C1_MIGRATION_GENERATION_AUTHORIZED=YES
 S51B_C1_DEPENDENCY_CHANGE_AUTHORIZED=YES
 S51B_C1_CI_CHANGE_AUTHORIZED=YES
+S51B_C1_INTEGRATED_TO_MAIN=YES
 
-S51B_C2_DATABASE_TEST_AUTHORIZED=NO
+S51B_C2_DATABASE_TEST_AUTHORIZED=YES
+S51B_C2_INTEGRATED_TO_MAIN=YES
+S51B_C2_DISPOSABLE_DOCKER_AUTHORIZED=YES
+
 DATABASE_CONNECTION_AUTHORIZED=NO
 DATABASE_QUERY_AUTHORIZED=NO
-DOCKER_START_AUTHORIZED=NO
+LIVE_MIGRATE_AUTHORIZED=NO
 
 AUTH_RUNTIME_AUTHORIZED=NO
 SESSION_RUNTIME_AUTHORIZED=NO
