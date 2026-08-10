@@ -5,6 +5,10 @@ import { seedGlossary } from "../data/glossary";
 import { seedLearningPaths } from "../data/learning-paths";
 import { seedResources } from "../data/resources";
 import { publicSources } from "../data/sources";
+import { themeWorlds } from "../data/theme-worlds";
+import { learningMethods } from "../data/learning-methods";
+import { challengesForLesson, interactiveChallenges } from "../data/interactive-challenges";
+import type { ThemeWorld } from "../data/types";
 import { LessonWorkspace } from "../components/learning/LessonWorkspace";
 import { ModuleNavigation } from "../components/learning/ModuleNavigation";
 import { PortalHero } from "../components/learning/PortalHero";
@@ -12,7 +16,13 @@ import { TodayStartCard } from "../components/learning/TodayStartCard";
 import { GuidedStartSteps } from "../components/learning/GuidedStartSteps";
 import { LocalSearchPanel } from "../components/learning/LocalSearchPanel";
 import { ResourceCard } from "../components/learning/ResourceCard";
+import { GoalNavigation } from "../components/learning/GoalNavigation";
+import { InteractiveChallengeCard } from "../components/learning/InteractiveChallengeCard";
+import { SimpleModeToggle } from "../components/learning/SimpleModeToggle";
+import { MobileBottomNav } from "../components/learning/MobileBottomNav";
 import { useLocalProgress } from "../hooks/useLocalProgress";
+import { useSimpleMode } from "../hooks/useSimpleMode";
+import { designSystemMeta } from "../design/tokens";
 
 type LearningPathItem = (typeof seedLearningPaths)[number];
 type LessonItem = LearningPathItem["lessons"][number];
@@ -87,6 +97,8 @@ export default function Home() {
   const [activeLessonId, setActiveLessonId] = useState<string | null>(seedLearningPaths[0]?.lessons[0]?.id ?? null);
   const [progressAnnouncement, setProgressAnnouncement] = useState("");
   const [lessonFocusRequest, setLessonFocusRequest] = useState<{ lessonId: string } | null>(null);
+  const [selectedWorldId, setSelectedWorldId] = useState<string | null>("world-no-fear");
+  const { enabled: simpleMode, setEnabled: setSimpleMode } = useSimpleMode();
   const { completedLessonIds, setCompletedLessonIds } = useLocalProgress();
 
   const primaryPath = seedLearningPaths[0];
@@ -117,6 +129,14 @@ export default function Home() {
   const reviewedSources = publicSources.slice(0, 4);
   const beginnerResources = seedResources.slice(0, 3);
   const beginnerGlossary = seedGlossary.slice(0, 5);
+  const lessonChallenges = activeLesson
+    ? challengesForLesson(activeLesson.id)
+    : interactiveChallenges.slice(0, 1);
+  const visibleMethods = simpleMode ? learningMethods.slice(0, 4) : learningMethods.slice(0, 6);
+
+  useEffect(() => {
+    document.body.classList.toggle("simple-mode", simpleMode);
+  }, [simpleMode]);
 
   useEffect(() => {
     if (!lessonFocusRequest) return;
@@ -138,6 +158,18 @@ export default function Home() {
         ? `${lesson.title} wurde geöffnet.`
         : "Die ausgewählte Lektion wurde geöffnet.",
     );
+  };
+
+  const selectWorld = (world: ThemeWorld) => {
+    setSelectedWorldId(world.id);
+    if (world.starterLessonId) {
+      openLesson(world.starterLessonId);
+      setProgressAnnouncement(`${world.title}: Einstieg geöffnet.`);
+    } else {
+      setProgressAnnouncement(
+        `${world.title} ist als Themenwelt geplant. Der Einstieg folgt im nächsten Content-Ausbau.`,
+      );
+    }
   };
 
   const toggleLessonDone = (lessonId: string) => {
@@ -163,10 +195,10 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-950">
+    <div className="min-h-screen pb-24 text-[var(--foreground)] md:pb-0">
       <a
         href="#lernraum"
-        className="sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:block focus:rounded-xl focus:bg-white focus:px-4 focus:py-3 focus:font-black focus:text-nim-primary focus:shadow-xl"
+        className="sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:block focus:rounded-xl focus:bg-[var(--nim-surface)] focus:px-4 focus:py-3 focus:font-black focus:text-[var(--nim-primary)] focus:shadow-xl"
       >
         Direkt zum Lerninhalt
       </a>
@@ -175,47 +207,108 @@ export default function Home() {
         {progressAnnouncement}
       </p>
 
-      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
+      <header className="sticky top-0 z-50 border-b border-[var(--nim-border)] bg-[var(--nim-surface)]/95 backdrop-blur">
         <div className="mx-auto flex w-full min-w-0 max-w-[1500px] flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-6">
           <div>
-            <h1 className="text-xs font-black uppercase tracking-[0.28em] text-nim-primary">KI-Lernraum</h1>
-            <p className="mt-1 text-sm font-bold text-nim-primary">Öffentlich erreichbare Konzeptdemo · kein Konto · Fortschritt nur im Browser</p>
+            <p className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-[var(--nim-primary)] md:text-3xl">
+              KI-Lernportal NIM
+            </p>
+            <p className="mt-1 text-sm font-bold text-[var(--nim-secondary)]">
+              Kostenlos · verständlich · kein Konto · Fortschritt nur im Browser
+            </p>
           </div>
-          <nav className="flex min-w-0 max-w-full flex-wrap gap-2 text-sm font-black text-nim-primary" aria-label="Portalnavigation">
-            <a className="rounded-full bg-slate-100 px-4 py-2 hover:bg-slate-200" href="#lernraum">Lernraum</a>
-            <a className="rounded-full bg-slate-100 px-4 py-2 hover:bg-slate-200" href="#pfad">Pfad</a>
-            <a className="rounded-full bg-slate-100 px-4 py-2 hover:bg-slate-200" href="#coach">Coach</a>
-            <a className="rounded-full bg-slate-100 px-4 py-2 hover:bg-slate-200" href="#quellen">Quellen</a>
-          </nav>
+          <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center">
+            <SimpleModeToggle enabled={simpleMode} onChange={setSimpleMode} />
+            <nav className="flex min-w-0 max-w-full flex-wrap gap-2 text-sm font-black text-[var(--nim-primary)]" aria-label="Portalnavigation">
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-4 py-2 hover:bg-[var(--nim-primary-soft)]" href="#lernraum">Lernraum</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-4 py-2 hover:bg-[var(--nim-primary-soft)]" href="#pfad">Pfad</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-4 py-2 hover:bg-[var(--nim-primary-soft)]" href="#coach">Coach</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-4 py-2 hover:bg-[var(--nim-primary-soft)]" href="#quellen">Quellen</a>
+            </nav>
+          </div>
         </div>
       </header>
 
-      <main className="mx-auto grid w-full min-w-0 max-w-[1500px] gap-5 px-4 py-5 lg:px-6 xl:grid-cols-[minmax(260px,300px)_minmax(0,1fr)_minmax(280px,320px)]">
+      <section
+        aria-label="Willkommen"
+        className="portal-hero-plane relative overflow-hidden text-white"
+      >
+        <div className="mx-auto grid w-full max-w-[1500px] gap-6 px-4 py-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(240px,0.8fr)] lg:px-6 lg:py-14">
+          <div className="min-w-0">
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-white">
+              KI verstehen. KI ausprobieren. KI für dich nutzen.
+            </p>
+            <h2 className="mt-4 max-w-3xl font-[family-name:var(--font-display)] text-4xl font-semibold leading-tight md:text-6xl">
+              Dein geführter KI-Lernraum.
+            </h2>
+            <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-white md:text-lg">
+              Für Menschen mit Respekt vor Technik: klare Sprache, sichere Übungen,
+              spielerische Challenges und Schritt-für-Schritt-Hilfen — kostenlos und ohne Druck.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <a
+                href="#ziele"
+                className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-5 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
+              >
+                Ziel wählen
+              </a>
+              <button
+                type="button"
+                onClick={() => nextOpenLesson && openLesson(nextOpenLesson.id)}
+                className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/20"
+              >
+                Hier weitermachen
+              </button>
+            </div>
+          </div>
+          <TodayStartCard
+            lesson={nextOpenLesson}
+            moduleTitle={recommendedModule?.title ?? null}
+            completedLessons={completedLessons}
+            totalLessons={totalLessons}
+            onOpenLesson={openLesson}
+          />
+        </div>
+      </section>
+
+      <div className="mx-auto w-full max-w-[1500px] space-y-5 px-4 py-5 lg:px-6">
+        <GoalNavigation
+          worlds={themeWorlds}
+          selectedWorldId={selectedWorldId}
+          onSelectWorld={selectWorld}
+          simpleMode={simpleMode}
+        />
+      </div>
+
+      <main className="mx-auto grid w-full min-w-0 max-w-[1500px] gap-5 px-4 pb-5 lg:px-6 xl:grid-cols-[minmax(260px,300px)_minmax(0,1fr)_minmax(280px,320px)]">
         <section
           id="lernraum"
           aria-labelledby="lernraum-title"
           tabIndex={-1}
           className="min-w-0 scroll-mt-52 space-y-5 focus:outline-none lg:scroll-mt-32 xl:col-start-2 xl:row-start-1"
         >
-          <section className="overflow-hidden rounded-[2.4rem] bg-nim-primary text-white shadow-xl">
-            <div className="grid min-w-0 gap-5 p-6 md:grid-cols-[minmax(0,1fr)_minmax(220px,260px)] md:p-8">
-              <div className="min-w-0">
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-white">Heute im Lernraum</p>
-                <h2 id="lernraum-title" className="mt-4 max-w-3xl text-4xl font-black leading-tight md:text-5xl">
-                  Dein geführter KI-Lernraum.
-                </h2>
-                <p className="mt-5 max-w-2xl text-base font-semibold leading-8 text-white">
-                  Starte mit einer Lektion, prüfe die wichtigsten Sicherheitsregeln und markiere deinen Fortschritt lokal im Browser.
-                </p>
-              </div>
-              <TodayStartCard
-                lesson={nextOpenLesson}
-                moduleTitle={recommendedModule?.title ?? null}
-                completedLessons={completedLessons}
-                totalLessons={totalLessons}
-                onOpenLesson={openLesson}
-              />
-            </div>
+          <section className="overflow-hidden rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-6 shadow-[var(--shadow-lift)] md:p-8">
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--nim-primary)]">Heute im Lernraum</p>
+            <h2 id="lernraum-title" className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)] md:text-4xl">
+              Lernen mit Methode — nicht nur lesen
+            </h2>
+            <p className="mt-4 max-w-3xl text-base font-medium leading-8 text-[var(--nim-secondary)]">
+              Worked Examples, Abrufübungen, Alltagsszenen und Confidence-Checks helfen dir,
+              KI wirklich zu verstehen und sicher anzuwenden.
+            </p>
+            {!simpleMode ? (
+              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                {visibleMethods.map((method) => (
+                  <li
+                    key={method.id}
+                    className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] p-4"
+                  >
+                    <p className="text-sm font-black text-[var(--nim-primary)]">{method.plainName}</p>
+                    <p className="mt-2 text-sm leading-6 text-[var(--nim-secondary)]">{method.summary}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </section>
 
           <GuidedStartSteps
@@ -225,12 +318,14 @@ export default function Home() {
             onOpenLesson={openLesson}
           />
 
-          <LocalSearchPanel
-            lessons={allLessons}
-            resources={seedResources}
-            glossary={seedGlossary}
-            onOpenLesson={openLesson}
-          />
+          {!simpleMode ? (
+            <LocalSearchPanel
+              lessons={allLessons}
+              resources={seedResources}
+              glossary={seedGlossary}
+              onOpenLesson={openLesson}
+            />
+          ) : null}
 
           {activeLesson ? (
             <LessonWorkspace
@@ -242,17 +337,23 @@ export default function Home() {
               onOpenLesson={openLesson}
             />
           ) : (
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
-              <h2 className="text-2xl font-black text-nim-primary">Noch keine Lektion ausgewählt</h2>
-              <p className="mt-3 text-sm leading-7 text-nim-secondary">Wähle eine Lektion aus dem Lernpfad.</p>
+            <div className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-8 shadow-[var(--shadow-lift)]">
+              <h2 className="text-2xl font-black text-[var(--nim-primary)]">Noch keine Lektion ausgewählt</h2>
+              <p className="mt-3 text-sm leading-7 text-[var(--nim-secondary)]">Wähle eine Lektion aus dem Lernpfad.</p>
             </div>
           )}
 
-          <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Lernablauf</p>
+          <section id="challenge" aria-label="Interaktive Challenges" className="scroll-mt-52 space-y-4 lg:scroll-mt-32">
+            {lessonChallenges.map((challenge) => (
+              <InteractiveChallengeCard key={challenge.id} challenge={challenge} />
+            ))}
+          </section>
+
+          <section className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]">
+            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Lernablauf</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {workSteps.map((step, index) => (
-                <span key={step} className="rounded-full bg-slate-100 px-4 py-2 text-sm font-black text-nim-primary">
+                <span key={step} className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-4 py-2 text-sm font-black text-[var(--nim-primary)]">
                   {index + 1}. {step}
                 </span>
               ))}
@@ -267,16 +368,16 @@ export default function Home() {
         >
           <PortalHero progressText={progressText} progressPercent={progressPercent} totalLessons={totalLessons} />
 
-          <section className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm">
+          <section className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 shadow-[var(--shadow-lift)]">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Lernpfad</p>
-                <h2 className="mt-1 text-2xl font-black text-nim-primary">KI-Start</h2>
+                <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Lernpfad</p>
+                <h2 className="mt-1 text-2xl font-black text-[var(--nim-primary)]">KI-Start</h2>
               </div>
               <button
                 type="button"
                 onClick={resetProgress}
-                className="rounded-2xl border border-slate-200 px-3 py-2 text-xs font-black text-nim-primary hover:border-nim-primary/30"
+                className="rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-3 py-2 text-xs font-black text-[var(--nim-primary)] hover:border-[var(--nim-primary)]"
               >
                 Reset
               </button>
@@ -307,24 +408,24 @@ export default function Home() {
           aria-label="Sicherheits-Coach, nächste Lektion, Quellen und Begriffe"
           className="min-w-0 scroll-mt-52 space-y-5 lg:scroll-mt-32 xl:col-start-3 xl:row-start-1 xl:sticky xl:top-[5.75rem] xl:max-h-[calc(100vh-6.75rem)] xl:self-start xl:overflow-y-auto xl:pb-1 xl:pr-1"
         >
-          <section className="rounded-[2rem] border border-emerald-100 bg-emerald-50 p-5 shadow-sm">
-            <p className="text-xs font-black uppercase tracking-widest text-emerald-700">Sicherheits-Coach</p>
-            <h2 className="mt-2 text-2xl font-black text-emerald-950">Erst prüfen, dann übernehmen.</h2>
+          <section className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-success)]/30 bg-[var(--nim-success-soft)] p-5 shadow-[var(--shadow-lift)]">
+            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-success)]">Sicherheits-Coach</p>
+            <h2 className="mt-2 text-2xl font-black text-[var(--foreground)]">Erst prüfen, dann übernehmen.</h2>
             <div className="mt-5 space-y-3">
               {trustRules.map((rule) => (
-                <p key={rule} className="rounded-2xl bg-white/80 p-4 text-sm font-semibold leading-7 text-emerald-950">
+                <p key={rule} className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface)]/90 p-4 text-sm font-semibold leading-7 text-[var(--foreground)]">
                   {rule}
                 </p>
               ))}
             </div>
           </section>
 
-          <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Als nächstes offen</p>
-            <h2 className="mt-2 text-2xl font-black text-nim-primary">
+          <section className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]">
+            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Als nächstes offen</p>
+            <h2 className="mt-2 text-2xl font-black text-[var(--nim-primary)]">
               {nextOpenLesson ? `Lektion ${nextOpenLesson.order}` : "Pfad abgeschlossen"}
             </h2>
-            <p className="mt-2 text-sm leading-7 text-nim-secondary">
+            <p className="mt-2 text-sm leading-7 text-[var(--nim-secondary)]">
               {nextOpenLesson
                 ? `${nextOpenLesson.title} — markiere erledigte Lektionen, damit der nächste offene Schritt nach vorn springt.`
                 : "Du hast alle Lektionen markiert. Wiederhole unsichere Stellen oder prüfe die Quellen."}
@@ -333,7 +434,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => openLesson(nextOpenLesson.id)}
-                className="mt-4 w-full rounded-2xl bg-nim-primary px-4 py-3 text-sm font-black text-white hover:bg-nim-primary/90"
+                className="mt-4 w-full rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 py-3 text-sm font-black text-white hover:bg-[var(--nim-primary-strong)]"
               >
                 Zu dieser Lektion
               </button>
@@ -343,9 +444,9 @@ export default function Home() {
           <section
             id="quellen"
             aria-labelledby="quellen-title"
-            className="scroll-mt-52 rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm lg:scroll-mt-32"
+            className="scroll-mt-52 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] lg:scroll-mt-32"
           >
-            <h2 id="quellen-title" className="text-xs font-black uppercase tracking-widest text-nim-secondary">
+            <h2 id="quellen-title" className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
               Quellenraum
             </h2>
             <div className="mt-4 space-y-3">
@@ -356,25 +457,25 @@ export default function Home() {
                   href={source.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block min-h-11 rounded-2xl bg-slate-50 p-4 text-sm hover:bg-slate-100"
+                  className="block min-h-11 rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] p-4 text-sm hover:bg-[var(--nim-primary-soft)]"
                 >
-                  <span className="block font-black text-nim-primary">{source.name}</span>
-                  <span className="mt-1 block text-xs text-nim-secondary">{source.sourceType}</span>
+                  <span className="block font-black text-[var(--nim-primary)]">{source.name}</span>
+                  <span className="mt-1 block text-xs text-[var(--nim-secondary)]">{source.sourceType}</span>
                   <span className="sr-only"> – öffnet in einem neuen Tab</span>
                 </a>
               ))}
             </div>
           </section>
 
-          <section className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
-            <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">Begriffe</p>
+          <section className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]">
+            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Begriffe</p>
             <div className="mt-4 space-y-3">
               {beginnerGlossary.map((item) => (
-                <details key={item.id} className="rounded-2xl bg-slate-50 p-4">
-                  <summary className="flex min-h-11 cursor-pointer items-center text-sm font-black text-nim-primary">
+                <details key={item.id} className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] p-4">
+                  <summary className="flex min-h-11 cursor-pointer items-center text-sm font-black text-[var(--nim-primary)]">
                     {item.term}
                   </summary>
-                  <p className="mt-2 text-sm leading-7 text-nim-secondary">{item.definition}</p>
+                  <p className="mt-2 text-sm leading-7 text-[var(--nim-secondary)]">{item.definition}</p>
                 </details>
               ))}
             </div>
@@ -382,35 +483,40 @@ export default function Home() {
         </aside>
       </main>
 
-      <section
-        aria-labelledby="weiterlernen-title"
-        className="mx-auto max-w-[1500px] px-4 pb-10 lg:px-6"
-      >
-        <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 id="weiterlernen-title" className="text-xs font-black uppercase tracking-widest text-nim-secondary">
-            Weiterlernen ohne Überforderung
-          </h2>
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
-            {beginnerResources.map((resource) => (
-              <ResourceCard key={resource.id} resource={resource} />
-            ))}
+      {!simpleMode ? (
+        <section
+          aria-labelledby="weiterlernen-title"
+          className="mx-auto max-w-[1500px] px-4 pb-10 lg:px-6"
+        >
+          <div className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-6 shadow-[var(--shadow-lift)]">
+            <h2 id="weiterlernen-title" className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
+              Weiterlernen ohne Überforderung
+            </h2>
+            <div className="mt-5 grid gap-4 md:grid-cols-3">
+              {beginnerResources.map((resource) => (
+                <ResourceCard key={resource.id} resource={resource} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
-      <footer className="border-t border-slate-200 bg-white px-4 py-8 lg:px-6">
-        <div className="mx-auto flex max-w-[1500px] flex-col gap-4 text-sm text-nim-secondary md:flex-row md:items-center md:justify-between">
+      <footer className="border-t border-[var(--nim-border)] bg-[var(--nim-surface)] px-4 py-8 lg:px-6">
+        <div className="mx-auto flex max-w-[1500px] flex-col gap-4 text-sm text-[var(--nim-secondary)] md:flex-row md:items-center md:justify-between">
           <p className="max-w-3xl leading-7">
-            Öffentlich erreichbare Konzeptdemo mit statischen Inhalten. Der Lernfortschritt wird nur lokal im Browser gespeichert. Kein Konto,
+            Öffentlich erreichbare Konzeptdemo mit wachsenden Inhalten. Der Lernfortschritt wird nur lokal im Browser gespeichert. Kein Konto,
             keine Lerndatenbank, kein Tracking und noch kein öffentlicher Produktlaunch.
+            Barrierefreiheitsziel: {designSystemMeta.accessibilityTarget}.
           </p>
-          <nav className="flex flex-wrap gap-3 font-black text-nim-primary" aria-label="Rechtliche Links">
+          <nav className="flex flex-wrap gap-3 font-black text-[var(--nim-primary)]" aria-label="Rechtliche Links">
             <a href="/impressum" className="inline-flex min-h-11 items-center hover:underline">Impressum</a>
             <a href="/datenschutz" className="inline-flex min-h-11 items-center hover:underline">Datenschutz</a>
             <a href="/kontakt" className="inline-flex min-h-11 items-center hover:underline">Kontakt</a>
           </nav>
         </div>
       </footer>
+
+      <MobileBottomNav simpleMode={simpleMode} />
     </div>
   );
 }

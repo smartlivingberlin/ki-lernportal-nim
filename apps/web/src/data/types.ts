@@ -144,3 +144,81 @@ export interface ResourceCard {
   tags: string[];
 }
 
+/** Content Schema v2 — Themenwelten und interaktive Lernbausteine */
+
+export type AudienceLevel = 0 | 1 | 2 | 3 | 4 | 5;
+
+export type ThemeWorldStatus = "active" | "planned" | "locked";
+
+export type ThemeWorldAccent = "teal" | "coral";
+
+export type ConfidenceLevel = "sure" | "unsure" | "unclear";
+
+export interface ThemeWorld {
+  id: string;
+  title: string;
+  shortLabel: string;
+  goalPrompt: string;
+  description: string;
+  audienceLevel: AudienceLevel;
+  estimatedUnits: number;
+  status: ThemeWorldStatus;
+  accent: ThemeWorldAccent;
+  starterLessonId: string | null;
+  learningOutcomes: string[];
+}
+
+export interface LearningMethod {
+  id: string;
+  name: string;
+  plainName: string;
+  summary: string;
+  whyItHelps: string;
+  howWeUseIt: string;
+  interactionHint: string;
+}
+
+export interface ChallengeOption {
+  id: string;
+  label: string;
+  feedback: string;
+  isGood: boolean;
+}
+
+export interface InteractiveChallenge {
+  id: string;
+  worldId: string;
+  lessonId: string | null;
+  title: string;
+  plainIntro: string;
+  prompt: string;
+  options: ChallengeOption[];
+  teachBackPrompt: string;
+  methodIds: string[];
+}
+
+/**
+ * Zielbild für spätere Micro-Einheiten (Content Schema v2).
+ * Noch nicht alle Felder sind in den Seed-Lektionen befüllt.
+ */
+export interface MicroLearningUnitV2 {
+  id: string;
+  worldId: string;
+  title: string;
+  whyUseful: string;
+  oneSentence: string;
+  everydayExample: string;
+  steps: string[];
+  practiceTask: string;
+  samplePath: string;
+  whyItWorks: string;
+  commonMistake: string;
+  safetyNote: string;
+  retrievalQuestions: string[];
+  teachBackPrompt: string;
+  sourceIds: string[];
+  lastReviewed: string;
+  estimatedMinutes: number;
+  methodIds: string[];
+}
+

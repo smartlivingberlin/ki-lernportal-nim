@@ -12,7 +12,7 @@ export function PortalHero({
   return (
     <section
       aria-labelledby="portalstatus-title"
-      className="rounded-[2rem] bg-nim-primary p-5 text-white shadow-lg"
+      className="rounded-[var(--nim-radius-xl)] bg-[var(--nim-primary)] p-5 text-white shadow-[var(--shadow-lift)]"
     >
       <h2
         id="portalstatus-title"
@@ -23,7 +23,7 @@ export function PortalHero({
 
       <div className="mt-4 flex items-end justify-between gap-4">
         <div>
-          <p className="text-4xl font-black">{progressText}</p>
+          <p className="font-[family-name:var(--font-display)] text-4xl font-semibold">{progressText}</p>
           <p className="mt-1 text-sm font-semibold text-white">lokal erledigt</p>
         </div>
 
@@ -45,7 +45,7 @@ export function PortalHero({
         aria-valuetext={`${progressText} Lektionen lokal erledigt`}
       >
         <div
-          className="h-full rounded-full bg-white transition-all"
+          className="h-full rounded-full bg-[var(--nim-accent)] transition-all"
           style={{ width: `${progressPercent}%` }}
         />
       </div>

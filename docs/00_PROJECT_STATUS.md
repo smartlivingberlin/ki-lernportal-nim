@@ -1,14 +1,17 @@
 # Projektstatus: KI-Lernportal NIM
 
-**Stand:** 26. Juli 2026
-**Baseline `main`:** `30e88dcd0516f5c2ddf3562a2f492f6f756f7e7a`
-**Status:** Phase-0A-Source-of-Truth-Abgleich und Backlog-Normalisierung abgeschlossen; PR #68 staging-only remediert und CI-grün, weiterhin Draft und nicht zum Merge freigegeben
+**Stand:** 10. August 2026
+**Baseline `main`:** `caa1168acbbe3d64d59934c800629853a2cfebb8`
+**Status:** S51B-B Adapter integriert; PR #105 (S51B-C Scope-Lock) offen als Draft; Design-/Content-Foundation-Slice in Arbeit; PR #68 Staging-Readiness-Vertrag ist gemergt
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
 PHASE0A_SOURCE_OF_TRUTH_SYNC=COMPLETE
 BACKLOG_NORMALIZATION=COMPLETE
-BASELINE_MAIN_SHA=30e88dcd0516f5c2ddf3562a2f492f6f756f7e7a
+BASELINE_MAIN_SHA=caa1168acbbe3d64d59934c800629853a2cfebb8
+PR68_MERGED=YES
+PR105_OPEN_DRAFT_S51B_C_SCOPE_LOCK=YES
+S51B_C_SCHEMA_AUTHORIZED=NO
 ~~~
 
 ## 1. Verbindliche Einordnung
@@ -170,30 +173,42 @@ Vor jeder zukünftigen Railway-, Merge-, Deployment- oder
 Produktionsentscheidung ist der dann aktuelle Dashboardzustand erneut
 read-only zu prüfen.
 
-## 7. Offener PR #68
+## 7. PR #68 (Staging-Readiness) — gemergt
 
-PR #68 ist ein separater Draft-PR für Railway-Readiness. Er wurde auf den
-aktuellen `main`-Stand restackt und staging-only remediert. Der Repository-Diff
-enthält keine Standarddatei `railway.json`, sondern ausschließlich die explizit
-zu konfigurierende Datei `railway.staging.json`. Der vollständige CI-Lauf #221
-war erfolgreich.
+PR #68 („S50D1: establish Railway staging readiness contract“) ist auf GitHub
+**gemergt** (Merge am 26. Juli 2026). Der Repository-Diff enthält keine
+Standarddatei `railway.json`, sondern die explizit zu konfigurierende Datei
+`railway.staging.json`.
 
 ~~~text
-PR68_STATE=OPEN
-PR68_DRAFT=YES
-PR68_MERGED=NO
-PR68_HEAD=78a07401dd157c92422e0e7c53754c68824c94f4
-PR68_RESTACKED=YES
-PR68_STAGING_ONLY_REMEDIATION=COMPLETE
-PR68_FULL_CI=PASS
-PR68_READY_CANDIDATE=YES
-PR68_READY_EXECUTED=NO
-PR68_MERGE_AUTHORIZED=NO
-RAILWAY_REVERIFY_BEFORE_PR68_MERGE=REQUIRED
+PR68_STATE=MERGED
+PR68_MERGED=YES
+PR68_READY_EXECUTED=HISTORICAL
+RAILWAY_STAGING_AUTHORIZED=NO
+DEPLOY_AUTHORIZED=NO
+RAILWAY_REVERIFY_BEFORE_STAGING_USE=REQUIRED
 ~~~
 
-Dieses Dokument verändert PR #68 nicht und erteilt keine Ready-, Merge-,
-Railway- oder Deploymentfreigabe.
+Ein Merge von PR #68 ist **keine** Freigabe für Staging-Nutzung, Autodeploy
+oder Production-Änderungen. Vor jeder Railway-Aktion ist der Dashboardzustand
+erneut read-only zu prüfen.
+
+## 7b. Offener PR #105 (S51B-C Scope-Lock)
+
+PR #105 ist ein separater **Draft**-PR und dokumentiert ausschließlich den
+S51B-C-Schema-/Migrations-Scope. Er autorisiert keine Schemaimplementierung,
+keine Migration und keine Datenbankverbindung.
+
+~~~text
+PR105_STATE=OPEN
+PR105_DRAFT=YES
+PR105_MERGED=NO
+PR105_HEAD=2fc71ae3a2b5efae4bc4bd3e3a87454ff619f88e
+S51B_C_SCHEMA_AUTHORIZED=NO
+~~~
+
+Dieses Dokument verändert PR #105 nicht und erteilt keine Ready-, Merge-,
+Datenbank- oder Deploymentfreigabe.
 
 ## 8. Phase-0- und Phase-0A-Befunde
 
@@ -249,7 +264,9 @@ DATABASE_CONNECTION_AUTHORIZED=NO
 MIGRATION_AUTHORIZED=NO
 
 RAILWAY_STAGING_AUTHORIZED=NO
-PR68_MERGE_AUTHORIZED=NO
+PR68_MERGED=YES
+PR105_OPEN_DRAFT=YES
+S51B_C_SCHEMA_AUTHORIZED=NO
 DEPLOY_AUTHORIZED=NO
 PRODUCTION_CHANGE_AUTHORIZED=NO
 
