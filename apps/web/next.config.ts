@@ -26,7 +26,6 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
-  transpilePackages: ["@ki-lernportal-nim/ui"],
   async headers() {
     return [
       {
