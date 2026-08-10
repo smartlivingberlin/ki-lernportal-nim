@@ -561,6 +561,96 @@ export const helpTips: HelpTip[] = [
       { href: "#quellen", label: "Quellen" },
     ],
   },
+  {
+    id: "literacy-path",
+    label: "60-Minuten AI-Literacy",
+    short: "Ein klarer Kurzpfad mit Stationen und lokalem Teilnahme-Nachweis.",
+    whatIs:
+      "Ein geführter 60-Minuten-Weg aus acht Stationen: Selbstcheck, Grundlagen, Sicherheit, Scam, Prompts, Szenarien, Quellen, Nachweis.",
+    whatFor:
+      "Du brauchst keinen langen Kursplan. In etwa einer Stunde bekommst du Orientierung und einen lokalen Beleg — ohne Konto.",
+    canDo: [
+      "Stationen der Reihe nach öffnen.",
+      "Jede Station als erledigt markieren, wenn du sie bearbeitet hast.",
+      "Am Ende den lokalen Nachweis drucken oder als PDF speichern.",
+    ],
+    example:
+      "Nach dem Selbstcheck markierst du Station 1, gehst zum Scam-Modul, übst ein Szenario und schließt mit dem Nachweis ab.",
+    mistake:
+      "Den Nachweis für ein amtliches Zertifikat halten. Er gilt nur als lokaler Lernbeleg in diesem Browser.",
+    links: [
+      { href: "#literacy-pfad", label: "Zum Literacy-Pfad" },
+      { href: "#selbstcheck", label: "Zum Selbstcheck" },
+      { href: "#literacy-nachweis", label: "Zum Nachweis" },
+    ],
+  },
+  {
+    id: "self-check",
+    label: "Selbstcheck",
+    short: "Kurze Fragen — Empfehlung einer Themenwelt, keine Note.",
+    whatIs:
+      "Ein Einstiegsquiz mit Alltagsfragen. Es bewertet dich nicht, sondern schlägt eine passende Themenwelt vor.",
+    whatFor:
+      "Weniger Starre: Du startest nicht zufällig, sondern mit einem Vorschlag, der zu deinem Ziel passt.",
+    canDo: [
+      "Alle Fragen beantworten.",
+      "„Empfehlung zeigen“ antippen.",
+      "Die vorgeschlagene Welt öffnen oder den Literacy-Pfad starten.",
+    ],
+    example:
+      "Viele Sicherheitsantworten → Empfehlung „Daten, Sicherheit & Recht“ oder ähnliche Welt.",
+    mistake:
+      "Den Selbstcheck als Prüfung sehen und deshalb abbrechen. Es gibt kein Bestehen oder Durchfallen.",
+    links: [
+      { href: "#selbstcheck", label: "Selbstcheck starten" },
+      { href: "#ziele", label: "Alle Themenwelten" },
+    ],
+  },
+  {
+    id: "prompt-library",
+    label: "Prompt-Bibliothek",
+    short: "Fertige Vorlagen zum Kopieren — mit Datenschutz-Hinweisen.",
+    whatIs:
+      "Eine Sammlung geprüfter Prompt-Bausteine für Alltag, Beruf, Lernen und Sicherheit. Du kopierst und passt Platzhalter an.",
+    whatFor:
+      "Sofortiger Nutzen, ohne bei null formulieren zu müssen — und mit Erinnerung, keine Geheimnisse einzufügen.",
+    canDo: [
+      "Kategorie wählen.",
+      "Prompt lesen und kopieren.",
+      "Platzhalter ersetzen und erst dann in einem externen Tool nutzen — oder nur hier üben.",
+    ],
+    example:
+      "„Team-Agenda“ kopieren, Platzhalter füllen, Privacy-Hinweis beachten, fertig.",
+    mistake:
+      "Denken, das Portal schickt den Prompt schon an eine KI. Hier wird nur Text bereitgestellt.",
+    links: [
+      { href: "#prompt-bibliothek", label: "Zur Bibliothek" },
+      { href: "#werkzeuge", label: "Zur Prompt-Werkbank" },
+    ],
+  },
+  {
+    id: "scam-module",
+    label: "Scam & Deepfake",
+    short: "Warnsignale, Stopp-Ablauf und Übungen gegen Betrugstricks.",
+    whatIs:
+      "Ein Sicherheitsmodul zu KI-gestütztem Betrug: Stimme, Druck, falsche Kanäle und was du tun sollst.",
+    whatFor:
+      "Schäden vermeiden, bevor Geld oder Daten weg sind — besonders für digital Unsichere.",
+    canDo: [
+      "Warnsignale lesen.",
+      "Stopp-Ablauf merken.",
+      "Schnell-Check abhaken und Scam-Challenges üben.",
+    ],
+    example:
+      "„Chef“-Anruf mit Geschenkkarten-Wunsch → auflegen → über Dienstchat nachfragen.",
+    mistake:
+      "Aus der verdächtigen Nachricht zurückrufen oder Links „nur kurz“ öffnen.",
+    links: [
+      { href: "#scam", label: "Zum Scam-Modul" },
+      { href: "#coach", label: "Zum Sicherheits-Coach" },
+      { href: "#szenarien", label: "Weitere Szenarien" },
+    ],
+  },
 ];
 
 export function helpTipById(id: string): HelpTip | null {

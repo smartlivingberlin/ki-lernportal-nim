@@ -40,10 +40,20 @@ import { ExplainHotspot } from "../components/learning/ExplainCloud";
 import { CursorExplainLayer } from "../components/learning/CursorExplainLayer";
 import { InlineGlossaryText } from "../components/learning/InlineGlossary";
 import { SpacedReviewQueue } from "../components/learning/SpacedReviewQueue";
+import { LiteracyPathPanel } from "../components/learning/LiteracyPathPanel";
+import { SelfCheckPanel } from "../components/learning/SelfCheckPanel";
+import { PromptLibraryPanel } from "../components/learning/PromptLibraryPanel";
+import { ScamModulePanel } from "../components/learning/ScamModulePanel";
 import { explainAttrs } from "../data/help-tips";
 import { useLocalProgress } from "../hooks/useLocalProgress";
 import { useSimpleMode } from "../hooks/useSimpleMode";
 import { designSystemMeta } from "../design/tokens";
+
+const SCAM_CHALLENGE_IDS = [
+  "challenge-authority-email",
+  "challenge-boss-voice-ai",
+  "challenge-safe-prompt",
+] as const;
 
 type LearningPathItem = (typeof seedLearningPaths)[number];
 type LessonItem = LearningPathItem["lessons"][number];
@@ -294,6 +304,7 @@ export default function Home() {
             <SimpleModeToggle enabled={simpleMode} onChange={setSimpleMode} />
             <nav className="flex min-w-0 max-w-full flex-wrap gap-2 text-sm font-black text-[var(--nim-primary)]" aria-label="Portalnavigation">
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#lernraum" {...explainAttrs("hero")}>Lernraum</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#literacy-pfad" {...explainAttrs("literacy-path")}>60 Min</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#pfad" {...explainAttrs("lernpfad")}>Pfad</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#coach" {...explainAttrs("sicherheit")}>Coach</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#quellen" {...explainAttrs("quellen")}>Quellen</a>
@@ -328,9 +339,23 @@ export default function Home() {
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <a
+                    href="#literacy-pfad"
+                    {...explainAttrs("literacy-path")}
+                    className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-5 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
+                  >
+                    60-Minuten-Pfad
+                  </a>
+                  <a
+                    href="#selbstcheck"
+                    {...explainAttrs("self-check")}
+                    className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/20"
+                  >
+                    Selbstcheck
+                  </a>
+                  <a
                     href="#ziele"
                     {...explainAttrs("ziele")}
-                    className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-5 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
+                    className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/20"
                   >
                     Ziel wählen
                   </a>
@@ -355,6 +380,14 @@ export default function Home() {
           </section>
 
           <FirstStartCoach simpleMode={simpleMode} />
+
+          <LiteracyPathPanel />
+
+          <SelfCheckPanel
+            onRecommendWorld={(worldId) => {
+              setSelectedWorldId(worldId);
+            }}
+          />
 
           <GoalNavigation
             worlds={themeWorlds}
@@ -382,6 +415,10 @@ export default function Home() {
           ) : null}
 
           <LearningWorkspaces simpleMode={simpleMode} />
+
+          {!simpleMode ? <PromptLibraryPanel /> : null}
+
+          <ScamModulePanel challengeIds={[...SCAM_CHALLENGE_IDS]} />
 
           <SpacedReviewQueue simpleMode={simpleMode} />
 
