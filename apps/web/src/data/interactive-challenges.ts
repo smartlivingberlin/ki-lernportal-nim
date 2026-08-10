@@ -483,6 +483,450 @@ export const interactiveChallenges: InteractiveChallenge[] = [
     methodIds: ["method-scenario", "method-retrieval", "method-playful"],
     scenarioDomain: "alltag",
   },
+  {
+    id: "challenge-safety-placeholder",
+    worldId: "world-safety-law",
+    lessonId: "l10",
+    title: "Sicherheit: Platzhalter statt Kundendaten",
+    plainIntro:
+      "Du willst eine höfliche Zahlungserinnerung formulieren lassen — im Prompt stehen noch Name, Adresse und IBAN.",
+    prompt: "Was ist der beste nächste Schritt?",
+    options: [
+      {
+        id: "a",
+        label: "So absenden — die KI braucht die echten Daten für einen guten Text.",
+        feedback:
+          "Nein. Für Ton und Struktur reichen Platzhalter. Echte Identifikatoren erhöhen das Risiko.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Name, Adresse und IBAN durch Platzhalter ersetzen, dann um einen Entwurf bitten und selbst einfügen.",
+        feedback:
+          "Richtig. Datensparsam prompten, fertigen Text lokal vervollständigen.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Nur die IBAN weglassen, Name und Adresse dürfen bleiben.",
+        feedback:
+          "Zu wenig. Name plus Adresse sind oft schon identifizierend.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Zeig an einem Beispiel: Prompt vorher (riskant) und nachher (sicher).",
+    methodIds: ["method-scenario", "method-retrieval", "method-worked-example"],
+    scenarioDomain: "sicherheit",
+  },
+  {
+    id: "challenge-safety-risk",
+    worldId: "world-safety-law",
+    lessonId: "l12",
+    title: "Sicherheit: Risiko steuert die Prüfung",
+    plainIntro:
+      "Zwei Aufgaben: Einkaufsliste umschreiben und „Soll ich diesen Mietvertrag unterschreiben?“",
+    prompt: "Welche Haltung passt?",
+    options: [
+      {
+        id: "a",
+        label: "Beide Aufgaben gleich behandeln — KI kann beides entscheiden.",
+        feedback:
+          "Nein. Das Schadensrisiko ist sehr unterschiedlich.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Liste: Entwurf okay. Vertrag: nur Erklärungshilfen, Entscheidung und Prüfung beim Menschen bzw. Fachstelle.",
+        feedback:
+          "Genau. Je größer der mögliche Schaden, desto strenger die Prüfung.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Verträge darf die KI verbindlich auslegen, Listen nicht.",
+        feedback:
+          "Umgekehrt riskant. Rechtliche Folgen brauchen menschliche Verantwortung.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Erklär in einem Satz, warum Risiko die Prüfpflicht steuert.",
+    methodIds: ["method-scenario", "method-teachback", "method-confidence"],
+    scenarioDomain: "sicherheit",
+  },
+  {
+    id: "challenge-multi-prompt",
+    worldId: "world-multimodal",
+    lessonId: null,
+    title: "Medien: Bild-Prompt mit Grenze",
+    plainIntro:
+      "Du brauchst eine einfache Illustration für eine Vereins-Einladung.",
+    prompt: "Welcher Prompt ist am sinnvollsten?",
+    options: [
+      {
+        id: "a",
+        label: "„Schönes Bild bitte.“",
+        feedback:
+          "Zu vage. Motiv, Stil und Grenzen fehlen.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "„Flache Illustration eines Picknicktisches im Park, hell, Querformat, keine Personen, keine Logos, kein Text im Bild.“",
+        feedback:
+          "Passt. Motiv, Stil und klare Grenzen steuern besser.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Ein Foto einer realen Person ohne Einwilligung als Vorlage hochladen.",
+        feedback:
+          "Rechte und Privatsphäre: so nicht.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Nenne die drei Bausteine Motiv, Stil und Grenze.",
+    methodIds: ["method-worked-example", "method-retrieval", "method-playful"],
+    scenarioDomain: "alltag",
+  },
+  {
+    id: "challenge-multi-share",
+    worldId: "world-multimodal",
+    lessonId: null,
+    title: "Medien: Clip teilen mit Prüfstand",
+    plainIntro:
+      "In der Familiengruppe kursiert ein dramatisches „Beweisvideo“ zu einer angeblichen Skandalnachricht.",
+    prompt: "Was tust du zuerst?",
+    options: [
+      {
+        id: "a",
+        label: "Sofort weiterleiten — sieht echt aus.",
+        feedback:
+          "Riskant. Aussehen ist kein Echtheitsbeweis.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Stoppen, Quelle und Datum prüfen, unabhängige Bestätigung suchen — erst dann entscheiden.",
+        feedback:
+          "Richtig. Gesunde Skepsis schützt vor Deepfake- und Kontextfallen.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Nur den Screenshot teilen, ohne Kommentar.",
+        feedback:
+          "Screenshots wirken autoritativ und ersetzen keine Prüfung.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Welche drei Fragen stellst du vor dem Teilen eines Clips?",
+    methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
+    scenarioDomain: "sicherheit",
+  },
+  {
+    id: "challenge-models-task",
+    worldId: "world-models",
+    lessonId: null,
+    title: "Modelle: Aufgabe vor Hype",
+    plainIntro:
+      "Du willst nur eine kurze, freundliche Absage für einen Termin formulieren.",
+    prompt: "Welche Wahl ist am sinnvollsten?",
+    options: [
+      {
+        id: "a",
+        label: "Immer das neueste, teuerste Modell — sicherheitshalber.",
+        feedback:
+          "Oft Overkill. Aufgabe und Risiko zuerst.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Einfaches Chat-Tool reicht: klare Aufgabe, keine Geheimnisse, Ergebnis gegenlesen.",
+        feedback:
+          "Genau. Nach Aufgabe wählen, nicht nach Marketing.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Ein Bildmodell nehmen, weil multimodal moderner klingt.",
+        feedback:
+          "Falscher Typ für reine Textarbeit.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Erklär die Regel „Aufgabe zuerst“ in eigenen Worten.",
+    methodIds: ["method-scenario", "method-retrieval", "method-teachback"],
+    scenarioDomain: "grundlagen",
+  },
+  {
+    id: "challenge-models-chat",
+    worldId: "world-models",
+    lessonId: null,
+    title: "Modelle: Chat ohne Wahrheitsgarantie",
+    plainIntro:
+      "Ein Chat-Modell nennt selbstbewusst eine Steuerregel mit Prozentzahl.",
+    prompt: "Was ist die beste Haltung?",
+    options: [
+      {
+        id: "a",
+        label: "Übernehmen — der Ton klingt fachlich.",
+        feedback:
+          "Ton ≠ geprüfte Fakten.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Als Entwurf behandeln, Unsicherheit markieren und bei Wichtigkeit eine unabhängige Quelle prüfen.",
+        feedback:
+          "Richtig. Chat hilft formulieren, garantiert aber keine Wahrheit.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Dieselbe Frage noch einmal stellen und der Bestätigung glauben.",
+        feedback:
+          "Dieselbe Basis kann denselben Fehler wiederholen.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Wann ist ein Chat-Modell hilfreich — und wann riskant?",
+    methodIds: ["method-retrieval", "method-confidence", "method-scenario"],
+    scenarioDomain: "beruf",
+  },
+  {
+    id: "challenge-agents-rights",
+    worldId: "world-agents",
+    lessonId: null,
+    title: "Agenten: Rechte klein halten",
+    plainIntro:
+      "Ein Assistent soll bei der Wochenplanung helfen und könnte auf Kalender und E-Mail zugreifen.",
+    prompt: "Welche Rechtevergabe ist am sinnvollsten?",
+    options: [
+      {
+        id: "a",
+        label: "Vollzugriff inkl. Senden und Löschen — praktischer.",
+        feedback:
+          "Zu riskant. Minimale Rechte sind sicherer.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Zuerst nur Lesen und Vorschläge; Senden nur nach deiner Freigabe.",
+        feedback:
+          "Passt. Human-in-the-loop bei Folgeschritten.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Kreditkartenzugriff mitgeben, falls Termine kosten.",
+        feedback:
+          "Zahlungsdaten gehören nicht an Agenten.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Erklär „minimale Rechte“ an diesem Kalender-Beispiel.",
+    methodIds: ["method-scenario", "method-retrieval", "method-progressive"],
+    scenarioDomain: "beruf",
+  },
+  {
+    id: "challenge-agents-loop",
+    worldId: "world-agents",
+    lessonId: null,
+    title: "Agenten: wann abbrechen?",
+    plainIntro:
+      "Der Agent sucht zweimal dieselbe Seite und will „trotzdem eine Mail absenden“.",
+    prompt: "Was tust du?",
+    options: [
+      {
+        id: "a",
+        label: "Noch fünf Runden laufen lassen — wird schon.",
+        feedback:
+          "Loops ohne Fortschritt sind ein Stopp-Signal.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Abbrechen, kurz notieren, enger begrenzt neu starten — Senden nur mit Freigabe.",
+        feedback:
+          "Richtig. Abbruch ist Kompetenz.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Rechte erweitern, damit er „weiterkommt“.",
+        feedback:
+          "Fehler mit mehr Macht zu umgehen ist gefährlich.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Sag deine Abbruch-Regel in zwei Sätzen.",
+    methodIds: ["method-scenario", "method-playful", "method-confidence"],
+    scenarioDomain: "sicherheit",
+  },
+  {
+    id: "challenge-vibe-secrets",
+    worldId: "world-vibe-coding",
+    lessonId: null,
+    title: "Vibe Coding: Secrets bleiben draußen",
+    plainIntro:
+      "Die KI soll Beispielcode für einen API-Aufruf zeigen.",
+    prompt: "Was gehört in den Prompt?",
+    options: [
+      {
+        id: "a",
+        label: "Der echte API-Key, damit der Code sofort läuft.",
+        feedback:
+          "Nein. Echte Schlüssel gehören nicht in Chats.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Platzhalter wie YOUR_API_KEY_HERE und die Bitte, Secrets nicht in den Quelltext zu schreiben.",
+        feedback:
+          "Genau. Platzhalter + lokale Umgebungsvariable.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Screenshot der .env-Datei zur Sicherheit.",
+        feedback:
+          "Screenshots leaken oft Secrets.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Erklär die Secret-Regel in 20 Sekunden.",
+    methodIds: ["method-scenario", "method-retrieval", "method-teachback"],
+    scenarioDomain: "sicherheit",
+  },
+  {
+    id: "challenge-vibe-read",
+    worldId: "world-vibe-coding",
+    lessonId: null,
+    title: "Vibe Coding: Code lesen vor dem Übernehmen",
+    plainIntro:
+      "Ein Snippet lädt ein fremdes Skript von einer unbekannten Domain und „löst“ damit dein Layout.",
+    prompt: "Was ist die beste Reaktion?",
+    options: [
+      {
+        id: "a",
+        label: "Übernehmen — es läuft ja.",
+        feedback:
+          "„Läuft“ ist kein Sicherheitsfreibrief.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Fremdes Skript streichen, nach einer lokalen/einfachen Alternative fragen und nur übernehmen, was du grob erklären kannst.",
+        feedback:
+          "Richtig. Lesen und Verstehen vor dem Merge.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Mit Admin-Rechten und Produktionsdaten testen.",
+        feedback:
+          "Zu riskant für unbekannten Code.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Nenne drei Warnsignale in KI-generiertem Code.",
+    methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
+    scenarioDomain: "grundlagen",
+  },
+  {
+    id: "challenge-advanced-rag",
+    worldId: "world-advanced",
+    lessonId: null,
+    title: "Praxis+: RAG ohne Magie",
+    plainIntro:
+      "Jemand sagt: „Mit RAG sind Antworten immer wahr und aktuell.“",
+    prompt: "Was ist die ehrlichste Einordnung?",
+    options: [
+      {
+        id: "a",
+        label: "Stimmt — Abruf ersetzt Prüfung vollständig.",
+        feedback:
+          "Nein. Falsche oder veraltete Unterlagen und schlechtes Matching bleiben möglich.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "RAG holt passende Ausschnitte und formuliert darauf — Aktualität, Freigabe und Prüfung bleiben nötig.",
+        feedback:
+          "Genau. Keine Fake-Claims, klare Grenzen.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "RAG braucht keine freigegebenen Dokumente.",
+        feedback:
+          "Doch: nur freigegebene, passende Unterlagen anbinden.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Erklär RAG in zwei Sätzen ohne das Wort „Vektor“.",
+    methodIds: ["method-retrieval", "method-teachback", "method-worked-example"],
+    scenarioDomain: "grundlagen",
+  },
+  {
+    id: "challenge-advanced-guardrails",
+    worldId: "world-advanced",
+    lessonId: null,
+    title: "Praxis+: Guardrails und Verantwortung",
+    plainIntro:
+      "Ein Team schaltet einen Filter gegen Passwörter im Prompt ein und erklärt das Projekt für „fertig sicher“.",
+    prompt: "Was fehlt?",
+    options: [
+      {
+        id: "a",
+        label: "Nichts — ein Filter reicht für alle Risiken.",
+        feedback:
+          "Guardrails helfen, ersetzen aber keine Regeln, Freigaben und Prüfung.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Nutzungsregeln, Freigaben bei hohem Risiko und ein Plan, was bei Unsicherheit passiert — plus menschliche Verantwortung.",
+        feedback:
+          "Richtig. Leitplanken + Organisation + Mensch.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Nur noch mehr Marketingtexte.",
+        feedback:
+          "Marketing ersetzt keine Sicherheitsarbeit.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Erklär Guardrails mit dem Bild „Leitplanke“ in einem Satz.",
+    methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
+    scenarioDomain: "beruf",
+  },
 ];
 
 export function challengesForLesson(lessonId: string): InteractiveChallenge[] {
