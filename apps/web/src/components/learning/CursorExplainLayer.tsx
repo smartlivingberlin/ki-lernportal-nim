@@ -189,7 +189,7 @@ export function CursorExplainLayer() {
       data-explain-cloud-root=""
       role="region"
       aria-label={`Erklärung: ${cloud.tip.label}`}
-      className="pointer-events-auto fixed z-[80] w-[min(22rem,calc(100vw-1.5rem))] rounded-[1.5rem] border-2 border-[var(--nim-primary)] bg-[var(--nim-surface)] p-4 text-left text-[var(--foreground)] shadow-[var(--shadow-lift)] sm:p-5"
+      className="pointer-events-none fixed z-[80] w-[min(22rem,calc(100vw-1.5rem))] rounded-[1.5rem] border-2 border-[var(--nim-primary)] bg-[var(--nim-surface)] p-4 text-left text-[var(--foreground)] shadow-[var(--shadow-lift)] sm:p-5"
       style={{ left: pos.left, top: pos.top }}
       onPointerEnter={() => {
         overCloudRef.current = true;
@@ -242,7 +242,7 @@ export function CursorExplainLayer() {
         </div>
       ) : null}
 
-      <div className="mt-3 flex flex-wrap gap-2">
+      <div className="pointer-events-auto mt-3 flex flex-wrap gap-2">
         {cloud.layer === "short" ? (
           <button
             type="button"
