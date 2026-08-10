@@ -15,7 +15,7 @@ export const colorTokens = {
   surfaceSoft: "#E8F7F4",
   primary: "#0D7377",
   primaryStrong: "#095E61",
-  primarySoft: "#B8E4E1",
+  primarySoft: "#D8F1EF",
   accent: "#B83A2E",
   accentSoft: "#FFE1DC",
   success: "#0F5C4A",

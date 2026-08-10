@@ -7,8 +7,16 @@ import { seedResources } from "../data/resources";
 import { publicSources } from "../data/sources";
 import { themeWorlds } from "../data/theme-worlds";
 import { learningMethods } from "../data/learning-methods";
-import { challengesForLesson, interactiveChallenges } from "../data/interactive-challenges";
-import type { ThemeWorld } from "../data/types";
+import {
+  challengesByDomain,
+  challengesForLesson,
+  interactiveChallenges,
+} from "../data/interactive-challenges";
+import {
+  microUnitForLesson,
+  microUnitsForWorld,
+} from "../data/micro-units-no-fear";
+import type { MicroLearningUnitV2, ThemeWorld } from "../data/types";
 import { LessonWorkspace } from "../components/learning/LessonWorkspace";
 import { ModuleNavigation } from "../components/learning/ModuleNavigation";
 import { PortalHero } from "../components/learning/PortalHero";
@@ -20,6 +28,9 @@ import { GoalNavigation } from "../components/learning/GoalNavigation";
 import { InteractiveChallengeCard } from "../components/learning/InteractiveChallengeCard";
 import { SimpleModeToggle } from "../components/learning/SimpleModeToggle";
 import { MobileBottomNav } from "../components/learning/MobileBottomNav";
+import { ThemeWorldTrack } from "../components/learning/ThemeWorldTrack";
+import { MicroLearningUnitView } from "../components/learning/MicroLearningUnitView";
+import { ModelNavigator } from "../components/learning/ModelNavigator";
 import { useLocalProgress } from "../hooks/useLocalProgress";
 import { useSimpleMode } from "../hooks/useSimpleMode";
 import { designSystemMeta } from "../design/tokens";
@@ -98,6 +109,7 @@ export default function Home() {
   const [progressAnnouncement, setProgressAnnouncement] = useState("");
   const [lessonFocusRequest, setLessonFocusRequest] = useState<{ lessonId: string } | null>(null);
   const [selectedWorldId, setSelectedWorldId] = useState<string | null>("world-no-fear");
+  const [activeMicroUnitId, setActiveMicroUnitId] = useState<string | null>("mu-nofear-01");
   const { enabled: simpleMode, setEnabled: setSimpleMode } = useSimpleMode();
   const { completedLessonIds, setCompletedLessonIds } = useLocalProgress();
 
@@ -132,7 +144,30 @@ export default function Home() {
   const lessonChallenges = activeLesson
     ? challengesForLesson(activeLesson.id)
     : interactiveChallenges.slice(0, 1);
+  const scenarioChallenges = (() => {
+    const lessonIds = new Set(lessonChallenges.map((challenge) => challenge.id));
+    const pool = [
+      ...challengesByDomain("alltag"),
+      ...challengesByDomain("beruf"),
+    ].filter((challenge) => !lessonIds.has(challenge.id));
+    return simpleMode ? pool.slice(0, 2) : pool;
+  })();
   const visibleMethods = simpleMode ? learningMethods.slice(0, 4) : learningMethods.slice(0, 6);
+  const selectedWorld =
+    themeWorlds.find((world) => world.id === selectedWorldId) ?? themeWorlds[0] ?? null;
+  const worldUnits =
+    selectedWorldId === "world-no-fear" ? microUnitsForWorld("world-no-fear") : [];
+  const activeMicroUnit =
+    worldUnits.find((unit) => unit.id === activeMicroUnitId) ??
+    (activeLesson ? microUnitForLesson(activeLesson.id) : null) ??
+    worldUnits[0] ??
+    null;
+  const activeMicroSources = activeMicroUnit
+    ? activeMicroUnit.sourceIds.flatMap((sourceId) => {
+        const source = publicSourceById.get(sourceId);
+        return source ? [source] : [];
+      })
+    : [];
 
   useEffect(() => {
     document.body.classList.toggle("simple-mode", simpleMode);
@@ -162,6 +197,15 @@ export default function Home() {
 
   const selectWorld = (world: ThemeWorld) => {
     setSelectedWorldId(world.id);
+    if (world.id === "world-no-fear") {
+      const firstUnit = microUnitsForWorld("world-no-fear")[0] ?? null;
+      setActiveMicroUnitId(firstUnit?.id ?? null);
+      if (firstUnit?.lessonId) {
+        openLesson(firstUnit.lessonId);
+      }
+      setProgressAnnouncement("Themenwelt „KI ohne Angst“ geöffnet.");
+      return;
+    }
     if (world.starterLessonId) {
       openLesson(world.starterLessonId);
       setProgressAnnouncement(`${world.title}: Einstieg geöffnet.`);
@@ -170,6 +214,15 @@ export default function Home() {
         `${world.title} ist als Themenwelt geplant. Der Einstieg folgt im nächsten Content-Ausbau.`,
       );
     }
+  };
+
+  const selectMicroUnit = (unit: MicroLearningUnitV2) => {
+    setActiveMicroUnitId(unit.id);
+    setSelectedWorldId(unit.worldId);
+    if (unit.lessonId) {
+      openLesson(unit.lessonId);
+    }
+    setProgressAnnouncement(`Micro-Einheit „${unit.title}“ geöffnet.`);
   };
 
   const toggleLessonDone = (lessonId: string) => {
@@ -285,6 +338,23 @@ export default function Home() {
             simpleMode={simpleMode}
           />
 
+          {selectedWorldId === "world-no-fear" && worldUnits.length > 0 ? (
+            <ThemeWorldTrack
+              worldTitle={selectedWorld?.title ?? "KI ohne Angst"}
+              units={worldUnits}
+              activeUnitId={activeMicroUnit?.id ?? null}
+              onSelectUnit={selectMicroUnit}
+              simpleMode={simpleMode}
+            />
+          ) : null}
+
+          {activeMicroUnit && !activeMicroUnit.lessonId ? (
+            <MicroLearningUnitView
+              unit={activeMicroUnit}
+              sources={activeMicroSources}
+            />
+          ) : null}
+
           <section className="overflow-hidden rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-6 shadow-[var(--shadow-lift)] md:p-8">
             <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--nim-primary)]">Heute im Lernraum</p>
             <h2 id="lernraum-title" className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)] md:text-4xl">
@@ -341,11 +411,37 @@ export default function Home() {
             </div>
           )}
 
-          <section id="challenge" aria-label="Interaktive Challenges" className="scroll-mt-52 space-y-4 lg:scroll-mt-32">
+          <section id="challenge" aria-label="Interaktive Challenges" className="scroll-mt-72 space-y-4 sm:scroll-mt-64 lg:scroll-mt-36">
             {lessonChallenges.map((challenge) => (
               <InteractiveChallengeCard key={challenge.id} challenge={challenge} />
             ))}
           </section>
+
+          <section
+            id="szenarien"
+            aria-labelledby="szenarien-title"
+            className="scroll-mt-72 space-y-4 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 lg:scroll-mt-36"
+          >
+            <div>
+              <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
+                Szenarien · Alltag & Beruf
+              </p>
+              <h2
+                id="szenarien-title"
+                className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)]"
+              >
+                Echte Situationen üben
+              </h2>
+              <p className="mt-3 text-sm font-medium leading-7 text-[var(--nim-secondary)]">
+                Spielerische Entscheidungen mit Erklärung — kein Highscore, sondern Verständnis.
+              </p>
+            </div>
+            {scenarioChallenges.map((challenge) => (
+              <InteractiveChallengeCard key={challenge.id} challenge={challenge} />
+            ))}
+          </section>
+
+          {!simpleMode ? <ModelNavigator /> : null}
 
           <section className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]">
             <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Lernablauf</p>

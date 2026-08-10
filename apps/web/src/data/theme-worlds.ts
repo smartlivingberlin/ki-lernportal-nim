@@ -13,7 +13,7 @@ export const themeWorlds: ThemeWorld[] = [
     description:
       "Was KI kann, was sie nicht kann und wie du sicher die ersten Schritte machst.",
     audienceLevel: 0,
-    estimatedUnits: 12,
+    estimatedUnits: 10,
     status: "active",
     accent: "teal",
     starterLessonId: "l1",

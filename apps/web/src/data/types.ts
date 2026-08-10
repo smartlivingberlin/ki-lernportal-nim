@@ -89,6 +89,15 @@ export interface GlossaryTerm {
   category?: string;
 }
 
+export type ModelCapability =
+  | "chat"
+  | "reasoning"
+  | "vision"
+  | "image"
+  | "coding"
+  | "search-rag"
+  | "local-open";
+
 export interface ModelCard {
   id: string;
   name: string;
@@ -99,6 +108,14 @@ export interface ModelCard {
   trustLevel: TrustLevel;
   displayAllowed: boolean;
   riskNote?: string;
+  plainPurpose: string;
+  strengths: string[];
+  limits: string[];
+  capabilities: ModelCapability[];
+  costHint: string;
+  officialSourceName: string;
+  officialSourceUrl: string;
+  lastChecked: string;
 }
 
 export enum ResourceType {
@@ -195,15 +212,17 @@ export interface InteractiveChallenge {
   options: ChallengeOption[];
   teachBackPrompt: string;
   methodIds: string[];
+  scenarioDomain?: "alltag" | "beruf" | "sicherheit" | "grundlagen";
 }
 
 /**
- * Zielbild für spätere Micro-Einheiten (Content Schema v2).
- * Noch nicht alle Felder sind in den Seed-Lektionen befüllt.
+ * Micro-Einheit nach Content Schema v2.
  */
 export interface MicroLearningUnitV2 {
   id: string;
   worldId: string;
+  lessonId: string | null;
+  order: number;
   title: string;
   whyUseful: string;
   oneSentence: string;

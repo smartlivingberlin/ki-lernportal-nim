@@ -6,9 +6,9 @@ type MobileBottomNavProps = {
 
 const items = [
   { href: "#ziele", label: "Start" },
-  { href: "#lernraum", label: "Lernen" },
-  { href: "#challenge", label: "Üben" },
-  { href: "#pfad", label: "Pfad" },
+  { href: "#themenwelt", label: "Lernen" },
+  { href: "#szenarien", label: "Üben" },
+  { href: "#modelle", label: "Modelle" },
   { href: "#coach", label: "Hilfe" },
 ] as const;
 

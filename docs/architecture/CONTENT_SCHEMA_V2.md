@@ -1,6 +1,6 @@
 # Content Schema v2 — Microlearning & Interaktion
 
-**Status:** dokumentiert und als Seed-Typen in `apps/web` vorbereitet  
+**Status:** Schema v2 dokumentiert; Themenwelt „KI ohne Angst“ mit 10 Micro-Einheiten befüllt  
 **Stand:** 10. August 2026  
 **Autorisierung:** Design-/Content-Foundation-Slice (kein S51B-C, kein Deploy)
 

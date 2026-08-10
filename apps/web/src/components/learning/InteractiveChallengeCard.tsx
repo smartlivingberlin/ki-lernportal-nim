@@ -31,10 +31,10 @@ export function InteractiveChallengeCard({
   };
 
   return (
-    <section
+    <article
       data-testid="interactive-challenge"
       data-challenge-id={challenge.id}
-      aria-labelledby={`${baseId}-title`}
+      aria-label={`Challenge: ${challenge.title}`}
       className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-accent-soft)] p-5 md:p-6"
     >
       <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary-strong)]">
@@ -146,6 +146,6 @@ export function InteractiveChallengeCard({
           ))}
         </div>
       </fieldset>
-    </section>
+    </article>
   );
 }

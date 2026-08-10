@@ -59,12 +59,12 @@ export function GoalNavigation({
                   "group nim-interactive flex min-h-[7.5rem] w-full flex-col rounded-[var(--nim-radius-lg)] border-2 bg-[var(--nim-surface-soft)] p-4 text-left transition-[transform,border-color,background-color,box-shadow] duration-280 ease-[var(--nim-ease)]",
                   accentClass,
                   selected
-                    ? "border-[var(--nim-primary)] bg-[var(--nim-primary-soft)] shadow-[var(--shadow-lift)]"
+                    ? "border-[var(--nim-primary)] bg-[var(--nim-surface)] shadow-[var(--shadow-lift)]"
                     : "border-transparent",
                 ].join(" ")}
               >
                 <span className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
+                  <span className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary-strong)]">
                     {world.shortLabel}
                   </span>
                   <span className="rounded-[var(--nim-radius-sm)] bg-[var(--nim-surface)] px-2 py-1 text-[0.7rem] font-black text-[var(--nim-secondary)]">

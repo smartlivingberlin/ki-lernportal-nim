@@ -40,6 +40,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
     teachBackPrompt:
       "Erklär KI jetzt in deinen Worten in einem Satz (ohne das Wort „Algorithmus“).",
     methodIds: ["method-retrieval", "method-teachback", "method-playful"],
+    scenarioDomain: "grundlagen",
   },
   {
     id: "challenge-safe-prompt",
@@ -75,6 +76,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
     teachBackPrompt:
       "Nenne drei Dinge, die du nie in einen Prompt schreiben würdest.",
     methodIds: ["method-scenario", "method-retrieval", "method-playful"],
+    scenarioDomain: "sicherheit",
   },
   {
     id: "challenge-hallucination",
@@ -111,6 +113,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
     teachBackPrompt:
       "Wann würdest du eine KI-Antwort auf keinen Fall ungeprüft weitergeben?",
     methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
+    scenarioDomain: "sicherheit",
   },
   {
     id: "challenge-prompt-formula",
@@ -146,6 +149,229 @@ export const interactiveChallenges: InteractiveChallenge[] = [
     teachBackPrompt:
       "Schreibe die Prompt-Formel in eigenen Worten (4 kurze Bausteine).",
     methodIds: ["method-worked-example", "method-retrieval", "method-playful"],
+    scenarioDomain: "grundlagen",
+  },
+  {
+    id: "challenge-alltag-einkauf",
+    worldId: "world-work-life",
+    lessonId: "l11",
+    title: "Alltag: Einkaufsliste mit KI",
+    plainIntro:
+      "Du willst eine Einkaufsliste für drei einfache Abendessen. Keine Diät, keine Allergien.",
+    prompt: "Was ist der sinnvollste nächste Schritt?",
+    options: [
+      {
+        id: "a",
+        label: "Alle Rezepte aus dem Familien-Chat mit Namen und Adresse reinkopieren.",
+        feedback:
+          "Zu riskant und unnötig. Allgemeine Wünsche reichen für eine gute Liste.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Prompt mit Ziel, Dauer und Format: „7 Zutatenlisten, 20 Minuten, vegetarisch optional“ — ohne Privatdaten.",
+        feedback:
+          "Genau. Klar, prüfbar und ohne Geheimnisse.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Gar nicht fragen — KI kann im Alltag eh nichts.",
+        feedback:
+          "Doch: Strukturieren und Ideen sammeln sind gute Alltagsaufgaben — mit Grenzen.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Schreibe einen Alltags-Prompt für eine Einkaufshilfe ohne persönliche Daten.",
+    methodIds: ["method-scenario", "method-playful", "method-worked-example"],
+    scenarioDomain: "alltag",
+  },
+  {
+    id: "challenge-alltag-nachricht",
+    worldId: "world-work-life",
+    lessonId: "l6",
+    title: "Alltag: Schwierige Nachricht freundlicher",
+    plainIntro:
+      "Du willst eine Absage höflich formulieren. Die Originalnachricht enthält den vollen Namen und eine private Begründung.",
+    prompt: "Wie gehst du sicher vor?",
+    options: [
+      {
+        id: "a",
+        label: "Alles 1:1 in die KI kopieren, inkl. Name und Privatgrund.",
+        feedback:
+          "Unnötig riskant. Platzhalter und eine allgemeine Begründung reichen.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Namen streichen, Ziel nennen („höfliche Absage, 4 Sätze“) und danach selbst prüfen.",
+        feedback:
+          "Richtig. Weniger Daten, klareres Ziel, menschlicher Prüfpunkt.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Die KI die Nachricht direkt absenden lassen.",
+        feedback:
+          "Nein. Du bleibst verantwortlich — erst lesen, dann senden.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Welche drei Schritte machst du vor dem Absenden einer KI-formulierten Nachricht?",
+    methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
+    scenarioDomain: "alltag",
+  },
+  {
+    id: "challenge-beruf-agenda",
+    worldId: "world-work-life",
+    lessonId: "l11",
+    title: "Beruf: Meeting-Agenda skizzieren",
+    plainIntro:
+      "Du brauchst in 2 Minuten eine Agenda für ein internes Team-Update.",
+    prompt: "Welche Variante ist beruflich sinnvoll und datensparsam?",
+    options: [
+      {
+        id: "a",
+        label: "Kundenvertrag und interne Kritikpunkte ungefiltert einfügen.",
+        feedback:
+          "Zu sensibel. Interne Konflikte und Kundendetails gehören nicht in öffentliche Tools.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Neutrale Struktur anfordern: Begrüßung, Fortschritt, Blocker, nächste Schritte — ohne Kundennamen.",
+        feedback:
+          "Passt. Entwurf ja, Geheimnisse nein, danach selbst anpassen.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "KI soll die endgültige Entscheidung über Prioritäten treffen.",
+        feedback:
+          "Entscheidungen mit Folgen bleiben beim Menschen im Team.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Formuliere einen beruflichen Agenda-Prompt ohne Firmengeheimnisse.",
+    methodIds: ["method-scenario", "method-worked-example", "method-retrieval"],
+    scenarioDomain: "beruf",
+  },
+  {
+    id: "challenge-beruf-kundenmail",
+    worldId: "world-safety-law",
+    lessonId: "l10",
+    title: "Beruf: Kundenmail und Datenschutz",
+    plainIntro:
+      "Eine Kollegin will eine Kundenbeschwerde mit voller Adresse und Vertragsnummer in eine öffentliche KI tippen.",
+    prompt: "Was rätst du?",
+    options: [
+      {
+        id: "a",
+        label: "Einfach machen — ist ja nur eine E-Mail.",
+        feedback:
+          "Nein. Adresse und Vertragsnummer sind identifizierend und oft vertraulich.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Platzhalter nutzen, Firmenregeln prüfen, Entwurf lokal gegenlesen — Kundendaten nicht ungefragt teilen.",
+        feedback:
+          "Richtig. Datenschutz und interne Regeln gehen vor Tempo.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Die KI soll dem Kunden direkt antworten und absenden.",
+        feedback:
+          "Zu riskant. Kein automatisches Absenden an Kunden ohne menschliche Freigabe.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Welche Kundendaten dürfen nicht in einen öffentlichen Prompt?",
+    methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
+    scenarioDomain: "beruf",
+  },
+  {
+    id: "challenge-beruf-bericht",
+    worldId: "world-work-life",
+    lessonId: "l7",
+    title: "Beruf: Bericht kürzen ohne Blindvertrauen",
+    plainIntro:
+      "KI soll einen langen internen Bericht auf eine Seite kürzen.",
+    prompt: "Was ist der beste Prüfschritt danach?",
+    options: [
+      {
+        id: "a",
+        label: "Sofort an die Geschäftsleitung weiterleiten.",
+        feedback:
+          "Zu früh. Kürzungen können wichtige Nuancen oder Zahlen verfälschen.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Kernaussagen und Zahlen gegen das Original prüfen, Ton anpassen, dann freigeben.",
+        feedback:
+          "Genau. KI beschleunigt den Entwurf — du sicherst die Qualität.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Nur auf Rechtschreibung achten, Inhalt ist egal.",
+        feedback:
+          "Inhalt und Zahlen sind oft wichtiger als Kommas.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Welche drei Dinge prüfst du nach einer KI-Zusammenfassung im Beruf?",
+    methodIds: ["method-scenario", "method-retrieval", "method-teachback"],
+    scenarioDomain: "beruf",
+  },
+  {
+    id: "challenge-alltag-lernen",
+    worldId: "world-no-fear",
+    lessonId: "l2",
+    title: "Alltag: Lernen mit KI ohne Übernahme",
+    plainIntro:
+      "Du lässt dir ein Thema erklären, das du in der Volkshochschule brauchst.",
+    prompt: "Wie lernst du nachhaltig mit der Antwort?",
+    options: [
+      {
+        id: "a",
+        label: "Auswendig kopieren und abgeben.",
+        feedback:
+          "Das prüft nicht, ob du es verstanden hast — und kann falsch sein.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Erklärung lesen, in eigenen Worten zusammenfassen, eine Quelle gegenprüfen.",
+        feedback:
+          "Stark. Teach-back + Gegenprüfung = echtes Lernen.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Der selbstsichere Ton reicht als Beweis.",
+        feedback:
+          "Ton ≠ Wahrheit. Inhalt prüfen.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Wie erklärst du denselben Lerninhalt einer Freundin in 30 Sekunden?",
+    methodIds: ["method-teachback", "method-retrieval", "method-playful"],
+    scenarioDomain: "alltag",
   },
 ];
 
@@ -155,4 +381,10 @@ export function challengesForLesson(lessonId: string): InteractiveChallenge[] {
 
 export function challengesForWorld(worldId: string): InteractiveChallenge[] {
   return interactiveChallenges.filter((challenge) => challenge.worldId === worldId);
+}
+
+export function challengesByDomain(
+  domain: NonNullable<InteractiveChallenge["scenarioDomain"]>,
+): InteractiveChallenge[] {
+  return interactiveChallenges.filter((challenge) => challenge.scenarioDomain === domain);
 }
