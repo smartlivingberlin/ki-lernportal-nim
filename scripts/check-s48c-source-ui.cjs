@@ -203,7 +203,7 @@ async function main() {
       });
 
       await dismissExplainClouds(page);
-      await lessonButton.click();
+      await lessonButton.click({ force: true });
 
       await page
         .getByRole("heading", {

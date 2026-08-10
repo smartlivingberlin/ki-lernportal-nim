@@ -65,6 +65,7 @@ async function lessonButton(page, title) {
 async function clickFirstLessonDone(page) {
   await dismissExplainClouds(page);
   await page.getByRole("button", { name: "Als erledigt markieren" }).click({
+    force: true,
     timeout: 15_000,
   });
 }
