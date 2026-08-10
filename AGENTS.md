@@ -119,8 +119,16 @@ S51B_C1_SCHEMA_IMPLEMENTATION_AUTHORIZED=YES
 S51B_C1_MIGRATION_GENERATION_AUTHORIZED=YES
 S51B_C1_DEPENDENCY_CHANGE_AUTHORIZED=YES
 S51B_C1_CI_CHANGE_AUTHORIZED=YES
+S51B_C1_INTEGRATED_TO_MAIN=YES
+S51B_C1_IMPLEMENTATION_PR_NUMBER=121
+S51B_C1_IMPLEMENTATION_MERGE_COMMIT=cc6657f9f0219e053243c2a5a3e1cd88e665f811
+S51B_C2_DATABASE_TEST_AUTHORIZED=YES
+S51B_C2_INTEGRATED_TO_MAIN=YES
+S51B_C2_IMPLEMENTATION_PR_NUMBER=122
+S51B_C2_IMPLEMENTATION_MERGE_COMMIT=e0791383d726fcf0cbbea7f9101ab53cd8753154
+S51B_C2_PRE_MERGE_CI_RUN_NUMBER=31421822999
+S51B_C2_PRE_MERGE_CI_CONCLUSION=SUCCESS
 S51B_C_SCHEMA_AUTHORIZED=NO
-S51B_C2_DATABASE_TEST_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
 MIGRATION_AUTHORIZED=NO
 NEXT_COMMIT_AUTHORIZED=YES
@@ -137,9 +145,10 @@ HUMAN_AGENCY_FREIGABE_MERGE_DEPLOY_CONCEPT_DEMO=YES
 Conditional examples do not override this current gate.
 Human agency freigabe for concept-demo merge/deploy supersedes the prior
 NEXT_* / DEPLOY_AUTHORIZED=NO markers for that content slice only.
-S51B-C1 may land schema + generated SQL/snapshots with static tests only.
-S51B-C2 disposable MySQL tests, live migrate, Railway DB and production
-migration remain unauthorized.
+S51B-C1 schema + generated SQL/snapshots with static tests are integrated.
+S51B-C2 disposable local MySQL constraint proof is integrated (CI-backed).
+Live migrate against persistent DBs, Railway DB and production migration
+remain unauthorized.
 
 ## Hard safety rules
 
