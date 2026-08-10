@@ -73,6 +73,9 @@ jobs:
       - name: Test S51C-B1B local progress import contracts
         run: pnpm test:s51c-b1b-local-progress-import
 
+      - name: Test S51C-OPS-A operations foundation contracts
+        run: pnpm test:s51c-ops-a-operations
+
       - name: Test S51B-B database runtime with local fakes
         run: pnpm test:s51b-b-db-runtime
 
@@ -178,6 +181,28 @@ jobs:
             grep --ignore-case --extended-regexp '^content-type: *text/plain; *charset=utf-8'
 
           echo "RAILWAY_HEALTH_ENDPOINT=PASS"
+
+      - name: "Regression: S51C-OPS-A live ready version endpoints"
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="http://127.0.0.1:3000"
+
+          LIVE_BODY="$(curl --silent --show-error --fail "$BASE/live")"
+          echo "$LIVE_BODY" | grep -F '"status":"live"'
+
+          READY_BODY="$(curl --silent --show-error --fail "$BASE/ready")"
+          echo "$READY_BODY" | grep -F '"status":"ready"'
+          echo "$READY_BODY" | grep -F '"name":"database"'
+          echo "$READY_BODY" | grep -F '"status":"not_configured"'
+
+          VERSION_BODY="$(curl --silent --show-error --fail "$BASE/version")"
+          echo "$VERSION_BODY" | grep -F '"service":"web"'
+          echo "$VERSION_BODY" | grep -F '"version":"0.1.0"'
+          echo "$VERSION_BODY" | grep -F '"environment":"concept_demo"'
+          echo "$VERSION_BODY" | grep -F '"build_sha"'
+
+          echo "S51C_OPS_A_ENDPOINTS=PASS"
 
       - name: "Regression: security headers"
         run: BASE_URL=http://127.0.0.1:3000 pnpm test:s50d2-security-headers

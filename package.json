@@ -26,6 +26,7 @@
     "test:s51b-c2-local-mysql": "bash scripts/test-s51b-c-local-mysql.sh",
     "test:s51c-b1a-pilot-domain": "node --experimental-strip-types packages/domain/src/pilot-domain.test.ts",
     "test:s51c-b1b-local-progress-import": "node --experimental-strip-types packages/contracts/src/local-progress-import.test.ts",
+    "test:s51c-ops-a-operations": "node --experimental-strip-types packages/contracts/src/operations.test.ts",
     "packages:verify": "pnpm packages:boundaries && pnpm packages:typecheck"
   },
   "devDependencies": {
