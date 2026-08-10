@@ -200,11 +200,14 @@ PR68_FULL_CI=PASS
 PR68_MERGED=YES
 PR68_MERGE_COMMIT=43550961cb5f584b5a5b16aaaa93610b3ce0b2f8
 S51D_A_STAGING_SCOPE=SEE_S51D_A_STAGING_SCOPE_MD
+S51D_B_STAGING_EXECUTION=SEE_S51D_B_STAGING_EXECUTION_MD
 ~~~
 
 PR #68 (S50D1) ist gemerged. Ein isoliertes Railway-Staging-Environment ist
 dadurch nicht automatisch erstellt. S51D-A dokumentiert den Scope; S51D-B
-(Environment anlegen) erfordert Railway-Zugang und read-only Reverify.
+liefert GitHub-Reverify und Operator-Runbook. Environment-Anlage bleibt
+blockiert ohne Railway-Token und Dashboard-Bestätigung von Autodeploy /
+Wait for CI.
 
 ## 10. Aktueller Exit- und Freigabestatus
 

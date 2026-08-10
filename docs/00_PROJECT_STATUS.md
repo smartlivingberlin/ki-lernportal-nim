@@ -1,14 +1,14 @@
 # Projektstatus: KI-Lernportal NIM
 
 **Stand:** 10. August 2026
-**Baseline `main`:** `068559ad72cb732ede61ffaa9a3742d9933d841c`
-**Status:** S51C-OPS-A und S52-A integriert; S51D-A Staging-Scope-Lock (Repo-only); Staging-Environment noch nicht erstellt; Auth-Runtime/Live-Migrate weiterhin gesperrt
+**Baseline `main`:** `8d01f606a1621a5b41d8e3c4020eddcaf97cafd7`
+**Status:** S51C-OPS-A und S52-A integriert; S51D-A Staging-Scope-Lock gemerged; S51D-B GitHub-Reverify/Runbook (Environment-Anlage blockiert ohne Railway-Token); Auth-Runtime/Live-Migrate weiterhin gesperrt
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
 PHASE0A_SOURCE_OF_TRUTH_SYNC=COMPLETE
 BACKLOG_NORMALIZATION=COMPLETE
-BASELINE_MAIN_SHA=068559ad72cb732ede61ffaa9a3742d9933d841c
+BASELINE_MAIN_SHA=8d01f606a1621a5b41d8e3c4020eddcaf97cafd7
 PR68_MERGED=YES
 PR102_S51C_B1A_MERGED=YES
 PR104_S51C_B1B_MERGED=YES
@@ -21,17 +21,21 @@ PR122_S51B_C2_MERGED=YES
 PR124_S51C_B1A_GATE_CI_MERGED=YES
 PR125_S51C_B1B_GATE_CI_MERGED=YES
 PR126_S51C_OPS_A_MERGED=YES
+PR127_S51D_A_MERGED=YES
 PR128_S52_A_MERGED=YES
 HUMAN_AGENCY_FREIGABE_MERGE_DEPLOY_CONCEPT_DEMO=YES
 S51D_HUMAN_FREIGABE=YES
 S51D_A_SCOPE_AUTHORIZED=YES
+S51D_B_SCOPE_DOCUMENTED=YES
+S51D_B_GITHUB_REVERIFY_SCRIPTED=YES
+S51D_B_DASHBOARD_REVERIFY_COMPLETE=NO
 S51D_B_EXECUTED=NO
 STAGING_ENVIRONMENT_CREATED=NO
+APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=YES
 S52_A_IMPLEMENTATION_AUTHORIZED=YES
 AUTH_RUNTIME_AUTHORIZED=NO
 S51B_C_SCHEMA_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
-AUTH_RUNTIME_AUTHORIZED=NO
 ~~~
 
 ## 1. Verbindliche Einordnung
@@ -49,6 +53,7 @@ zusammen mit den nachfolgenden Integrationsnachweisen beschrieben durch:
 - [S51C-B1B Integration Gate](architecture/S51C_B1B_INTEGRATION_GATE.md)
 - [S51C-OPS-A Betriebsfundament Scope](architecture/S51C_OPS_A_OPERATIONS_FOUNDATION_SCOPE.md)
 - [S51D-A Staging Scope-Lock](architecture/S51D_A_STAGING_SCOPE.md)
+- [S51D-B Staging Execution / Reverify](architecture/S51D_B_STAGING_EXECUTION.md)
 - [S52-A Auth Session-/Rollen-Scope](architecture/S52_A_IMPLEMENTATION_SCOPE.md)
 - [Zielarchitektur](architecture/ARCHITECTURE_TARGET.md)
 - [Package-DAG](architecture/PACKAGE_DAG.md)
@@ -191,10 +196,20 @@ Die verwendeten CLI-Abfragen konnten den gegenwärtigen Wert folgender Felder
 nicht belastbar ausweisen:
 
 ~~~text
-CURRENT_PRODUCTION_AUTODEPLOY=UNVERIFIED
-CURRENT_WAIT_FOR_CI=UNVERIFIED
-CURRENT_CONFIG_SOURCE=UNVERIFIED
+CURRENT_PRODUCTION_AUTODEPLOY=UNVERIFIED_DASHBOARD_REQUIRED
+CURRENT_WAIT_FOR_CI=UNVERIFIED_DASHBOARD_REQUIRED
+CURRENT_CONFIG_SOURCE=UNVERIFIED_DASHBOARD_REQUIRED
+APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=YES
+LATEST_GITHUB_DEPLOYMENT_SHA=8d01f606a1621a5b41d8e3c4020eddcaf97cafd7
+RAILWAY_PROJECT_ID=f69a0054-8cd9-4481-a461-bd17ddde296d
+RAILWAY_PRODUCTION_ENVIRONMENT_ID=f30e6e3b-60b5-4b3e-8949-2ca868f4e2da
 ~~~
+
+S51D-B (2026-08-10): GitHub Deployments zeigen wiederholte Production-Deploys
+durch `railway-app[bot]` nach `main`-Merges. Das widerspricht dem historischen
+Gate `PRODUCTION_AUTODEPLOY=DISABLED` und muss im Railway-Dashboard bestätigt
+werden, bevor Staging angelegt wird. Siehe
+[S51D_B_STAGING_EXECUTION.md](architecture/S51D_B_STAGING_EXECUTION.md).
 
 Vor jeder zukünftigen Railway-, Merge-, Deployment- oder
 Produktionsentscheidung ist der dann aktuelle Dashboardzustand erneut
