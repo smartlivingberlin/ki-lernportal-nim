@@ -27,7 +27,7 @@ function subscribe(onStoreChange: () => void): () => void {
 }
 
 function useCoachDismissed() {
-  return useSyncExternalStore(subscribe, readDismissed, () => true);
+  return useSyncExternalStore(subscribe, readDismissed, () => false);
 }
 
 const steps = [
