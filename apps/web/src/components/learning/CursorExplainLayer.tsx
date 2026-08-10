@@ -9,12 +9,15 @@ export const EXPLAIN_UNPIN_EVENT = "nim-explain-unpin";
 
 type Layer = "short" | "medium" | "deep";
 
+type AvoidRect = { x: number; y: number; width: number; height: number };
+
 type CloudState = {
   tip: HelpTip;
   x: number;
   y: number;
   layer: Layer;
   pinned: boolean;
+  avoid: AvoidRect | null;
 };
 
 const PANEL_WIDTH = 352;
@@ -25,14 +28,50 @@ function canHoverFinePointer(): boolean {
   return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 }
 
-function clampPosition(x: number, y: number) {
+function clampPosition(x: number, y: number, avoid?: AvoidRect | null) {
   const pad = 12;
   const maxX = Math.max(pad, window.innerWidth - PANEL_WIDTH - pad);
   const maxY = Math.max(pad, window.innerHeight - PANEL_HEIGHT - pad);
+
+  let left = x + 28;
+  let top = y + 28;
+
+  if (avoid) {
+    const avoidRight = avoid.x + avoid.width;
+    const avoidBottom = avoid.y + avoid.height;
+    const overlaps =
+      left < avoidRight + 8 &&
+      left + PANEL_WIDTH > avoid.x - 8 &&
+      top < avoidBottom + 8 &&
+      top + PANEL_HEIGHT > avoid.y - 8;
+
+    if (overlaps) {
+      const rightSlot = avoidRight + 16;
+      const leftSlot = avoid.x - PANEL_WIDTH - 16;
+      if (rightSlot <= maxX) left = rightSlot;
+      else if (leftSlot >= pad) left = leftSlot;
+      else left = Math.min(maxX, Math.max(pad, avoid.x));
+
+      const below = avoidBottom + 12;
+      const above = avoid.y - PANEL_HEIGHT - 12;
+      if (below <= maxY) top = below;
+      else if (above >= pad) top = above;
+      else top = Math.min(maxY, Math.max(pad, y + 28));
+    }
+  }
+
   return {
-    left: Math.max(pad, Math.min(x + 18, maxX)),
-    top: Math.max(pad, Math.min(y + 18, maxY)),
+    left: Math.max(pad, Math.min(left, maxX)),
+    top: Math.max(pad, Math.min(top, maxY)),
   };
+}
+
+function hostRectFromTarget(target: EventTarget | null): AvoidRect | null {
+  if (!(target instanceof Element)) return null;
+  const host = target.closest("[data-explain]");
+  if (!host || host.closest("[data-explain-cloud-root]")) return null;
+  const rect = host.getBoundingClientRect();
+  return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
 }
 
 function tipFromEventTarget(target: EventTarget | null): HelpTip | null {
@@ -111,24 +150,16 @@ export function CursorExplainLayer() {
         y: event.clientY,
         layer: tipChanged ? "short" : current?.layer ?? "short",
         pinned: false,
+        avoid: hostRectFromTarget(event.target),
       }));
     };
 
-    const onFocusIn = (event: FocusEvent) => {
+    const onPointerDown = () => {
+      // Während Klicks Wolke kurz weg — kein Kontrast-Überdecken in Tests/UI.
       if (pinnedRef.current) return;
-      const tip = tipFromEventTarget(event.target);
-      if (!tip) return;
       clearHide();
-      lastTipIdRef.current = tip.id;
-      const target = event.target;
-      const rect = target instanceof Element ? target.getBoundingClientRect() : null;
-      setCloud({
-        tip,
-        x: rect ? rect.left + Math.min(rect.width / 2, 120) : 24,
-        y: rect ? rect.bottom : 24,
-        layer: "short",
-        pinned: false,
-      });
+      lastTipIdRef.current = null;
+      setCloud(null);
     };
 
     const onPin = (event: Event) => {
@@ -144,6 +175,7 @@ export function CursorExplainLayer() {
         y: current?.y ?? 100,
         layer: current?.tip.id === tip.id ? current.layer : "short",
         pinned: true,
+        avoid: current?.avoid ?? null,
       }));
     };
 
@@ -159,7 +191,7 @@ export function CursorExplainLayer() {
     };
 
     window.addEventListener("pointermove", onPointerMove, { passive: true });
-    document.addEventListener("focusin", onFocusIn);
+    window.addEventListener("pointerdown", onPointerDown, { passive: true });
     window.addEventListener(EXPLAIN_PIN_EVENT, onPin as EventListener);
     window.addEventListener(EXPLAIN_UNPIN_EVENT, onUnpin);
     window.addEventListener("keydown", onKey);
@@ -167,7 +199,7 @@ export function CursorExplainLayer() {
     return () => {
       clearHide();
       window.removeEventListener("pointermove", onPointerMove);
-      document.removeEventListener("focusin", onFocusIn);
+      window.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener(EXPLAIN_PIN_EVENT, onPin as EventListener);
       window.removeEventListener(EXPLAIN_UNPIN_EVENT, onUnpin);
       window.removeEventListener("keydown", onKey);
@@ -183,7 +215,7 @@ export function CursorExplainLayer() {
 
   if (!isClient || !cloud) return null;
 
-  const pos = clampPosition(cloud.x, cloud.y);
+  const pos = clampPosition(cloud.x, cloud.y, cloud.avoid);
   const interactive = cloud.pinned;
 
   return createPortal(
@@ -192,6 +224,7 @@ export function CursorExplainLayer() {
       data-explain-cloud-root=""
       role="region"
       aria-label={`Erklärung: ${cloud.tip.label}`}
+      aria-hidden={interactive ? undefined : true}
       className={[
         "fixed z-[80] w-[min(22rem,calc(100vw-1.5rem))] rounded-[1.5rem] border-2 border-[var(--nim-primary)] bg-[var(--nim-surface)] p-4 text-left text-[var(--foreground)] shadow-[var(--shadow-lift)] sm:p-5",
         interactive ? "pointer-events-auto" : "pointer-events-none",

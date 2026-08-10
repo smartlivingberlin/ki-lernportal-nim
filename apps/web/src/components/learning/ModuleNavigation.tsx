@@ -60,25 +60,35 @@ export function ModuleNavigation({
             onClick={() => onOpenLesson(lesson.id)}
             className={`flex w-full items-center gap-3 rounded-2xl p-3 text-left ${
               activeLessonId === lesson.id
-                ? "bg-nim-primary text-white"
-                : "bg-white hover:bg-slate-100"
+                ? "bg-[var(--nim-primary-strong)] text-white"
+                : "bg-white text-[var(--foreground)] hover:bg-slate-100"
             }`}
           >
             <span
               className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl text-xs font-black ${
                 completedLessonIds.includes(lesson.id)
-                  ? "bg-emerald-600 text-white"
-                  : "bg-slate-100 text-nim-primary"
+                  ? "bg-emerald-700 text-white"
+                  : activeLessonId === lesson.id
+                    ? "bg-white text-[var(--nim-primary-strong)]"
+                    : "bg-slate-100 text-nim-primary"
               }`}
             >
               {completedLessonIds.includes(lesson.id) ? "✓" : lesson.order}
             </span>
 
             <span className="min-w-0">
-              <span className="block truncate text-sm font-black">
+              <span
+                className={`block truncate text-sm font-black ${
+                  activeLessonId === lesson.id ? "text-white" : "text-[var(--foreground)]"
+                }`}
+              >
                 {lesson.title}
               </span>
-              <span className="block truncate text-xs font-semibold">
+              <span
+                className={`block truncate text-xs font-semibold ${
+                  activeLessonId === lesson.id ? "text-white" : "text-[var(--nim-secondary)]"
+                }`}
+              >
                 {completedLessonIds.includes(lesson.id) ? "erledigt" : "offen"}
               </span>
             </span>
