@@ -7,6 +7,7 @@ type GoalNavigationProps = {
   selectedWorldId: string | null;
   onSelectWorld: (world: ThemeWorld) => void;
   simpleMode: boolean;
+  worldsReady?: ReadonlySet<string> | readonly string[];
 };
 
 export function GoalNavigation({
@@ -14,10 +15,14 @@ export function GoalNavigation({
   selectedWorldId,
   onSelectWorld,
   simpleMode,
+  worldsReady,
 }: GoalNavigationProps) {
   const visibleWorlds = simpleMode
     ? worlds.filter((world) => world.status === "active").slice(0, 4)
     : worlds;
+  const readySet = worldsReady
+    ? new Set(worldsReady)
+    : null;
 
   return (
     <section
@@ -42,7 +47,9 @@ export function GoalNavigation({
       <ul className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {visibleWorlds.map((world) => {
           const selected = selectedWorldId === world.id;
-          const available = Boolean(world.starterLessonId);
+          const available =
+            world.status === "active" &&
+            (readySet ? readySet.has(world.id) : Boolean(world.starterLessonId));
           const accentClass =
             world.accent === "coral"
               ? "hover:border-[var(--nim-accent)] focus-visible:outline-[var(--nim-accent)]"
