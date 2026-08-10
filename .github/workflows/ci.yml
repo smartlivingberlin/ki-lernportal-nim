@@ -73,6 +73,9 @@ jobs:
       - name: Test S51B-C1 pilot schema statically
         run: pnpm test:s51b-c1-pilot-schema
 
+      - name: Test S51B-C2 disposable local MySQL
+        run: pnpm test:s51b-c2-local-mysql
+
       - name: Supply-chain policy check
         run: pnpm supply-chain:check
 
