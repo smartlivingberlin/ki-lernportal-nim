@@ -1,6 +1,7 @@
 "use client";
 
 import type { MicroLearningUnitV2 } from "../../data/types";
+import { ExplainCloud } from "./ExplainCloud";
 
 type ThemeWorldTrackProps = {
   worldTitle: string;
@@ -25,9 +26,12 @@ export function ThemeWorldTrack({
       aria-labelledby="themenwelt-title"
       className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 md:p-6 lg:scroll-mt-36"
     >
-      <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
-        Themenwelt · Schema v2
-      </p>
+      <div className="flex flex-wrap items-center gap-2">
+        <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
+          Themenwelt · Schema v2
+        </p>
+        <ExplainCloud tipId="themenwelt" compact />
+      </div>
       <h2
         id="themenwelt-title"
         className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)]"

@@ -1,6 +1,7 @@
 "use client";
 
 import type { ThemeWorld } from "../../data/types";
+import { ExplainCloud } from "./ExplainCloud";
 
 type GoalNavigationProps = {
   worlds: ThemeWorld[];
@@ -30,9 +31,12 @@ export function GoalNavigation({
       aria-labelledby="ziele-title"
       className="scroll-mt-52 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] lg:scroll-mt-32 md:p-7"
     >
-      <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--nim-primary)]">
-        Ziel wählen
-      </p>
+      <div className="flex flex-wrap items-center gap-2">
+        <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--nim-primary)]">
+          Ziel wählen
+        </p>
+        <ExplainCloud tipId="ziele" compact />
+      </div>
       <h2
         id="ziele-title"
         className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[var(--foreground)] md:text-4xl"

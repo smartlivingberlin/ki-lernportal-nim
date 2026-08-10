@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { ExplainCloud } from "./ExplainCloud";
+import { InlineGlossaryText } from "./InlineGlossary";
 
 type ToolId = "prompt" | "privacy" | "quellen" | "modell";
 
@@ -111,9 +113,12 @@ export function LearningWorkspaces({ simpleMode = false }: { simpleMode?: boolea
       className="scroll-mt-72 space-y-4 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 md:p-6 lg:scroll-mt-36"
     >
       <div>
-        <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
-          Werkzeuge · lokal im Browser
-        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
+            Werkzeuge · lokal im Browser
+          </p>
+          <ExplainCloud tipId="werkzeuge" compact />
+        </div>
         <h2
           id="werkzeuge-title"
           className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)]"
@@ -121,8 +126,7 @@ export function LearningWorkspaces({ simpleMode = false }: { simpleMode?: boolea
           Arbeitsplätze zum Ausprobieren
         </h2>
         <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
-          Keine Cloud-Anbindung nötig: baue Prompts, prüfe Datenschutz, übe Quellenarbeit und
-          wähle Modell-Arten — alles bleibt auf diesem Gerät.
+          <InlineGlossaryText text="Keine Cloud-Anbindung nötig: baue Prompts, prüfe Datenschutz, übe Quellenarbeit und wähle Modell-Arten — alles bleibt auf diesem Gerät." />
         </p>
       </div>
 
