@@ -45,7 +45,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* auto: vermeidet Race mit Wheel/Scroll-Tests und respektiert ruhigere Navigation.
+     Flüssige UI kommt über Transitions an Buttons/Sections, nicht über Document-Smooth-Scroll. */
+  scroll-behavior: auto;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
