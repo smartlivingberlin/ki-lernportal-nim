@@ -1,15 +1,17 @@
 # Projektstatus: KI-Lernportal NIM
 
 **Stand:** 10. August 2026
-**Baseline `main`:** `e0791383d726fcf0cbbea7f9101ab53cd8753154`
-**Status:** S51B-B Adapter integriert; S51B-C Scope-Lock integriert; S51B-C1 Schema/Migration integriert; S51B-C2 disposable MySQL-Constraint-Proof integriert; Live-Migrate/Railway-DB/Produktion weiterhin gesperrt
+**Baseline `main`:** `566ac0a88d921e660f13b8296ffd2536459f74be`
+**Status:** S51B-C1/C2 integriert; S51C-B1A Domain-Vokabular integriert (PR #102, CI-Nachzug); Live-Migrate/Railway-DB/Produktion weiterhin gesperrt
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
 PHASE0A_SOURCE_OF_TRUTH_SYNC=COMPLETE
 BACKLOG_NORMALIZATION=COMPLETE
-BASELINE_MAIN_SHA=e0791383d726fcf0cbbea7f9101ab53cd8753154
+BASELINE_MAIN_SHA=566ac0a88d921e660f13b8296ffd2536459f74be
 PR68_MERGED=YES
+PR102_S51C_B1A_MERGED=YES
+PR104_S51C_B1B_CODE_MERGED=YES
 PR105_SUPERSEDED_BY_S51B_C_SCOPE_LOCK_REBASE=YES
 PR118_WAVE_A_MERGED=YES
 PR119_WAVE_B_MERGED=YES
@@ -20,6 +22,7 @@ HUMAN_AGENCY_FREIGABE_MERGE_DEPLOY_CONCEPT_DEMO=YES
 S51B_C_SCOPE_MERGE_AUTHORIZED=YES
 S51B_C1_SCHEMA_IMPLEMENTATION_AUTHORIZED=YES
 S51B_C2_DATABASE_TEST_AUTHORIZED=YES
+S51C_B1A_IMPLEMENTATION_AUTHORIZED=YES
 S51B_C_SCHEMA_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
 ~~~
@@ -34,6 +37,8 @@ zusammen mit den nachfolgenden Integrationsnachweisen beschrieben durch:
 - [S51B-Persistenz-Scope und Integrationsstatus](architecture/S51B_IMPLEMENTATION_SCOPE.md)
 - [S51B-B Adapter-Scope-Lock](architecture/S51B_B_IMPLEMENTATION_SCOPE.md)
 - [S51B-C Schema-/Migrations-Scope-Lock](architecture/S51B_C_SCHEMA_MIGRATION_SCOPE.md)
+- [S51C-B1 Domain-/Contract-Typen-Scope](architecture/S51C_B1_DOMAIN_CONTRACT_TYPES_SCOPE.md)
+- [S51C-B1A Domain-Implementierungs-Scope](architecture/S51C_B1A_IMPLEMENTATION_SCOPE.md)
 - [Zielarchitektur](architecture/ARCHITECTURE_TARGET.md)
 - [Package-DAG](architecture/PACKAGE_DAG.md)
 - [Plattformverträge](architecture/PLATFORM_CONTRACTS.md)
