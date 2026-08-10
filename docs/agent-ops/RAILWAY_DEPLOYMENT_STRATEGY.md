@@ -26,13 +26,11 @@ Zum Stand 16. Juli 2026 gilt:
 
 - Das GitHub-Repository ist `smartlivingberlin/ki-lernportal-nim`.
 - Railway wird bereits für eine Produktions-Konzeptdemo verwendet.
-- Die dort laufende Revision basiert weiterhin auf `main` mit SHA
-  `4173f2d935e3145142dce539b399bf8b9d77ee79`.
-- Der dokumentierte `/health`-Aufruf liefert auf diesem Stand `404`.
-- PR #68 ist ein separater, offener Draft-PR für Railway Readiness.
-- PR #68 ist nicht gemergt.
-- Ein isoliertes Railway-Staging für die neue Plattformarchitektur ist noch
-  nicht freigegeben oder erstellt.
+- PR #68 (S50D1 Railway Staging Readiness Contract) ist gemerged.
+- `/health` liefert in CI und lokal `200 ok` (Konzeptdemo-Vertrag).
+- Ein isoliertes Railway-Staging-Environment ist noch nicht erstellt
+  (`STAGING_ENVIRONMENT_CREATED=NO`).
+- S51D-A Scope-Lock: `docs/architecture/S51D_A_STAGING_SCOPE.md`.
 - Die S50B-R3-Dokumentationsintegration verändert Railway nicht.
 
 Der Produktionsstand ist deshalb weder als vollständige Plattform noch als
@@ -199,26 +197,27 @@ PR #68 bleibt von S50B-R3 getrennt.
 S50B-R3:
 
 - prüft und korrigiert Dokumentation;
-- mergt PR #68 nicht;
-- verändert dessen Branch nicht;
+- bestätigt PR #68 als gemerged (S50D1);
+- legt kein Railway-Staging-Environment an, solange S51D-B nicht ausgeführt ist;
 - löst keinen Deploy aus;
-- übernimmt keinen ungeprüften Code daraus.
-
-Eine spätere Entscheidung zu PR #68 benötigt eine eigene technische Review und
-eine eigene menschliche Freigabe.
+- verändert Production nicht.
 
 ## 12. Freigabestatus
 
 ```text
 S50B_R3_PACKAGE_APPROVED=YES
 HUMAN_ARCHITECTURE_APPROVAL=YES
-RAILWAY_STRATEGY_REVIEWED=NO
-S51D_STAGING_APPROVED=NO
-PR68_MERGE_APPROVED=NO
+RAILWAY_STRATEGY_REVIEWED=YES
+S51D_HUMAN_FREIGABE=YES
+S51D_A_SCOPE_AUTHORIZED=YES
+S51D_STAGING_APPROVED=SCOPE_ONLY
+S51D_B_ENV_CREATE_AUTHORIZED=YES
+S51D_B_EXECUTED=NO
+PR68_MERGED=YES
 RAILWAY_CHANGE_AUTHORIZED=NO
 DEPLOY_AUTHORIZED=NO
 PRODUCTION_CHANGE_AUTHORIZED=NO
 ```
 
-Bis diese Zustände für einen klar begrenzten Arbeitsschritt ausdrücklich
-geändert wurden, bleibt diese Datei reine Dokumentation.
+Bis S51D-B mit Railway-Zugang und Reverify ausgeführt wird, bleibt das
+Staging-Environment unangelegt. Production bleibt unverändert.
