@@ -194,18 +194,17 @@ Betriebszusage.
 CURRENT_PRODUCTION_AUTODEPLOY=UNVERIFIED
 CURRENT_WAIT_FOR_CI=UNVERIFIED
 CURRENT_CONFIG_SOURCE=UNVERIFIED
-RAILWAY_REVERIFY_BEFORE_MERGE=REQUIRED
+RAILWAY_REVERIFY_BEFORE_STAGING_USE=REQUIRED
 PR68_STAGING_ONLY_REMEDIATION=COMPLETE
 PR68_FULL_CI=PASS
-PR68_READY_EXECUTED=NO
-PR68_MERGE_AUTHORIZED=NO
+PR68_MERGED=YES
+PR68_MERGE_COMMIT=43550961cb5f584b5a5b16aaaa93610b3ce0b2f8
+S51D_A_STAGING_SCOPE=SEE_S51D_A_STAGING_SCOPE_MD
 ~~~
 
-PR #68 besitzt inzwischen einen staging-only begrenzten Repositoryvertrag und
-eine vollständig erfolgreiche CI. Er bleibt dennoch Draft, wurde nicht auf
-Ready gesetzt und ist nicht zum Merge freigegeben. Vor jeder späteren
-Mergeentscheidung ist der aktuelle Railway-Istzustand erneut read-only zu
-prüfen. Dieses Dokument verändert PR #68 nicht.
+PR #68 (S50D1) ist gemerged. Ein isoliertes Railway-Staging-Environment ist
+dadurch nicht automatisch erstellt. S51D-A dokumentiert den Scope; S51D-B
+(Environment anlegen) erfordert Railway-Zugang und read-only Reverify.
 
 ## 10. Aktueller Exit- und Freigabestatus
 
@@ -232,8 +231,11 @@ S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
 S51B_C_SCHEMA_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
 MIGRATION_AUTHORIZED=NO
+S51D_HUMAN_FREIGABE=YES
+S51D_A_SCOPE_AUTHORIZED=YES
+S51D_B_EXECUTED=NO
 RAILWAY_STAGING_AUTHORIZED=NO
-PR68_MERGE_AUTHORIZED=NO
+PR68_MERGED=YES
 DEPLOY_AUTHORIZED=NO
 PRODUCTION_CHANGE_AUTHORIZED=NO
 ~~~

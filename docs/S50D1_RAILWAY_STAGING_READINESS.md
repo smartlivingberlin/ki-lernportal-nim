@@ -223,3 +223,15 @@ Erwartete Ausgabe:
 ```text
 ok
 ```
+
+## S51D-A Nachtrag (2026-08-10)
+
+PR #68 ist auf `main` gemerged. Der Repository-Vertrag bleibt gültig.
+S51D-A Scope-Lock: `docs/architecture/S51D_A_STAGING_SCOPE.md`.
+
+```text
+PR68_MERGED=YES
+STAGING_ENVIRONMENT_CREATED=NO
+S51D_B_EXECUTED=NO
+PRODUCTION_CHANGED=NO
+```

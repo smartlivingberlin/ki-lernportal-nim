@@ -55,8 +55,12 @@ S51C_B1A_DOMAIN_VOCABULARY=INTEGRATED
 S51C_B1B_CONTRACT_TYPES=INTEGRATED
 S51C_OPERATIONS_FOUNDATION=OPS_A_INTEGRATED
 S51C_OPS_A_LIVE_READY_VERSION_FLAGS_LOGS=INTEGRATED
-S51D_RAILWAY_STAGING=NOT_AUTHORIZED
-S52_A_AUTH_POLICY_VOCABULARY=AUTHORIZED
+S51D_A_STAGING_SCOPE_LOCK=AUTHORIZED
+S51D_HUMAN_FREIGABE=YES
+S51D_B_ENV_CREATE_AUTHORIZED_NOT_EXECUTED=YES
+S51D_STAGING_ENVIRONMENT_CREATED=NO
+S51D_RAILWAY_STAGING_AUTHORIZED=NO
+S52_A_AUTH_POLICY_VOCABULARY=INTEGRATED
 AUTH_RUNTIME=NOT_AUTHORIZED
 ~~~
 
@@ -99,23 +103,25 @@ Möglicher späterer Scope:
 
 ### S51D – Isoliertes Railway-Staging
 
-Der staging-only Repositoryvertrag wurde in PR #68 umgesetzt und durch eine
-vollständig erfolgreiche CI verifiziert. Ein tatsächliches Railway-Staging ist
-dadurch nicht automatisch erstellt oder freigegeben.
+Der staging-only Repositoryvertrag wurde in PR #68 umgesetzt, gemerged und
+durch CI verifiziert. Siehe [S51D_A_STAGING_SCOPE.md](S51D_A_STAGING_SCOPE.md).
 
-Ein späterer Staging-Slice beginnt erst nach separater menschlicher Freigabe und
-umfasst höchstens:
+Menschliche Freigabe für S51D liegt vor. S51D-A (Scope-Lock / Gate-Sync) ist
+der dokumentarische Slice. Das Anlegen des Railway-Staging-Environments
+(S51D-B) ist freigegeben, aber noch nicht ausgeführt und erfordert Railway-
+Zugang sowie read-only Reverify der Production-Einstellungen.
+
+S51D-B umfasst höchstens:
 
 - ein eigenes, von Production getrenntes Staging-Environment;
+- Config Source `/railway.staging.json`;
 - belegte Root-, Build-, Start- und Healthcheck-Verträge;
-- aktuelle read-only Verifikation von Autodeploy, Wait for CI und Config Source;
+- Wait for CI;
 - getrennte Variablen und Secrets;
 - einen freigegebenen Staging-Branch;
 - keine Änderung der bestehenden Production ohne Einzelentscheidung.
 
-PR #68 bleibt Draft, wurde nicht auf Ready gesetzt und ist nicht zum Merge
-freigegeben. Vor einer späteren Mergeentscheidung ist der aktuelle
-Railway-Istzustand erneut read-only zu prüfen.
+Production-Autodeploy bleibt disabled.
 
 ### S52 – Auth, Sessions, Rollen und Ownership
 
@@ -265,13 +271,17 @@ S51B_B_REAL_CONNECTION_AUTHORIZED=NO
 S51B_C_SCHEMA_AUTHORIZED=NO
 S51C_OPERATIONS_AUTHORIZED=OPS_A_ONLY
 S51C_OPS_A_AUTHORIZED=YES
+S51D_HUMAN_FREIGABE=YES
+S51D_A_SCOPE_AUTHORIZED=YES
+S51D_B_ENV_CREATE_AUTHORIZED=YES
+S51D_B_EXECUTED=NO
 S51D_RAILWAY_STAGING_AUTHORIZED=NO
 S52_A_AUTHORIZED=YES
 AUTH_RUNTIME_AUTHORIZED=NO
 ADMIN_RUNTIME_AUTHORIZED=NO
 AI_RUNTIME_AUTHORIZED=NO
 DATABASE_CHANGE_APPROVED=NO
-PR68_MERGE_AUTHORIZED=NO
+PR68_MERGED=YES
 PRODUCTION_CHANGE_APPROVED=NO
 ~~~
 

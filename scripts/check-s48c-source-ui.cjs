@@ -4,6 +4,7 @@ const os = require("node:os");
 const path = require("node:path");
 const { createRequire } = require("node:module");
 const { chromium } = require("playwright");
+const { dismissExplainClouds } = require("./playwright-dismiss-explain-clouds.cjs");
 
 const axePackage = require("@axe-core/playwright");
 const AxeBuilder =
@@ -183,6 +184,8 @@ async function main() {
         timeout: navigationTimeout,
       });
 
+    await dismissExplainClouds(page);
+
     for (const lesson of lessons) {
       const lessonButton = page
         .getByRole("button")
@@ -199,7 +202,8 @@ async function main() {
         timeout: 10_000,
       });
 
-      await lessonButton.click();
+      await dismissExplainClouds(page);
+      await lessonButton.click({ force: true });
 
       await page
         .getByRole("heading", {
@@ -211,6 +215,7 @@ async function main() {
           timeout: 10_000,
         });
 
+      await dismissExplainClouds(page);
       const sourceSection =
         page.getByTestId("lesson-sources");
 

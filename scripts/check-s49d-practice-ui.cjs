@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { chromium } = require("playwright");
+const { dismissExplainClouds } = require("./playwright-dismiss-explain-clouds.cjs");
 
 const baseUrl =
   process.env.S49D_BASE_URL || "http://127.0.0.1:3000";
@@ -71,6 +72,7 @@ async function openLesson(page, lessonId, lessonTitle) {
   );
 
   await button.scrollIntoViewIfNeeded();
+  await dismissExplainClouds(page);
   await button.click();
 
   await page.waitForFunction(
@@ -86,6 +88,8 @@ async function openLesson(page, lessonId, lessonTitle) {
     },
     lessonId
   );
+
+  await dismissExplainClouds(page);
 }
 
 async function checkRenderedAccessibility(page, viewportName) {
