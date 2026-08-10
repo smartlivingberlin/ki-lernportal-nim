@@ -373,6 +373,116 @@ export const interactiveChallenges: InteractiveChallenge[] = [
     methodIds: ["method-teachback", "method-retrieval", "method-playful"],
     scenarioDomain: "alltag",
   },
+  {
+    id: "challenge-truth-hallucination",
+    worldId: "world-research-truth",
+    lessonId: "l8",
+    title: "Wahrheit: Klingt präzise — ist es wahr?",
+    plainIntro:
+      "Die KI nennt ein Gesetz mit Paragraf, Datum und Prozentzahl. Alles klingt offiziell.",
+    prompt: "Was ist der beste nächste Schritt?",
+    options: [
+      {
+        id: "a",
+        label: "Fragen „Bist du sicher?“ und der Bestätigung glauben.",
+        feedback:
+          "Zu schwach. Dieselbe KI kann denselben Fehler bestätigen.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Kernaussage markieren und in einer unabhängigen Primärquelle prüfen.",
+        feedback:
+          "Genau. Gegenprüfung schützt vor glaubwürdigen Erfindungen.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Sofort an Freund:innen weiterleiten, weil es nützlich klingt.",
+        feedback:
+          "Riskant. Ungeprüfte Tipps können Schaden anrichten.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Welche zwei Warnsignale erkennst du in „präzisen“ KI-Antworten?",
+    methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
+    scenarioDomain: "sicherheit",
+  },
+  {
+    id: "challenge-truth-source",
+    worldId: "world-research-truth",
+    lessonId: "l9",
+    title: "Wahrheit: Erklärung oder Quelle?",
+    plainIntro:
+      "Jemand sagt: „Die KI hat es klar erklärt — also stimmt es.“",
+    prompt: "Was fehlt für eine belastbare Einschätzung?",
+    options: [
+      {
+        id: "a",
+        label: "Eine nachprüfbare Quelle und ein kurzer Abgleich der Kernaussage.",
+        feedback:
+          "Richtig. Erklärung hilft verstehen — Quelle hilft prüfen.",
+        isGood: true,
+      },
+      {
+        id: "b",
+        label: "Mehr Adjektive und ein selbstsicherer Schluss.",
+        feedback:
+          "Stil ersetzt keinen Beleg.",
+        isGood: false,
+      },
+      {
+        id: "c",
+        label: "Dieselbe Antwort noch einmal in einem anderen Chatfenster.",
+        feedback:
+          "Oft dieselbe Trainingsbasis — keine echte Unabhängigkeit.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Erklär den Unterschied zwischen Erklärung und Quelle in einem Satz.",
+    methodIds: ["method-retrieval", "method-teachback", "method-scenario"],
+    scenarioDomain: "grundlagen",
+  },
+  {
+    id: "challenge-truth-share",
+    worldId: "world-research-truth",
+    lessonId: null,
+    title: "Alltag: Tipps teilen mit Prüfstand",
+    plainIntro:
+      "Du willst einen KI-Tipp zu einer angeblichen neuen Förderregel in die Familiengruppe schicken.",
+    prompt: "Wie teilst du verantwortungsvoll?",
+    options: [
+      {
+        id: "a",
+        label: "Sofort posten — schneller ist besser.",
+        feedback:
+          "Geschwindigkeit ohne Prüfung kann Falschinformationen verbreiten.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Eine Kernaussage auf der offiziellen Seite prüfen und den Prüfstand mitteilen.",
+        feedback:
+          "Genau. Transparenz + Primärquelle schützt alle.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Nur den Chat-Screenshot schicken, ohne Kommentar.",
+        feedback:
+          "Screenshots wirken autoritativ, sind aber kein Nachweis.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Welche eine Regel nimmst du dir fürs Teilen von KI-Tipps vor?",
+    methodIds: ["method-scenario", "method-retrieval", "method-playful"],
+    scenarioDomain: "alltag",
+  },
 ];
 
 export function challengesForLesson(lessonId: string): InteractiveChallenge[] {

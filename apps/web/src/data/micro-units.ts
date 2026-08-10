@@ -1,11 +1,13 @@
 import type { MicroLearningUnitV2 } from "./types";
 import { microUnitsChatPrompting } from "./micro-units-chat-prompting";
 import { microUnitsNoFear } from "./micro-units-no-fear";
+import { microUnitsResearchTruth } from "./micro-units-research-truth";
 import { microUnitsWorkLife } from "./micro-units-work-life";
 
 export const allMicroUnits: MicroLearningUnitV2[] = [
   ...microUnitsNoFear,
   ...microUnitsChatPrompting,
+  ...microUnitsResearchTruth,
   ...microUnitsWorkLife,
 ];
 
@@ -22,6 +24,7 @@ export function microUnitForLesson(lessonId: string): MicroLearningUnitV2 | null
 export const worldsWithMicroUnits = [
   "world-no-fear",
   "world-chat-prompting",
+  "world-research-truth",
   "world-work-life",
 ] as const;
 

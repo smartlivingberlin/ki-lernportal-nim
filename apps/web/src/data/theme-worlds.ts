@@ -2,7 +2,8 @@ import type { ThemeWorld } from "./types";
 
 /**
  * Zehn Themenwelten als skalierbare Content-Architektur.
- * Vollständige Micro-Einheiten folgen in späteren Content-Slices.
+ * Schema-v2-Micro-Einheiten: KI ohne Angst, Chat & Prompting,
+ * Recherche & Wahrheit, Arbeit & Alltag.
  */
 export const themeWorlds: ThemeWorld[] = [
   {
