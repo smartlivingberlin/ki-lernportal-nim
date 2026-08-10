@@ -11,15 +11,17 @@ type AvoidRect = { x: number; y: number; width: number; height: number };
 
 type CloudState = {
   tip: HelpTip;
-  x: number;
-  y: number;
+  /** Eingefrorene Panel-Position (nicht dem Cursor hinterher) */
+  left: number;
+  top: number;
   pinned: boolean;
-  avoid: AvoidRect | null;
 };
 
-/** Große Manual-Wolke (Konzept A) — Maße für Viewport-Clamp. */
+/** Große Manual-Wolke — Maße für Viewport-Clamp. */
 const PANEL_WIDTH = 480;
 const PANEL_HEIGHT = 520;
+const HIDE_DELAY_MS = 480;
+const TIP_SWITCH_DWELL_MS = 320;
 
 function canHoverFinePointer(): boolean {
   if (typeof window === "undefined") return false;
@@ -37,41 +39,70 @@ function containsPoint(
   return x >= left && x <= left + width && y >= top && y <= top + height;
 }
 
-function clampPosition(x: number, y: number, avoid?: AvoidRect | null) {
+function overlapsRect(
+  left: number,
+  top: number,
+  width: number,
+  height: number,
+  rect: AvoidRect,
+) {
+  return !(
+    left + width <= rect.x ||
+    left >= rect.x + rect.width ||
+    top + height <= rect.y ||
+    top >= rect.y + rect.height
+  );
+}
+
+/**
+ * Position dicht am Auslöser / Cursor, aber so dass der Cursor
+ * außerhalb bleibt — damit man in die Wolke fahren kann.
+ * Überdeckt den Auslöser möglichst nicht (Kontrast/Axe).
+ */
+function placeCloud(x: number, y: number, avoid?: AvoidRect | null) {
   const pad = 12;
   const width = Math.min(PANEL_WIDTH, window.innerWidth - pad * 2);
   const height = Math.min(PANEL_HEIGHT, window.innerHeight * 0.7);
   const maxX = Math.max(pad, window.innerWidth - width - pad);
   const maxY = Math.max(pad, window.innerHeight - height - pad);
 
-  const candidates: Array<{ left: number; top: number }> = [
-    { left: x + 22, top: y + 22 },
-    { left: x - width - 22, top: y + 22 },
-    { left: x + 22, top: y - height - 22 },
-    { left: x - width - 22, top: y - height - 22 },
-    { left: x + 22, top: Math.min(maxY, Math.max(pad, y - height / 3)) },
-    { left: Math.min(maxX, Math.max(pad, x - width / 3)), top: y + 22 },
-  ];
+  const candidates: Array<{ left: number; top: number }> = [];
 
   if (avoid) {
-    candidates.unshift(
-      { left: avoid.x + avoid.width + 12, top: avoid.y },
-      { left: avoid.x - width - 12, top: avoid.y },
-      { left: avoid.x, top: avoid.y + avoid.height + 10 },
+    // Bevorzugt neben dem Bereich — kurze Strecke für den Cursor.
+    candidates.push(
+      { left: avoid.x + avoid.width + 12, top: Math.min(avoid.y, maxY) },
+      { left: avoid.x - width - 12, top: Math.min(avoid.y, maxY) },
+      { left: Math.min(maxX, Math.max(pad, avoid.x)), top: avoid.y + avoid.height + 12 },
+      { left: Math.min(maxX, Math.max(pad, avoid.x)), top: avoid.y - height - 12 },
     );
   }
+
+  candidates.push(
+    { left: x + 20, top: y + 20 },
+    { left: x - width - 20, top: y + 20 },
+    { left: x + 20, top: y - height - 20 },
+    { left: x - width - 20, top: y - height - 20 },
+  );
+
+  const scored: Array<{ left: number; top: number; score: number }> = [];
 
   for (const candidate of candidates) {
     const left = Math.max(pad, Math.min(candidate.left, maxX));
     const top = Math.max(pad, Math.min(candidate.top, maxY));
-    if (!containsPoint(left, top, width, height, x, y)) {
-      return { left, top };
-    }
+    if (containsPoint(left, top, width, height, x, y)) continue;
+    let score = 0;
+    if (avoid && overlapsRect(left, top, width, Math.min(height, 280), avoid)) score += 5;
+    if (avoid && overlapsRect(left, top, width, height, avoid)) score += 10;
+    scored.push({ left, top, score });
   }
 
+  scored.sort((a, b) => a.score - b.score);
+  if (scored[0]) return { left: scored[0].left, top: scored[0].top };
+
   return {
-    left: Math.max(pad, Math.min(x + 22, maxX)),
-    top: Math.max(pad, Math.min(y + 22, maxY)),
+    left: Math.max(pad, Math.min(x + 20, maxX)),
+    top: Math.max(pad, Math.min(y + 20, maxY)),
   };
 }
 
@@ -182,19 +213,25 @@ function ManualBody({ tip, interactive }: { tip: HelpTip; interactive: boolean }
 }
 
 /**
- * Globale Cursor-Erklärungswolke — Konzept A: Mini-Handbuch am Cursor.
+ * Mini-Handbuch am Cursor.
  *
- * Hover: große Manual-Wolke mit allen Kapiteln (pointer-events-none,
- * damit Seite/Sidebar weiter scrollen).
- * Hilfe-Pin: scrollbar + klickbare Links.
+ * Wichtig: Position wird pro Tipp eingefroren — die Wolke läuft dem Cursor
+ * nicht mehr davon. Maus kann in die Wolke fahren, scrollen und Links nutzen.
  */
 export function CursorExplainLayer() {
   const panelId = useId();
   const isClient = useIsClient();
   const [cloud, setCloud] = useState<CloudState | null>(null);
+  const [engaged, setEngaged] = useState(false);
   const pinnedRef = useRef(false);
+  const overCloudRef = useRef(false);
   const lastTipIdRef = useRef<string | null>(null);
   const hideTimerRef = useRef<number | null>(null);
+  const switchTimerRef = useRef<number | null>(null);
+  const suppressOpenUntilRef = useRef(0);
+  const pendingTipRef = useRef<{ tip: HelpTip; x: number; y: number; avoid: AvoidRect | null } | null>(
+    null,
+  );
 
   useEffect(() => {
     pinnedRef.current = Boolean(cloud?.pinned);
@@ -210,35 +247,99 @@ export function CursorExplainLayer() {
       }
     };
 
+    const clearSwitch = () => {
+      if (switchTimerRef.current !== null) {
+        window.clearTimeout(switchTimerRef.current);
+        switchTimerRef.current = null;
+      }
+      pendingTipRef.current = null;
+    };
+
     const scheduleHide = () => {
       clearHide();
       hideTimerRef.current = window.setTimeout(() => {
-        if (!pinnedRef.current) {
+        if (!pinnedRef.current && !overCloudRef.current) {
           lastTipIdRef.current = null;
+          clearSwitch();
+          setEngaged(false);
           setCloud(null);
         }
-      }, 200);
+      }, HIDE_DELAY_MS);
+    };
+
+    const openTip = (tip: HelpTip, x: number, y: number, avoid: AvoidRect | null) => {
+      const pos = placeCloud(x, y, avoid);
+      lastTipIdRef.current = tip.id;
+      setEngaged(false);
+      setCloud({
+        tip,
+        left: pos.left,
+        top: pos.top,
+        pinned: false,
+      });
     };
 
     const onPointerMove = (event: PointerEvent) => {
       if (!canHoverFinePointer()) return;
       if (pinnedRef.current) return;
 
+      if (event.target instanceof Element && event.target.closest("[data-explain-cloud-root]")) {
+        overCloudRef.current = true;
+        clearHide();
+        clearSwitch();
+        return;
+      }
+
+      overCloudRef.current = false;
+
+      if (Date.now() < suppressOpenUntilRef.current) {
+        return;
+      }
+
       const tip = tipFromEventTarget(event.target);
+
       if (!tip) {
+        // Unterwegs zur Wolke: nicht sofort schließen.
         scheduleHide();
         return;
       }
 
       clearHide();
-      lastTipIdRef.current = tip.id;
-      setCloud({
+
+      // Gleicher Tipp: Position eingefroren lassen — Cursor kann eintreten.
+      if (lastTipIdRef.current === tip.id) {
+        clearSwitch();
+        return;
+      }
+
+      // Anderer Tipp: kurze Verweilzeit, damit der Weg zur Wolke
+      // nicht versehentlich umschaltet.
+      pendingTipRef.current = {
         tip,
         x: event.clientX,
         y: event.clientY,
-        pinned: false,
         avoid: hostRectFromTarget(event.target),
-      });
+      };
+
+      if (switchTimerRef.current !== null) {
+        return;
+      }
+
+      // Kein offenes Handbuch → sofort öffnen.
+      if (!lastTipIdRef.current) {
+        openTip(tip, event.clientX, event.clientY, hostRectFromTarget(event.target));
+        clearSwitch();
+        return;
+      }
+
+      switchTimerRef.current = window.setTimeout(() => {
+        switchTimerRef.current = null;
+        const pending = pendingTipRef.current;
+        if (!pending || pinnedRef.current || overCloudRef.current) return;
+        if (Date.now() < suppressOpenUntilRef.current) return;
+        openTip(pending.tip, pending.x, pending.y, pending.avoid);
+        pendingTipRef.current = null;
+      }, TIP_SWITCH_DWELL_MS);
     };
 
     const onPointerDown = (event: PointerEvent) => {
@@ -246,8 +347,13 @@ export function CursorExplainLayer() {
         return;
       }
       if (pinnedRef.current) return;
+      // Nach Klicks kurz keine neue Hover-Wolke — verhindert Kontrast-Überdeckung.
+      suppressOpenUntilRef.current = Date.now() + 400;
       clearHide();
+      clearSwitch();
+      overCloudRef.current = false;
       lastTipIdRef.current = null;
+      setEngaged(false);
       setCloud(null);
     };
 
@@ -256,21 +362,30 @@ export function CursorExplainLayer() {
       const tip = helpTipById(detail?.tipId ?? "");
       if (!tip) return;
       clearHide();
+      clearSwitch();
       lastTipIdRef.current = tip.id;
       pinnedRef.current = true;
-      setCloud((current) => ({
-        tip,
-        x: current?.x ?? Math.min(window.innerWidth / 2 - 40, window.innerWidth - 500),
-        y: current?.y ?? 72,
-        pinned: true,
-        avoid: current?.avoid ?? null,
-      }));
+      setEngaged(true);
+      setCloud((current) => {
+        if (current?.tip.id === tip.id) {
+          return { ...current, tip, pinned: true };
+        }
+        const pos = placeCloud(
+          Math.min(window.innerWidth / 2, window.innerWidth - 520),
+          96,
+          null,
+        );
+        return { tip, left: pos.left, top: pos.top, pinned: true };
+      });
     };
 
     const onUnpin = () => {
       clearHide();
+      clearSwitch();
       lastTipIdRef.current = null;
       pinnedRef.current = false;
+      overCloudRef.current = false;
+      setEngaged(false);
       setCloud(null);
     };
 
@@ -286,6 +401,7 @@ export function CursorExplainLayer() {
 
     return () => {
       clearHide();
+      clearSwitch();
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener(EXPLAIN_PIN_EVENT, onPin as EventListener);
@@ -296,15 +412,16 @@ export function CursorExplainLayer() {
 
   const close = useCallback(() => {
     pinnedRef.current = false;
+    overCloudRef.current = false;
     lastTipIdRef.current = null;
+    setEngaged(false);
     setCloud(null);
     window.dispatchEvent(new Event(EXPLAIN_UNPIN_EVENT));
   }, []);
 
   if (!isClient || !cloud) return null;
 
-  const pos = clampPosition(cloud.x, cloud.y, cloud.avoid);
-  const interactive = cloud.pinned;
+  const interactive = cloud.pinned || engaged;
 
   return createPortal(
     <div
@@ -312,12 +429,28 @@ export function CursorExplainLayer() {
       data-explain-cloud-root=""
       role="region"
       aria-label={`Handbuch: ${cloud.tip.label}`}
-      aria-hidden={interactive ? undefined : true}
-      className={[
-        "fixed z-[80] flex w-[min(30rem,calc(100vw-1.25rem))] max-h-[min(70vh,40rem)] flex-col overflow-hidden rounded-[1.35rem] border-2 border-[var(--nim-primary)] bg-[var(--nim-surface)] text-left text-[var(--foreground)] shadow-[var(--shadow-lift)]",
-        interactive ? "pointer-events-auto" : "pointer-events-none",
-      ].join(" ")}
-      style={{ left: pos.left, top: pos.top }}
+      className="pointer-events-auto fixed z-[80] flex w-[min(30rem,calc(100vw-1.25rem))] max-h-[min(70vh,40rem)] flex-col overflow-hidden rounded-[1.35rem] border-2 border-[var(--nim-primary)] bg-[var(--nim-surface)] text-left text-[var(--foreground)] shadow-[var(--shadow-lift)]"
+      style={{ left: cloud.left, top: cloud.top }}
+      onPointerEnter={() => {
+        overCloudRef.current = true;
+        setEngaged(true);
+        if (hideTimerRef.current !== null) {
+          window.clearTimeout(hideTimerRef.current);
+          hideTimerRef.current = null;
+        }
+      }}
+      onPointerLeave={() => {
+        overCloudRef.current = false;
+        if (!pinnedRef.current) {
+          setEngaged(false);
+          hideTimerRef.current = window.setTimeout(() => {
+            if (!pinnedRef.current && !overCloudRef.current) {
+              lastTipIdRef.current = null;
+              setCloud(null);
+            }
+          }, HIDE_DELAY_MS);
+        }
+      }}
     >
       <div className="shrink-0 border-b border-[var(--nim-border)] bg-[var(--nim-surface-soft)] px-4 py-3 sm:px-5 sm:py-4">
         <p className="text-sm font-semibold text-[var(--nim-primary-strong)]">Mini-Handbuch</p>
@@ -337,7 +470,7 @@ export function CursorExplainLayer() {
       </div>
 
       <div className="shrink-0 border-t border-[var(--nim-border)] bg-[var(--nim-surface)] px-4 py-3 sm:px-5">
-        {interactive ? (
+        {cloud.pinned ? (
           <button
             type="button"
             className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-4 text-sm font-black text-[var(--nim-primary)]"
@@ -347,7 +480,7 @@ export function CursorExplainLayer() {
           </button>
         ) : (
           <p className="text-xs font-semibold leading-5 text-[var(--nim-secondary)]">
-            Orangenen Hilfe-Button antippen: Wolke festhalten, darin scrollen und Links öffnen.
+            Maus hierher bewegen, dann scrollen. Hilfe-Button hält die Wolke fest.
           </p>
         )}
       </div>
