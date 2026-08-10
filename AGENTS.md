@@ -149,9 +149,15 @@ S51D_HUMAN_FREIGABE=YES
 S51D_A_SCOPE_AUTHORIZED=YES
 S51D_A_DOC_SYNC_AUTHORIZED=YES
 S51D_B_RAILWAY_ENV_CREATE_AUTHORIZED=YES
+S51D_B_SCOPE_DOCUMENTED=YES
+S51D_B_GITHUB_REVERIFY_SCRIPTED=YES
+S51D_B_DASHBOARD_REVERIFY_COMPLETE=NO
 S51D_B_EXECUTED=NO
 STAGING_ENVIRONMENT_CREATED=NO
 RAILWAY_STAGING_AUTHORIZED=REPO_CONTRACT_ONLY
+RAILWAY_TOKEN_IN_AGENT=NO
+PRODUCTION_AUTODEPLOY=UNVERIFIED_DASHBOARD_REQUIRED
+APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=YES
 
 S52_A_SCOPE_AUTHORIZED=YES
 S52_A_IMPLEMENTATION_AUTHORIZED=YES
@@ -163,7 +169,8 @@ NEXT_PR_AUTHORIZED=YES
 NEXT_MERGE_AUTHORIZED=YES
 
 DEPLOY_AUTHORIZED=YES
-PRODUCTION_AUTODEPLOY=DISABLED
+PRODUCTION_AUTODEPLOY=UNVERIFIED_DASHBOARD_REQUIRED
+APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=YES
 PRODUCTION_CHANGED=NO
 HUMAN_AGENCY_FREIGABE_MERGE_DEPLOY_CONCEPT_DEMO=YES
 ```
@@ -182,10 +189,12 @@ safe-default feature flags and redacted log helpers. Public `/metrics`,
 monitoring providers, live DB readiness checks and Railway config changes
 remain unauthorized.
 S51D-A staging scope lock is authorized; S50D1 repo contract (PR #68) is
-merged. Creating the Railway staging environment (S51D-B) is human-authorized
-but not executed until Railway access and read-only reverify are available.
+merged. S51D-B documents GitHub deployment reverify and the operator runbook;
+Railway staging environment create remains blocked without Railway token/
+dashboard confirmation (apparent Autodeploy on main via GitHub Deployments).
 S52-A auth role/session policy vocabulary is authorized; AUTH_RUNTIME remains
-unauthorized (no cookies, login UI, password hashing runtime or DB auth).
+unauthorized until an explicit S52-B slice (no cookies, login UI, password
+hashing runtime or DB auth in S52-A).
 Live migrate against persistent DBs, Railway DB and production migration
 remain unauthorized.
 
@@ -209,7 +218,7 @@ Do not add tracking, analytics, payment or auth providers without explicit appro
 Before modifying code:
 1. Read README.md.
 2. Read docs/00_PROJECT_STATUS.md.
-3. Read docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md, docs/architecture/S51A_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_B_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_C_SCHEMA_MIGRATION_SCOPE.md, docs/architecture/S51C_B1_DOMAIN_CONTRACT_TYPES_SCOPE.md, docs/architecture/S51C_B1A_IMPLEMENTATION_SCOPE.md, docs/architecture/S51C_B1B_INTEGRATION_GATE.md, docs/architecture/S51C_OPS_A_OPERATIONS_FOUNDATION_SCOPE.md, docs/architecture/S51D_A_STAGING_SCOPE.md and docs/architecture/S52_A_IMPLEMENTATION_SCOPE.md. Treat docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md only as historical evidence.
+3. Read docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md, docs/architecture/S51A_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_B_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_C_SCHEMA_MIGRATION_SCOPE.md, docs/architecture/S51C_B1_DOMAIN_CONTRACT_TYPES_SCOPE.md, docs/architecture/S51C_B1A_IMPLEMENTATION_SCOPE.md, docs/architecture/S51C_B1B_INTEGRATION_GATE.md, docs/architecture/S51C_OPS_A_OPERATIONS_FOUNDATION_SCOPE.md, docs/architecture/S51D_A_STAGING_SCOPE.md, docs/architecture/S51D_B_STAGING_EXECUTION.md and docs/architecture/S52_A_IMPLEMENTATION_SCOPE.md. Treat docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md only as historical evidence.
 4. Read docs/architecture/ARCHITECTURE_TARGET.md.
 5. Read docs/architecture/adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md.
 6. Read docs/architecture/adr/ADR-0002-SERVER-BOUNDARIES.md.

@@ -51,7 +51,8 @@ RAILWAY_CLI_AVAILABLE_IN_AGENT=NO
 ```
 
 S51D-B (Environment anlegen, Config Source setzen, Staging-Deploy) bleibt
-ausgeführt=`NO`, bis Railway-Zugang und read-only Reverify vorliegen.
+ausgeführt=`NO`, bis Railway-Zugang und Dashboard-Reverify vorliegen.
+Siehe `docs/architecture/S51D_B_STAGING_EXECUTION.md`.
 
 ## 4. Exakter Dateiscope dieses Slices
 
