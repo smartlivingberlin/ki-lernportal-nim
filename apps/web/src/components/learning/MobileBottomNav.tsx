@@ -5,11 +5,11 @@ type MobileBottomNavProps = {
 };
 
 const items = [
-  { href: "#erststart", label: "Start" },
+  { href: "#einstieg-route", label: "Start" },
+  { href: "#selbstcheck", label: "Check" },
   { href: "#literacy-pfad", label: "60 Min" },
-  { href: "#ziele", label: "Ziele" },
+  { href: "#wiederholen", label: "Abruf" },
   { href: "#scam", label: "Scam" },
-  { href: "#coach", label: "Hilfe" },
 ] as const;
 
 export function MobileBottomNav({ simpleMode }: MobileBottomNavProps) {

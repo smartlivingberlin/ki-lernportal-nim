@@ -51,10 +51,10 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
       <ExplainHotspot tipId="wiederholen" className="mb-1">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
-            Wiederholen · lokal
+            Wiederholen · lokal · Schritt 3
           </p>
-          <p className="text-sm font-black text-[var(--nim-secondary)]">
-            Fällig: {dueCards.length} / {totalCards}
+          <p className="rounded-[var(--nim-radius-sm)] bg-[var(--nim-accent-soft)] px-3 py-1 text-sm font-black text-[var(--nim-accent)]">
+            Heute fällig: {dueCards.length} / {totalCards}
           </p>
         </div>
         <h2
@@ -64,9 +64,13 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
           Kurze Abruf-Übungen mit Abstand
         </h2>
         <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
-          Statt nur zu lesen: aktiv abrufen. Unsichere Karten kommen früher wieder —
-          alles bleibt in deinem Browser. Die Karten sind kuratiert und mit Quellenangaben versehen
-          (keine Server-Datenbank).
+          Nach Selbstcheck und Literacy-Pfad: aktiv abrufen statt nur lesen. Unsichere Karten
+          kommen früher wieder — alles bleibt in deinem Browser (kuratiert, mit Quellenangaben,
+          ohne Server-Datenbank).
+        </p>
+        <p className="mt-2 text-xs font-semibold text-[var(--nim-secondary)]">
+          Tipp: Im 60-Minuten-Pfad ist Abrufen Station 7 — danach kannst du den lokalen Nachweis
+          freischalten.
         </p>
       </ExplainHotspot>
 

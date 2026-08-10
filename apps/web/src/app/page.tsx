@@ -44,8 +44,10 @@ import { LiteracyPathPanel } from "../components/learning/LiteracyPathPanel";
 import { SelfCheckPanel } from "../components/learning/SelfCheckPanel";
 import { PromptLibraryPanel } from "../components/learning/PromptLibraryPanel";
 import { ScamModulePanel } from "../components/learning/ScamModulePanel";
+import { OnboardingRoutePanel } from "../components/learning/OnboardingRoutePanel";
 import { explainAttrs } from "../data/help-tips";
 import { useLocalProgress } from "../hooks/useLocalProgress";
+import { useLocalReviewQueue } from "../hooks/useLocalReviewQueue";
 import { useSimpleMode } from "../hooks/useSimpleMode";
 import { designSystemMeta } from "../design/tokens";
 
@@ -132,6 +134,8 @@ export default function Home() {
   const [activeMicroUnitId, setActiveMicroUnitId] = useState<string | null>("mu-nofear-01");
   const { enabled: simpleMode, setEnabled: setSimpleMode } = useSimpleMode();
   const { completedLessonIds, setCompletedLessonIds } = useLocalProgress();
+  const reviewQueue = useLocalReviewQueue();
+  const dueReviews = reviewQueue.countDue();
 
   const primaryPath = seedLearningPaths[0];
   const allLessons = primaryPath?.lessons ?? emptyLessons;
@@ -306,6 +310,7 @@ export default function Home() {
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#lernraum" {...explainAttrs("hero")}>Lernraum</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#literacy-pfad" {...explainAttrs("literacy-path")}>60 Min</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#pfad" {...explainAttrs("lernpfad")}>Pfad</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#wiederholen" {...explainAttrs("wiederholen")}>Abruf</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#coach" {...explainAttrs("sicherheit")}>Coach</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#quellen" {...explainAttrs("quellen")}>Quellen</a>
             </nav>
@@ -339,11 +344,11 @@ export default function Home() {
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <a
-                    href="#literacy-pfad"
-                    {...explainAttrs("literacy-path")}
+                    href="#einstieg-route"
+                    {...explainAttrs("einstieg-route")}
                     className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-5 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
                   >
-                    60-Minuten-Pfad
+                    In 3 Schritten starten
                   </a>
                   <a
                     href="#selbstcheck"
@@ -353,20 +358,19 @@ export default function Home() {
                     Selbstcheck
                   </a>
                   <a
-                    href="#ziele"
-                    {...explainAttrs("ziele")}
+                    href="#literacy-pfad"
+                    {...explainAttrs("literacy-path")}
                     className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/20"
                   >
-                    Ziel wählen
+                    60-Minuten-Pfad
                   </a>
-                  <button
-                    type="button"
-                    {...explainAttrs("naechste")}
-                    onClick={() => nextOpenLesson && openLesson(nextOpenLesson.id)}
+                  <a
+                    href="#wiederholen"
+                    {...explainAttrs("wiederholen")}
                     className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/20"
                   >
-                    Hier weitermachen
-                  </button>
+                    Abruf{dueReviews > 0 ? ` (${dueReviews})` : ""}
+                  </a>
                 </div>
               </div>
               <TodayStartCard
@@ -374,6 +378,7 @@ export default function Home() {
                 moduleTitle={recommendedModule?.title ?? null}
                 completedLessons={completedLessons}
                 totalLessons={totalLessons}
+                dueReviews={dueReviews}
                 onOpenLesson={openLesson}
               />
             </div>
@@ -381,13 +386,17 @@ export default function Home() {
 
           <FirstStartCoach simpleMode={simpleMode} />
 
-          <LiteracyPathPanel />
+          <OnboardingRoutePanel />
 
           <SelfCheckPanel
             onRecommendWorld={(worldId) => {
               setSelectedWorldId(worldId);
             }}
           />
+
+          <LiteracyPathPanel />
+
+          <SpacedReviewQueue simpleMode={simpleMode} />
 
           <GoalNavigation
             worlds={themeWorlds}
@@ -419,8 +428,6 @@ export default function Home() {
           {!simpleMode ? <PromptLibraryPanel /> : null}
 
           <ScamModulePanel challengeIds={[...SCAM_CHALLENGE_IDS]} />
-
-          <SpacedReviewQueue simpleMode={simpleMode} />
 
           <section
             id="methoden"

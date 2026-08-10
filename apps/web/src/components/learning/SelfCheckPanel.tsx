@@ -9,6 +9,7 @@ import {
 } from "../../data/self-check";
 import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
+import { useLiteracyPathProgress } from "../../hooks/useLiteracyPathProgress";
 
 type SelfCheckPanelProps = {
   onRecommendWorld: (worldId: string) => void;
@@ -17,6 +18,7 @@ type SelfCheckPanelProps = {
 export function SelfCheckPanel({ onRecommendWorld }: SelfCheckPanelProps) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const { markComplete } = useLiteracyPathProgress();
 
   const answeredCount = Object.keys(answers).length;
   const complete = answeredCount === selfCheckQuestions.length;
@@ -27,6 +29,11 @@ export function SelfCheckPanel({ onRecommendWorld }: SelfCheckPanelProps) {
   );
   const top = ranking[0] ?? null;
   const topWorld = top ? themeWorlds.find((world) => world.id === top.worldId) : null;
+
+  const showRecommendation = () => {
+    setSubmitted(true);
+    markComplete("lit-selfcheck");
+  };
 
   return (
     <section
@@ -92,7 +99,7 @@ export function SelfCheckPanel({ onRecommendWorld }: SelfCheckPanelProps) {
           type="button"
           disabled={!complete}
           className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-50"
-          onClick={() => setSubmitted(true)}
+          onClick={showRecommendation}
         >
           Empfehlung zeigen
         </button>
@@ -120,10 +127,19 @@ export function SelfCheckPanel({ onRecommendWorld }: SelfCheckPanelProps) {
           <p className="mt-2 text-sm font-medium text-[var(--nim-secondary)]">
             {selfCheckMeta.resultDisclaimer}
           </p>
+          <p className="mt-2 text-xs font-semibold text-[var(--nim-secondary)]">
+            Station „Selbstcheck“ im 60-Minuten-Pfad wurde lokal als erledigt markiert.
+          </p>
           <div className="mt-4 flex flex-wrap gap-2">
+            <a
+              href="#literacy-pfad"
+              className="nim-interactive inline-flex min-h-11 items-center rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 text-sm font-black text-white"
+            >
+              Weiter im 60-Minuten-Pfad
+            </a>
             <button
               type="button"
-              className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 text-sm font-black text-white"
+              className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-white px-4 text-sm font-black text-[var(--nim-primary)]"
               onClick={() => {
                 onRecommendWorld(topWorld.id);
                 document.getElementById("ziele")?.scrollIntoView({ behavior: "smooth" });
@@ -131,12 +147,6 @@ export function SelfCheckPanel({ onRecommendWorld }: SelfCheckPanelProps) {
             >
               Diese Themenwelt öffnen
             </button>
-            <a
-              href="#literacy-pfad"
-              className="nim-interactive inline-flex min-h-11 items-center rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-white px-4 text-sm font-black text-[var(--nim-primary)]"
-            >
-              Zum 60-Minuten-Pfad
-            </a>
           </div>
           {ranking.length > 1 ? (
             <p className="mt-4 text-xs font-semibold text-[var(--nim-secondary)]">
