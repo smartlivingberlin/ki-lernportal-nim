@@ -389,7 +389,7 @@ export const helpTips: HelpTip[] = [
     canDo: [
       "Am Ende einer Lektion „erledigt“ markieren.",
       "„Heute hier weitermachen“ / „Heute empfohlen“ für den nächsten offenen Schritt nutzen.",
-      "„Zurücksetzen“ (Fortschritt zurücksetzen) nur wählen, wenn du wirklich bei null neu starten willst.",
+      "„Zurücksetzen“ antippen und mit „Ja, zurücksetzen“ bestätigen — nur wenn du wirklich bei null neu starten willst.",
     ],
     example:
       "3 von 12 erledigt → die Empfehlung zeigt die nächste offene Lektion, nicht wieder Lektion 1.",
@@ -417,7 +417,7 @@ export const helpTips: HelpTip[] = [
     example:
       "Modul 1 öffnen → Lektion 2 antippen → im Lernraum erscheint genau dieser Inhalt.",
     mistake:
-      "„Zurücksetzen“ drücken „zum Aufräumen“. Dann sind die Haken weg. Aufräumen braucht keinen Zurücksetzen-Knopf.",
+      "„Zurücksetzen“ und bestätigen „zum Aufräumen“. Dann sind die Haken weg. Aufräumen braucht keinen Zurücksetzen-Knopf.",
     links: [
       { href: "#lernraum", label: "Zur geöffneten Lektion" },
       { href: "#heute", label: "Heute empfohlen" },
