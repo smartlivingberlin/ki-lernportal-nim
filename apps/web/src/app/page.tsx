@@ -35,7 +35,7 @@ import { ThemeWorldTrack } from "../components/learning/ThemeWorldTrack";
 import { MicroLearningUnitView } from "../components/learning/MicroLearningUnitView";
 import { ModelNavigator } from "../components/learning/ModelNavigator";
 import { LearningWorkspaces } from "../components/learning/LearningWorkspaces";
-import { FirstStartCoach } from "../components/learning/FirstStartCoach";
+import { FirstStartCoach, useFirstStartCoachDismissed } from "../components/learning/FirstStartCoach";
 import { ExplainHotspot } from "../components/learning/ExplainCloud";
 import { CursorExplainLayer } from "../components/learning/CursorExplainLayer";
 import { InlineGlossaryText } from "../components/learning/InlineGlossary";
@@ -134,8 +134,10 @@ export default function Home() {
   const [activeMicroUnitId, setActiveMicroUnitId] = useState<string | null>("mu-nofear-01");
   const { enabled: simpleMode, setEnabled: setSimpleMode } = useSimpleMode();
   const { completedLessonIds, setCompletedLessonIds } = useLocalProgress();
+  const coachDismissed = useFirstStartCoachDismissed();
   const reviewQueue = useLocalReviewQueue();
   const dueReviews = reviewQueue.countDue();
+  const showPortalOnboarding = coachDismissed;
 
   const primaryPath = seedLearningPaths[0];
   const allLessons = primaryPath?.lessons ?? emptyLessons;
@@ -146,6 +148,7 @@ export default function Home() {
   );
   const completedLessons = validCompletedLessonIds.length;
   const totalLessons = allLessons.length;
+  const showLessonGuidedSteps = completedLessons > 0;
   const progressPercent = totalLessons ? Math.round((completedLessons / totalLessons) * 100) : 0;
   const progressText = `${completedLessons}/${totalLessons || 12}`;
   const activeLesson = allLessons.find((lesson) => lesson.id === activeLessonId) ?? allLessons[0] ?? null;
@@ -209,8 +212,12 @@ export default function Home() {
     const heading = document.getElementById(
       `lesson-${lessonFocusRequest.lessonId}-title`,
     );
+    const section = document.getElementById(
+      `lesson-${lessonFocusRequest.lessonId}`,
+    );
 
-    heading?.focus();
+    section?.scrollIntoView({ behavior: "smooth", block: "start" });
+    heading?.focus({ preventScroll: true });
   }, [activeLessonId, lessonFocusRequest]);
 
   const openLesson = (lessonId: string) => {
@@ -271,6 +278,11 @@ export default function Home() {
   };
 
   const resetProgress = () => {
+    const confirmed = window.confirm(
+      "Lokalen Lernfortschritt wirklich zurücksetzen? Alle Haken in diesem Browser werden gelöscht.",
+    );
+    if (!confirmed) return;
+
     setCompletedLessonIds([]);
     setActiveLessonId(allLessons[0]?.id ?? null);
     setLessonFocusRequest(null);
@@ -344,8 +356,8 @@ export default function Home() {
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <a
-                    href="#einstieg-route"
-                    {...explainAttrs("einstieg-route")}
+                    href={showPortalOnboarding ? "#einstieg-route" : "#erststart"}
+                    {...explainAttrs(showPortalOnboarding ? "einstieg-route" : "erststart")}
                     className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-5 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
                   >
                     In 3 Schritten starten
@@ -386,7 +398,7 @@ export default function Home() {
 
           <FirstStartCoach simpleMode={simpleMode} />
 
-          <OnboardingRoutePanel />
+          {showPortalOnboarding ? <OnboardingRoutePanel /> : null}
 
           <SelfCheckPanel
             onRecommendWorld={(worldId) => {
@@ -457,12 +469,14 @@ export default function Home() {
             ) : null}
           </section>
 
-          <GuidedStartSteps
-            lesson={nextOpenLesson}
-            completedLessons={completedLessons}
-            totalLessons={totalLessons}
-            onOpenLesson={openLesson}
-          />
+          {showLessonGuidedSteps ? (
+            <GuidedStartSteps
+              lesson={nextOpenLesson}
+              completedLessons={completedLessons}
+              totalLessons={totalLessons}
+              onOpenLesson={openLesson}
+            />
+          ) : null}
 
           {!simpleMode ? (
             <LocalSearchPanel
