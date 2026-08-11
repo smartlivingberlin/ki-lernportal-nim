@@ -1819,7 +1819,8 @@ function validatePackageSkeletons() {
         for (const requiredText of [
           "S52-B",
           "AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY",
-          "LOGIN_UI=NO",
+          "LOGIN_UI=AUTHORIZED_BEHIND_FLAG",
+          "LOGIN_UI_IMPLEMENTED=NO",
           "DATABASE_CONNECTION=NO",
         ]) {
           if (!readme.includes(requiredText)) {
