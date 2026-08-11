@@ -27,18 +27,22 @@ function read(relPath) {
 
 const doc = read("docs/architecture/S51D_B_STAGING_EXECUTION.md");
 for (const marker of [
-  "S51D_B_EXECUTED=NO",
-  "STAGING_ENVIRONMENT_CREATED=NO",
+  "S51D_B_EXECUTED=YES",
+  "STAGING_ENVIRONMENT_CREATED=YES",
   "RAILWAY_TOKEN_IN_AGENT=NO",
   "S51D_B_DASHBOARD_REVERIFY_COMPLETE=YES",
   "APPARENT_AUTODEPLOY_ON_MAIN=YES",
   "CURRENT_PRODUCTION_AUTODEPLOY=DISABLED",
   "CURRENT_PRODUCTION_WAIT_FOR_CI=ON",
+  "STAGING_AUTODEPLOY=DISABLED",
+  "STAGING_WAIT_FOR_CI=ON",
   "CONFIG_SOURCE=/railway.staging.json",
+  "ROOT_DIRECTORY=/",
   "PRODUCTION_CHANGED=AUTODEPLOY_DISABLED_AND_WAIT_FOR_CI_ENABLED_ONLY",
   "f69a0054-8cd9-4481-a461-bd17ddde296d",
   "f30e6e3b-60b5-4b3e-8949-2ca868f4e2da",
   "web-production-51d3c8.up.railway.app",
+  "ki-lernportal-nim-staging.up.railway.app",
 ]) {
   if (!doc.includes(marker)) {
     fail(`execution doc missing marker: ${marker}`);
@@ -66,10 +70,13 @@ console.log("S51D-B static repository contract PASS");
 console.log(
   JSON.stringify(
     {
-      stagingEnvironmentCreated: "NO",
+      stagingEnvironmentCreated: "YES",
+      stagingPublicDomain: "ki-lernportal-nim-staging.up.railway.app",
       railwayTokenInAgent: "NO",
       dashboardAutodeploy: "DISABLED",
       dashboardWaitForCi: "ON",
+      stagingAutodeploy: "DISABLED",
+      stagingWaitForCi: "ON",
       dashboardReverifyComplete: "YES",
       liveGithubCheck: "operator-only via S51D_B_LIVE_GITHUB=1",
     },
