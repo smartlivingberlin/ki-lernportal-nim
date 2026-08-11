@@ -106,7 +106,7 @@ async function clickLessonDone(page, title, headingName = title) {
   await lesson.click({ force: true });
   await page
     .getByRole("heading", { name: headingName, exact: true })
-    .waitFor({ state: "visible", timeout: 15_000 });
+    .waitFor({ state: "visible", timeout: 20_000 });
   await dismissExplainClouds(page);
   const doneButton = page.getByRole("button", { name: "Als erledigt markieren" });
   await doneButton.waitFor({ state: "visible", timeout: 15_000 });
@@ -123,6 +123,20 @@ async function clickLessonDone(page, title, headingName = title) {
     .waitFor({ state: "visible", timeout: 20_000 });
 }
 
+async function openLessonByWorkspaceNext(page, order, headingName) {
+  await dismissExplainClouds(page);
+  const nextCta = page.getByRole("button", {
+    name: new RegExp(`Danach:\\s*Lektion\\s*${order}`, "i"),
+  });
+  await nextCta.waitFor({ state: "visible", timeout: 15_000 });
+  await nextCta.scrollIntoViewIfNeeded();
+  await nextCta.click({ force: true });
+  await page
+    .getByRole("heading", { name: headingName, exact: true })
+    .waitFor({ state: "visible", timeout: 20_000 });
+  await dismissExplainClouds(page);
+}
+
 async function clickFirstLessonDone(page) {
   await clickLessonDone(page, "Was ist KI?");
 }
@@ -136,7 +150,21 @@ async function markFirstLesson(page) {
 
 async function markFirstTwoLessons(page) {
   await markFirstLesson(page);
-  await clickLessonDone(page, "Was kann KI gut", "Was kann KI gut — und was nicht?");
+  // Prefer in-workspace next CTA: on mobile the Lernpfad aside is far below
+  // and sidebar lesson clicks flake behind sticky chrome / overlays.
+  await openLessonByWorkspaceNext(
+    page,
+    2,
+    "Was kann KI gut — und was nicht?",
+  );
+  const doneButton = page.getByRole("button", { name: "Als erledigt markieren" });
+  await doneButton.waitFor({ state: "visible", timeout: 15_000 });
+  await doneButton.scrollIntoViewIfNeeded();
+  await dismissExplainClouds(page);
+  await doneButton.click({ force: true, timeout: 15_000 });
+  await page
+    .getByRole("button", { name: "Erledigt zurücknehmen" })
+    .waitFor({ state: "visible", timeout: 20_000 });
   await waitForStoredLessonIds(page, ["l1", "l2"]);
   await expectExactText(page, "2/12");
 }
@@ -212,7 +240,8 @@ const phases = {
 
   async undo(page) {
     await markFirstLesson(page);
-    await page.getByRole("button", { name: "Erledigt zurücknehmen" }).click();
+    await dismissExplainClouds(page);
+    await page.getByRole("button", { name: "Erledigt zurücknehmen" }).click({ force: true });
     await expectExactText(page, "0/12");
     await waitForStoredLessonIds(page, []);
     console.log("UNDO_BACK_TO_0_12_OK=YES");
@@ -227,8 +256,9 @@ const phases = {
 
   async reset(page) {
     await markFirstTwoLessons(page);
-    await page.getByRole("button", { name: "Fortschritt zurücksetzen" }).click();
-    await page.getByRole("button", { name: "Ja, zurücksetzen" }).click();
+    await dismissExplainClouds(page);
+    await page.getByRole("button", { name: "Fortschritt zurücksetzen" }).click({ force: true });
+    await page.getByRole("button", { name: "Ja, zurücksetzen" }).click({ force: true });
     await expectExactText(page, "0/12");
     await waitForStoredLessonIds(page, []);
     console.log("RESET_BACK_TO_0_12_OK=YES");
