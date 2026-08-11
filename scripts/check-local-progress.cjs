@@ -63,13 +63,29 @@ async function lessonButton(page, title) {
   return button;
 }
 
-async function clickFirstLessonDone(page) {
+async function waitForLessonSidebarStatus(page, title, statusPattern) {
+  const button = await lessonButton(page, title);
+  await page.waitForFunction(
+    ({ titleText, patternSource }) => {
+      const buttons = [...document.querySelectorAll("button")];
+      const match = buttons.find((node) =>
+        (node.innerText || "").includes(titleText),
+      );
+      if (!match) return false;
+      return new RegExp(patternSource, "i").test(match.innerText || "");
+    },
+    { titleText: title, patternSource: statusPattern.source },
+    { timeout: 20_000 },
+  );
+  return button;
+}
+
+async function clickLessonDone(page, title, headingName = title) {
   await dismissExplainClouds(page);
-  // Ensure the first path lesson is open so the done-control is real.
-  const firstLesson = await lessonButton(page, "Was ist KI?");
-  await firstLesson.click({ force: true });
+  const lesson = await lessonButton(page, title);
+  await lesson.click({ force: true });
   await page
-    .getByRole("heading", { name: "Was ist KI?", exact: true })
+    .getByRole("heading", { name: headingName, exact: true })
     .waitFor({ state: "visible", timeout: 15_000 });
   await dismissExplainClouds(page);
   const doneButton = page.getByRole("button", { name: "Als erledigt markieren" });
@@ -81,10 +97,15 @@ async function clickFirstLessonDone(page) {
   });
 }
 
+async function clickFirstLessonDone(page) {
+  await clickLessonDone(page, "Was ist KI?");
+}
+
 async function markFirstLesson(page) {
   await clickFirstLessonDone(page);
   await expectExactText(page, "1/12");
   await waitForStoredLessonIds(page, ["l1"]);
+  await waitForLessonSidebarStatus(page, "Was ist KI?", /erledigt/i);
 }
 
 async function markFirstTwoLessons(page) {
