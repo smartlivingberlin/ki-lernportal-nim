@@ -151,13 +151,14 @@ S51D_A_DOC_SYNC_AUTHORIZED=YES
 S51D_B_RAILWAY_ENV_CREATE_AUTHORIZED=YES
 S51D_B_SCOPE_DOCUMENTED=YES
 S51D_B_GITHUB_REVERIFY_SCRIPTED=YES
-S51D_B_DASHBOARD_REVERIFY_COMPLETE=NO
+S51D_B_DASHBOARD_REVERIFY_COMPLETE=YES
 S51D_B_EXECUTED=NO
 STAGING_ENVIRONMENT_CREATED=NO
 RAILWAY_STAGING_AUTHORIZED=REPO_CONTRACT_ONLY
 RAILWAY_TOKEN_IN_AGENT=NO
-PRODUCTION_AUTODEPLOY=UNVERIFIED_DASHBOARD_REQUIRED
-APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=YES
+PRODUCTION_AUTODEPLOY=DISABLED
+PRODUCTION_WAIT_FOR_CI=ON
+APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=HISTORICAL_BEFORE_2026_08_11_DISABLE
 
 S52_A_SCOPE_AUTHORIZED=YES
 S52_A_IMPLEMENTATION_AUTHORIZED=YES
@@ -174,9 +175,9 @@ NEXT_PR_AUTHORIZED=YES
 NEXT_MERGE_AUTHORIZED=YES
 
 DEPLOY_AUTHORIZED=YES
-PRODUCTION_AUTODEPLOY=UNVERIFIED_DASHBOARD_REQUIRED
-APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=YES
-PRODUCTION_CHANGED=NO
+PRODUCTION_AUTODEPLOY=DISABLED
+PRODUCTION_WAIT_FOR_CI=ON
+PRODUCTION_CHANGED=AUTODEPLOY_DISABLED_AND_WAIT_FOR_CI_ENABLED_ONLY
 HUMAN_AGENCY_FREIGABE_MERGE_DEPLOY_CONCEPT_DEMO=YES
 ```
 
@@ -194,9 +195,9 @@ safe-default feature flags and redacted log helpers. Public `/metrics`,
 monitoring providers, live DB readiness checks and Railway config changes
 remain unauthorized.
 S51D-A staging scope lock is authorized; S50D1 repo contract (PR #68) is
-merged. S51D-B documents GitHub deployment reverify and the operator runbook;
-Railway staging environment create remains blocked without Railway token/
-dashboard confirmation (apparent Autodeploy on main via GitHub Deployments).
+merged. S51D-B dashboard reverify is complete (2026-08-11): Production
+Autodeploy DISABLED and Wait for CI ON. Staging environment create remains
+blocked without Railway token/dashboard execution.
 S52-A auth role/session policy vocabulary is authorized. S52-B authorizes a
 local auth runtime foundation in `packages/auth` only (password hashing,
 cookie contract, opaque sessions, memory store). Login UI, web route handlers,

@@ -30,13 +30,15 @@ for (const marker of [
   "S51D_B_EXECUTED=NO",
   "STAGING_ENVIRONMENT_CREATED=NO",
   "RAILWAY_TOKEN_IN_AGENT=NO",
+  "S51D_B_DASHBOARD_REVERIFY_COMPLETE=YES",
   "APPARENT_AUTODEPLOY_ON_MAIN=YES",
-  "CURRENT_PRODUCTION_AUTODEPLOY=UNVERIFIED_DASHBOARD_REQUIRED",
-  "CURRENT_PRODUCTION_WAIT_FOR_CI=UNVERIFIED_DASHBOARD_REQUIRED",
+  "CURRENT_PRODUCTION_AUTODEPLOY=DISABLED",
+  "CURRENT_PRODUCTION_WAIT_FOR_CI=ON",
   "CONFIG_SOURCE=/railway.staging.json",
-  "PRODUCTION_CHANGED=NO",
+  "PRODUCTION_CHANGED=AUTODEPLOY_DISABLED_AND_WAIT_FOR_CI_ENABLED_ONLY",
   "f69a0054-8cd9-4481-a461-bd17ddde296d",
   "f30e6e3b-60b5-4b3e-8949-2ca868f4e2da",
+  "web-production-51d3c8.up.railway.app",
 ]) {
   if (!doc.includes(marker)) {
     fail(`execution doc missing marker: ${marker}`);
@@ -66,8 +68,9 @@ console.log(
     {
       stagingEnvironmentCreated: "NO",
       railwayTokenInAgent: "NO",
-      dashboardAutodeploy: "UNVERIFIED_DASHBOARD_REQUIRED",
-      dashboardWaitForCi: "UNVERIFIED_DASHBOARD_REQUIRED",
+      dashboardAutodeploy: "DISABLED",
+      dashboardWaitForCi: "ON",
+      dashboardReverifyComplete: "YES",
       liveGithubCheck: "operator-only via S51D_B_LIVE_GITHUB=1",
     },
     null,
