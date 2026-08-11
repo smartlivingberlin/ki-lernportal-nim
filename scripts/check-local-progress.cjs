@@ -7,6 +7,23 @@ const requestedPhase = process.env.SMOKE_PHASE || "all";
 const progressStorageKey = "ki-lernportal-nim:local-progress:v1";
 const navigationTimeout = 30_000;
 
+async function suppressExplainClouds(page) {
+  await page.addStyleTag({
+    content:
+      "[data-explain-cloud-root]{display:none!important;pointer-events:none!important;}",
+  }).catch(() => {});
+  await dismissExplainClouds(page);
+}
+
+async function domClick(locator) {
+  await locator.scrollIntoViewIfNeeded().catch(() => {});
+  await locator.evaluate((el) => {
+    if (el instanceof HTMLElement) {
+      el.click();
+    }
+  });
+}
+
 async function openPortal(page) {
   await page.goto(baseUrl, {
     waitUntil: "load",
@@ -16,38 +33,18 @@ async function openPortal(page) {
     state: "visible",
     timeout: navigationTimeout,
   });
-  await page.evaluate(() => {
-    try {
-      window.localStorage.setItem(
-        "ki-lernportal-nim:first-start-coach:v1",
-        "dismissed",
-      );
-    } catch {
-      // ignore
-    }
-  });
-  await dismissExplainClouds(page);
+  await suppressExplainClouds(page);
 }
 
 async function resetBrowserProgress(page) {
   await page.evaluate(
-    ({ key, value }) => {
-      window.localStorage.setItem(key, value);
-      try {
-        window.localStorage.setItem(
-          "ki-lernportal-nim:first-start-coach:v1",
-          "dismissed",
-        );
-      } catch {
-        // ignore
-      }
-    },
+    ({ key, value }) => window.localStorage.setItem(key, value),
     { key: progressStorageKey, value: "[]" },
   );
   await page.reload({ waitUntil: "load", timeout: navigationTimeout });
   await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({ state: "visible" });
   await page.waitForTimeout(500);
-  await dismissExplainClouds(page);
+  await suppressExplainClouds(page);
   await waitForStoredLessonIds(page, []);
 }
 
@@ -77,7 +74,11 @@ async function waitForStoredLessonIds(page, expectedIds) {
 }
 
 async function lessonButton(page, title) {
-  const button = page.getByRole("button").filter({ hasText: title }).first();
+  const button = page
+    .locator("#pfad")
+    .getByRole("button")
+    .filter({ hasText: title })
+    .first();
   await button.waitFor({ state: "attached", timeout: 15_000 });
   await button.scrollIntoViewIfNeeded();
   return button;
@@ -87,7 +88,8 @@ async function waitForLessonSidebarStatus(page, title, statusPattern) {
   const button = await lessonButton(page, title);
   await page.waitForFunction(
     ({ titleText, patternSource }) => {
-      const buttons = [...document.querySelectorAll("button")];
+      const root = document.querySelector("#pfad") || document;
+      const buttons = [...root.querySelectorAll("button")];
       const match = buttons.find((node) =>
         (node.innerText || "").includes(titleText),
       );
@@ -101,40 +103,49 @@ async function waitForLessonSidebarStatus(page, title, statusPattern) {
 }
 
 async function clickLessonDone(page, title, headingName = title) {
-  await dismissExplainClouds(page);
+  await suppressExplainClouds(page);
   const lesson = await lessonButton(page, title);
-  await lesson.click({ force: true });
+  await domClick(lesson);
   await page
     .getByRole("heading", { name: headingName, exact: true })
     .waitFor({ state: "visible", timeout: 20_000 });
-  await dismissExplainClouds(page);
+  await suppressExplainClouds(page);
+
   const doneButton = page.getByRole("button", { name: "Als erledigt markieren" });
-  await doneButton.waitFor({ state: "visible", timeout: 15_000 });
-  await doneButton.scrollIntoViewIfNeeded();
-  await dismissExplainClouds(page);
-  await doneButton.click({
-    force: true,
-    timeout: 15_000,
-  });
-  await dismissExplainClouds(page);
-  // Confirm the toggle landed (avoids racing the progress counter alone).
-  await page
-    .getByRole("button", { name: "Erledigt zurücknehmen" })
-    .waitFor({ state: "visible", timeout: 20_000 });
+  const undoButton = page.getByRole("button", { name: "Erledigt zurücknehmen" });
+
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    if ((await undoButton.count()) > 0 && (await undoButton.isVisible().catch(() => false))) {
+      return;
+    }
+
+    await doneButton.waitFor({ state: "visible", timeout: 15_000 });
+    await suppressExplainClouds(page);
+    await domClick(doneButton);
+    await page.waitForTimeout(100);
+
+    try {
+      await undoButton.waitFor({ state: "visible", timeout: 2_500 });
+      return;
+    } catch {
+      // retry mark-done if overlay/layout ate the first click
+    }
+  }
+
+  await undoButton.waitFor({ state: "visible", timeout: 5_000 });
 }
 
 async function openLessonByWorkspaceNext(page, order, headingName) {
-  await dismissExplainClouds(page);
+  await suppressExplainClouds(page);
   const nextCta = page.getByRole("button", {
     name: new RegExp(`Danach:\\s*Lektion\\s*${order}`, "i"),
   });
   await nextCta.waitFor({ state: "visible", timeout: 15_000 });
-  await nextCta.scrollIntoViewIfNeeded();
-  await nextCta.click({ force: true });
+  await domClick(nextCta);
   await page
     .getByRole("heading", { name: headingName, exact: true })
     .waitFor({ state: "visible", timeout: 20_000 });
-  await dismissExplainClouds(page);
+  await suppressExplainClouds(page);
 }
 
 async function clickFirstLessonDone(page) {
@@ -157,14 +168,7 @@ async function markFirstTwoLessons(page) {
     2,
     "Was kann KI gut — und was nicht?",
   );
-  const doneButton = page.getByRole("button", { name: "Als erledigt markieren" });
-  await doneButton.waitFor({ state: "visible", timeout: 15_000 });
-  await doneButton.scrollIntoViewIfNeeded();
-  await dismissExplainClouds(page);
-  await doneButton.click({ force: true, timeout: 15_000 });
-  await page
-    .getByRole("button", { name: "Erledigt zurücknehmen" })
-    .waitFor({ state: "visible", timeout: 20_000 });
+  await clickLessonDone(page, "Was kann KI gut", "Was kann KI gut — und was nicht?");
   await waitForStoredLessonIds(page, ["l1", "l2"]);
   await expectExactText(page, "2/12");
 }
@@ -232,6 +236,7 @@ const phases = {
     await markFirstLesson(page);
     await page.reload({ waitUntil: "load", timeout: navigationTimeout });
     await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({ state: "visible" });
+    await suppressExplainClouds(page);
     await expectExactText(page, "1/12");
     await page.getByRole("button", { name: "Erledigt zurücknehmen" }).waitFor({ state: "visible" });
     await waitForStoredLessonIds(page, ["l1"]);
@@ -240,8 +245,8 @@ const phases = {
 
   async undo(page) {
     await markFirstLesson(page);
-    await dismissExplainClouds(page);
-    await page.getByRole("button", { name: "Erledigt zurücknehmen" }).click({ force: true });
+    await suppressExplainClouds(page);
+    await domClick(page.getByRole("button", { name: "Erledigt zurücknehmen" }));
     await expectExactText(page, "0/12");
     await waitForStoredLessonIds(page, []);
     console.log("UNDO_BACK_TO_0_12_OK=YES");
@@ -256,9 +261,9 @@ const phases = {
 
   async reset(page) {
     await markFirstTwoLessons(page);
-    await dismissExplainClouds(page);
-    await page.getByRole("button", { name: "Fortschritt zurücksetzen" }).click({ force: true });
-    await page.getByRole("button", { name: "Ja, zurücksetzen" }).click({ force: true });
+    await suppressExplainClouds(page);
+    await domClick(page.getByRole("button", { name: "Fortschritt zurücksetzen" }));
+    await domClick(page.getByRole("button", { name: "Ja, zurücksetzen" }));
     await expectExactText(page, "0/12");
     await waitForStoredLessonIds(page, []);
     console.log("RESET_BACK_TO_0_12_OK=YES");
