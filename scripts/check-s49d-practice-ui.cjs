@@ -95,6 +95,7 @@ async function storageSnapshot(page) {
 
 async function openLesson(page, lessonId, lessonTitle) {
   const button = page
+    .locator("#pfad")
     .getByRole("button", {
       name: new RegExp(escapeRegex(lessonTitle), "i"),
     })
@@ -105,26 +106,40 @@ async function openLesson(page, lessonId, lessonTitle) {
     `Lektionsbutton nicht gefunden: ${lessonId} ${lessonTitle}`
   );
 
-  await button.scrollIntoViewIfNeeded();
-  await dismissExplainClouds(page);
-  // force: sticky header / ExplainCloud can still intercept pointer events in CI
-  await button.click({ force: true });
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    await button.scrollIntoViewIfNeeded().catch(() => {});
+    await dismissExplainClouds(page);
+    await button.evaluate((el) => {
+      if (el instanceof HTMLElement) {
+        el.click();
+      }
+    });
 
-  await page.waitForFunction(
-    (expectedLessonId) => {
-      const panel = document.querySelector(
-        "[data-testid=\"lesson-practice\"]"
-      );
+    try {
+      await page.waitForFunction(
+        (expectedLessonId) => {
+          const panel = document.querySelector(
+            "[data-testid=\"lesson-practice\"]"
+          );
 
-      return (
-        panel &&
-        panel.getAttribute("data-lesson-id") === expectedLessonId
+          return (
+            panel &&
+            panel.getAttribute("data-lesson-id") === expectedLessonId
+          );
+        },
+        lessonId,
+        { timeout: 4_000 },
       );
-    },
-    lessonId
+      await dismissExplainClouds(page);
+      return;
+    } catch {
+      await page.waitForTimeout(150);
+    }
+  }
+
+  throw new Error(
+    `Lektion nicht geöffnet: ${lessonId} ${lessonTitle}`,
   );
-
-  await dismissExplainClouds(page);
 }
 
 async function checkRenderedAccessibility(page, viewportName) {
