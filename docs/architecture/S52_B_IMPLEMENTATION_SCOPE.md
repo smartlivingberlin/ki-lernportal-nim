@@ -142,3 +142,8 @@ PRODUCTION_USERS=NO
 ```
 
 CI: `pnpm test:s52-b-auth-runtime`
+
+## 7. Folge: S52-C Auth-Web Scope-Lock
+
+Web-Grenzen, Feature-Flag-Default und Negativvertrag ohne Login-UI:
+`docs/architecture/S52_C_IMPLEMENTATION_SCOPE.md`.

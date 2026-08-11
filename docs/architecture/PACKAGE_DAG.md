@@ -48,7 +48,7 @@ Fachfunktion bereits produktiv implementiert ist.
 | `contracts` | Zod-Schemas, DTOs, Events und kontrollierte Fehler | Datenzugriff, React-Komponenten, Providerlogik | Skeleton integriert |
 | `domain` | Entitäten, Value Objects, Policies und Use-Case-Interfaces | Next.js, Drizzle, Railway, Provider-SDKs | Skeleton integriert |
 | `db` | Drizzle-Schema, Migrationen, Repositories und Transaktionen | React, KI-Provider, UI | lokales Adapterfundament integriert; Schema ausstehend |
-| `auth` | Credentials, Sessions, Rollen, Scopes und Ownership | React-Seiten, direkte KI-Aufrufe | S52-A Vokabular + S52-B lokale Runtime-Foundation (kein Login-UI, keine DB) |
+| `auth` | Credentials, Sessions, Rollen, Scopes und Ownership | React-Seiten, direkte KI-Aufrufe | S52-A/B Runtime in Package; S52-C Web-Grenze dokumentiert (kein Login-UI, keine DB) |
 | `admin` | Review, Publish, Rollback und Audit-Use-Cases | versteckte Client-Autorisierung | Skeleton integriert; Runtime ausstehend |
 | `ai-core` | Provideradapter, Retrieval, Zitate, Budgets und Safety | direkte UI- oder Drizzle-Kopplung | Skeleton integriert; Provider ausstehend |
 | `testing` | Fixtures, Test-DB, Policy- und Browserhelfer | Produktionslaufzeitlogik | Skeleton integriert |
@@ -241,6 +241,7 @@ S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
 S51B_C_SCHEMA_AUTHORIZED=NO
 AUTH_RUNTIME_AUTHORIZED=YES
 AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
+AUTH_WEB_SURFACE=DOCUMENTED_NOT_IMPLEMENTED
 LOGIN_UI=NO
 ADMIN_RUNTIME_AUTHORIZED=NO
 AI_RUNTIME_AUTHORIZED=NO

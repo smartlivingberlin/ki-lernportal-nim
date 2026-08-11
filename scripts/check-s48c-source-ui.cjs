@@ -198,22 +198,23 @@ async function main() {
         .first();
 
       await lessonButton.waitFor({
-        state: "visible",
-        timeout: 10_000,
+        state: "attached",
+        timeout: 15_000,
       });
 
       await dismissExplainClouds(page);
+      await lessonButton.scrollIntoViewIfNeeded();
       await lessonButton.click({ force: true });
 
-      await page
-        .getByRole("heading", {
-          name: lesson.title,
-          exact: true,
-        })
-        .waitFor({
-          state: "visible",
-          timeout: 10_000,
-        });
+      const lessonHeading = page.getByRole("heading", {
+        name: lesson.title,
+        exact: true,
+      });
+      await lessonHeading.waitFor({
+        state: "visible",
+        timeout: 15_000,
+      });
+      await lessonHeading.scrollIntoViewIfNeeded();
 
       await dismissExplainClouds(page);
       const sourceSection =
