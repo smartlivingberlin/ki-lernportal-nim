@@ -33,7 +33,8 @@ Zum Stand 16. Juli 2026 gilt:
 - S51D-A Scope-Lock: `docs/architecture/S51D_A_STAGING_SCOPE.md`.
 - S51D-B Execution/Reverify: `docs/architecture/S51D_B_STAGING_EXECUTION.md`
   (Dashboard-Reverify 2026-08-11: Production Autodeploy DISABLED, Wait for CI
-  ON; Staging-Environment-Anlage ausstehend).
+  ON; Staging-Environment angelegt und HTTP-grün unter
+  `ki-lernportal-nim-staging.up.railway.app`).
 - Die S50B-R3-Dokumentationsintegration verändert Railway nicht.
 
 Der Produktionsstand ist deshalb weder als vollständige Plattform noch als

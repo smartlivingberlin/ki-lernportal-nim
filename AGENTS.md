@@ -152,9 +152,10 @@ S51D_B_RAILWAY_ENV_CREATE_AUTHORIZED=YES
 S51D_B_SCOPE_DOCUMENTED=YES
 S51D_B_GITHUB_REVERIFY_SCRIPTED=YES
 S51D_B_DASHBOARD_REVERIFY_COMPLETE=YES
-S51D_B_EXECUTED=NO
-STAGING_ENVIRONMENT_CREATED=NO
-RAILWAY_STAGING_AUTHORIZED=REPO_CONTRACT_ONLY
+S51D_B_EXECUTED=YES
+STAGING_ENVIRONMENT_CREATED=YES
+STAGING_PUBLIC_DOMAIN=ki-lernportal-nim-staging.up.railway.app
+RAILWAY_STAGING_AUTHORIZED=YES_ISOLATED_STAGING_CREATED
 RAILWAY_TOKEN_IN_AGENT=NO
 PRODUCTION_AUTODEPLOY=DISABLED
 PRODUCTION_WAIT_FOR_CI=ON
@@ -196,8 +197,10 @@ monitoring providers, live DB readiness checks and Railway config changes
 remain unauthorized.
 S51D-A staging scope lock is authorized; S50D1 repo contract (PR #68) is
 merged. S51D-B dashboard reverify is complete (2026-08-11): Production
-Autodeploy DISABLED and Wait for CI ON. Staging environment create remains
-blocked without Railway token/dashboard execution.
+Autodeploy DISABLED and Wait for CI ON. Isolated Railway staging environment
+`staging` is created and HTTP-green at
+`https://ki-lernportal-nim-staging.up.railway.app` (Root `/`, Config
+`/railway.staging.json`, Staging Autodeploy DISABLED, Wait for CI ON).
 S52-A auth role/session policy vocabulary is authorized. S52-B authorizes a
 local auth runtime foundation in `packages/auth` only (password hashing,
 cookie contract, opaque sessions, memory store). Login UI, web route handlers,

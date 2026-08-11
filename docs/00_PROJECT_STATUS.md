@@ -31,8 +31,9 @@ S51D_A_SCOPE_AUTHORIZED=YES
 S51D_B_SCOPE_DOCUMENTED=YES
 S51D_B_GITHUB_REVERIFY_SCRIPTED=YES
 S51D_B_DASHBOARD_REVERIFY_COMPLETE=YES
-S51D_B_EXECUTED=NO
-STAGING_ENVIRONMENT_CREATED=NO
+S51D_B_EXECUTED=YES
+STAGING_ENVIRONMENT_CREATED=YES
+STAGING_PUBLIC_DOMAIN=ki-lernportal-nim-staging.up.railway.app
 PRODUCTION_AUTODEPLOY=DISABLED
 PRODUCTION_WAIT_FOR_CI=ON
 APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=HISTORICAL_BEFORE_2026_08_11_DISABLE
@@ -214,7 +215,8 @@ RAILWAY_PROJECT_ID=f69a0054-8cd9-4481-a461-bd17ddde296d
 RAILWAY_PRODUCTION_ENVIRONMENT_ID=f30e6e3b-60b5-4b3e-8949-2ca868f4e2da
 APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=HISTORICAL_BEFORE_2026_08_11_DISABLE
 S51D_B_DASHBOARD_REVERIFY_COMPLETE=YES
-STAGING_ENVIRONMENT_CREATED=NO
+STAGING_ENVIRONMENT_CREATED=YES
+STAGING_PUBLIC_DOMAIN=ki-lernportal-nim-staging.up.railway.app
 ~~~
 
 S51D-B (2026-08-10): GitHub Deployments zeigten wiederholte Production-Deploys
@@ -223,8 +225,12 @@ durch `railway-app[bot]` nach `main`-Merges.
 S51D-B Dashboard-Reverify (2026-08-11, menschlich): Production-Autodeploy
 wurde **deaktiviert**, Wait for CI / Check Suites auf **true** gesetzt.
 Live-Probes gegen `web-production-51d3c8.up.railway.app` waren grün
-(`/health`, `/live`, `/ready`, `/version`). Staging-Environment ist weiterhin
-nicht angelegt. Siehe
+(`/health`, `/live`, `/ready`, `/version`).
+
+S51D-B Staging-Anlage (2026-08-11, menschlich): Empty Environment `staging`,
+Root `/`, Config `/railway.staging.json`, Autodeploy DISABLED, Wait for CI ON,
+Domain `ki-lernportal-nim-staging.up.railway.app`. Live-Probes Staging waren
+grün. Siehe
 [S51D_B_STAGING_EXECUTION.md](architecture/S51D_B_STAGING_EXECUTION.md).
 
 Vor jeder zukünftigen Railway-, Merge-, Deployment- oder
