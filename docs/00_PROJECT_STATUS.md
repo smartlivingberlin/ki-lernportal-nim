@@ -50,6 +50,7 @@ S52_C_SCOPE_AUTHORIZED=YES
 S52_C_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY
 S52_D_SCOPE_AUTHORIZED=YES
 S52_D_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY
+S52_D_IMPLEMENTATION_PLAN_DOCUMENTED=YES
 AUTH_RUNTIME_AUTHORIZED=YES
 AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
 AUTH_WEB_SURFACE=DOCUMENTED_NOT_IMPLEMENTED
@@ -79,6 +80,7 @@ zusammen mit den nachfolgenden Integrationsnachweisen beschrieben durch:
 - [S52-B Auth-Runtime Foundation](architecture/S52_B_IMPLEMENTATION_SCOPE.md)
 - [S52-C Auth-Web Boundary Scope-Lock](architecture/S52_C_IMPLEMENTATION_SCOPE.md)
 - [S52-D Auth-Web Implementation Scope-Lock](architecture/S52_D_IMPLEMENTATION_SCOPE.md)
+- [S52-D Auth-Web Implementierungsplan](architecture/S52_D_IMPLEMENTATION_PLAN.md)
 - [Zielarchitektur](architecture/ARCHITECTURE_TARGET.md)
 - [Package-DAG](architecture/PACKAGE_DAG.md)
 - [Plattformverträge](architecture/PLATFORM_CONTRACTS.md)

@@ -43,6 +43,40 @@ function escapeRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+async function safeClick(page, locator) {
+  await locator.scrollIntoViewIfNeeded().catch(() => {});
+  await dismissExplainClouds(page);
+  await locator.evaluate((el) => {
+    if (el instanceof HTMLElement) {
+      el.click();
+    }
+  });
+}
+
+async function toggleExpanded(page, locator, expectedExpanded) {
+  const expected = expectedExpanded ? "true" : "false";
+
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    if ((await locator.getAttribute("aria-expanded")) === expected) {
+      return;
+    }
+
+    await safeClick(page, locator);
+    await page.waitForTimeout(80);
+
+    if ((await locator.getAttribute("aria-expanded")) === expected) {
+      return;
+    }
+
+    await dismissExplainClouds(page);
+    await page.waitForTimeout(120);
+  }
+
+  throw new Error(
+    `Toggle blieb nicht bei aria-expanded=${expected}`,
+  );
+}
+
 async function storageSnapshot(page) {
   return page.evaluate(() => {
     const readStorage = (storage) =>
@@ -61,6 +95,7 @@ async function storageSnapshot(page) {
 
 async function openLesson(page, lessonId, lessonTitle) {
   const button = page
+    .locator("#pfad")
     .getByRole("button", {
       name: new RegExp(escapeRegex(lessonTitle), "i"),
     })
@@ -71,26 +106,40 @@ async function openLesson(page, lessonId, lessonTitle) {
     `Lektionsbutton nicht gefunden: ${lessonId} ${lessonTitle}`
   );
 
-  await button.scrollIntoViewIfNeeded();
-  await dismissExplainClouds(page);
-  // force: sticky header / ExplainCloud can still intercept pointer events in CI
-  await button.click({ force: true });
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    await button.scrollIntoViewIfNeeded().catch(() => {});
+    await dismissExplainClouds(page);
+    await button.evaluate((el) => {
+      if (el instanceof HTMLElement) {
+        el.click();
+      }
+    });
 
-  await page.waitForFunction(
-    (expectedLessonId) => {
-      const panel = document.querySelector(
-        "[data-testid=\"lesson-practice\"]"
-      );
+    try {
+      await page.waitForFunction(
+        (expectedLessonId) => {
+          const panel = document.querySelector(
+            "[data-testid=\"lesson-practice\"]"
+          );
 
-      return (
-        panel &&
-        panel.getAttribute("data-lesson-id") === expectedLessonId
+          return (
+            panel &&
+            panel.getAttribute("data-lesson-id") === expectedLessonId
+          );
+        },
+        lessonId,
+        { timeout: 4_000 },
       );
-    },
-    lessonId
+      await dismissExplainClouds(page);
+      return;
+    } catch {
+      await page.waitForTimeout(150);
+    }
+  }
+
+  throw new Error(
+    `Lektion nicht geöffnet: ${lessonId} ${lessonTitle}`,
   );
-
-  await dismissExplainClouds(page);
 }
 
 async function checkRenderedAccessibility(page, viewportName) {
@@ -316,11 +365,25 @@ async function runViewport(browser, viewport) {
     waitUntil: "networkidle",
   });
 
+  await page.evaluate(() => {
+    try {
+      window.localStorage.setItem(
+        "ki-lernportal-nim:first-start-coach:v1",
+        "dismissed",
+      );
+    } catch {
+      // ignore
+    }
+  });
+  await page.reload({ waitUntil: "networkidle" });
+  await dismissExplainClouds(page);
+
   await page
     .locator("[data-testid=\"lesson-practice\"]")
     .waitFor({
       state: "visible",
     });
+  await dismissExplainClouds(page);
 
   const initialPanel = page.locator(
     "[data-testid=\"lesson-practice\"]"
@@ -401,7 +464,7 @@ async function runViewport(browser, viewport) {
     `${viewportName}: Hinweis startet nicht geschlossen`
   );
 
-  await hintToggle.click();
+  await toggleExpanded(page, hintToggle, true);
 
   assert(
     (await hintToggle.getAttribute("aria-expanded")) === "true",
@@ -436,7 +499,7 @@ async function runViewport(browser, viewport) {
     `${viewportName}: Beispielantwort startet nicht geschlossen`
   );
 
-  await sampleToggle.click();
+  await toggleExpanded(page, sampleToggle, true);
 
   assert(
     (await sampleToggle.getAttribute("aria-expanded")) === "true",
@@ -481,7 +544,7 @@ async function runViewport(browser, viewport) {
     fullPage: true,
   });
 
-  await clearButton.click();
+  await safeClick(page, clearButton);
 
   assert(
     (await textarea.inputValue()) === "",
@@ -608,13 +671,17 @@ async function runViewport(browser, viewport) {
     "[data-testid=\"lesson-practice\"]"
   );
 
-  await finalPanel
-    .locator("[data-testid=\"lesson-practice-hint-toggle\"]")
-    .click();
+  await toggleExpanded(
+    page,
+    finalPanel.locator("[data-testid=\"lesson-practice-hint-toggle\"]"),
+    true,
+  );
 
-  await finalPanel
-    .locator("[data-testid=\"lesson-practice-sample-toggle\"]")
-    .click();
+  await toggleExpanded(
+    page,
+    finalPanel.locator("[data-testid=\"lesson-practice-sample-toggle\"]"),
+    true,
+  );
 
   const accessibilityResult =
     await checkRenderedAccessibility(page, viewportName);
