@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * S52-D – static Auth-Web implementation scope lock.
- * Docs + negative surface only; no network, no DB, no Railway.
+ * S52-D – Auth-Web implementation gate (D1 routes behind flag).
+ * Login-UI remains NO; auth_runtime default remains false.
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
@@ -41,9 +41,8 @@ function walkFiles(dir, out = []) {
 const doc = read("docs/architecture/S52_D_IMPLEMENTATION_SCOPE.md");
 for (const marker of [
   "S52_D_SCOPE_AUTHORIZED=YES",
-  "S52_D_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY",
-  "AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY",
-  "AUTH_WEB_SURFACE=DOCUMENTED_NOT_IMPLEMENTED",
+  "S52_D_IMPLEMENTATION_AUTHORIZED=YES",
+  "S52_D1_ROUTES_AUTHORIZED=YES",
   "LOGIN_UI=NO",
   "FEATURE_FLAG_AUTH_RUNTIME_DEFAULT=false",
   "AUTH_RUNTIME_FLAG_FLIP=NO",
@@ -61,29 +60,48 @@ if (!operations.includes("auth_runtime: false")) {
 }
 
 const authReadme = read("packages/auth/README.md");
-for (const marker of ["LOGIN_UI=NO", "S52_D", "AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY"]) {
+for (const marker of [
+  "LOGIN_UI=NO",
+  "S52_D",
+  "AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY",
+  "S52_D1",
+]) {
   if (!authReadme.includes(marker)) {
     fail(`packages/auth/README.md missing marker: ${marker}`);
   }
 }
 
+const allowedAuthRoutes = new Set([
+  "apps/web/src/app/api/auth/login/route.ts",
+  "apps/web/src/app/api/auth/logout/route.ts",
+]);
+
 const appRoot = resolve(root, "apps/web/src/app");
 const forbiddenName =
-  /(^|\/)(login|register|signup|sign-in|sign-up|auth|session)(\/|$)/i;
+  /(^|\/)(login|register|signup|sign-in|sign-up|auth|session|anmelden)(\/|$)/i;
 for (const file of walkFiles(appRoot)) {
   const rel = file.slice(root.length + 1).replaceAll("\\", "/");
+  if (allowedAuthRoutes.has(rel)) {
+    continue;
+  }
   const pathWithoutFile = rel.replace(/\/[^/]+$/, "");
   if (forbiddenName.test(pathWithoutFile)) {
     fail(`forbidden auth web surface path present: ${rel}`);
   }
 }
 
+for (const required of allowedAuthRoutes) {
+  if (!existsSync(resolve(root, required))) {
+    fail(`missing authorized D1 auth route: ${required}`);
+  }
+}
+
 const plan = read("docs/architecture/S52_D_IMPLEMENTATION_PLAN.md");
 for (const marker of [
   "S52_D_IMPLEMENTATION_PLAN_DOCUMENTED=YES",
-  "S52_D_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY",
+  "S52_D_IMPLEMENTATION_AUTHORIZED=YES",
   "LOGIN_UI=NO",
-  "CODE_CHANGED=NO",
+  "S52_D1_CODE_CHANGED=YES",
   "Slice D1",
   "Slice D2",
   "Slice D3",
@@ -93,12 +111,23 @@ for (const marker of [
   }
 }
 
+const loginRoute = read("apps/web/src/app/api/auth/login/route.ts");
+const logoutRoute = read("apps/web/src/app/api/auth/logout/route.ts");
+for (const [label, source] of [
+  ["login", loginRoute],
+  ["logout", logoutRoute],
+]) {
+  if (!source.includes("FEATURE_DISABLED") && !source.includes("getAuthHttpHandlers")) {
+    fail(`${label} route must use auth HTTP handlers / disabled gate`);
+  }
+}
+
 console.log("S52-D auth-web impl scope contract PASS");
 console.log(
   JSON.stringify(
     {
-      scopeLock: "YES",
-      authWebSurface: "DOCUMENTED_NOT_IMPLEMENTED",
+      implementationAuthorized: "YES",
+      d1Routes: "YES",
       loginUi: "NO",
       authRuntimeDefault: false,
       railwayChange: "NO",

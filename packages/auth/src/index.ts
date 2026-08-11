@@ -1,6 +1,7 @@
 /**
- * S52 auth package surface: policy vocabulary (S52-A) and local auth runtime
- * foundation (S52-B). No login UI, route handlers, DB or Railway in this surface.
+ * S52 auth package surface: policy vocabulary (S52-A), local auth runtime
+ * (S52-B), and HTTP login/logout contracts for S52-D1 web adapters.
+ * No Login-UI, no DB session store, no Railway in this surface.
  */
 export {
   PLATFORM_ROLES,
@@ -73,3 +74,16 @@ export { createMemorySessionStore } from "./memory-session-store.ts";
 export { createSessionRuntime } from "./session-runtime.ts";
 
 export type { SessionRuntime } from "./session-runtime.ts";
+
+export {
+  createAuthHttpHandlers,
+  createMemoryCredentialStore,
+} from "./auth-http.ts";
+
+export type {
+  AuthCredentialRecord,
+  AuthCredentialStore,
+  AuthHttpErrorCode,
+  AuthHttpHandlers,
+  AuthHttpResult,
+} from "./auth-http.ts";

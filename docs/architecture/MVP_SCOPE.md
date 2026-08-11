@@ -147,19 +147,19 @@ Passwort-Hashing, Cookie-Vertrag, opake Tokens, Memory-Session-Store und
 Lifecycle-Operationen. `AUTH_RUNTIME_AUTHORIZED=YES` gilt nur für diese
 Package-Oberfläche.
 
-S52-C dokumentiert die Auth-Web-Grenze ohne Implementierung
+S52-C dokumentiert die Auth-Web-Grenze
 (siehe [S52_C_IMPLEMENTATION_SCOPE.md](S52_C_IMPLEMENTATION_SCOPE.md)):
-`auth_runtime` bleibt Default `false`, keine Login-UI, keine Auth-Routen in
-`apps/web`, CI-Negativvertrag `pnpm test:s52-c-auth-web-scope`.
+`auth_runtime` bleibt Default `false`, keine Login-UI,
+CI-Vertrag `pnpm test:s52-c-auth-web-scope`.
 
-S52-D sperrt den nächsten Implementierungsschnitt ohne Code
+S52-D1 liefert Login/Logout-Route-Verträge hinter Flag
 (siehe [S52_D_IMPLEMENTATION_SCOPE.md](S52_D_IMPLEMENTATION_SCOPE.md)):
-CI `pnpm test:s52-d-auth-web-impl-scope`, weiterhin `LOGIN_UI=NO`.
+`POST /api/auth/login`, `POST /api/auth/logout`, Default `403 FEATURE_DISABLED`,
+weiterhin `LOGIN_UI=NO`.
 
 Noch nicht freigegeben:
 
 - Login-/Registrierungs-UI;
-- Auth-Route Handler in `apps/web`;
 - Feature-Flag-Flip `auth_runtime=true` in der Konzeptdemo;
 - DB-gestützte Session-Persistenz;
 - Produktionsnutzer;
@@ -329,10 +329,11 @@ S52_B_AUTHORIZED=YES
 S52_C_SCOPE_AUTHORIZED=YES
 S52_C_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY
 S52_D_SCOPE_AUTHORIZED=YES
-S52_D_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY
+S52_D_IMPLEMENTATION_AUTHORIZED=YES
+S52_D1_ROUTES_AUTHORIZED=YES
 AUTH_RUNTIME_AUTHORIZED=YES
 AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
-AUTH_WEB_SURFACE=DOCUMENTED_NOT_IMPLEMENTED
+AUTH_WEB_SURFACE=D1_ROUTES_BEHIND_FLAG
 LOGIN_UI=NO
 FEATURE_FLAG_AUTH_RUNTIME_DEFAULT=false
 PRODUCTION_USERS=NO

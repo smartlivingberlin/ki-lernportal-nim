@@ -27,6 +27,12 @@ importers:
 
   apps/web:
     dependencies:
+      '@ki-lernportal-nim/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
+      '@ki-lernportal-nim/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
       next:
         specifier: 16.2.11
         version: 16.2.11(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)

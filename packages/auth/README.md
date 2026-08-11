@@ -31,6 +31,8 @@ Der kontrollierte Entry-Point ist `src/index.ts`.
 - **S52-A:** Plattformrollen, Sitzungszustände, Policy-Prädikate
 - **S52-B:** Passwort-Hashing (`scrypt`), opake Tokens, Cookie-Vertrag,
   Memory-Session-Store, Session-Runtime (create/resolve/rotate/revoke/logout)
+- **S52-D1:** Auth-HTTP-Handler (`createAuthHttpHandlers`) für Login/Logout
+  hinter Feature-Flag; keine Login-UI
 
 ## Status
 
@@ -38,10 +40,11 @@ Der kontrollierte Entry-Point ist `src/index.ts`.
 S52_A_VOCABULARY=INTEGRATED
 S52_B_AUTH_RUNTIME_FOUNDATION=AUTHORIZED
 S52_C_AUTH_WEB_SCOPE_LOCK=AUTHORIZED
-S52_D_AUTH_WEB_IMPL_SCOPE_LOCK=AUTHORIZED
+S52_D_AUTH_WEB_IMPL=AUTHORIZED
+S52_D1_AUTH_HTTP_ROUTES=AUTHORIZED
 AUTH_RUNTIME_AUTHORIZED=YES
 AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
-AUTH_WEB_SURFACE=DOCUMENTED_NOT_IMPLEMENTED
+AUTH_WEB_SURFACE=D1_ROUTES_BEHIND_FLAG
 LOGIN_UI=NO
 DATABASE_CONNECTION=NO
 PRODUCTION_USERS=NO
@@ -51,10 +54,10 @@ PRODUCTION_USERS=NO
 
 S52-C dokumentiert die Auth-Web-Grenze
 (`docs/architecture/S52_C_IMPLEMENTATION_SCOPE.md`).
-S52-D sperrt den Implementierungsschnitt ohne Code
-(`docs/architecture/S52_D_IMPLEMENTATION_SCOPE.md`). Login-UI, Auth-Route-
-Handler, Recovery, persistente Session-Stores über `packages/db` und MFA
-brauchen jeweils eine eigene Folgefreigabe.
+S52-D1 liefert Login/Logout-Route-Verträge hinter `auth_runtime`
+(`docs/architecture/S52_D_IMPLEMENTATION_SCOPE.md`). Login-UI, Flag-Flip,
+Recovery, persistente Session-Stores über `packages/db` und MFA brauchen
+jeweils eine eigene Folgefreigabe.
 
 ## Sicherheit und Datenschutz
 
