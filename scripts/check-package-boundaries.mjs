@@ -1820,7 +1820,7 @@ function validatePackageSkeletons() {
           "S52-B",
           "AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY",
           "LOGIN_UI=AUTHORIZED_BEHIND_FLAG",
-          "LOGIN_UI_IMPLEMENTED=NO",
+          "LOGIN_UI_IMPLEMENTED=YES",
           "DATABASE_CONNECTION=NO",
         ]) {
           if (!readme.includes(requiredText)) {

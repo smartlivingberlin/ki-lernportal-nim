@@ -76,6 +76,7 @@ for (const marker of [
 const allowedAuthRoutes = new Set([
   "apps/web/src/app/api/auth/login/route.ts",
   "apps/web/src/app/api/auth/logout/route.ts",
+  "apps/web/src/app/anmelden/page.tsx",
 ]);
 
 const appRoot = resolve(root, "apps/web/src/app");

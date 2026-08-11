@@ -2,7 +2,7 @@
 
 **Stand:** 11. August 2026
 **Baseline `main`:** `d91514f1f08ad343cbd0d6e1e63e81833676ffd5` (nach #142 S52-D1 Auth-Routen)
-**Status:** S51D-B Staging HTTP-grün; S52-D1 Auth-Routen hinter Flag; D2 Login-UI + Staging-Flag freigegeben (Code ausstehend); DB-Sessions/Live-Migrate gesperrt
+**Status:** S51D-B Staging HTTP-grün; S52-D1 Auth-Routen; S52-D2 `/anmelden`; Staging-Flag freigegeben (manuell); DB-Sessions/Live-Migrate gesperrt
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
@@ -59,13 +59,13 @@ S52_D1_ROUTES_AUTHORIZED=YES
 S52_D1_INTEGRATED_TO_MAIN=YES
 S52_D1_MERGE_COMMIT=d91514f1f08ad343cbd0d6e1e63e81833676ffd5
 S52_D2_LOGIN_UI_AUTHORIZED=YES
-S52_D2_CODE_CHANGED=NO
+S52_D2_CODE_CHANGED=YES
 S52_D_IMPLEMENTATION_PLAN_DOCUMENTED=YES
 AUTH_RUNTIME_AUTHORIZED=YES
 AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
-AUTH_WEB_SURFACE=D1_ROUTES_BEHIND_FLAG
+AUTH_WEB_SURFACE=D2_LOGIN_UI_BEHIND_FLAG
 LOGIN_UI=AUTHORIZED_BEHIND_FLAG
-LOGIN_UI_IMPLEMENTED=NO
+LOGIN_UI_IMPLEMENTED=YES
 FEATURE_FLAG_AUTH_RUNTIME_DEFAULT=false
 AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY
 S51B_C_SCHEMA_AUTHORIZED=NO
@@ -93,6 +93,7 @@ zusammen mit den nachfolgenden Integrationsnachweisen beschrieben durch:
 - [S52-C Auth-Web Boundary Scope-Lock](architecture/S52_C_IMPLEMENTATION_SCOPE.md)
 - [S52-D Auth-Web Implementation Scope-Lock](architecture/S52_D_IMPLEMENTATION_SCOPE.md)
 - [S52-D Auth-Web Implementierungsplan](architecture/S52_D_IMPLEMENTATION_PLAN.md)
+- [S52-D2b Staging AUTH_RUNTIME Deploy-Entscheid](architecture/S52_D2B_STAGING_AUTH_RUNTIME.md)
 - [Zielarchitektur](architecture/ARCHITECTURE_TARGET.md)
 - [Package-DAG](architecture/PACKAGE_DAG.md)
 - [Plattformverträge](architecture/PLATFORM_CONTRACTS.md)
