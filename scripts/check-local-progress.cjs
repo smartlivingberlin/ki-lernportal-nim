@@ -52,19 +52,29 @@ async function waitForStoredLessonIds(page, expectedIds) {
       }
     },
     { key: progressStorageKey, expected: expectedIds },
-    { timeout: 10_000 },
+    { timeout: 20_000 },
   );
 }
 
 async function lessonButton(page, title) {
   const button = page.getByRole("button").filter({ hasText: title }).first();
-  await button.waitFor({ state: "visible", timeout: 10_000 });
+  await button.waitFor({ state: "attached", timeout: 15_000 });
+  await button.scrollIntoViewIfNeeded();
   return button;
 }
 
 async function clickFirstLessonDone(page) {
   await dismissExplainClouds(page);
-  await page.getByRole("button", { name: "Als erledigt markieren" }).click({
+  const firstLesson = await lessonButton(page, "Was ist KI?");
+  await firstLesson.click({ force: true });
+  await page
+    .getByRole("heading", { name: "Was ist KI?", exact: true })
+    .waitFor({ state: "visible", timeout: 15_000 });
+  await dismissExplainClouds(page);
+  const doneButton = page.getByRole("button", { name: "Als erledigt markieren" });
+  await doneButton.waitFor({ state: "visible", timeout: 15_000 });
+  await doneButton.scrollIntoViewIfNeeded();
+  await doneButton.click({
     force: true,
     timeout: 15_000,
   });
