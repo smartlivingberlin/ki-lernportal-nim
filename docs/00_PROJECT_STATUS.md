@@ -1,14 +1,14 @@
 # Projektstatus: KI-Lernportal NIM
 
 **Stand:** 11. August 2026
-**Baseline `main`:** `18b91301131cb6f9567b3cc0f4667e7346059072`
-**Status:** S51D-B Dashboard-Reverify komplett (Production Autodeploy AUS, Wait for CI AN); Staging-Environment HTTP-grün (siehe S51D-B); S52-B Auth-Runtime nur in `packages/auth`; S52-C Auth-Web Scope-Lock (kein Login-UI); Login-UI/DB-Sessions/Live-Migrate gesperrt
+**Baseline `main`:** `baf6fb872c4cd5a59f38695ecf680994c51df65d`
+**Status:** S51D-B komplett (Production Autodeploy AUS, Wait for CI AN; Staging HTTP-grün); S52-B Auth-Runtime nur in `packages/auth`; S52-C Auth-Web Scope-Lock (kein Login-UI); Login-UI/DB-Sessions/Live-Migrate gesperrt
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
 PHASE0A_SOURCE_OF_TRUTH_SYNC=COMPLETE
 BACKLOG_NORMALIZATION=COMPLETE
-BASELINE_MAIN_SHA=18b91301131cb6f9567b3cc0f4667e7346059072
+BASELINE_MAIN_SHA=baf6fb872c4cd5a59f38695ecf680994c51df65d
 PR68_MERGED=YES
 PR102_S51C_B1A_MERGED=YES
 PR104_S51C_B1B_MERGED=YES
@@ -25,6 +25,9 @@ PR127_S51D_A_MERGED=YES
 PR128_S52_A_MERGED=YES
 PR129_S51D_B_DOCS_MERGED=YES
 PR130_S52_B_MERGED=YES
+PR131_S51D_B_REVERIFY_DOCS_MERGED=YES
+PR132_S51D_B_STAGING_CREATED_DOCS_MERGED=YES
+PR133_S51D_DOCS_SYNC_MERGED=YES
 HUMAN_AGENCY_FREIGABE_MERGE_DEPLOY_CONCEPT_DEMO=YES
 S51D_HUMAN_FREIGABE=YES
 S51D_A_SCOPE_AUTHORIZED=YES
@@ -202,20 +205,15 @@ REPLICAS=1
 VOLUMES=0
 ~~~
 
-Historisch wurde vor dem Merge von PR #73 read-only bestätigt, dass
-Production-Autodeploy deaktiviert und Wait for CI aktiviert war. Diese Werte
-sind zeitgebunden.
-
-Die verwendeten CLI-Abfragen konnten den gegenwärtigen Wert folgender Felder
-nicht belastbar ausweisen:
+Aktueller Railway-Dashboard- und Staging-Nachweis (2026-08-11):
 
 ~~~text
 CURRENT_PRODUCTION_AUTODEPLOY=DISABLED
 CURRENT_WAIT_FOR_CI=ON
-CURRENT_CONFIG_SOURCE=NONE
+CURRENT_CONFIG_SOURCE=DASHBOARD_NO_RAILWAY_JSON
 CURRENT_ROOT_DIRECTORY=apps/web
 CURRENT_PUBLIC_DOMAIN=web-production-51d3c8.up.railway.app
-LATEST_GITHUB_DEPLOYMENT_SHA=18b91301131cb6f9567b3cc0f4667e7346059072
+DOCS_BASELINE_MAIN_SHA=18deca45770daf8a58e61bbf4fae25dec7bd43cb
 RAILWAY_PROJECT_ID=f69a0054-8cd9-4481-a461-bd17ddde296d
 RAILWAY_PRODUCTION_ENVIRONMENT_ID=f30e6e3b-60b5-4b3e-8949-2ca868f4e2da
 APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=HISTORICAL_BEFORE_2026_08_11_DISABLE

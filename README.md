@@ -86,21 +86,26 @@ Netzwerkverbindung aus.
 
 ## Railway- und Produktionswahrheit
 
-Historisch wurde vor dem Merge von PR #73 read-only bestätigt, dass
-Production-Autodeploy deaktiviert und „Wait for CI“ aktiviert war. Diese
-Beobachtung ist zeitgebunden und keine gegenwärtige Betriebszusage.
+Dashboard-Reverify 2026-08-11 (menschlich): Production-Autodeploy ist
+**disabled**, Wait for CI / Check Suites ist **on**. Config Source für
+Production bleibt Dashboard (kein `railway.json` am Repo-Root).
 
-Der aktuelle Railway-Dashboardzustand für Autodeploy, Wait for CI und Config
-Source ist vor jeder zukünftigen Merge-, Deployment- oder
-Produktionsentscheidung erneut read-only zu prüfen.
+Isoliertes Staging-Environment `staging` ist angelegt und HTTP-grün unter
+`https://ki-lernportal-nim-staging.up.railway.app` (Root `/`, Config
+`/railway.staging.json`, Staging-Autodeploy disabled, Wait for CI on).
+Nachweise: `docs/architecture/S51D_B_STAGING_EXECUTION.md`.
+
+Vor jeder weiteren Production-Änderung erneut read-only im Dashboard prüfen.
 
 ~~~text
-HISTORICAL_PRODUCTION_AUTODEPLOY=DISABLED
-HISTORICAL_AUTODEPLOY_EVIDENCE_DATE=2026-07-18
-CURRENT_PRODUCTION_AUTODEPLOY=UNVERIFIED
-CURRENT_WAIT_FOR_CI=UNVERIFIED
-CURRENT_CONFIG_SOURCE=UNVERIFIED
-RAILWAY_REVERIFY_BEFORE_MERGE=REQUIRED
+CURRENT_PRODUCTION_AUTODEPLOY=DISABLED
+CURRENT_WAIT_FOR_CI=ON
+CURRENT_CONFIG_SOURCE=DASHBOARD_NO_RAILWAY_JSON
+STAGING_ENVIRONMENT_CREATED=YES
+STAGING_PUBLIC_DOMAIN=ki-lernportal-nim-staging.up.railway.app
+STAGING_AUTODEPLOY=DISABLED
+STAGING_WAIT_FOR_CI=ON
+RAILWAY_REVERIFY_BEFORE_NEXT_PRODUCTION_CHANGE=REQUIRED
 ~~~
 
 ## Stabiler Freigabestatus
@@ -119,12 +124,17 @@ S51B_B_SCOPE_LOCK_INTEGRATED_TO_MAIN=YES
 S51B_B_IMPLEMENTATION_INTEGRATED_TO_MAIN=YES
 PR82_MERGE_COMMIT=0f126ab2eb2b7a87f8a8ee85b611ec2ea410bcd5
 
+S51D_B_EXECUTED=YES
+STAGING_ENVIRONMENT_CREATED=YES
+RAILWAY_STAGING_AUTHORIZED=YES_ISOLATED_STAGING_CREATED
+PRODUCTION_AUTODEPLOY=DISABLED
+PRODUCTION_WAIT_FOR_CI=ON
+
 S51B_B_CONNECTION_PROOF_AUTHORIZED=NO
 S51B_C_SCHEMA_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
 MIGRATION_AUTHORIZED=NO
-RAILWAY_STAGING_AUTHORIZED=NO
-DEPLOY_AUTHORIZED=NO
+LOGIN_UI=NO
 PRODUCTION_CHANGE_AUTHORIZED=NO
 ~~~
 

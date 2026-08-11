@@ -114,3 +114,12 @@ PRODUCTION_CHANGED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
 AUTH_RUNTIME_AUTHORIZED=NO
 ```
+
+## 8. Nachtrag S51D-B (historischer Scope bleibt)
+
+Abschnitt 2 und 7 oben beschreiben den **A-Zeitpunkt** (Scope-Lock vor
+Environment-Anlage). Aktueller Ausführungsstand:
+
+- `docs/architecture/S51D_B_STAGING_EXECUTION.md`
+- `STAGING_ENVIRONMENT_CREATED=YES`
+- `S51D_B_EXECUTED=YES`

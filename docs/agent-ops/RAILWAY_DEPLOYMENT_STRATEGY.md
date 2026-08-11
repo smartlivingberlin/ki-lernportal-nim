@@ -1,8 +1,9 @@
 # Railway-Deployment-Strategie – KI-Lernportal NIM
 
-**Status:** In S50B-R3 architektonisch freigegeben; Deploymentfreigabe ausstehend
-**Stand:** 17. Juli 2026
-**Wirkung:** Dokumentation; keine Railway-, Merge- oder Deploymentfreigabe
+**Status:** S51D-B ausgeführt — isoliertes Staging HTTP-grün; Production
+Autodeploy disabled / Wait for CI on (Dashboard 2026-08-11)
+**Stand:** 11. August 2026
+**Wirkung:** Dokumentation und Betriebsnachweis; keine neue Production-Änderung
 
 ## 1. Verbindliche Grundlagen
 
@@ -22,20 +23,20 @@ Bei aktuellen Architektur- oder Freigabewidersprüchen hat das S50B-R3-Freigabep
 
 ## 2. Nachgewiesener Iststand
 
-Zum Stand 16. Juli 2026 gilt:
+Zum Stand 11. August 2026 gilt:
 
 - Das GitHub-Repository ist `smartlivingberlin/ki-lernportal-nim`.
-- Railway wird bereits für eine Produktions-Konzeptdemo verwendet.
+- Railway hostet die Produktions-Konzeptdemo und ein isoliertes Staging.
 - PR #68 (S50D1 Railway Staging Readiness Contract) ist gemerged.
-- `/health` liefert in CI und lokal `200 ok` (Konzeptdemo-Vertrag).
-- Ein isoliertes Railway-Staging-Environment ist noch nicht erstellt
-  (`STAGING_ENVIRONMENT_CREATED=NO`).
-- S51D-A Scope-Lock: `docs/architecture/S51D_A_STAGING_SCOPE.md`.
+- `/health`, `/live`, `/ready` und `/version` liefern auf Staging HTTP 200
+  (Ready: `db=not_configured`).
+- Isoliertes Staging-Environment ist angelegt
+  (`STAGING_ENVIRONMENT_CREATED=YES`, Domain
+  `ki-lernportal-nim-staging.up.railway.app`).
+- S51D-A Scope-Lock: `docs/architecture/S51D_A_STAGING_SCOPE.md` (historisch).
 - S51D-B Execution/Reverify: `docs/architecture/S51D_B_STAGING_EXECUTION.md`
   (Dashboard-Reverify 2026-08-11: Production Autodeploy DISABLED, Wait for CI
-  ON; Staging-Environment angelegt und HTTP-grün unter
-  `ki-lernportal-nim-staging.up.railway.app`).
-- Die S50B-R3-Dokumentationsintegration verändert Railway nicht.
+  ON; Staging Autodeploy DISABLED, Wait for CI ON).
 
 Der Produktionsstand ist deshalb weder als vollständige Plattform noch als
 Beweis für Backend-, Datenbank-, Auth-, AI- oder RAG-Funktionalität zu werten.
@@ -214,14 +215,16 @@ HUMAN_ARCHITECTURE_APPROVAL=YES
 RAILWAY_STRATEGY_REVIEWED=YES
 S51D_HUMAN_FREIGABE=YES
 S51D_A_SCOPE_AUTHORIZED=YES
-S51D_STAGING_APPROVED=SCOPE_ONLY
 S51D_B_ENV_CREATE_AUTHORIZED=YES
-S51D_B_EXECUTED=NO
+S51D_B_EXECUTED=YES
+STAGING_ENVIRONMENT_CREATED=YES
+STAGING_PUBLIC_DOMAIN=ki-lernportal-nim-staging.up.railway.app
+CURRENT_PRODUCTION_AUTODEPLOY=DISABLED
+CURRENT_PRODUCTION_WAIT_FOR_CI=ON
 PR68_MERGED=YES
-RAILWAY_CHANGE_AUTHORIZED=NO
-DEPLOY_AUTHORIZED=NO
+RAILWAY_CHANGE_AUTHORIZED=NO_FURTHER_WITHOUT_EXPLICIT_APPROVAL
 PRODUCTION_CHANGE_AUTHORIZED=NO
 ```
 
-Bis S51D-B mit Railway-Zugang und Reverify ausgeführt wird, bleibt das
-Staging-Environment unangelegt. Production bleibt unverändert.
+S51D-B ist ausgeführt. Weitere Railway- oder Production-Änderungen brauchen
+eine neue explizite Freigabe.

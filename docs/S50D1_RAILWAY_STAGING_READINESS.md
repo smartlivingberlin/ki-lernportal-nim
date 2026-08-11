@@ -244,7 +244,8 @@ Execution-Package und GitHub-Reverify:
 `scripts/check-s51d-b-staging-static.mjs`.
 
 Dashboard-Reverify (2026-08-11, menschlich): Production Autodeploy DISABLED,
-Wait for CI / Check Suites ON. Staging-Environment weiterhin nicht angelegt.
+Wait for CI / Check Suites ON. Staging-Environment danach angelegt und
+HTTP-grün (siehe `docs/architecture/S51D_B_STAGING_EXECUTION.md`).
 
 ```text
 S51D_B_GITHUB_REVERIFY_SCRIPTED=YES
@@ -258,3 +259,7 @@ APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=HISTORICAL_BEFORE_2026_08_11_DISABLE
 RAILWAY_TOKEN_IN_AGENT=NO
 PRODUCTION_CHANGED=AUTODEPLOY_DISABLED_AND_WAIT_FOR_CI_ENABLED_ONLY
 ```
+
+Der S51D-A-Nachtrag oben bleibt historische Momentaufnahme vor der
+Staging-Anlage (`STAGING_ENVIRONMENT_CREATED=NO`). Aktueller Gate-Stand ist
+dieser S51D-B-Nachtrag.
