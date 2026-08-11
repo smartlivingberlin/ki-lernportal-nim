@@ -1,10 +1,9 @@
-# S52-D – Auth-Web Implementierungsplan (ohne Code)
+# S52-D – Auth-Web Implementierungsplan
 
-**Status:** Planungsdokument. **Keine** Login-UI, **keine** Route Handler,
-**kein** Flag-Flip, **keine** DB, **kein** Railway in diesem Slice.  
+**Status:** D1 Route-Verträge implementiert. Login-UI, Flag-Flip, DB und
+Railway bleiben eigene Freigaben.  
 **Parent:** `docs/architecture/S52_D_IMPLEMENTATION_SCOPE.md`  
-**Baseline:** `ffc51a3` (#138 Scope-Lock)  
-**Arbeitsbranch:** `cursor/s52-d-impl-plan-b554`
+**Arbeitsbranch:** `cursor/s52-d1-auth-routes-b554`
 
 ## 1. Zweck
 
@@ -12,7 +11,7 @@ Dieses Dokument plant die **spätere** S52-D-Implementierung in kleinen,
 freigabepflichtigen Schnitten. Der Scope-Lock bleibt gültig:
 
 ```text
-S52_D_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY
+S52_D_IMPLEMENTATION_AUTHORIZED=YES
 LOGIN_UI=NO
 FEATURE_FLAG_AUTH_RUNTIME_DEFAULT=false
 AUTH_RUNTIME_FLAG_FLIP=NO
@@ -80,11 +79,15 @@ AUTH_RUNTIME_FLAG_FLIP=NO|YES     # separat entscheiden
 
 Ohne diese Marker bleibt Implementierung **verboten**.
 
-## 6. Abnahme dieses Plan-Slices
+## 6. Abnahme dieses Plan-Slices / D1
 
 ```text
 S52_D_IMPLEMENTATION_PLAN_DOCUMENTED=YES
-S52_D_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY
+S52_D_IMPLEMENTATION_AUTHORIZED=YES
+S52_D1_CODE_CHANGED=YES
 LOGIN_UI=NO
-CODE_CHANGED=NO
+AUTH_RUNTIME_FLAG_FLIP=NO
 ```
+
+D1 Route Handler sind implementiert. D2 Login-UI und Flag-Flip bleiben
+eigene Freigaben.

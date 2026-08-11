@@ -29,6 +29,7 @@
     "test:s51c-ops-a-operations": "node --experimental-strip-types packages/contracts/src/operations.test.ts",
     "test:s52-a-auth-policy": "node --experimental-strip-types packages/auth/src/platform-roles.test.ts && node --experimental-strip-types packages/auth/src/session-policy.test.ts",
     "test:s52-b-auth-runtime": "node --experimental-strip-types packages/auth/src/password-hashing.test.ts && node --experimental-strip-types packages/auth/src/session-token.test.ts && node --experimental-strip-types packages/auth/src/session-cookie.test.ts && node --experimental-strip-types packages/auth/src/session-runtime.test.ts",
+    "test:s52-d1-auth-http": "node --experimental-strip-types packages/auth/src/auth-http.test.ts",
     "test:s52-c-auth-web-scope": "node scripts/check-s52-c-auth-web-scope.mjs",
     "test:s52-d-auth-web-impl-scope": "node scripts/check-s52-d-auth-web-impl-scope.mjs",
     "packages:verify": "pnpm packages:boundaries && pnpm packages:typecheck"

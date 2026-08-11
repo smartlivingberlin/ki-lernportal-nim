@@ -82,6 +82,9 @@ jobs:
       - name: Test S52-B auth runtime foundation
         run: pnpm test:s52-b-auth-runtime
 
+      - name: Test S52-D1 auth HTTP login/logout contracts
+        run: pnpm test:s52-d1-auth-http
+
       - name: Test S52-C auth web boundary scope lock
         run: pnpm test:s52-c-auth-web-scope
 

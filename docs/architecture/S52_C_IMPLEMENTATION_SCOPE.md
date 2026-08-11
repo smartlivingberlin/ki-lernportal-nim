@@ -37,7 +37,12 @@ FEATURE_FLAG_AUTH_RUNTIME_DEFAULT=false
 DATABASE_CONNECTION_AUTHORIZED=NO
 PRODUCTION_USERS=NO
 RAILWAY_CHANGE=NO
+AUTH_RUNTIME_FLAG_FLIP=NO
 ```
+
+> Hinweis: S52-D1 autorisiert später die Route Handler
+> `/api/auth/login` und `/api/auth/logout` hinter Flag
+> (`docs/architecture/S52_D_IMPLEMENTATION_SCOPE.md`). Login-UI bleibt `NO`.
 
 ## 3. Exakter Dateiscope
 

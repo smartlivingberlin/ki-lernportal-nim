@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * S52-C – static Auth-Web boundary contract.
- * Docs + negative surface only; no network, no DB, no Railway.
+ * S52-C – static Auth-Web boundary contract (updated for S52-D1 routes).
+ * Login-UI remains forbidden; only /api/auth/login|logout behind flag.
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
@@ -41,9 +41,7 @@ function walkFiles(dir, out = []) {
 const doc = read("docs/architecture/S52_C_IMPLEMENTATION_SCOPE.md");
 for (const marker of [
   "S52_C_SCOPE_AUTHORIZED=YES",
-  "S52_C_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY",
   "AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY",
-  "AUTH_WEB_SURFACE=DOCUMENTED_NOT_IMPLEMENTED",
   "LOGIN_UI=NO",
   "REGISTRATION_UI=NO",
   "FEATURE_FLAG_AUTH_RUNTIME_DEFAULT=false",
@@ -57,7 +55,7 @@ for (const marker of [
 }
 
 const operations = read("packages/contracts/src/operations.ts");
-if (!operations.includes('auth_runtime: false')) {
+if (!operations.includes("auth_runtime: false")) {
   fail("packages/contracts must keep auth_runtime default false");
 }
 if (!operations.includes('"auth_runtime"')) {
@@ -75,15 +73,29 @@ for (const marker of [
   }
 }
 
+const allowedAuthRoutes = new Set([
+  "apps/web/src/app/api/auth/login/route.ts",
+  "apps/web/src/app/api/auth/logout/route.ts",
+]);
+
 const appRoot = resolve(root, "apps/web/src/app");
 const forbiddenName =
-  /(^|\/)(login|register|signup|sign-in|sign-up|auth|session)(\/|$)/i;
+  /(^|\/)(login|register|signup|sign-in|sign-up|auth|session|anmelden)(\/|$)/i;
 const appFiles = walkFiles(appRoot);
 for (const file of appFiles) {
   const rel = file.slice(root.length + 1).replaceAll("\\", "/");
+  if (allowedAuthRoutes.has(rel)) {
+    continue;
+  }
   const pathWithoutFile = rel.replace(/\/[^/]+$/, "");
   if (forbiddenName.test(pathWithoutFile)) {
     fail(`forbidden auth web surface path present: ${rel}`);
+  }
+}
+
+for (const required of allowedAuthRoutes) {
+  if (!existsSync(resolve(root, required))) {
+    fail(`missing authorized D1 auth route: ${required}`);
   }
 }
 
@@ -92,7 +104,7 @@ console.log(
   JSON.stringify(
     {
       scopeLock: "YES",
-      authWebSurface: "DOCUMENTED_NOT_IMPLEMENTED",
+      authWebSurface: "D1_ROUTES_BEHIND_FLAG",
       loginUi: "NO",
       authRuntimeDefault: false,
       railwayChange: "NO",
