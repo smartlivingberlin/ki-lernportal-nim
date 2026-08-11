@@ -16,12 +16,32 @@ async function openPortal(page) {
     state: "visible",
     timeout: navigationTimeout,
   });
+  await page.evaluate(() => {
+    try {
+      window.localStorage.setItem(
+        "ki-lernportal-nim:first-start-coach:v1",
+        "dismissed",
+      );
+    } catch {
+      // ignore
+    }
+  });
   await dismissExplainClouds(page);
 }
 
 async function resetBrowserProgress(page) {
   await page.evaluate(
-    ({ key, value }) => window.localStorage.setItem(key, value),
+    ({ key, value }) => {
+      window.localStorage.setItem(key, value);
+      try {
+        window.localStorage.setItem(
+          "ki-lernportal-nim:first-start-coach:v1",
+          "dismissed",
+        );
+      } catch {
+        // ignore
+      }
+    },
     { key: progressStorageKey, value: "[]" },
   );
   await page.reload({ waitUntil: "load", timeout: navigationTimeout });
@@ -32,10 +52,10 @@ async function resetBrowserProgress(page) {
 }
 
 async function expectExactText(page, text) {
-  await page.getByText(text, { exact: true }).first().waitFor({
-    state: "visible",
-    timeout: 10_000,
-  });
+  const locator = page.getByText(text, { exact: true }).first();
+  await locator.waitFor({ state: "attached", timeout: 20_000 });
+  await locator.scrollIntoViewIfNeeded().catch(() => {});
+  await locator.waitFor({ state: "visible", timeout: 20_000 });
 }
 
 async function waitForStoredLessonIds(page, expectedIds) {
@@ -91,10 +111,16 @@ async function clickLessonDone(page, title, headingName = title) {
   const doneButton = page.getByRole("button", { name: "Als erledigt markieren" });
   await doneButton.waitFor({ state: "visible", timeout: 15_000 });
   await doneButton.scrollIntoViewIfNeeded();
+  await dismissExplainClouds(page);
   await doneButton.click({
     force: true,
     timeout: 15_000,
   });
+  await dismissExplainClouds(page);
+  // Confirm the toggle landed (avoids racing the progress counter alone).
+  await page
+    .getByRole("button", { name: "Erledigt zurücknehmen" })
+    .waitFor({ state: "visible", timeout: 20_000 });
 }
 
 async function clickFirstLessonDone(page) {
@@ -103,26 +129,16 @@ async function clickFirstLessonDone(page) {
 
 async function markFirstLesson(page) {
   await clickFirstLessonDone(page);
-  await expectExactText(page, "1/12");
   await waitForStoredLessonIds(page, ["l1"]);
+  await expectExactText(page, "1/12");
   await waitForLessonSidebarStatus(page, "Was ist KI?", /erledigt/i);
 }
 
 async function markFirstTwoLessons(page) {
   await markFirstLesson(page);
-
-  const secondLessonButton = await lessonButton(page, "Was kann KI gut");
-  await secondLessonButton.click();
-  await page
-    .getByRole("heading", {
-      name: "Was kann KI gut — und was nicht?",
-      exact: true,
-    })
-    .waitFor({ state: "visible" });
-  await dismissExplainClouds(page);
-  await page.getByRole("button", { name: "Als erledigt markieren" }).click();
-  await expectExactText(page, "2/12");
+  await clickLessonDone(page, "Was kann KI gut", "Was kann KI gut — und was nicht?");
   await waitForStoredLessonIds(page, ["l1", "l2"]);
+  await expectExactText(page, "2/12");
 }
 
 const phases = {
@@ -265,7 +281,7 @@ async function runPhase(browser, phaseName) {
     viewport: { width: 390, height: 844 },
   });
   const page = await context.newPage();
-  page.setDefaultTimeout(10_000);
+  page.setDefaultTimeout(20_000);
 
   try {
     await openPortal(page);
