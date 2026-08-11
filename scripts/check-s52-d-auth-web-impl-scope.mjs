@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * S52-D – Auth-Web implementation gate (D1 routes behind flag).
- * Login-UI remains NO; auth_runtime default remains false.
+ * S52-D – Auth-Web implementation gate (D1 routes + D2 /anmelden).
+ * auth_runtime default remains false; staging flag flip authorized only.
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
@@ -43,9 +43,12 @@ for (const marker of [
   "S52_D_SCOPE_AUTHORIZED=YES",
   "S52_D_IMPLEMENTATION_AUTHORIZED=YES",
   "S52_D1_ROUTES_AUTHORIZED=YES",
-  "LOGIN_UI=NO",
+  "S52_D2_LOGIN_UI_AUTHORIZED=YES",
+  "S52_D2_CODE_CHANGED=YES",
+  "LOGIN_UI=AUTHORIZED_BEHIND_FLAG",
+  "LOGIN_UI_IMPLEMENTED=YES",
   "FEATURE_FLAG_AUTH_RUNTIME_DEFAULT=false",
-  "AUTH_RUNTIME_FLAG_FLIP=NO",
+  "AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY",
   "DATABASE_CONNECTION_AUTHORIZED=NO",
   "RAILWAY_CHANGE=NO",
 ]) {
@@ -61,10 +64,11 @@ if (!operations.includes("auth_runtime: false")) {
 
 const authReadme = read("packages/auth/README.md");
 for (const marker of [
-  "LOGIN_UI=NO",
+  "LOGIN_UI=AUTHORIZED_BEHIND_FLAG",
+  "LOGIN_UI_IMPLEMENTED=YES",
   "S52_D",
   "AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY",
-  "S52_D1",
+  "AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY",
 ]) {
   if (!authReadme.includes(marker)) {
     fail(`packages/auth/README.md missing marker: ${marker}`);
@@ -74,6 +78,7 @@ for (const marker of [
 const allowedAuthRoutes = new Set([
   "apps/web/src/app/api/auth/login/route.ts",
   "apps/web/src/app/api/auth/logout/route.ts",
+  "apps/web/src/app/anmelden/page.tsx",
 ]);
 
 const appRoot = resolve(root, "apps/web/src/app");
@@ -92,16 +97,23 @@ for (const file of walkFiles(appRoot)) {
 
 for (const required of allowedAuthRoutes) {
   if (!existsSync(resolve(root, required))) {
-    fail(`missing authorized D1 auth route: ${required}`);
+    fail(`missing authorized auth surface: ${required}`);
   }
+}
+
+const anmelden = read("apps/web/src/app/anmelden/page.tsx");
+if (!anmelden.includes("LoginForm") || !anmelden.includes("AUTH_RUNTIME")) {
+  fail("anmelden page must gate on AUTH_RUNTIME and render LoginForm");
 }
 
 const plan = read("docs/architecture/S52_D_IMPLEMENTATION_PLAN.md");
 for (const marker of [
   "S52_D_IMPLEMENTATION_PLAN_DOCUMENTED=YES",
   "S52_D_IMPLEMENTATION_AUTHORIZED=YES",
-  "LOGIN_UI=NO",
-  "S52_D1_CODE_CHANGED=YES",
+  "S52_D2_LOGIN_UI_AUTHORIZED=YES",
+  "S52_D2_CODE_CHANGED=YES",
+  "LOGIN_UI=AUTHORIZED_BEHIND_FLAG",
+  "AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY",
   "Slice D1",
   "Slice D2",
   "Slice D3",
@@ -111,14 +123,15 @@ for (const marker of [
   }
 }
 
-const loginRoute = read("apps/web/src/app/api/auth/login/route.ts");
-const logoutRoute = read("apps/web/src/app/api/auth/logout/route.ts");
-for (const [label, source] of [
-  ["login", loginRoute],
-  ["logout", logoutRoute],
+const stagingDoc = read("docs/architecture/S52_D2B_STAGING_AUTH_RUNTIME.md");
+for (const marker of [
+  "S52_D2B_STAGING_FLAG_DECISION_DOCUMENTED=YES",
+  "AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY",
+  "HUMAN_SETS_STAGING_AUTH_RUNTIME=YES",
+  "RAILWAY_CHANGE_IN_REPO=NO",
 ]) {
-  if (!source.includes("FEATURE_DISABLED") && !source.includes("getAuthHttpHandlers")) {
-    fail(`${label} route must use auth HTTP handlers / disabled gate`);
+  if (!stagingDoc.includes(marker)) {
+    fail(`staging flag decision doc missing marker: ${marker}`);
   }
 }
 
@@ -126,11 +139,11 @@ console.log("S52-D auth-web impl scope contract PASS");
 console.log(
   JSON.stringify(
     {
-      implementationAuthorized: "YES",
-      d1Routes: "YES",
-      loginUi: "NO",
+      d2LoginUiImplemented: "YES",
+      anmeldenPage: "YES",
+      authRuntimeFlagFlip: "STAGING_ONLY",
       authRuntimeDefault: false,
-      railwayChange: "NO",
+      railwayChangeInRepo: "NO",
     },
     null,
     2,

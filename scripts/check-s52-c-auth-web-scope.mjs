@@ -64,7 +64,7 @@ if (!operations.includes('"auth_runtime"')) {
 
 const authReadme = read("packages/auth/README.md");
 for (const marker of [
-  "LOGIN_UI=NO",
+  "LOGIN_UI=AUTHORIZED_BEHIND_FLAG",
   "AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY",
   "S52_C",
 ]) {
@@ -76,6 +76,7 @@ for (const marker of [
 const allowedAuthRoutes = new Set([
   "apps/web/src/app/api/auth/login/route.ts",
   "apps/web/src/app/api/auth/logout/route.ts",
+  "apps/web/src/app/anmelden/page.tsx",
 ]);
 
 const appRoot = resolve(root, "apps/web/src/app");
