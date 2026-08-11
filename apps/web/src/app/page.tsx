@@ -569,7 +569,7 @@ export default function Home() {
                 onClick={resetProgress}
                 className="rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-3 py-2 text-xs font-black text-[var(--nim-primary)] hover:border-[var(--nim-primary)]"
               >
-                Reset
+                Fortschritt zurücksetzen
               </button>
             </div>
 

@@ -27,7 +27,7 @@ export function MicroLearningUnitView({
       className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] md:p-7"
     >
       <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
-        Micro-Einheit {unit.order} · Schema v2
+        Micro-Einheit {unit.order}
       </p>
       <h3
         id={`${baseId}-title`}

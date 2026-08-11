@@ -24,7 +24,7 @@ export function PortalHero({
           id="portalstatus-title"
           className="text-xs font-black uppercase tracking-widest text-white"
         >
-          Portalstatus
+          Dein Fortschritt
         </h2>
         <ExplainCloud tipId="fortschritt" compact className="[&_button]:border-white [&_button]:text-[var(--nim-primary-strong)]" />
       </div>

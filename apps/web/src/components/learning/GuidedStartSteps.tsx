@@ -41,19 +41,19 @@ export function GuidedStartSteps({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <p className="text-xs font-black uppercase tracking-widest text-sky-700">
-            Neu hier?
+            Nächste Lektion
           </p>
 
           <h2
             id="guided-start-title"
             className="mt-2 text-2xl font-black text-nim-primary"
           >
-            So startest du in drei einfachen Schritten.
+            So bearbeitest du eine Lektion in drei Schritten.
           </h2>
 
           <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-700">
-            Du brauchst kein Konto und musst nichts einstellen. Nimm dir eine
-            Lektion nach der anderen vor.
+            Das ist der Lektions-Ablauf — getrennt vom Portal-Einstieg
+            (Selbstcheck → 60-Minuten-Pfad → Abruf). Kein Konto nötig.
           </p>
         </div>
 

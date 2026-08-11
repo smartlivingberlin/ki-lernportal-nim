@@ -55,7 +55,6 @@ export function LessonWorkspace({
           <div className="min-w-0">
             <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
               Aktuelle Lektion · {completed ? "erledigt" : "offen"}
-              {microUnit ? " · Schema v2" : ""}
             </p>
             <h2
               id={`lesson-${lesson.id}-title`}

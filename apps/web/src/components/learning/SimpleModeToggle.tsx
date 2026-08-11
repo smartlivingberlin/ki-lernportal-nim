@@ -14,7 +14,7 @@ export function SimpleModeToggle({ enabled, onChange }: SimpleModeToggleProps) {
         type="button"
         role="switch"
         aria-checked={enabled}
-        aria-label="Simple Mode: größere Schrift und weniger Ablenkung"
+        aria-label="Einfache Ansicht: größere Schrift und weniger Ablenkung"
         onClick={() => onChange(!enabled)}
         className={[
           "nim-interactive inline-flex min-h-11 items-center gap-3 rounded-[var(--nim-radius-md)] border-2 px-3 py-2 text-sm font-black transition-[transform,background-color,border-color] duration-280 ease-[var(--nim-ease)]",
@@ -37,7 +37,7 @@ export function SimpleModeToggle({ enabled, onChange }: SimpleModeToggleProps) {
             ].join(" ")}
           />
         </span>
-        <span>Simple Mode</span>
+        <span>Einfache Ansicht</span>
       </button>
       <ExplainCloud tipId="simple-mode" compact />
     </span>
