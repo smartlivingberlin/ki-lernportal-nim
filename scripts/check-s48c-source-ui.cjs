@@ -198,11 +198,12 @@ async function main() {
         .first();
 
       await lessonButton.waitFor({
-        state: "visible",
+        state: "attached",
         timeout: 10_000,
       });
 
       await dismissExplainClouds(page);
+      await lessonButton.scrollIntoViewIfNeeded();
       await lessonButton.click({ force: true });
 
       await page
