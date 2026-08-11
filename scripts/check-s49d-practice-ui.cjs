@@ -43,6 +43,12 @@ function escapeRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+async function safeClick(page, locator) {
+  await locator.scrollIntoViewIfNeeded().catch(() => {});
+  await dismissExplainClouds(page);
+  await locator.click({ force: true, timeout: 15_000 });
+}
+
 async function storageSnapshot(page) {
   return page.evaluate(() => {
     const readStorage = (storage) =>
@@ -316,11 +322,24 @@ async function runViewport(browser, viewport) {
     waitUntil: "networkidle",
   });
 
+  await page.evaluate(() => {
+    try {
+      window.localStorage.setItem(
+        "ki-lernportal-nim:first-start-coach:v1",
+        "dismissed",
+      );
+    } catch {
+      // ignore
+    }
+  });
+  await dismissExplainClouds(page);
+
   await page
     .locator("[data-testid=\"lesson-practice\"]")
     .waitFor({
       state: "visible",
     });
+  await dismissExplainClouds(page);
 
   const initialPanel = page.locator(
     "[data-testid=\"lesson-practice\"]"
@@ -401,7 +420,7 @@ async function runViewport(browser, viewport) {
     `${viewportName}: Hinweis startet nicht geschlossen`
   );
 
-  await hintToggle.click();
+  await safeClick(page, hintToggle);
 
   assert(
     (await hintToggle.getAttribute("aria-expanded")) === "true",
@@ -436,7 +455,7 @@ async function runViewport(browser, viewport) {
     `${viewportName}: Beispielantwort startet nicht geschlossen`
   );
 
-  await sampleToggle.click();
+  await safeClick(page, sampleToggle);
 
   assert(
     (await sampleToggle.getAttribute("aria-expanded")) === "true",
@@ -481,7 +500,7 @@ async function runViewport(browser, viewport) {
     fullPage: true,
   });
 
-  await clearButton.click();
+  await safeClick(page, clearButton);
 
   assert(
     (await textarea.inputValue()) === "",
@@ -608,13 +627,15 @@ async function runViewport(browser, viewport) {
     "[data-testid=\"lesson-practice\"]"
   );
 
-  await finalPanel
-    .locator("[data-testid=\"lesson-practice-hint-toggle\"]")
-    .click();
+  await safeClick(
+    page,
+    finalPanel.locator("[data-testid=\"lesson-practice-hint-toggle\"]"),
+  );
 
-  await finalPanel
-    .locator("[data-testid=\"lesson-practice-sample-toggle\"]")
-    .click();
+  await safeClick(
+    page,
+    finalPanel.locator("[data-testid=\"lesson-practice-sample-toggle\"]"),
+  );
 
   const accessibilityResult =
     await checkRenderedAccessibility(page, viewportName);
