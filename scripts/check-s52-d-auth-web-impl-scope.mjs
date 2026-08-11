@@ -78,6 +78,21 @@ for (const file of walkFiles(appRoot)) {
   }
 }
 
+const plan = read("docs/architecture/S52_D_IMPLEMENTATION_PLAN.md");
+for (const marker of [
+  "S52_D_IMPLEMENTATION_PLAN_DOCUMENTED=YES",
+  "S52_D_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY",
+  "LOGIN_UI=NO",
+  "CODE_CHANGED=NO",
+  "Slice D1",
+  "Slice D2",
+  "Slice D3",
+]) {
+  if (!plan.includes(marker)) {
+    fail(`implementation plan missing marker: ${marker}`);
+  }
+}
+
 console.log("S52-D auth-web impl scope contract PASS");
 console.log(
   JSON.stringify(

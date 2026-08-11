@@ -114,3 +114,9 @@ DATABASE_CONNECTION_AUTHORIZED=NO
 CI: `pnpm test:s52-d-auth-web-impl-scope`
 
 Implementierung der Auth-Web-Oberfläche ist **nicht** Teil dieses Slices.
+
+## 8. Implementierungsplan (ohne Code)
+
+Geplante Schnitte D1–D4 und Freigabe-Gates:
+`docs/architecture/S52_D_IMPLEMENTATION_PLAN.md`.
+Der Plan ändert `LOGIN_UI=NO` nicht und autorisiert keinen Produktcode.
