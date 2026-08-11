@@ -2,7 +2,7 @@
 
 **Stand:** 11. August 2026
 **Baseline `main`:** `18b91301131cb6f9567b3cc0f4667e7346059072`
-**Status:** S51D-B Dashboard-Reverify komplett (Production Autodeploy AUS, Wait for CI AN); Staging-Environment noch nicht erstellt; S52-B Auth-Runtime nur in `packages/auth`; Login-UI/DB-Sessions/Live-Migrate gesperrt
+**Status:** S51D-B Dashboard-Reverify komplett (Production Autodeploy AUS, Wait for CI AN); Staging-Environment HTTP-grün (siehe S51D-B); S52-B Auth-Runtime nur in `packages/auth`; S52-C Auth-Web Scope-Lock (kein Login-UI); Login-UI/DB-Sessions/Live-Migrate gesperrt
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
@@ -39,9 +39,13 @@ PRODUCTION_WAIT_FOR_CI=ON
 APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=HISTORICAL_BEFORE_2026_08_11_DISABLE
 S52_A_IMPLEMENTATION_AUTHORIZED=YES
 S52_B_IMPLEMENTATION_AUTHORIZED=YES
+S52_C_SCOPE_AUTHORIZED=YES
+S52_C_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY
 AUTH_RUNTIME_AUTHORIZED=YES
 AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
+AUTH_WEB_SURFACE=DOCUMENTED_NOT_IMPLEMENTED
 LOGIN_UI=NO
+FEATURE_FLAG_AUTH_RUNTIME_DEFAULT=false
 S51B_C_SCHEMA_AUTHORIZED=NO
 DATABASE_CONNECTION_AUTHORIZED=NO
 ~~~
@@ -64,6 +68,7 @@ zusammen mit den nachfolgenden Integrationsnachweisen beschrieben durch:
 - [S51D-B Staging Execution / Reverify](architecture/S51D_B_STAGING_EXECUTION.md)
 - [S52-A Auth Session-/Rollen-Scope](architecture/S52_A_IMPLEMENTATION_SCOPE.md)
 - [S52-B Auth-Runtime Foundation](architecture/S52_B_IMPLEMENTATION_SCOPE.md)
+- [S52-C Auth-Web Boundary Scope-Lock](architecture/S52_C_IMPLEMENTATION_SCOPE.md)
 - [Zielarchitektur](architecture/ARCHITECTURE_TARGET.md)
 - [Package-DAG](architecture/PACKAGE_DAG.md)
 - [Plattformverträge](architecture/PLATFORM_CONTRACTS.md)
