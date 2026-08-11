@@ -30,6 +30,11 @@ function useCoachDismissed() {
   return useSyncExternalStore(subscribe, readDismissed, () => false);
 }
 
+/** Ob der 3-Minuten-Coach ausgeblendet ist (localStorage). */
+export function useFirstStartCoachDismissed(): boolean {
+  return useCoachDismissed();
+}
+
 const steps = [
   {
     id: "check",

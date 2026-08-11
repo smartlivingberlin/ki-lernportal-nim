@@ -190,6 +190,9 @@ const phases = {
 
   async reset(page) {
     await markFirstTwoLessons(page);
+    page.once("dialog", (dialog) => {
+      void dialog.accept();
+    });
     await page.getByRole("button", { name: "Fortschritt zurücksetzen" }).click();
     await expectExactText(page, "0/12");
     await waitForStoredLessonIds(page, []);
