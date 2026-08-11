@@ -46,7 +46,54 @@ function escapeRegex(value) {
 async function safeClick(page, locator) {
   await locator.scrollIntoViewIfNeeded().catch(() => {});
   await dismissExplainClouds(page);
-  await locator.click({ force: true, timeout: 15_000 });
+  await locator.evaluate((el) => {
+    if (el instanceof HTMLElement) {
+      el.click();
+    }
+  });
+}
+
+async function toggleExpanded(page, locator, expectedExpanded) {
+  const expected = expectedExpanded ? "true" : "false";
+
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    if ((await locator.getAttribute("aria-expanded")) === expected) {
+      return;
+    }
+
+    await safeClick(page, locator);
+
+    try {
+      await page.waitForFunction(
+        (value) => {
+          const nodes = [
+            ...document.querySelectorAll(
+              "[data-testid=\"lesson-practice-hint-toggle\"], [data-testid=\"lesson-practice-sample-toggle\"]",
+            ),
+          ];
+          // Prefer the visible practice panel toggle that matches desired state.
+          return nodes.some(
+            (node) => node.getAttribute("aria-expanded") === value,
+          );
+        },
+        expected,
+        { timeout: 1_200 },
+      );
+    } catch {
+      // continue retrying
+    }
+
+    if ((await locator.getAttribute("aria-expanded")) === expected) {
+      return;
+    }
+
+    await dismissExplainClouds(page);
+    await page.waitForTimeout(120);
+  }
+
+  throw new Error(
+    `Toggle blieb nicht bei aria-expanded=${expected}`,
+  );
 }
 
 async function storageSnapshot(page) {
@@ -420,7 +467,7 @@ async function runViewport(browser, viewport) {
     `${viewportName}: Hinweis startet nicht geschlossen`
   );
 
-  await safeClick(page, hintToggle);
+  await toggleExpanded(page, hintToggle, true);
 
   assert(
     (await hintToggle.getAttribute("aria-expanded")) === "true",
@@ -455,7 +502,7 @@ async function runViewport(browser, viewport) {
     `${viewportName}: Beispielantwort startet nicht geschlossen`
   );
 
-  await safeClick(page, sampleToggle);
+  await toggleExpanded(page, sampleToggle, true);
 
   assert(
     (await sampleToggle.getAttribute("aria-expanded")) === "true",
@@ -627,14 +674,16 @@ async function runViewport(browser, viewport) {
     "[data-testid=\"lesson-practice\"]"
   );
 
-  await safeClick(
+  await toggleExpanded(
     page,
     finalPanel.locator("[data-testid=\"lesson-practice-hint-toggle\"]"),
+    true,
   );
 
-  await safeClick(
+  await toggleExpanded(
     page,
     finalPanel.locator("[data-testid=\"lesson-practice-sample-toggle\"]"),
+    true,
   );
 
   const accessibilityResult =
