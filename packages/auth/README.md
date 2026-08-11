@@ -17,7 +17,8 @@ nur Node.js `crypto`.
 ## Verbotene Imports
 
 - UI und React
-- Login-/Registrierungsseiten in `apps/web` (S52-C: `LOGIN_UI=NO`)
+- Login-/Registrierungsseiten in `apps/web` bis D2-Code
+  (`LOGIN_UI=AUTHORIZED_BEHIND_FLAG`, `LOGIN_UI_IMPLEMENTED=NO`)
 - OAuth-, MFA-, Passkey- oder Recovery-Provider-SDKs in S52-B/C
 - Direkte Datenbankimports in S52-B/C (`DATABASE_CONNECTION_AUTHORIZED=NO`)
 
@@ -42,10 +43,14 @@ S52_B_AUTH_RUNTIME_FOUNDATION=AUTHORIZED
 S52_C_AUTH_WEB_SCOPE_LOCK=AUTHORIZED
 S52_D_AUTH_WEB_IMPL=AUTHORIZED
 S52_D1_AUTH_HTTP_ROUTES=AUTHORIZED
+S52_D2_LOGIN_UI_AUTHORIZED=YES
+S52_D2_CODE_CHANGED=NO
 AUTH_RUNTIME_AUTHORIZED=YES
 AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
 AUTH_WEB_SURFACE=D1_ROUTES_BEHIND_FLAG
-LOGIN_UI=NO
+LOGIN_UI=AUTHORIZED_BEHIND_FLAG
+LOGIN_UI_IMPLEMENTED=NO
+AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY
 DATABASE_CONNECTION=NO
 PRODUCTION_USERS=NO
 ```
@@ -55,9 +60,11 @@ PRODUCTION_USERS=NO
 S52-C dokumentiert die Auth-Web-Grenze
 (`docs/architecture/S52_C_IMPLEMENTATION_SCOPE.md`).
 S52-D1 liefert Login/Logout-Route-Verträge hinter `auth_runtime`
-(`docs/architecture/S52_D_IMPLEMENTATION_SCOPE.md`). Login-UI, Flag-Flip,
-Recovery, persistente Session-Stores über `packages/db` und MFA brauchen
-jeweils eine eigene Folgefreigabe.
+(`docs/architecture/S52_D_IMPLEMENTATION_SCOPE.md`). D2 Login-UI und
+Staging-Flag sind freigegeben (`LOGIN_UI=AUTHORIZED_BEHIND_FLAG`,
+`AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY`); Code und Railway-Setzen folgen in
+eigenen PRs. Recovery, persistente Session-Stores und MFA brauchen weitere
+Freigaben.
 
 ## Sicherheit und Datenschutz
 

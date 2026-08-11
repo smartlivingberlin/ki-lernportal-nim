@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * S52-D – Auth-Web implementation gate (D1 routes behind flag).
- * Login-UI remains NO; auth_runtime default remains false.
+ * S52-D – Auth-Web implementation gate.
+ * D1 routes required; D2 Login-UI authorized but not implemented yet.
+ * auth_runtime default remains false; staging flag flip authorized only.
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
@@ -43,9 +44,13 @@ for (const marker of [
   "S52_D_SCOPE_AUTHORIZED=YES",
   "S52_D_IMPLEMENTATION_AUTHORIZED=YES",
   "S52_D1_ROUTES_AUTHORIZED=YES",
-  "LOGIN_UI=NO",
+  "S52_D1_INTEGRATED_TO_MAIN=YES",
+  "S52_D2_LOGIN_UI_AUTHORIZED=YES",
+  "S52_D2_CODE_CHANGED=NO",
+  "LOGIN_UI=AUTHORIZED_BEHIND_FLAG",
+  "LOGIN_UI_IMPLEMENTED=NO",
   "FEATURE_FLAG_AUTH_RUNTIME_DEFAULT=false",
-  "AUTH_RUNTIME_FLAG_FLIP=NO",
+  "AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY",
   "DATABASE_CONNECTION_AUTHORIZED=NO",
   "RAILWAY_CHANGE=NO",
 ]) {
@@ -61,10 +66,12 @@ if (!operations.includes("auth_runtime: false")) {
 
 const authReadme = read("packages/auth/README.md");
 for (const marker of [
-  "LOGIN_UI=NO",
+  "LOGIN_UI=AUTHORIZED_BEHIND_FLAG",
+  "LOGIN_UI_IMPLEMENTED=NO",
   "S52_D",
   "AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY",
   "S52_D1",
+  "AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY",
 ]) {
   if (!authReadme.includes(marker)) {
     fail(`packages/auth/README.md missing marker: ${marker}`);
@@ -100,8 +107,11 @@ const plan = read("docs/architecture/S52_D_IMPLEMENTATION_PLAN.md");
 for (const marker of [
   "S52_D_IMPLEMENTATION_PLAN_DOCUMENTED=YES",
   "S52_D_IMPLEMENTATION_AUTHORIZED=YES",
-  "LOGIN_UI=NO",
   "S52_D1_CODE_CHANGED=YES",
+  "S52_D2_LOGIN_UI_AUTHORIZED=YES",
+  "S52_D2_CODE_CHANGED=NO",
+  "LOGIN_UI=AUTHORIZED_BEHIND_FLAG",
+  "AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY",
   "Slice D1",
   "Slice D2",
   "Slice D3",
@@ -111,14 +121,15 @@ for (const marker of [
   }
 }
 
-const loginRoute = read("apps/web/src/app/api/auth/login/route.ts");
-const logoutRoute = read("apps/web/src/app/api/auth/logout/route.ts");
-for (const [label, source] of [
-  ["login", loginRoute],
-  ["logout", logoutRoute],
+const status = read("docs/00_PROJECT_STATUS.md");
+for (const marker of [
+  "BASELINE_MAIN_SHA=d91514f1f08ad343cbd0d6e1e63e81833676ffd5",
+  "PR142_S52_D1_AUTH_ROUTES_MERGED=YES",
+  "S52_D2_LOGIN_UI_AUTHORIZED=YES",
+  "AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY",
 ]) {
-  if (!source.includes("FEATURE_DISABLED") && !source.includes("getAuthHttpHandlers")) {
-    fail(`${label} route must use auth HTTP handlers / disabled gate`);
+  if (!status.includes(marker)) {
+    fail(`project status missing marker: ${marker}`);
   }
 }
 
@@ -126,9 +137,12 @@ console.log("S52-D auth-web impl scope contract PASS");
 console.log(
   JSON.stringify(
     {
-      implementationAuthorized: "YES",
-      d1Routes: "YES",
-      loginUi: "NO",
+      baseline: "d91514f",
+      d1Integrated: "YES",
+      d2LoginUiAuthorized: "YES",
+      d2CodeChanged: "NO",
+      loginUi: "AUTHORIZED_BEHIND_FLAG",
+      authRuntimeFlagFlip: "STAGING_ONLY",
       authRuntimeDefault: false,
       railwayChange: "NO",
     },

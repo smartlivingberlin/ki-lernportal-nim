@@ -40,9 +40,10 @@ RAILWAY_CHANGE=NO
 AUTH_RUNTIME_FLAG_FLIP=NO
 ```
 
-> Hinweis: S52-D1 autorisiert später die Route Handler
-> `/api/auth/login` und `/api/auth/logout` hinter Flag
-> (`docs/architecture/S52_D_IMPLEMENTATION_SCOPE.md`). Login-UI bleibt `NO`.
+> Hinweis: S52-D1 integrierte `/api/auth/login|logout` hinter Flag (#142).
+> S52-D2 gibt Login-UI hinter Flag frei (`LOGIN_UI=AUTHORIZED_BEHIND_FLAG`)
+> und Staging-Flag (`AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY`); siehe
+> `docs/architecture/S52_D_IMPLEMENTATION_SCOPE.md`. Registrierung bleibt `NO`.
 
 ## 3. Exakter Dateiscope
 

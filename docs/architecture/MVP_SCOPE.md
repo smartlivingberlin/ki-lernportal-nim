@@ -2,7 +2,7 @@
 
 **Status:** Architektur freigegeben; S51A sowie S51B-A und das lokale S51B-B-Adapterfundament integriert; S51B-C Scope-Lock dokumentiert und merge-fähig; Schema/Migration (C1/C2) weiterhin separat freigabepflichtig
 **Stand:** 10. August 2026
-**Baseline `main`:** `c66a68281f0dc62e436c5481cdd94a7c8ea9f4e5`
+**Baseline `main`:** `d91514f1f08ad343cbd0d6e1e63e81833676ffd5`
 
 Dieses Dokument beschreibt den realistischen nächsten Plattform-Scope ausgehend
 vom tatsächlich integrierten Stand. Es ist keine pauschale
@@ -69,7 +69,8 @@ APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=HISTORICAL_BEFORE_2026_08_11_DISABLE
 S52_A_AUTH_POLICY_VOCABULARY=INTEGRATED
 S52_B_AUTH_RUNTIME_FOUNDATION=AUTHORIZED
 AUTH_RUNTIME=PACKAGES_AUTH_ONLY
-LOGIN_UI=NOT_AUTHORIZED
+LOGIN_UI=AUTHORIZED_BEHIND_FLAG
+
 ~~~
 
 ## 2. Nächster kontrollierter Plattform-Scope
@@ -154,13 +155,16 @@ CI-Vertrag `pnpm test:s52-c-auth-web-scope`.
 
 S52-D1 liefert Login/Logout-Route-Verträge hinter Flag
 (siehe [S52_D_IMPLEMENTATION_SCOPE.md](S52_D_IMPLEMENTATION_SCOPE.md)):
-`POST /api/auth/login`, `POST /api/auth/logout`, Default `403 FEATURE_DISABLED`,
-weiterhin `LOGIN_UI=NO`.
+`POST /api/auth/login`, `POST /api/auth/logout`, Default `403 FEATURE_DISABLED`.
 
-Noch nicht freigegeben:
+S52-D2 Login-UI und Staging-Flag sind **freigegeben**, Code ausstehend:
+`LOGIN_UI=AUTHORIZED_BEHIND_FLAG`, `AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY`,
+`LOGIN_UI_IMPLEMENTED=NO`, Contracts-Default bleibt `false`.
 
-- Login-/Registrierungs-UI;
-- Feature-Flag-Flip `auth_runtime=true` in der Konzeptdemo;
+Noch nicht freigegeben / nicht umgesetzt:
+
+- Login-UI-Code (`/anmelden`);
+- Feature-Flag-Flip in Production;
 - DB-gestützte Session-Persistenz;
 - Produktionsnutzer;
 - OAuth/MFA/Passkeys/Recovery-Runtime.
@@ -331,11 +335,15 @@ S52_C_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY
 S52_D_SCOPE_AUTHORIZED=YES
 S52_D_IMPLEMENTATION_AUTHORIZED=YES
 S52_D1_ROUTES_AUTHORIZED=YES
+S52_D2_LOGIN_UI_AUTHORIZED=YES
+S52_D2_CODE_CHANGED=NO
 AUTH_RUNTIME_AUTHORIZED=YES
 AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
 AUTH_WEB_SURFACE=D1_ROUTES_BEHIND_FLAG
-LOGIN_UI=NO
+LOGIN_UI=AUTHORIZED_BEHIND_FLAG
+LOGIN_UI_IMPLEMENTED=NO
 FEATURE_FLAG_AUTH_RUNTIME_DEFAULT=false
+AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY
 PRODUCTION_USERS=NO
 ADMIN_RUNTIME_AUTHORIZED=NO
 AI_RUNTIME_AUTHORIZED=NO
