@@ -62,26 +62,7 @@ async function toggleExpanded(page, locator, expectedExpanded) {
     }
 
     await safeClick(page, locator);
-
-    try {
-      await page.waitForFunction(
-        (value) => {
-          const nodes = [
-            ...document.querySelectorAll(
-              "[data-testid=\"lesson-practice-hint-toggle\"], [data-testid=\"lesson-practice-sample-toggle\"]",
-            ),
-          ];
-          // Prefer the visible practice panel toggle that matches desired state.
-          return nodes.some(
-            (node) => node.getAttribute("aria-expanded") === value,
-          );
-        },
-        expected,
-        { timeout: 1_200 },
-      );
-    } catch {
-      // continue retrying
-    }
+    await page.waitForTimeout(80);
 
     if ((await locator.getAttribute("aria-expanded")) === expected) {
       return;
@@ -379,6 +360,7 @@ async function runViewport(browser, viewport) {
       // ignore
     }
   });
+  await page.reload({ waitUntil: "networkidle" });
   await dismissExplainClouds(page);
 
   await page
