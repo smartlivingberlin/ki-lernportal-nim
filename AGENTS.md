@@ -165,9 +165,13 @@ S52_A_SCOPE_AUTHORIZED=YES
 S52_A_IMPLEMENTATION_AUTHORIZED=YES
 S52_B_SCOPE_AUTHORIZED=YES
 S52_B_IMPLEMENTATION_AUTHORIZED=YES
+S52_C_SCOPE_AUTHORIZED=YES
+S52_C_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY
 AUTH_RUNTIME_AUTHORIZED=YES
 AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
+AUTH_WEB_SURFACE=DOCUMENTED_NOT_IMPLEMENTED
 LOGIN_UI=NO
+FEATURE_FLAG_AUTH_RUNTIME_DEFAULT=false
 PRODUCTION_USERS=NO
 
 NEXT_COMMIT_AUTHORIZED=YES
@@ -203,8 +207,10 @@ Autodeploy DISABLED and Wait for CI ON. Isolated Railway staging environment
 `/railway.staging.json`, Staging Autodeploy DISABLED, Wait for CI ON).
 S52-A auth role/session policy vocabulary is authorized. S52-B authorizes a
 local auth runtime foundation in `packages/auth` only (password hashing,
-cookie contract, opaque sessions, memory store). Login UI, web route handlers,
-DB-backed sessions and production users remain unauthorized.
+cookie contract, opaque sessions, memory store). S52-C documents the auth-web
+boundary (CI negativvertrag) without implementing Login UI; `auth_runtime`
+stays default false. Login UI, auth web route handlers, DB-backed sessions and
+production users remain unauthorized.
 Live migrate against persistent DBs, Railway DB and production migration
 remain unauthorized.
 
@@ -228,7 +234,7 @@ Do not add tracking, analytics, payment or auth providers without explicit appro
 Before modifying code:
 1. Read README.md.
 2. Read docs/00_PROJECT_STATUS.md.
-3. Read docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md, docs/architecture/S51A_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_B_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_C_SCHEMA_MIGRATION_SCOPE.md, docs/architecture/S51C_B1_DOMAIN_CONTRACT_TYPES_SCOPE.md, docs/architecture/S51C_B1A_IMPLEMENTATION_SCOPE.md, docs/architecture/S51C_B1B_INTEGRATION_GATE.md, docs/architecture/S51C_OPS_A_OPERATIONS_FOUNDATION_SCOPE.md, docs/architecture/S51D_A_STAGING_SCOPE.md, docs/architecture/S51D_B_STAGING_EXECUTION.md, docs/architecture/S52_A_IMPLEMENTATION_SCOPE.md and docs/architecture/S52_B_IMPLEMENTATION_SCOPE.md. Treat docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md only as historical evidence.
+3. Read docs/architecture/S50B_R3_FINAL_ARCHITECTURE_APPROVAL_PACKAGE.md, docs/architecture/S51A_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_B_IMPLEMENTATION_SCOPE.md, docs/architecture/S51B_C_SCHEMA_MIGRATION_SCOPE.md, docs/architecture/S51C_B1_DOMAIN_CONTRACT_TYPES_SCOPE.md, docs/architecture/S51C_B1A_IMPLEMENTATION_SCOPE.md, docs/architecture/S51C_B1B_INTEGRATION_GATE.md, docs/architecture/S51C_OPS_A_OPERATIONS_FOUNDATION_SCOPE.md, docs/architecture/S51D_A_STAGING_SCOPE.md, docs/architecture/S51D_B_STAGING_EXECUTION.md, docs/architecture/S52_A_IMPLEMENTATION_SCOPE.md, docs/architecture/S52_B_IMPLEMENTATION_SCOPE.md and docs/architecture/S52_C_IMPLEMENTATION_SCOPE.md. Treat docs/architecture/S50B_R2_SOURCE_OF_TRUTH.md only as historical evidence.
 4. Read docs/architecture/ARCHITECTURE_TARGET.md.
 5. Read docs/architecture/adr/ADR-0001-MODULAR-NEXTJS-MONOLITH.md.
 6. Read docs/architecture/adr/ADR-0002-SERVER-BOUNDARIES.md.

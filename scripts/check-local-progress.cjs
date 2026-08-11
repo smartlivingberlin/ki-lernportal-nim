@@ -65,6 +65,7 @@ async function lessonButton(page, title) {
 
 async function clickFirstLessonDone(page) {
   await dismissExplainClouds(page);
+  // Ensure the first path lesson is open so the done-control is real.
   const firstLesson = await lessonButton(page, "Was ist KI?");
   await firstLesson.click({ force: true });
   await page

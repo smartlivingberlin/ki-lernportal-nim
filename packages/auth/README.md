@@ -17,9 +17,9 @@ nur Node.js `crypto`.
 ## Verbotene Imports
 
 - UI und React
-- Login-/Registrierungsseiten in `apps/web` (noch nicht freigegeben)
-- OAuth-, MFA-, Passkey- oder Recovery-Provider-SDKs in S52-B
-- Direkte Datenbankimports in S52-B (`DATABASE_CONNECTION_AUTHORIZED=NO`)
+- Login-/Registrierungsseiten in `apps/web` (S52-C: `LOGIN_UI=NO`)
+- OAuth-, MFA-, Passkey- oder Recovery-Provider-SDKs in S52-B/C
+- Direkte Datenbankimports in S52-B/C (`DATABASE_CONNECTION_AUTHORIZED=NO`)
 
 Unzulässig bleiben außerdem zyklische Abhängigkeiten und direkte
 Quellpfadimporte in andere Packages.
@@ -37,8 +37,10 @@ Der kontrollierte Entry-Point ist `src/index.ts`.
 ```text
 S52_A_VOCABULARY=INTEGRATED
 S52_B_AUTH_RUNTIME_FOUNDATION=AUTHORIZED
+S52_C_AUTH_WEB_SCOPE_LOCK=AUTHORIZED
 AUTH_RUNTIME_AUTHORIZED=YES
 AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
+AUTH_WEB_SURFACE=DOCUMENTED_NOT_IMPLEMENTED
 LOGIN_UI=NO
 DATABASE_CONNECTION=NO
 PRODUCTION_USERS=NO
@@ -46,8 +48,10 @@ PRODUCTION_USERS=NO
 
 ## Spätere Slices
 
-S52-C+ dürfen erst nach getrennter Freigabe Web-Integration, Recovery,
-persistente Session-Stores über `packages/db` und MFA einführen.
+S52-C dokumentiert die Auth-Web-Grenze ohne Implementierung
+(`docs/architecture/S52_C_IMPLEMENTATION_SCOPE.md`). Login-UI, Auth-Route-
+Handler, Recovery, persistente Session-Stores über `packages/db` und MFA
+brauchen jeweils eine eigene Folgefreigabe.
 
 ## Sicherheit und Datenschutz
 
