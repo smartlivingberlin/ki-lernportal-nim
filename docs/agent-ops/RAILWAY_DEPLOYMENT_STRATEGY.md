@@ -32,8 +32,8 @@ Zum Stand 16. Juli 2026 gilt:
   (`STAGING_ENVIRONMENT_CREATED=NO`).
 - S51D-A Scope-Lock: `docs/architecture/S51D_A_STAGING_SCOPE.md`.
 - S51D-B Execution/Reverify: `docs/architecture/S51D_B_STAGING_EXECUTION.md`
-  (GitHub-Evidenz für scheinbares Production-Autodeploy; Dashboard-Bestätigung
-  und Environment-Anlage ausstehend).
+  (Dashboard-Reverify 2026-08-11: Production Autodeploy DISABLED, Wait for CI
+  ON; Staging-Environment-Anlage ausstehend).
 - Die S50B-R3-Dokumentationsintegration verändert Railway nicht.
 
 Der Produktionsstand ist deshalb weder als vollständige Plattform noch als

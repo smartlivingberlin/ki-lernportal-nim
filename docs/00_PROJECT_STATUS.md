@@ -1,14 +1,14 @@
 # Projektstatus: KI-Lernportal NIM
 
-**Stand:** 10. August 2026
-**Baseline `main`:** `74354d758688c71a4da9b04bb6773fc64927fc76`
-**Status:** S51D-B Reverify/Runbook und S52-B Auth-Runtime-Foundation integriert bzw. in Merge; Staging-Environment noch nicht erstellt; Login-UI/DB-Sessions/Live-Migrate weiterhin gesperrt
+**Stand:** 11. August 2026
+**Baseline `main`:** `18b91301131cb6f9567b3cc0f4667e7346059072`
+**Status:** S51D-B Dashboard-Reverify komplett (Production Autodeploy AUS, Wait for CI AN); Staging-Environment noch nicht erstellt; S52-B Auth-Runtime nur in `packages/auth`; Login-UI/DB-Sessions/Live-Migrate gesperrt
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
 PHASE0A_SOURCE_OF_TRUTH_SYNC=COMPLETE
 BACKLOG_NORMALIZATION=COMPLETE
-BASELINE_MAIN_SHA=8d01f606a1621a5b41d8e3c4020eddcaf97cafd7
+BASELINE_MAIN_SHA=18b91301131cb6f9567b3cc0f4667e7346059072
 PR68_MERGED=YES
 PR102_S51C_B1A_MERGED=YES
 PR104_S51C_B1B_MERGED=YES
@@ -23,15 +23,19 @@ PR125_S51C_B1B_GATE_CI_MERGED=YES
 PR126_S51C_OPS_A_MERGED=YES
 PR127_S51D_A_MERGED=YES
 PR128_S52_A_MERGED=YES
+PR129_S51D_B_DOCS_MERGED=YES
+PR130_S52_B_MERGED=YES
 HUMAN_AGENCY_FREIGABE_MERGE_DEPLOY_CONCEPT_DEMO=YES
 S51D_HUMAN_FREIGABE=YES
 S51D_A_SCOPE_AUTHORIZED=YES
 S51D_B_SCOPE_DOCUMENTED=YES
 S51D_B_GITHUB_REVERIFY_SCRIPTED=YES
-S51D_B_DASHBOARD_REVERIFY_COMPLETE=NO
+S51D_B_DASHBOARD_REVERIFY_COMPLETE=YES
 S51D_B_EXECUTED=NO
 STAGING_ENVIRONMENT_CREATED=NO
-APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=YES
+PRODUCTION_AUTODEPLOY=DISABLED
+PRODUCTION_WAIT_FOR_CI=ON
+APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=HISTORICAL_BEFORE_2026_08_11_DISABLE
 S52_A_IMPLEMENTATION_AUTHORIZED=YES
 S52_B_IMPLEMENTATION_AUTHORIZED=YES
 AUTH_RUNTIME_AUTHORIZED=YES
@@ -200,19 +204,27 @@ Die verwendeten CLI-Abfragen konnten den gegenwärtigen Wert folgender Felder
 nicht belastbar ausweisen:
 
 ~~~text
-CURRENT_PRODUCTION_AUTODEPLOY=UNVERIFIED_DASHBOARD_REQUIRED
-CURRENT_WAIT_FOR_CI=UNVERIFIED_DASHBOARD_REQUIRED
-CURRENT_CONFIG_SOURCE=UNVERIFIED_DASHBOARD_REQUIRED
-APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=YES
-LATEST_GITHUB_DEPLOYMENT_SHA=8d01f606a1621a5b41d8e3c4020eddcaf97cafd7
+CURRENT_PRODUCTION_AUTODEPLOY=DISABLED
+CURRENT_WAIT_FOR_CI=ON
+CURRENT_CONFIG_SOURCE=NONE
+CURRENT_ROOT_DIRECTORY=apps/web
+CURRENT_PUBLIC_DOMAIN=web-production-51d3c8.up.railway.app
+LATEST_GITHUB_DEPLOYMENT_SHA=18b91301131cb6f9567b3cc0f4667e7346059072
 RAILWAY_PROJECT_ID=f69a0054-8cd9-4481-a461-bd17ddde296d
 RAILWAY_PRODUCTION_ENVIRONMENT_ID=f30e6e3b-60b5-4b3e-8949-2ca868f4e2da
+APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=HISTORICAL_BEFORE_2026_08_11_DISABLE
+S51D_B_DASHBOARD_REVERIFY_COMPLETE=YES
+STAGING_ENVIRONMENT_CREATED=NO
 ~~~
 
-S51D-B (2026-08-10): GitHub Deployments zeigen wiederholte Production-Deploys
-durch `railway-app[bot]` nach `main`-Merges. Das widerspricht dem historischen
-Gate `PRODUCTION_AUTODEPLOY=DISABLED` und muss im Railway-Dashboard bestätigt
-werden, bevor Staging angelegt wird. Siehe
+S51D-B (2026-08-10): GitHub Deployments zeigten wiederholte Production-Deploys
+durch `railway-app[bot]` nach `main`-Merges.
+
+S51D-B Dashboard-Reverify (2026-08-11, menschlich): Production-Autodeploy
+wurde **deaktiviert**, Wait for CI / Check Suites auf **true** gesetzt.
+Live-Probes gegen `web-production-51d3c8.up.railway.app` waren grün
+(`/health`, `/live`, `/ready`, `/version`). Staging-Environment ist weiterhin
+nicht angelegt. Siehe
 [S51D_B_STAGING_EXECUTION.md](architecture/S51D_B_STAGING_EXECUTION.md).
 
 Vor jeder zukünftigen Railway-, Merge-, Deployment- oder

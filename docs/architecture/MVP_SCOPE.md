@@ -59,9 +59,12 @@ S51D_A_STAGING_SCOPE_LOCK=AUTHORIZED
 S51D_HUMAN_FREIGABE=YES
 S51D_B_ENV_CREATE_AUTHORIZED_NOT_EXECUTED=YES
 S51D_B_GITHUB_REVERIFY_SCRIPTED=YES
+S51D_B_DASHBOARD_REVERIFY_COMPLETE=YES
 S51D_STAGING_ENVIRONMENT_CREATED=NO
 S51D_RAILWAY_STAGING_AUTHORIZED=NO
-APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=YES
+PRODUCTION_AUTODEPLOY=DISABLED
+PRODUCTION_WAIT_FOR_CI=ON
+APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=HISTORICAL_BEFORE_2026_08_11_DISABLE
 S52_A_AUTH_POLICY_VOCABULARY=INTEGRATED
 S52_B_AUTH_RUNTIME_FOUNDATION=AUTHORIZED
 AUTH_RUNTIME=PACKAGES_AUTH_ONLY
@@ -113,8 +116,9 @@ durch CI verifiziert. Siehe [S51D_A_STAGING_SCOPE.md](S51D_A_STAGING_SCOPE.md).
 Menschliche Freigabe für S51D liegt vor. S51D-A (Scope-Lock / Gate-Sync) ist
 der dokumentarische Slice. S51D-B dokumentiert GitHub-Reverify und das
 Operator-Runbook ([S51D_B_STAGING_EXECUTION.md](S51D_B_STAGING_EXECUTION.md));
-das Anlegen des Railway-Staging-Environments ist freigegeben, aber ohne
-Railway-Token/Dashboard-Bestätigung **nicht ausgeführt**.
+Dashboard-Reverify ist erledigt (2026-08-11): Production-Autodeploy **DISABLED**,
+Wait for CI **ON**. Das Anlegen des Railway-Staging-Environments ist freigegeben,
+aber ohne Railway-Token im Agenten **noch nicht ausgeführt**.
 
 S51D-B umfasst höchstens:
 
@@ -126,10 +130,9 @@ S51D-B umfasst höchstens:
 - einen freigegebenen Staging-Branch;
 - keine Änderung der bestehenden Production ohne Einzelentscheidung.
 
-Production-Autodeploy bleibt laut Repo-Ziel **disabled**. GitHub-Evidenz vom
-10.08.2026 zeigt jedoch scheinbare Autodeploys auf Production nach `main`-
-Merges (`APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=YES`); Dashboard-Reverify ist
-Pflicht vor Staging-Anlage.
+Production-Autodeploy ist seit 2026-08-11 dashboard-bestätigt **disabled**.
+Frühere GitHub-Evidenz für scheinbare Autodeploys bleibt historisch
+(`APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=HISTORICAL_BEFORE_2026_08_11_DISABLE`).
 
 ### S52 – Auth, Sessions, Rollen und Ownership
 
@@ -296,10 +299,12 @@ S51D_A_SCOPE_AUTHORIZED=YES
 S51D_B_ENV_CREATE_AUTHORIZED=YES
 S51D_B_SCOPE_DOCUMENTED=YES
 S51D_B_GITHUB_REVERIFY_SCRIPTED=YES
-S51D_B_DASHBOARD_REVERIFY_COMPLETE=NO
+S51D_B_DASHBOARD_REVERIFY_COMPLETE=YES
 S51D_B_EXECUTED=NO
 S51D_RAILWAY_STAGING_AUTHORIZED=NO
-APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=YES
+PRODUCTION_AUTODEPLOY=DISABLED
+PRODUCTION_WAIT_FOR_CI=ON
+APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=HISTORICAL_BEFORE_2026_08_11_DISABLE
 S52_A_AUTHORIZED=YES
 S52_B_AUTHORIZED=YES
 AUTH_RUNTIME_AUTHORIZED=YES
