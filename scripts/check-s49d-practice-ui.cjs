@@ -73,7 +73,8 @@ async function openLesson(page, lessonId, lessonTitle) {
 
   await button.scrollIntoViewIfNeeded();
   await dismissExplainClouds(page);
-  await button.click();
+  // force: sticky header / ExplainCloud can still intercept pointer events in CI
+  await button.click({ force: true });
 
   await page.waitForFunction(
     (expectedLessonId) => {

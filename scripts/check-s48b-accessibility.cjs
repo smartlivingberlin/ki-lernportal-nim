@@ -1077,15 +1077,13 @@ async function testLiveRegion(browser) {
       "1/12 Lektionen lokal erledigt",
     );
 
-    page.once("dialog", (dialog) => {
-      void dialog.accept();
-    });
-
     await page
       .getByRole("button", {
         name: "Fortschritt zurücksetzen",
       })
       .click();
+
+    await page.getByRole("button", { name: "Ja, zurücksetzen" }).click();
 
     await page.waitForFunction(() => {
       const region =

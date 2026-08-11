@@ -45,6 +45,7 @@ import { SelfCheckPanel } from "../components/learning/SelfCheckPanel";
 import { PromptLibraryPanel } from "../components/learning/PromptLibraryPanel";
 import { ScamModulePanel } from "../components/learning/ScamModulePanel";
 import { OnboardingRoutePanel } from "../components/learning/OnboardingRoutePanel";
+import { ResetProgressConfirm } from "../components/learning/ResetProgressConfirm";
 import { explainAttrs } from "../data/help-tips";
 import { useLocalProgress } from "../hooks/useLocalProgress";
 import { useLocalReviewQueue } from "../hooks/useLocalReviewQueue";
@@ -130,6 +131,7 @@ export default function Home() {
   const [activeLessonId, setActiveLessonId] = useState<string | null>(seedLearningPaths[0]?.lessons[0]?.id ?? null);
   const [progressAnnouncement, setProgressAnnouncement] = useState("");
   const [lessonFocusRequest, setLessonFocusRequest] = useState<{ lessonId: string } | null>(null);
+  const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
   const [selectedWorldId, setSelectedWorldId] = useState<string | null>("world-no-fear");
   const [activeMicroUnitId, setActiveMicroUnitId] = useState<string | null>("mu-nofear-01");
   const { enabled: simpleMode, setEnabled: setSimpleMode } = useSimpleMode();
@@ -277,15 +279,19 @@ export default function Home() {
     );
   };
 
-  const resetProgress = () => {
-    const confirmed = window.confirm(
-      "Lokalen Lernfortschritt wirklich zurücksetzen? Alle Haken in diesem Browser werden gelöscht.",
-    );
-    if (!confirmed) return;
+  const requestResetProgress = () => {
+    setResetConfirmOpen(true);
+  };
 
+  const cancelResetProgress = () => {
+    setResetConfirmOpen(false);
+  };
+
+  const resetProgress = () => {
     setCompletedLessonIds([]);
     setActiveLessonId(allLessons[0]?.id ?? null);
     setLessonFocusRequest(null);
+    setResetConfirmOpen(false);
     setProgressAnnouncement("Der lokale Lernfortschritt wurde zurückgesetzt.");
   };
 
@@ -580,13 +586,23 @@ export default function Home() {
               <button
                 type="button"
                 {...explainAttrs("fortschritt")}
-                onClick={resetProgress}
+                onClick={requestResetProgress}
+                aria-expanded={resetConfirmOpen}
+                aria-controls="reset-progress-panel"
                 aria-label="Fortschritt zurücksetzen"
                 title="Lokalen Lernfortschritt auf null setzen"
                 className="shrink-0 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-3 py-2 text-xs font-black text-[var(--nim-primary)] hover:border-[var(--nim-primary)]"
               >
                 Zurücksetzen
               </button>
+            </div>
+
+            <div id="reset-progress-panel">
+              <ResetProgressConfirm
+                open={resetConfirmOpen}
+                onCancel={cancelResetProgress}
+                onConfirm={resetProgress}
+              />
             </div>
 
             <div className="mt-5 space-y-4">
