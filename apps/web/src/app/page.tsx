@@ -567,9 +567,11 @@ export default function Home() {
                 type="button"
                 {...explainAttrs("fortschritt")}
                 onClick={resetProgress}
-                className="rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-3 py-2 text-xs font-black text-[var(--nim-primary)] hover:border-[var(--nim-primary)]"
+                aria-label="Fortschritt zurücksetzen"
+                title="Lokalen Lernfortschritt auf null setzen"
+                className="shrink-0 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-3 py-2 text-xs font-black text-[var(--nim-primary)] hover:border-[var(--nim-primary)]"
               >
-                Reset
+                Zurücksetzen
               </button>
             </div>
 

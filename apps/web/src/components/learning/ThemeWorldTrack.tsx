@@ -30,7 +30,7 @@ export function ThemeWorldTrack({
     >
       <ExplainHotspot tipId="themenwelt">
         <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
-          Themenwelt · Schema v2
+          Themenwelt
         </p>
         <h2
           id="themenwelt-title"

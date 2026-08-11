@@ -55,21 +55,21 @@ export const helpTips: HelpTip[] = [
   },
   {
     id: "simple-mode",
-    label: "Simple Mode",
+    label: "Einfache Ansicht",
     short: "Weniger auf dem Bildschirm — ruhiger Einstieg ohne Ablenkung.",
     whatIs:
-      "Simple Mode ist ein Schalter, der Nebenbereiche ausblendet und Texte ruhiger und größer wirken lässt. Du lernst weiter — nur mit weniger Reizen.",
+      "Einfache Ansicht ist ein Schalter, der Nebenbereiche ausblendet und Texte ruhiger und größer wirken lässt. Du lernst weiter — nur mit weniger Reizen.",
     whatFor:
       "Er hilft gegen das Gefühl „Die Seite ist zu voll“. Viele Einsteiger:innen sind unsicher in digitalen Oberflächen. Weniger Elemente bedeuten: klarer nächster Schritt, weniger Angst vor Fehlklicks.",
     canDo: [
-      "Schalter „Simple Mode“ oben einschalten.",
-      "Nur Ziel wählen, eine Einheit öffnen und kurz üben.",
+      "Schalter „Einfache Ansicht“ oben einschalten.",
+      "Nur eine Themenwelt wählen, eine Einheit öffnen und kurz üben.",
       "Später wieder ausschalten, wenn du mehr Details und Werkzeuge sehen willst.",
     ],
     example:
-      "Beim ersten Besuch wirkt alles viel: Welten, Werkzeuge, Quellen. Mit Simple Mode siehst du vor allem den Einstieg — wie ein ruhiger Flur statt eines vollen Bahnhofs.",
+      "Beim ersten Besuch wirkt alles viel: Welten, Werkzeuge, Quellen. Mit Einfacher Ansicht siehst du vor allem den Einstieg — wie ein ruhiger Flur statt eines vollen Bahnhofs.",
     mistake:
-      "Simple Mode mit „weniger lernen“ verwechseln. Du übst weiter. Es wird nur die Oberfläche vereinfacht.",
+      "Einfache Ansicht mit „weniger lernen“ verwechseln. Du übst weiter. Es wird nur die Oberfläche vereinfacht.",
     links: [
       { href: "#ziele", label: "Zu den Themenwelten" },
       { href: "#lernraum", label: "Zum Lernraum" },
@@ -78,24 +78,25 @@ export const helpTips: HelpTip[] = [
   {
     id: "hero",
     label: "Willkommen und Start",
-    short: "Dein Einstieg: Ziel wählen oder genau dort weitermachen, wo du aufgehört hast.",
+    short: "Dein Einstieg: in drei Schritten starten oder die heutige Empfehlung öffnen.",
     whatIs:
-      "Das ist der Startbereich. Er fasst zusammen, worum es im Portal geht, und bietet zwei klare Türen: neu starten mit einem Ziel — oder dort weitermachen, wo dein lokaler Fortschritt steht.",
+      "Das ist der Startbereich. Er fasst zusammen, worum es im Portal geht, und bietet klare Türen: Einstiegsroute, Selbstcheck, 60-Minuten-Pfad, Abruf — plus die Karte „Heute empfohlen“.",
     whatFor:
-      "Er nimmt die Entscheidungslast. Du musst das Portal nicht erst „studieren“. Eine Handlung reicht: wählen oder weitermachen.",
+      "Er nimmt die Entscheidungslast. Du musst das Portal nicht erst „studieren“. Eine Handlung reicht: Einstieg folgen oder die Empfehlung öffnen.",
     canDo: [
-      "Neu hier? „Ziel wählen“ antippen und eine Themenwelt aussuchen.",
-      "Schon gestartet? „Hier weitermachen“ antippen — die nächste offene Lektion öffnet sich.",
-      "Die Karte „Heute empfohlen“ als denselben nächsten Schritt nutzen.",
+      "Neu hier? „In 3 Schritten starten“ antippen — Selbstcheck, Kurzpfad, Abruf.",
+      "Oder direkt „Selbstcheck“, „60-Minuten-Pfad“ oder „Abruf“ wählen.",
+      "Die Karte „Heute empfohlen“ / „Heute hier weitermachen“ für die nächste offene Lektion nutzen.",
       "Oben den Fortschritt ablesen (lokal in diesem Browser).",
     ],
     example:
-      "Nach einer Woche Pause: tippe „Hier weitermachen“. Das Portal öffnet die nächste offene Lektion — ohne Login und ohne zu raten, wo du warst.",
+      "Nach einer Woche Pause: tippe „Heute hier weitermachen“. Das Portal öffnet die nächste offene Lektion — ohne Login und ohne zu raten, wo du warst.",
     mistake:
       "Alles gleichzeitig anklicken (Ziele, Werkzeuge, Quellen) und dann die Übersicht verlieren. Besser: eine Tür, ein Schritt.",
     links: [
-      { href: "#ziele", label: "Ziel wählen" },
-      { href: "#pfad", label: "Lernpfad ansehen" },
+      { href: "#einstieg-route", label: "In 3 Schritten starten" },
+      { href: "#selbstcheck", label: "Selbstcheck" },
+      { href: "#literacy-pfad", label: "60-Minuten-Pfad" },
       { href: "#heute", label: "Heute empfohlen" },
     ],
   },
@@ -179,7 +180,7 @@ export const helpTips: HelpTip[] = [
       "Eine Kachel antippen, die zu deinem Alltag passt.",
       "Darunter die Micro-Einheiten und Challenges ansehen.",
       "Eine Einheit öffnen und die kurze Übung machen.",
-      "Wenn es zu voll wirkt: Simple Mode einschalten.",
+      "Wenn es zu voll wirkt: Einfache Ansicht einschalten.",
     ],
     example:
       "Du willst gerüchtefeste Recherche: Kachel „Recherche & Wahrheit“ → Einheit zu Halluzinationen → eine Challenge entscheiden.",
@@ -387,8 +388,8 @@ export const helpTips: HelpTip[] = [
       "Weitermachen ohne Anmeldung — und Kontrolle über deine Daten. Du siehst klar: Wie weit bin ich?",
     canDo: [
       "Am Ende einer Lektion „erledigt“ markieren.",
-      "„Hier weitermachen“ / „Heute empfohlen“ für den nächsten offenen Schritt nutzen.",
-      "Reset nur wählen, wenn du wirklich bei null neu starten willst.",
+      "„Heute hier weitermachen“ / „Heute empfohlen“ für den nächsten offenen Schritt nutzen.",
+      "„Zurücksetzen“ (Fortschritt zurücksetzen) nur wählen, wenn du wirklich bei null neu starten willst.",
     ],
     example:
       "3 von 12 erledigt → die Empfehlung zeigt die nächste offene Lektion, nicht wieder Lektion 1.",
@@ -416,7 +417,7 @@ export const helpTips: HelpTip[] = [
     example:
       "Modul 1 öffnen → Lektion 2 antippen → im Lernraum erscheint genau dieser Inhalt.",
     mistake:
-      "Reset drücken „zum Aufräumen“. Dann sind die Haken weg. Aufräumen braucht keinen Reset.",
+      "„Zurücksetzen“ drücken „zum Aufräumen“. Dann sind die Haken weg. Aufräumen braucht keinen Zurücksetzen-Knopf.",
     links: [
       { href: "#lernraum", label: "Zur geöffneten Lektion" },
       { href: "#heute", label: "Heute empfohlen" },

@@ -1079,7 +1079,7 @@ async function testLiveRegion(browser) {
 
     await page
       .getByRole("button", {
-        name: "Reset",
+        name: "Fortschritt zurücksetzen",
       })
       .click();
 

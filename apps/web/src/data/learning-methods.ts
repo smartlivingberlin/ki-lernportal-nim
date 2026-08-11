@@ -87,8 +87,8 @@ export const learningMethods: LearningMethod[] = [
     whyItHelps:
       "Überforderung sinkt — besonders für digital unsichere Einsteiger.",
     howWeUseIt:
-      "Simple Mode, aufklappbare Details und kurze Merksätze vor dem Feinschliff.",
-    interactionHint: "Nutze den Simple Mode, wenn dir die Seite zu voll wirkt.",
+      "Einfache Ansicht, aufklappbare Details und kurze Merksätze vor dem Feinschliff.",
+    interactionHint: "Nutze die Einfache Ansicht, wenn dir die Seite zu voll wirkt.",
   },
   {
     id: "method-playful",
