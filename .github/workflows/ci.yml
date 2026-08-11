@@ -85,6 +85,9 @@ jobs:
       - name: Test S52-C auth web boundary scope lock
         run: pnpm test:s52-c-auth-web-scope
 
+      - name: Test S52-D auth web implementation scope lock
+        run: pnpm test:s52-d-auth-web-impl-scope
+
       - name: Test S51B-B database runtime with local fakes
         run: pnpm test:s51b-b-db-runtime
 

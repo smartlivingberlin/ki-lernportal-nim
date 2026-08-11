@@ -2,7 +2,7 @@
 
 **Stand:** 11. August 2026
 **Baseline `main`:** `baf6fb872c4cd5a59f38695ecf680994c51df65d`
-**Status:** S51D-B komplett (Production Autodeploy AUS, Wait for CI AN; Staging HTTP-grün); S52-B Auth-Runtime nur in `packages/auth`; S52-C Auth-Web Scope-Lock (kein Login-UI); Login-UI/DB-Sessions/Live-Migrate gesperrt
+**Status:** S51D-B Staging HTTP-grün; S52-C/S52-D Auth-Web Scope-Locks (kein Login-UI); UX-Labels integriert; Login-UI/DB-Sessions/Live-Migrate gesperrt
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
@@ -44,6 +44,8 @@ S52_A_IMPLEMENTATION_AUTHORIZED=YES
 S52_B_IMPLEMENTATION_AUTHORIZED=YES
 S52_C_SCOPE_AUTHORIZED=YES
 S52_C_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY
+S52_D_SCOPE_AUTHORIZED=YES
+S52_D_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY
 AUTH_RUNTIME_AUTHORIZED=YES
 AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
 AUTH_WEB_SURFACE=DOCUMENTED_NOT_IMPLEMENTED
@@ -72,6 +74,7 @@ zusammen mit den nachfolgenden Integrationsnachweisen beschrieben durch:
 - [S52-A Auth Session-/Rollen-Scope](architecture/S52_A_IMPLEMENTATION_SCOPE.md)
 - [S52-B Auth-Runtime Foundation](architecture/S52_B_IMPLEMENTATION_SCOPE.md)
 - [S52-C Auth-Web Boundary Scope-Lock](architecture/S52_C_IMPLEMENTATION_SCOPE.md)
+- [S52-D Auth-Web Implementation Scope-Lock](architecture/S52_D_IMPLEMENTATION_SCOPE.md)
 - [Zielarchitektur](architecture/ARCHITECTURE_TARGET.md)
 - [Package-DAG](architecture/PACKAGE_DAG.md)
 - [Plattformverträge](architecture/PLATFORM_CONTRACTS.md)

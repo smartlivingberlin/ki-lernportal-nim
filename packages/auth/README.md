@@ -38,6 +38,7 @@ Der kontrollierte Entry-Point ist `src/index.ts`.
 S52_A_VOCABULARY=INTEGRATED
 S52_B_AUTH_RUNTIME_FOUNDATION=AUTHORIZED
 S52_C_AUTH_WEB_SCOPE_LOCK=AUTHORIZED
+S52_D_AUTH_WEB_IMPL_SCOPE_LOCK=AUTHORIZED
 AUTH_RUNTIME_AUTHORIZED=YES
 AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
 AUTH_WEB_SURFACE=DOCUMENTED_NOT_IMPLEMENTED
@@ -48,8 +49,10 @@ PRODUCTION_USERS=NO
 
 ## Spätere Slices
 
-S52-C dokumentiert die Auth-Web-Grenze ohne Implementierung
-(`docs/architecture/S52_C_IMPLEMENTATION_SCOPE.md`). Login-UI, Auth-Route-
+S52-C dokumentiert die Auth-Web-Grenze
+(`docs/architecture/S52_C_IMPLEMENTATION_SCOPE.md`).
+S52-D sperrt den Implementierungsschnitt ohne Code
+(`docs/architecture/S52_D_IMPLEMENTATION_SCOPE.md`). Login-UI, Auth-Route-
 Handler, Recovery, persistente Session-Stores über `packages/db` und MFA
 brauchen jeweils eine eigene Folgefreigabe.
 

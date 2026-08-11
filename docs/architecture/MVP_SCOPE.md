@@ -152,6 +152,10 @@ S52-C dokumentiert die Auth-Web-Grenze ohne Implementierung
 `auth_runtime` bleibt Default `false`, keine Login-UI, keine Auth-Routen in
 `apps/web`, CI-Negativvertrag `pnpm test:s52-c-auth-web-scope`.
 
+S52-D sperrt den nächsten Implementierungsschnitt ohne Code
+(siehe [S52_D_IMPLEMENTATION_SCOPE.md](S52_D_IMPLEMENTATION_SCOPE.md)):
+CI `pnpm test:s52-d-auth-web-impl-scope`, weiterhin `LOGIN_UI=NO`.
+
 Noch nicht freigegeben:
 
 - Login-/Registrierungs-UI;
@@ -324,6 +328,8 @@ S52_A_AUTHORIZED=YES
 S52_B_AUTHORIZED=YES
 S52_C_SCOPE_AUTHORIZED=YES
 S52_C_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY
+S52_D_SCOPE_AUTHORIZED=YES
+S52_D_IMPLEMENTATION_AUTHORIZED=SCOPE_LOCK_ONLY
 AUTH_RUNTIME_AUTHORIZED=YES
 AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
 AUTH_WEB_SURFACE=DOCUMENTED_NOT_IMPLEMENTED

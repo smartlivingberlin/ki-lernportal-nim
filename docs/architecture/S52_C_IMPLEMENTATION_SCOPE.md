@@ -128,6 +128,11 @@ DATABASE_CONNECTION_AUTHORIZED=NO
 
 CI: `pnpm test:s52-c-auth-web-scope`
 
+## 8. Folge: S52-D Auth-Web Implementation Scope-Lock
+
+Implementierungsgrenze ohne Login-Code:
+`docs/architecture/S52_D_IMPLEMENTATION_SCOPE.md`.
+
 Folgeslices (eigene Freigabe) können Auth-Route-Handler, Login-UI hinter
 `auth_runtime`, DB-Session-Store und negative IDOR-Tests umfassen — nicht
 dieser Slice.
