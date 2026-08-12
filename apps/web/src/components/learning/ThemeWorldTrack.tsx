@@ -13,6 +13,8 @@ const START_VISIBLE = 4;
 
 type ThemeWorldTrackProps = {
   worldTitle: string;
+  /** Kernweg-Welt (mit starterLessonId) oder reine Vertiefung („Später“). */
+  worldLayer?: "kernweg" | "spaeter";
   learningOutcomes?: readonly string[];
   units: MicroLearningUnitV2[];
   activeUnitId: string | null;
@@ -80,6 +82,7 @@ function UnitButton({
  */
 export function ThemeWorldTrack({
   worldTitle,
+  worldLayer = "kernweg",
   learningOutcomes = [],
   units,
   activeUnitId,
@@ -105,18 +108,22 @@ export function ThemeWorldTrack({
   ).length;
   const kernwegCount = units.filter((unit) => unit.lessonId).length;
   const vertiefungCount = units.length - kernwegCount;
+  const isSpaeterWorld = worldLayer === "spaeter" || kernwegCount === 0;
 
   return (
     <section
       id="themenwelt"
       aria-labelledby="themenwelt-title"
       data-testid="theme-world-track"
+      data-world-layer={isSpaeterWorld ? "spaeter" : "kernweg"}
       {...explainAttrs("themenwelt")}
       className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 md:p-6 lg:scroll-mt-36"
     >
       <ExplainHotspot tipId="themenwelt">
         <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
-          Vertiefung · Themenwelt
+          {isSpaeterWorld
+            ? "Später · reine Vertiefung"
+            : "Vertiefung · Themenwelt"}
         </p>
         <h2
           id="themenwelt-title"
@@ -128,18 +135,38 @@ export function ThemeWorldTrack({
         <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
           Überblick: {units.length} Einheiten · ca. {totalMinutes} Min. ·{" "}
           {completedCount}/{units.length} erledigt.{" "}
-          {kernwegCount > 0
-            ? `${kernwegCount} Kernweg (mit Lektion)`
-            : "Kein Kernweg-Anteil"}
-          {vertiefungCount > 0
-            ? ` · ${vertiefungCount} Vertiefung (direkt)`
-            : ""}
-          . „Start hier“ zeigt zuerst Kernweg-Einheiten
-          {kernwegCount === 0 ? " (in dieser Welt nur Vertiefung)" : ""} — der
-          Rest bleibt zugeklappt, bis du bereit bist.
+          {isSpaeterWorld
+            ? "Diese Welt gehört nicht zum 12er-Kernweg — kurze Micro-Einheiten zum optionalen Vertiefen."
+            : `${kernwegCount} Kernweg (mit Lektion)${
+                vertiefungCount > 0
+                  ? ` · ${vertiefungCount} Vertiefung (direkt)`
+                  : ""
+              }. „Start hier“ zeigt zuerst Kernweg-Einheiten — der Rest bleibt zugeklappt, bis du bereit bist.`}
         </p>
       </ExplainHotspot>
 
+      {isSpaeterWorld ? (
+        <p
+          data-testid="spaeter-world-banner"
+          className="mt-4 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface-soft)] px-4 py-3 text-sm font-semibold leading-6 text-[var(--nim-secondary)]"
+        >
+          Später-Welt: kein Muss. Du kannst jederzeit zum{" "}
+          <a
+            href="#pfad"
+            className="font-black text-[var(--nim-primary)] underline underline-offset-2"
+          >
+            Kernpfad
+          </a>{" "}
+          oder zum{" "}
+          <a
+            href="#heute"
+            className="font-black text-[var(--nim-primary)] underline underline-offset-2"
+          >
+            Nächsten Schritt
+          </a>{" "}
+          zurück.
+        </p>
+      ) : null}
       {learningOutcomes.length > 0 ? (
         <ul
           className="mt-4 grid gap-2 sm:grid-cols-3"
