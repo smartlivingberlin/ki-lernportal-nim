@@ -36,7 +36,9 @@ export function microUnitsForWorld(worldId: string): MicroLearningUnitV2[] {
     });
 }
 
-/** Nächste offene Vertiefungs-Einheit (ohne Lektionsbindung), Welten in Anzeigereihenfolge. */
+/** Nächste offene Vertiefungs-Einheit (ohne Lektionsbindung).
+ * Caller steuert Weltenreihenfolge — für Auto-CTA nur Kernweg-Welten übergeben.
+ */
 export function nextOpenDeepenMicroUnit(options: {
   worldIds: readonly string[];
   completedMicroUnitIds: readonly string[];

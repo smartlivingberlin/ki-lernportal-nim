@@ -59,7 +59,9 @@ function WorldTile({
               ? available
                 ? "Kernweg"
                 : "Kernweg · demnächst"
-              : "Später"}
+              : available
+                ? "Später · bereit"
+                : "Später · demnächst"}
           </span>
         </span>
         <span className="mt-2 font-[family-name:var(--font-display)] text-xl font-semibold text-[var(--foreground)]">
