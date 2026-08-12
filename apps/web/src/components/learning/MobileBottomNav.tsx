@@ -4,11 +4,12 @@ type MobileBottomNavProps = {
   simpleMode: boolean;
 };
 
+/** Labels müssen zu Hilfe-Tipp „mobilnav“ und zur Hero-Sprache passen. */
 const items = [
-  { href: "#einstieg-route", label: "Start" },
+  { href: "#erststart", label: "Start" },
   { href: "#selbstcheck", label: "Check" },
-  { href: "#literacy-pfad", label: "60 Min" },
-  { href: "#wiederholen", label: "Abruf" },
+  { href: "#literacy-pfad", label: "Pfad" },
+  { href: "#wiederholen", label: "Üben" },
   { href: "#scam", label: "Scam" },
 ] as const;
 

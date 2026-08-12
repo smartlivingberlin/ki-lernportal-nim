@@ -193,7 +193,7 @@ export const selfCheckQuestions: SelfCheckQuestion[] = [
       },
       {
         id: "b",
-        label: "Etwa eine Stunde — der Literacy-Pfad passt.",
+        label: "Etwa eine Stunde — der 60-Minuten-Pfad passt.",
         scores: { "world-no-fear": 1, "world-research-truth": 1 },
       },
       {

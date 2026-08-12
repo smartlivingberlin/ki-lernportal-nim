@@ -48,14 +48,14 @@ const steps = [
     title: "2. 60-Minuten-Pfad starten",
     body: "Folge den acht Stationen: Sicherheit, Scam, Prompts, Szenarien — am Ende ein lokaler Teilnahme-Nachweis.",
     href: "#literacy-pfad",
-    cta: "Zum Literacy-Pfad",
+    cta: "Zum 60-Minuten-Pfad",
   },
   {
     id: "review",
     title: "3. Kurz wiederholen",
-    body: "Aktives Abrufen statt nur lesen. Unsichere Karten kommen früher wieder — alles bleibt im Browser.",
+    body: "Aktives Üben statt nur lesen. Unsichere Karten kommen früher wieder — alles bleibt im Browser.",
     href: "#wiederholen",
-    cta: "Zur Abruf-Übung",
+    cta: "Zum Wiederholen",
   },
 ] as const;
 

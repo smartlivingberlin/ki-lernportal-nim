@@ -355,10 +355,10 @@ export default function Home() {
             <SimpleModeToggle enabled={simpleMode} onChange={setSimpleMode} />
             <nav className="flex min-w-0 max-w-full flex-wrap gap-2 text-sm font-black text-[var(--nim-primary)]" aria-label="Portalnavigation">
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#lernraum" {...explainAttrs("hero")}>Lernraum</a>
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#literacy-pfad" {...explainAttrs("literacy-path")}>60 Min</a>
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#pfad" {...explainAttrs("lernpfad")}>Pfad</a>
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#wiederholen" {...explainAttrs("wiederholen")}>Abruf</a>
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#coach" {...explainAttrs("sicherheit")}>Coach</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#literacy-pfad" {...explainAttrs("literacy-path")}>Kurzpfad</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#pfad" {...explainAttrs("lernpfad")}>Lektionen</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#wiederholen" {...explainAttrs("wiederholen")}>Wiederholen</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#coach" {...explainAttrs("sicherheit")}>Hilfe</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#quellen" {...explainAttrs("quellen")}>Quellen</a>
             </nav>
           </div>
@@ -389,35 +389,43 @@ export default function Home() {
                   Für Menschen mit Respekt vor Technik: klare Sprache, sichere Übungen,
                   spielerische Challenges und Schritt-für-Schritt-Hilfen — kostenlos und ohne Druck.
                 </p>
-                <div className="mt-6 flex flex-wrap gap-3">
+                <div className="mt-6 flex flex-col gap-3">
                   <a
                     href={showPortalOnboarding ? "#einstieg-route" : "#erststart"}
                     {...explainAttrs(showPortalOnboarding ? "einstieg-route" : "erststart")}
-                    className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-5 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
+                    className="nim-interactive inline-flex min-h-12 w-fit items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-5 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
                   >
-                    In 3 Schritten starten
+                    {showPortalOnboarding ? "Zum Einstieg" : "Jetzt starten"}
                   </a>
-                  <a
-                    href="#selbstcheck"
-                    {...explainAttrs("self-check")}
-                    className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/20"
-                  >
-                    Selbstcheck
-                  </a>
-                  <a
-                    href="#literacy-pfad"
-                    {...explainAttrs("literacy-path")}
-                    className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/20"
-                  >
-                    60-Minuten-Pfad
-                  </a>
-                  <a
-                    href="#wiederholen"
-                    {...explainAttrs("wiederholen")}
-                    className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/20"
-                  >
-                    Abruf{dueReviews > 0 ? ` (${dueReviews})` : ""}
-                  </a>
+                  <p className="flex flex-wrap gap-x-3 gap-y-1 text-sm font-bold text-white/95">
+                    <a
+                      href="#selbstcheck"
+                      {...explainAttrs("self-check")}
+                      className="nim-interactive underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                    >
+                      Selbstcheck
+                    </a>
+                    <span aria-hidden="true" className="text-white/50">
+                      ·
+                    </span>
+                    <a
+                      href="#literacy-pfad"
+                      {...explainAttrs("literacy-path")}
+                      className="nim-interactive underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                    >
+                      60-Minuten-Pfad
+                    </a>
+                    <span aria-hidden="true" className="text-white/50">
+                      ·
+                    </span>
+                    <a
+                      href="#wiederholen"
+                      {...explainAttrs("wiederholen")}
+                      className="nim-interactive underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                    >
+                      Wiederholen{dueReviews > 0 ? ` (${dueReviews})` : ""}
+                    </a>
+                  </p>
                 </div>
               </div>
               <TodayStartCard
