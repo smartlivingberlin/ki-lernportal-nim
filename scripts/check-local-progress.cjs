@@ -353,6 +353,28 @@ const phases = {
     await expectExactText(page, "Selbstcheck machen");
     console.log("NEXT_STEP_CONTRACT_TODAY_SELF_CHECK_OK=YES");
   },
+
+  async "content-wave"(page) {
+    await page.evaluate(() => {
+      window.localStorage.setItem("ki-lernportal-nim:simple-mode:v1", "0");
+      window.localStorage.setItem("ki-lernportal-nim:first-start-coach:v1", "dismissed");
+    });
+    await page.reload({ waitUntil: "load", timeout: navigationTimeout });
+    await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({
+      state: "visible",
+    });
+    await suppressExplainClouds(page);
+
+    await page.locator("#ziele").scrollIntoViewIfNeeded();
+    await page.getByRole("button", { name: /Ohne Angst|KI ohne Angst/i }).first().click().catch(async () => {
+      await page.locator("#ziele button").first().click();
+    });
+    const track = page.getByTestId("theme-world-track");
+    await track.waitFor({ state: "visible", timeout: 15_000 });
+    await expectExactText(page, "Start hier");
+    await expectExactText(page, "Weitere Einheiten");
+    console.log("CONTENT_WAVE_C_WORLD_OVERVIEW_OK=YES");
+  },
 };
 
 async function runPhase(browser, phaseName) {
