@@ -2,7 +2,7 @@
 
 **Status:** Architektur freigegeben; S51A sowie S51B-A und das lokale S51B-B-Adapterfundament integriert; S51B-C Scope-Lock sowie lokales C1/C2 integriert; Live-DB/Schema weiterhin separat freigabepflichtig; Portal-Welle #148, Railway-Vendor #150/#151, Micro-Fortschritt #153 und Kernweg-Welten / optionale Vertiefung #156 auf Live
 **Stand:** 12. August 2026
-**Baseline `main`:** `9ab3513b5f1fbde34fee06e7bd44c934b0602ef8`
+**Baseline `main`:** `f26de16972d1caabd60e90951bd504642e987037`
 
 Dieses Dokument beschreibt den realistischen nächsten Plattform-Scope ausgehend
 vom tatsächlich integrierten Stand. Es ist keine pauschale
