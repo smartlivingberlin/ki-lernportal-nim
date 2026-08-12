@@ -42,5 +42,9 @@ assert.match(hint, /nur ausgeblendet/);
 assert.match(hint, /Mehr Bereiche einblenden/);
 assert.match(hint, /Zum Einstieg bleiben/);
 assert.match(hint, /Schalter oben/);
+assert.match(hint, /Themenwelten/);
+
+assert.match(read("apps/web/src/app/page.tsx"), /revealWorlds/);
+assert.match(read("apps/web/src/app/page.tsx"), /worldsFocusToken/);
 
 console.log("PACKAGING_A_STATIC_OK=YES");

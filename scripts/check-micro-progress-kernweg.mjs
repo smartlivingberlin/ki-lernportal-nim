@@ -23,6 +23,7 @@ assert.match(micros, /microUnitLayerLabel/);
 assert.match(micros, /isMicroUnitCompleted/);
 assert.match(micros, /layerDelta/);
 assert.match(micros, /vor Vertiefung/);
+assert.match(micros, /nextOpenDeepenMicroUnit/);
 
 const track = read("apps/web/src/components/learning/ThemeWorldTrack.tsx");
 assert.match(track, /Kernweg/);

@@ -6,6 +6,7 @@ type TodayStartCardProps = {
   nextStep: NextStep;
   moduleTitle: string | null;
   onOpenLesson: (lessonId: string) => void;
+  onOpenDeepenMicro?: (microUnitId: string, worldId: string) => void;
   onShowMore?: () => void;
 };
 
@@ -13,6 +14,7 @@ export function TodayStartCard({
   nextStep,
   moduleTitle,
   onOpenLesson,
+  onOpenDeepenMicro,
   onShowMore,
 }: TodayStartCardProps) {
   const handlePrimary = () => {
@@ -24,9 +26,23 @@ export function TodayStartCard({
       onOpenLesson(nextStep.lessonId);
       return;
     }
+    if (
+      nextStep.kind === "deepen" &&
+      nextStep.microUnitId &&
+      nextStep.worldId &&
+      onOpenDeepenMicro
+    ) {
+      onOpenDeepenMicro(nextStep.microUnitId, nextStep.worldId);
+      return;
+    }
     if (typeof document !== "undefined") {
       const id = nextStep.href.replace(/^#/, "");
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      const target = document.getElementById(id);
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+      const focusEl =
+        document.getElementById(`${id}-title`) ??
+        (target instanceof HTMLElement ? target : null);
+      focusEl?.focus({ preventScroll: true });
     }
   };
 

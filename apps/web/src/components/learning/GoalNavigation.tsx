@@ -1,8 +1,11 @@
 "use client";
 
 import type { ThemeWorld } from "../../data/types";
+import { sortThemeWorldsKernwegFirst } from "../../data/theme-worlds";
 import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
+
+export { sortThemeWorldsKernwegFirst } from "../../data/theme-worlds";
 
 type GoalNavigationProps = {
   worlds: ThemeWorld[];
@@ -19,12 +22,13 @@ export function GoalNavigation({
   simpleMode,
   worldsReady,
 }: GoalNavigationProps) {
-  const visibleWorlds = simpleMode
+  const readySet = worldsReady ? new Set(worldsReady) : null;
+  const baseWorlds = simpleMode
     ? worlds.filter((world) => world.status === "active").slice(0, 4)
     : worlds;
-  const readySet = worldsReady
-    ? new Set(worldsReady)
-    : null;
+  const visibleWorlds = sortThemeWorldsKernwegFirst(baseWorlds);
+  const laterCount = visibleWorlds.filter((world) => !world.starterLessonId)
+    .length;
 
   return (
     <section
@@ -39,22 +43,28 @@ export function GoalNavigation({
         </p>
         <h2
           id="ziele-title"
-          className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[var(--foreground)] md:text-4xl"
+          tabIndex={-1}
+          className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[var(--foreground)] outline-none md:text-4xl"
         >
           Themenwelten — wenn du bereit bist
         </h2>
         <p className="mt-3 max-w-3xl text-base font-medium leading-7 text-[var(--nim-secondary)]">
-          Das ist Vertiefung, kein zweiter Einstieg. Zuerst Selbstcheck, Kurzpfad und Lektionen —
-          hier wählst du danach kurze Micro-Einheiten zu einem Ziel.
+          Zuerst Welten mit Kernweg-Anbindung (Lektionen), danach reine
+          Vertiefung als „Später“. Das ist kein zweiter Einstieg — Selbstcheck,
+          Kurzpfad und Lektionen bleiben der Kern.
+          {laterCount > 0
+            ? ` ${laterCount} Welt${laterCount === 1 ? "" : "en"} sind als Später markiert.`
+            : ""}
         </p>
       </ExplainHotspot>
 
       <ul className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {visibleWorlds.map((world) => {
           const selected = selectedWorldId === world.id;
+          const isKernwegWorld = Boolean(world.starterLessonId);
           const available =
             world.status === "active" &&
-            (readySet ? readySet.has(world.id) : Boolean(world.starterLessonId));
+            (readySet ? readySet.has(world.id) : isKernwegWorld);
           const accentClass =
             world.accent === "coral"
               ? "hover:border-[var(--nim-accent)] focus-visible:outline-[var(--nim-accent)]"
@@ -64,6 +74,7 @@ export function GoalNavigation({
             <li key={world.id}>
               <button
                 type="button"
+                data-world-layer={isKernwegWorld ? "kernweg" : "spaeter"}
                 {...explainAttrs("ziele-kachel")}
                 onClick={() => onSelectWorld(world)}
                 aria-pressed={selected}
@@ -81,7 +92,11 @@ export function GoalNavigation({
                     {world.shortLabel}
                   </span>
                   <span className="rounded-[var(--nim-radius-sm)] bg-[var(--nim-surface)] px-2 py-1 text-[0.7rem] font-black text-[var(--nim-secondary)]">
-                    {available ? "Startklar" : "Demnächst"}
+                    {isKernwegWorld
+                      ? available
+                        ? "Kernweg"
+                        : "Kernweg · demnächst"
+                      : "Später"}
                   </span>
                 </span>
                 <span className="mt-2 font-[family-name:var(--font-display)] text-xl font-semibold text-[var(--foreground)]">
@@ -91,7 +106,9 @@ export function GoalNavigation({
                   id={`world-${world.id}-desc`}
                   className="mt-2 text-sm font-medium leading-6 text-[var(--nim-secondary)]"
                 >
-                  {world.goalPrompt}
+                  {isKernwegWorld
+                    ? world.goalPrompt
+                    : `Später vertiefen: ${world.goalPrompt}`}
                 </span>
               </button>
             </li>

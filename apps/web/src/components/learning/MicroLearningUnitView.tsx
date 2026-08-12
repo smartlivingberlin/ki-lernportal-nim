@@ -25,10 +25,12 @@ export function MicroLearningUnitView({
 
   return (
     <article
+      id={`micro-${unit.id}`}
       data-testid="micro-learning-unit"
       data-unit-id={unit.id}
       aria-labelledby={`${baseId}-title`}
-      className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] md:p-7"
+      tabIndex={-1}
+      className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] outline-none sm:scroll-mt-64 md:p-7 lg:scroll-mt-36"
     >
       <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
         Vertiefung · Micro-Einheit {unit.order}

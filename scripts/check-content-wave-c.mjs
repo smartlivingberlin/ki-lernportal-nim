@@ -18,6 +18,16 @@ assert.match(track, /Start hier/);
 assert.match(track, /Weitere Einheiten/);
 assert.match(track, /learningOutcomes/);
 
+const goals = read("apps/web/src/components/learning/GoalNavigation.tsx");
+assert.match(goals, /Später/);
+assert.match(goals, /data-world-layer/);
+assert.match(goals, /sortThemeWorldsKernwegFirst/);
+
+assert.match(
+  read("apps/web/src/data/theme-worlds.ts"),
+  /sortThemeWorldsKernwegFirst/,
+);
+
 const chat = read("apps/web/src/data/micro-units-chat-prompting.ts");
 assert.match(chat, /mu-chat-09/);
 assert.match(chat, /mu-chat-12/);

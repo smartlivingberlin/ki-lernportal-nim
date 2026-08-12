@@ -563,24 +563,27 @@ export const helpTips: HelpTip[] = [
     id: "mobilnav",
     label: "Untere Navigation",
     short:
-      "Auf dem Handy: Start, Selbst, Pfad, Üben, Sicher — große Tipptargets.",
+      "Auf dem Handy: Start, Selbst, Pfad, dann Üben (einfach) oder Welten (voll) und Sicher.",
     whatIs:
-      "Die daumengerechte Schnellnavigation unten: Start (Einstieg), Selbst (Selbstcheck), Pfad (60 Minuten), Üben (Wiederholen), Sicher (Scam-Schutz).",
+      "Die daumengerechte Schnellnavigation unten. In der Einfachen Ansicht: Start, Selbst, Pfad, Üben, Sicher. Mit allen Bereichen: Start, Selbst, Pfad, Welten (Themenwelten), Sicher — mit Scroll und Fokus auf die jeweilige Sektion.",
     whatFor:
       "Auch unterwegs Orientierung behalten, ohne präzise auf kleine Links oben zielen zu müssen.",
     canDo: [
       "„Start“ für den Einstieg / Coach.",
       "„Selbst“ für den Selbstcheck.",
-      "„Pfad“ für den 60-Minuten-Weg, „Üben“ zum Wiederholen, „Sicher“ für Betrugsschutz.",
+      "„Pfad“ für den 60-Minuten-Weg.",
+      "„Üben“ (einfach) oder „Welten“ (voll) — Welten scrollt zu den Themenwelten.",
+      "„Sicher“ für Betrugsschutz.",
     ],
     example:
-      "In der Bahn: „Selbst“ → Empfehlung holen → „Pfad“ für die nächste Station → „Üben“ für eine kurze Karte.",
+      "In der Bahn: „Selbst“ → Empfehlung holen → „Pfad“ für die nächste Station → bei Bedarf „Welten“ für eine kurze Vertiefung.",
     mistake:
       "Untere und obere Navigation für völlig verschiedene Orte halten. Beide führen in denselben Lernraum — unten nur die häufigsten Sprünge.",
     links: [
       { href: "#erststart", label: "Start" },
       { href: "#selbstcheck", label: "Selbst" },
       { href: "#literacy-pfad", label: "Pfad" },
+      { href: "#ziele", label: "Welten" },
       { href: "#wiederholen", label: "Üben" },
       { href: "#scam", label: "Sicher" },
     ],

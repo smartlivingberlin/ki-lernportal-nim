@@ -335,14 +335,15 @@ const phases = {
     const bottomNav = page.getByRole("navigation", {
       name: "Mobile Schnellnavigation",
     });
-    const expected = [
+    // Default: volle Ansicht → Welten statt Üben
+    const expectedFull = [
       { visible: "Start", name: "Start: Einstieg" },
       { visible: "Selbst", name: "Selbstcheck" },
       { visible: "Pfad", name: "60-Minuten-Kurzpfad" },
-      { visible: "Üben", name: "Wiederholen und üben" },
+      { visible: "Welten", name: "Themenwelten" },
       { visible: "Sicher", name: "Sicherheit und Scam-Schutz" },
     ];
-    for (const item of expected) {
+    for (const item of expectedFull) {
       assert.equal(
         await bottomNav.getByRole("link", { name: item.name, exact: true }).count(),
         1,
@@ -354,6 +355,10 @@ const phases = {
         `bottom nav missing visible label: ${item.visible}`,
       );
     }
+    assert.equal(
+      await bottomNav.getByRole("link", { name: "Wiederholen und üben", exact: true }).count(),
+      0,
+    );
     assert.equal(
       await bottomNav.getByRole("link", { name: "Abruf", exact: true }).count(),
       0,
@@ -392,6 +397,13 @@ const phases = {
     await page.getByRole("button", { name: "Mehr Bereiche einblenden" }).click();
     await page.locator("#ziele").waitFor({ state: "visible" });
     assert.equal(await page.getByTestId("simple-mode-pack-hint").count(), 0);
+    // Scroll/Fokus zu Themenwelten nach Einblenden
+    await page.waitForFunction(() => {
+      const title = document.getElementById("ziele-title");
+      return Boolean(title && document.activeElement === title);
+    }, { timeout: 5000 }).catch(() => null);
+    const zieleBox = await page.locator("#ziele").boundingBox();
+    assert.ok(zieleBox, "ziele section should be laid out");
     console.log("PACKAGING_A_SIMPLE_MODE_PACK_OK=YES");
 
     await page.getByRole("button", { name: "Fortschritt zurücksetzen" }).click();

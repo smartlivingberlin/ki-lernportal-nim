@@ -29,6 +29,9 @@ export type NextStep = {
   primaryLabel: string;
   href: string;
   lessonId: string | null;
+  /** Optionale Vertiefungs-Micro nach Kernweg */
+  microUnitId: string | null;
+  worldId: string | null;
   /** Kurzlabel für Mobile / kompakte Chips */
   chipLabel: string;
 };
@@ -41,6 +44,10 @@ export type NextStepInput = {
   totalLessons: number;
   simpleMode: boolean;
   recommendedWorldTitle?: string | null;
+  /** Nächste offene Vertiefungs-Micro (ohne Lektionsbindung), nach Kernweg. */
+  nextDeepenMicroUnitId?: string | null;
+  nextDeepenMicroTitle?: string | null;
+  nextDeepenWorldId?: string | null;
 };
 
 /** In Einfacher Ansicht fehlen manche Anker — auf Kernpfad umbiegen. */
@@ -104,6 +111,9 @@ export function resolveNextStep(input: NextStepInput): NextStep {
     totalLessons,
     simpleMode,
     recommendedWorldTitle,
+    nextDeepenMicroUnitId,
+    nextDeepenMicroTitle,
+    nextDeepenWorldId,
   } = input;
 
   const literacyNext = nextLiteracyStation(completedLiteracyStationIds, simpleMode);
@@ -118,6 +128,8 @@ export function resolveNextStep(input: NextStepInput): NextStep {
       primaryLabel: "Zum Selbstcheck",
       href: "#selbstcheck",
       lessonId: null,
+      microUnitId: null,
+      worldId: null,
       chipLabel: "Selbstcheck",
     };
   }
@@ -132,6 +144,8 @@ export function resolveNextStep(input: NextStepInput): NextStep {
       primaryLabel: literacyNext.actionLabel,
       href: literacyNext.href,
       lessonId: null,
+      microUnitId: null,
+      worldId: null,
       chipLabel: `Station ${literacyNext.order}`,
     };
   }
@@ -147,6 +161,8 @@ export function resolveNextStep(input: NextStepInput): NextStep {
         dueReviews === 1 ? "1 Karte wiederholen" : `${dueReviews} Karten wiederholen`,
       href: "#wiederholen",
       lessonId: null,
+      microUnitId: null,
+      worldId: null,
       chipLabel: "Wiederholen",
     };
   }
@@ -161,11 +177,32 @@ export function resolveNextStep(input: NextStepInput): NextStep {
       primaryLabel: "Heute hier weitermachen",
       href: `#lesson-${nextOpenLesson.id}`,
       lessonId: nextOpenLesson.id,
+      microUnitId: null,
+      worldId: null,
       chipLabel: `Lektion ${nextOpenLesson.order}`,
     };
   }
 
   if (!simpleMode) {
+    if (nextDeepenMicroUnitId && nextDeepenMicroTitle) {
+      const worldHint = recommendedWorldTitle
+        ? ` in „${recommendedWorldTitle}“`
+        : "";
+      return {
+        kind: "deepen",
+        layer: "deepen",
+        eyebrow: "Nächster Schritt",
+        title: `Optional: ${nextDeepenMicroTitle}`,
+        reason: `Der Kernpfad ist lokal erledigt. Als Nächstes kannst du optional die Vertiefung „${nextDeepenMicroTitle}“${worldHint} öffnen — ohne Druck.`,
+        primaryLabel: `Vertiefung öffnen: ${nextDeepenMicroTitle}`,
+        href: "#themenwelt",
+        lessonId: null,
+        microUnitId: nextDeepenMicroUnitId,
+        worldId: nextDeepenWorldId ?? null,
+        chipLabel: "Vertiefen",
+      };
+    }
+
     return {
       kind: "deepen",
       layer: "deepen",
@@ -178,6 +215,8 @@ export function resolveNextStep(input: NextStepInput): NextStep {
       primaryLabel: "Zu den Themenwelten",
       href: "#ziele",
       lessonId: null,
+      microUnitId: null,
+      worldId: nextDeepenWorldId ?? null,
       chipLabel: "Vertiefen",
     };
   }
@@ -190,8 +229,10 @@ export function resolveNextStep(input: NextStepInput): NextStep {
     reason:
       "Lektionen und Kurzpfad sind lokal durch. Schalte die Einfache Ansicht aus, wenn du Themenwelten und Werkzeuge sehen möchtest.",
     primaryLabel: "Mehr Bereiche einblenden",
-    href: "#lernraum",
+    href: "#ziele",
     lessonId: null,
+    microUnitId: null,
+    worldId: null,
     chipLabel: "Fertig",
   };
 }
