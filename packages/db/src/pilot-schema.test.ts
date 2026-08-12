@@ -158,7 +158,7 @@ const packageJson = JSON.parse(read(packageJsonPath)) as {
   scripts?: Record<string, string>;
 };
 equal(packageJson.dependencies?.["drizzle-orm"], "0.45.2", "drizzle-orm version");
-equal(packageJson.dependencies?.mysql2, "3.23.1", "mysql2 version");
+equal(packageJson.dependencies?.mysql2, "3.23.2", "mysql2 version");
 equal(
   packageJson.dependencies?.["@ki-lernportal-nim/domain"],
   "workspace:*",
