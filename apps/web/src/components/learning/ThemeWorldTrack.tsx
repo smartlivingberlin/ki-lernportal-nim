@@ -141,7 +141,7 @@ export function ThemeWorldTrack({
             setUserOpenedMore(next);
           }}
         >
-          <summary className="nim-interactive cursor-pointer list-none text-sm font-black text-[var(--nim-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nim-focus)]">
+          <summary className="nim-interactive flex min-h-11 cursor-pointer list-none items-center text-sm font-black text-[var(--nim-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nim-focus)]">
             Weitere Einheiten ({moreUnits.length})
             <span className="ml-2 text-xs font-semibold text-[var(--nim-secondary)]">
               {moreOpen ? "— zugeklappt antippen" : "— antippen zum Öffnen"}
