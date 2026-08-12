@@ -25,16 +25,25 @@ export function SimpleModePackHint({ onShowMore }: SimpleModePackHintProps) {
       </h2>
       <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
         Nichts fehlt im Portal. Du siehst jetzt den ruhigen Einstieg: Selbstcheck,
-        Kurzpfad, Wiederholen, Scam-Schutz und deine Lektionen. Alles Weitere bleibt
-        im System — und erscheint wieder, wenn du die Einfache Ansicht ausschaltest.
+        Kurzpfad, Wiederholen, Sicherheit und deine Lektionen. Alles Weitere bleibt
+        im System — und erscheint wieder, wenn du die Einfache Ansicht ausschaltest
+        (Schalter oben) oder hier mehr einblendest.
       </p>
-      <button
-        type="button"
-        onClick={onShowMore}
-        className="nim-interactive mt-4 inline-flex min-h-11 items-center justify-center rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface)] px-4 text-sm font-black text-[var(--nim-primary)]"
-      >
-        Mehr Bereiche einblenden
-      </button>
+      <div className="mt-4 flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={onShowMore}
+          className="nim-interactive inline-flex min-h-11 items-center justify-center rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 text-sm font-black text-white hover:bg-[var(--nim-primary-strong)]"
+        >
+          Mehr Bereiche einblenden
+        </button>
+        <a
+          href="#erststart"
+          className="nim-interactive inline-flex min-h-11 items-center justify-center rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface)] px-4 text-sm font-black text-[var(--nim-primary)]"
+        >
+          Zum Einstieg bleiben
+        </a>
+      </div>
     </section>
   );
 }
