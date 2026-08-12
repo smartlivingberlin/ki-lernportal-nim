@@ -136,6 +136,9 @@ jobs:
       - name: Content quality check
         run: pnpm content:check
 
+      - name: Micro progress and Kernweg/Vertiefung contract
+        run: pnpm test:micro-progress
+
       - name: Source and lesson integrity check
         run: pnpm source:check
 
@@ -295,6 +298,9 @@ jobs:
 
       - name: "Smoke: private-demo UI guardrails"
         run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=guardrails node scripts/check-local-progress.cjs
+
+      - name: "Smoke: micro progress Vertiefung"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=micro-progress node scripts/check-local-progress.cjs
 
       - name: Stop local web server
         if: always()

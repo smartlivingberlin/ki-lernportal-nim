@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import type { MicroLearningUnitV2 } from "../../data/types";
+import {
+  isMicroUnitCompleted,
+  microUnitLayerLabel,
+} from "../../data/micro-units";
 import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
 
@@ -12,22 +16,30 @@ type ThemeWorldTrackProps = {
   learningOutcomes?: readonly string[];
   units: MicroLearningUnitV2[];
   activeUnitId: string | null;
+  completedLessonIds: readonly string[];
+  completedMicroUnitIds: readonly string[];
   onSelectUnit: (unit: MicroLearningUnitV2) => void;
 };
 
 function UnitButton({
   unit,
   selected,
+  completed,
   onSelectUnit,
 }: {
   unit: MicroLearningUnitV2;
   selected: boolean;
+  completed: boolean;
   onSelectUnit: (unit: MicroLearningUnitV2) => void;
 }) {
+  const layer = microUnitLayerLabel(unit);
+
   return (
     <button
       type="button"
       data-explain="themenwelt"
+      data-layer={unit.lessonId ? "kernweg" : "vertiefung"}
+      data-completed={completed ? "true" : "false"}
       onClick={() => onSelectUnit(unit)}
       aria-pressed={selected}
       className={[
@@ -40,15 +52,23 @@ function UnitButton({
       <span className="flex items-center justify-between gap-2">
         <span className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary-strong)]">
           Einheit {unit.order}
+          {completed ? (
+            <span className="sr-only">, erledigt</span>
+          ) : (
+            <span className="sr-only">, offen</span>
+          )}
         </span>
         <span className="rounded-[var(--nim-radius-sm)] bg-[var(--nim-surface)] px-2 py-1 text-[0.7rem] font-black text-[var(--nim-secondary)]">
-          {unit.lessonId ? "Mit Lektion" : "Direkt lernen"} · {unit.estimatedMinutes} Min.
+          {layer}
+          {completed ? " · erledigt" : ""} · {unit.estimatedMinutes} Min.
         </span>
       </span>
       <span className="mt-2 font-[family-name:var(--font-display)] text-lg font-semibold text-[var(--foreground)]">
         {unit.title}
       </span>
-      <span className="mt-2 text-sm leading-6 text-[var(--nim-secondary)]">{unit.oneSentence}</span>
+      <span className="mt-2 text-sm leading-6 text-[var(--nim-secondary)]">
+        {unit.oneSentence}
+      </span>
     </button>
   );
 }
@@ -62,14 +82,28 @@ export function ThemeWorldTrack({
   learningOutcomes = [],
   units,
   activeUnitId,
+  completedLessonIds,
+  completedMicroUnitIds,
   onSelectUnit,
 }: ThemeWorldTrackProps) {
-  const totalMinutes = units.reduce((sum, unit) => sum + unit.estimatedMinutes, 0);
+  const totalMinutes = units.reduce(
+    (sum, unit) => sum + unit.estimatedMinutes,
+    0,
+  );
   const startUnits = units.slice(0, START_VISIBLE);
   const moreUnits = units.slice(START_VISIBLE);
   const activeInMore = moreUnits.some((unit) => unit.id === activeUnitId);
   const [userOpenedMore, setUserOpenedMore] = useState(false);
   const moreOpen = activeInMore || userOpenedMore;
+  const completedCount = units.filter((unit) =>
+    isMicroUnitCompleted({
+      unit,
+      completedLessonIds,
+      completedMicroUnitIds,
+    }),
+  ).length;
+  const kernwegCount = units.filter((unit) => unit.lessonId).length;
+  const vertiefungCount = units.length - kernwegCount;
 
   return (
     <section
@@ -90,8 +124,16 @@ export function ThemeWorldTrack({
           {worldTitle}
         </h2>
         <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
-          Überblick: {units.length} Einheiten · ca. {totalMinutes} Min. Start mit den ersten{" "}
-          {Math.min(START_VISIBLE, units.length)} — der Rest bleibt zugeklappt, bis du bereit bist.
+          Überblick: {units.length} Einheiten · ca. {totalMinutes} Min. ·{" "}
+          {completedCount}/{units.length} erledigt.{" "}
+          {kernwegCount > 0
+            ? `${kernwegCount} Kernweg (mit Lektion)`
+            : "Kein Kernweg-Anteil"}
+          {vertiefungCount > 0
+            ? ` · ${vertiefungCount} Vertiefung (direkt)`
+            : ""}
+          . Start mit den ersten {Math.min(START_VISIBLE, units.length)} — der
+          Rest bleibt zugeklappt, bis du bereit bist.
         </p>
       </ExplainHotspot>
 
@@ -121,6 +163,11 @@ export function ThemeWorldTrack({
               <UnitButton
                 unit={unit}
                 selected={activeUnitId === unit.id}
+                completed={isMicroUnitCompleted({
+                  unit,
+                  completedLessonIds,
+                  completedMicroUnitIds,
+                })}
                 onSelectUnit={onSelectUnit}
               />
             </li>
@@ -153,6 +200,11 @@ export function ThemeWorldTrack({
                 <UnitButton
                   unit={unit}
                   selected={activeUnitId === unit.id}
+                  completed={isMicroUnitCompleted({
+                    unit,
+                    completedLessonIds,
+                    completedMicroUnitIds,
+                  })}
                   onSelectUnit={onSelectUnit}
                 />
               </li>
