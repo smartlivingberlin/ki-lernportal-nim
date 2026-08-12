@@ -35,17 +35,17 @@ export function GoalNavigation({
     >
       <ExplainHotspot tipId="ziele">
         <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--nim-primary)]">
-          Ziel wählen
+          Vertiefen · optional
         </p>
         <h2
           id="ziele-title"
           className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-[var(--foreground)] md:text-4xl"
         >
-          Was möchtest du heute mit KI schaffen?
+          Themenwelten — wenn du bereit bist
         </h2>
         <p className="mt-3 max-w-3xl text-base font-medium leading-7 text-[var(--nim-secondary)]">
-          Such dir ein Ziel. Wir führen dich danach Schritt für Schritt — in klarer Sprache,
-          mit Übungen und kurzen Challenges.
+          Das ist Vertiefung, kein zweiter Einstieg. Zuerst Selbstcheck, Kurzpfad und Lektionen —
+          hier wählst du danach kurze Micro-Einheiten zu einem Ziel.
         </p>
       </ExplainHotspot>
 

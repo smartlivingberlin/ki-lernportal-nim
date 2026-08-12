@@ -61,16 +61,16 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
           id="wiederholen-title"
           className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)]"
         >
-          Kurze Abruf-Übungen mit Abstand
+          Kurz wiederholen — mit Abstand
         </h2>
         <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
-          Nach Selbstcheck und Literacy-Pfad: aktiv abrufen statt nur lesen. Unsichere Karten
+          Nach Selbstcheck und 60-Minuten-Pfad: aktiv üben statt nur lesen. Unsichere Karten
           kommen früher wieder — alles bleibt in deinem Browser (kuratiert, mit Quellenangaben,
           ohne Server-Datenbank).
         </p>
         <p className="mt-2 text-xs font-semibold text-[var(--nim-secondary)]">
-          Tipp: Im 60-Minuten-Pfad ist Abrufen Station 7 — danach kannst du den lokalen Nachweis
-          freischalten.
+          Tipp: Im 60-Minuten-Pfad ist „Wiederholen“ Station 7 — danach kannst du den lokalen
+          Nachweis freischalten.
         </p>
       </ExplainHotspot>
 
@@ -81,7 +81,7 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
       ) : (
         <div className="mt-5 rounded-[var(--nim-radius-lg)] bg-[var(--nim-surface-soft)] p-4">
           <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary-strong)]">
-            Abruffrage
+            Übungsfrage
           </p>
           <p className="mt-2 text-lg font-black text-[var(--foreground)]">{card.prompt}</p>
 

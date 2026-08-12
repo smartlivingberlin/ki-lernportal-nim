@@ -46,9 +46,12 @@ import { PromptLibraryPanel } from "../components/learning/PromptLibraryPanel";
 import { ScamModulePanel } from "../components/learning/ScamModulePanel";
 import { OnboardingRoutePanel } from "../components/learning/OnboardingRoutePanel";
 import { ResetProgressConfirm } from "../components/learning/ResetProgressConfirm";
+import { SimpleModePackHint } from "../components/learning/SimpleModePackHint";
 import { explainAttrs } from "../data/help-tips";
+import { resolveNextStep } from "../data/next-step";
 import { useLocalProgress } from "../hooks/useLocalProgress";
 import { useLocalReviewQueue } from "../hooks/useLocalReviewQueue";
+import { useLiteracyPathProgress } from "../hooks/useLiteracyPathProgress";
 import { useSimpleMode } from "../hooks/useSimpleMode";
 import { designSystemMeta } from "../design/tokens";
 
@@ -138,6 +141,7 @@ export default function Home() {
   const { completedLessonIds, setCompletedLessonIds } = useLocalProgress();
   const coachDismissed = useFirstStartCoachDismissed();
   const reviewQueue = useLocalReviewQueue();
+  const literacyPath = useLiteracyPathProgress();
   const dueReviews = reviewQueue.countDue();
   const showPortalOnboarding = coachDismissed;
 
@@ -191,6 +195,27 @@ export default function Home() {
   const visibleMethods = simpleMode ? learningMethods.slice(0, 4) : learningMethods.slice(0, 6);
   const selectedWorld =
     themeWorlds.find((world) => world.id === selectedWorldId) ?? themeWorlds[0] ?? null;
+  const nextStep = useMemo(
+    () =>
+      resolveNextStep({
+        completedLiteracyStationIds: literacyPath.completedStationIds,
+        dueReviews,
+        nextOpenLesson,
+        completedLessons,
+        totalLessons,
+        simpleMode,
+        recommendedWorldTitle: selectedWorld?.title ?? null,
+      }),
+    [
+      literacyPath.completedStationIds,
+      dueReviews,
+      nextOpenLesson,
+      completedLessons,
+      totalLessons,
+      simpleMode,
+      selectedWorld?.title,
+    ],
+  );
   const worldUnits = selectedWorldId ? microUnitsForWorld(selectedWorldId) : [];
   const activeMicroUnit =
     worldUnits.find((unit) => unit.id === activeMicroUnitId) ??
@@ -289,10 +314,14 @@ export default function Home() {
 
   const resetProgress = () => {
     setCompletedLessonIds([]);
+    literacyPath.reset();
+    reviewQueue.resetQueue();
     setActiveLessonId(allLessons[0]?.id ?? null);
     setLessonFocusRequest(null);
     setResetConfirmOpen(false);
-    setProgressAnnouncement("Der lokale Lernfortschritt wurde zurückgesetzt.");
+    setProgressAnnouncement(
+      "Der lokale Lernfortschritt wurde zurückgesetzt. Gelöscht: Lektions-Haken, Kurzpfad und Wiederholen.",
+    );
   };
 
   return (
@@ -326,10 +355,10 @@ export default function Home() {
             <SimpleModeToggle enabled={simpleMode} onChange={setSimpleMode} />
             <nav className="flex min-w-0 max-w-full flex-wrap gap-2 text-sm font-black text-[var(--nim-primary)]" aria-label="Portalnavigation">
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#lernraum" {...explainAttrs("hero")}>Lernraum</a>
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#literacy-pfad" {...explainAttrs("literacy-path")}>60 Min</a>
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#pfad" {...explainAttrs("lernpfad")}>Pfad</a>
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#wiederholen" {...explainAttrs("wiederholen")}>Abruf</a>
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#coach" {...explainAttrs("sicherheit")}>Coach</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#literacy-pfad" {...explainAttrs("literacy-path")}>Kurzpfad</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#pfad" {...explainAttrs("lernpfad")}>Lektionen</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#wiederholen" {...explainAttrs("wiederholen")}>Wiederholen</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#coach" {...explainAttrs("sicherheit")}>Hilfe</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#quellen" {...explainAttrs("quellen")}>Quellen</a>
             </nav>
           </div>
@@ -360,44 +389,50 @@ export default function Home() {
                   Für Menschen mit Respekt vor Technik: klare Sprache, sichere Übungen,
                   spielerische Challenges und Schritt-für-Schritt-Hilfen — kostenlos und ohne Druck.
                 </p>
-                <div className="mt-6 flex flex-wrap gap-3">
+                <div className="mt-6 flex flex-col gap-3">
                   <a
                     href={showPortalOnboarding ? "#einstieg-route" : "#erststart"}
                     {...explainAttrs(showPortalOnboarding ? "einstieg-route" : "erststart")}
-                    className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-5 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
+                    className="nim-interactive inline-flex min-h-12 w-fit items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-5 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
                   >
-                    In 3 Schritten starten
+                    {showPortalOnboarding ? "Zum Einstieg" : "Jetzt starten"}
                   </a>
-                  <a
-                    href="#selbstcheck"
-                    {...explainAttrs("self-check")}
-                    className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/20"
-                  >
-                    Selbstcheck
-                  </a>
-                  <a
-                    href="#literacy-pfad"
-                    {...explainAttrs("literacy-path")}
-                    className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/20"
-                  >
-                    60-Minuten-Pfad
-                  </a>
-                  <a
-                    href="#wiederholen"
-                    {...explainAttrs("wiederholen")}
-                    className="nim-interactive inline-flex min-h-12 items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/20"
-                  >
-                    Abruf{dueReviews > 0 ? ` (${dueReviews})` : ""}
-                  </a>
+                  <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm font-bold text-white/95">
+                    <a
+                      href="#selbstcheck"
+                      {...explainAttrs("self-check")}
+                      className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                    >
+                      Selbstcheck
+                    </a>
+                    <span aria-hidden="true" className="text-white/50">
+                      ·
+                    </span>
+                    <a
+                      href="#literacy-pfad"
+                      {...explainAttrs("literacy-path")}
+                      className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                    >
+                      60-Minuten-Pfad
+                    </a>
+                    <span aria-hidden="true" className="text-white/50">
+                      ·
+                    </span>
+                    <a
+                      href="#wiederholen"
+                      {...explainAttrs("wiederholen")}
+                      className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                    >
+                      Wiederholen{dueReviews > 0 ? ` (${dueReviews})` : ""}
+                    </a>
+                  </p>
                 </div>
               </div>
               <TodayStartCard
-                lesson={nextOpenLesson}
+                nextStep={nextStep}
                 moduleTitle={recommendedModule?.title ?? null}
-                completedLessons={completedLessons}
-                totalLessons={totalLessons}
-                dueReviews={dueReviews}
                 onOpenLesson={openLesson}
+                onShowMore={() => setSimpleMode(false)}
               />
             </div>
           </section>
@@ -416,51 +451,57 @@ export default function Home() {
 
           <SpacedReviewQueue simpleMode={simpleMode} />
 
-          <GoalNavigation
-            worlds={themeWorlds}
-            selectedWorldId={selectedWorldId}
-            onSelectWorld={selectWorld}
-            simpleMode={simpleMode}
-            worldsReady={worldsWithMicroUnits}
-          />
+          {simpleMode ? (
+            <SimpleModePackHint onShowMore={() => setSimpleMode(false)} />
+          ) : (
+            <>
+              <GoalNavigation
+                worlds={themeWorlds}
+                selectedWorldId={selectedWorldId}
+                onSelectWorld={selectWorld}
+                simpleMode={false}
+                worldsReady={worldsWithMicroUnits}
+              />
 
-          {selectedWorldId && worldHasMicroUnits(selectedWorldId) && worldUnits.length > 0 ? (
-            <ThemeWorldTrack
-              worldTitle={selectedWorld?.title ?? "Themenwelt"}
-              units={worldUnits}
-              activeUnitId={activeMicroUnit?.id ?? null}
-              onSelectUnit={selectMicroUnit}
-              simpleMode={simpleMode}
-            />
-          ) : null}
+              {selectedWorldId && worldHasMicroUnits(selectedWorldId) && worldUnits.length > 0 ? (
+                <ThemeWorldTrack
+                  worldTitle={selectedWorld?.title ?? "Themenwelt"}
+                  learningOutcomes={selectedWorld?.learningOutcomes ?? []}
+                  units={worldUnits}
+                  activeUnitId={activeMicroUnit?.id ?? null}
+                  onSelectUnit={selectMicroUnit}
+                />
+              ) : null}
 
-          {activeMicroUnit && !activeMicroUnit.lessonId ? (
-            <MicroLearningUnitView
-              unit={activeMicroUnit}
-              sources={activeMicroSources}
-            />
-          ) : null}
+              {activeMicroUnit && !activeMicroUnit.lessonId ? (
+                <MicroLearningUnitView
+                  unit={activeMicroUnit}
+                  sources={activeMicroSources}
+                />
+              ) : null}
 
-          <LearningWorkspaces simpleMode={simpleMode} />
+              <LearningWorkspaces simpleMode={false} />
 
-          {!simpleMode ? <PromptLibraryPanel /> : null}
+              <PromptLibraryPanel />
+            </>
+          )}
 
           <ScamModulePanel challengeIds={[...SCAM_CHALLENGE_IDS]} />
 
-          <section
-            id="methoden"
-            {...explainAttrs("methoden")}
-            className="overflow-hidden rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-6 shadow-[var(--shadow-lift)] md:p-8"
-          >
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--nim-primary)]">Heute im Lernraum</p>
-            <h2 id="lernraum-title" className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)] md:text-4xl">
-              Lernen mit Methode — nicht nur lesen
-            </h2>
-            <p className="mt-4 max-w-3xl text-base font-medium leading-8 text-[var(--nim-secondary)]">
-              Worked Examples, Abrufübungen, Alltagsszenen und Confidence-Checks helfen dir,
-              KI wirklich zu verstehen und sicher anzuwenden.
-            </p>
-            {!simpleMode ? (
+          {!simpleMode ? (
+            <section
+              id="methoden"
+              {...explainAttrs("methoden")}
+              className="overflow-hidden rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-6 shadow-[var(--shadow-lift)] md:p-8"
+            >
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--nim-primary)]">Heute im Lernraum</p>
+              <h2 id="lernraum-title" className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)] md:text-4xl">
+                Lernen mit Methode — nicht nur lesen
+              </h2>
+              <p className="mt-4 max-w-3xl text-base font-medium leading-8 text-[var(--nim-secondary)]">
+                Beispiele, Wiederholungsübungen, Alltagsszenen und kurze Sicherheitschecks helfen dir,
+                KI wirklich zu verstehen und sicher anzuwenden.
+              </p>
               <ul className="mt-5 grid gap-3 sm:grid-cols-2">
                 {visibleMethods.map((method) => (
                   <li
@@ -472,8 +513,12 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-            ) : null}
-          </section>
+            </section>
+          ) : (
+            <h2 id="lernraum-title" className="sr-only">
+              Lernraum
+            </h2>
+          )}
 
           {showLessonGuidedSteps ? (
             <GuidedStartSteps
@@ -528,42 +573,46 @@ export default function Home() {
             ))}
           </section>
 
-          <section
-            id="szenarien"
-            aria-labelledby="szenarien-title"
-            className="scroll-mt-72 space-y-4 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 lg:scroll-mt-36"
-          >
-            <div>
-              <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
-                Szenarien · Alltag & Beruf
-              </p>
-              <h2
-                id="szenarien-title"
-                className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)]"
-              >
-                Echte Situationen üben
-              </h2>
-              <p className="mt-3 text-sm font-medium leading-7 text-[var(--nim-secondary)]">
-                Spielerische Entscheidungen mit Erklärung — kein Highscore, sondern Verständnis.
-              </p>
-            </div>
-            {scenarioChallenges.map((challenge) => (
-              <InteractiveChallengeCard key={challenge.id} challenge={challenge} />
-            ))}
-          </section>
+          {!simpleMode ? (
+            <section
+              id="szenarien"
+              aria-labelledby="szenarien-title"
+              className="scroll-mt-72 space-y-4 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 lg:scroll-mt-36"
+            >
+              <div>
+                <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
+                  Szenarien · Alltag & Beruf
+                </p>
+                <h2
+                  id="szenarien-title"
+                  className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)]"
+                >
+                  Echte Situationen üben
+                </h2>
+                <p className="mt-3 text-sm font-medium leading-7 text-[var(--nim-secondary)]">
+                  Spielerische Entscheidungen mit Erklärung — kein Highscore, sondern Verständnis.
+                </p>
+              </div>
+              {scenarioChallenges.map((challenge) => (
+                <InteractiveChallengeCard key={challenge.id} challenge={challenge} />
+              ))}
+            </section>
+          ) : null}
 
           {!simpleMode ? <ModelNavigator /> : null}
 
-          <section className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]">
-            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Lernablauf</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {workSteps.map((step, index) => (
-                <span key={step} className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-4 py-2 text-sm font-black text-[var(--nim-primary)]">
-                  {index + 1}. {step}
-                </span>
-              ))}
-            </div>
-          </section>
+          {!simpleMode ? (
+            <section className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]">
+              <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Lernablauf</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {workSteps.map((step, index) => (
+                  <span key={step} className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-4 py-2 text-sm font-black text-[var(--nim-primary)]">
+                    {index + 1}. {step}
+                  </span>
+                ))}
+              </div>
+            </section>
+          ) : null}
         </section>
 
         <aside
@@ -590,7 +639,7 @@ export default function Home() {
                 aria-expanded={resetConfirmOpen}
                 aria-controls="reset-progress-panel"
                 aria-label="Fortschritt zurücksetzen"
-                title="Lokalen Lernfortschritt auf null setzen"
+                title="Lokalen Lernstand zurücksetzen (Lektionen, Kurzpfad, Wiederholen)"
                 className="shrink-0 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-3 py-2 text-xs font-black text-[var(--nim-primary)] hover:border-[var(--nim-primary)]"
               >
                 Zurücksetzen
@@ -652,24 +701,33 @@ export default function Home() {
             {...explainAttrs("naechste")}
             className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]"
           >
-            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Als nächstes offen</p>
-            <h2 className="mt-2 text-2xl font-black text-[var(--nim-primary)]">
-              {nextOpenLesson ? `Lektion ${nextOpenLesson.order}` : "Pfad abgeschlossen"}
-            </h2>
-            <p className="mt-2 text-sm leading-7 text-[var(--nim-secondary)]">
-              {nextOpenLesson
-                ? `${nextOpenLesson.title} — markiere erledigte Lektionen, damit der nächste offene Schritt nach vorn springt.`
-                : "Du hast alle Lektionen markiert. Wiederhole unsichere Stellen oder prüfe die Quellen."}
+            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
+              {nextStep.eyebrow}
             </p>
-            {nextOpenLesson && (
-              <button
-                type="button"
-                onClick={() => openLesson(nextOpenLesson.id)}
-                className="mt-4 w-full rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 py-3 text-sm font-black text-white hover:bg-[var(--nim-primary-strong)]"
-              >
-                Zu dieser Lektion
-              </button>
-            )}
+            <h2 className="mt-2 text-2xl font-black text-[var(--nim-primary)]">{nextStep.title}</h2>
+            <p className="mt-2 text-sm leading-7 text-[var(--nim-secondary)]">{nextStep.reason}</p>
+            <p className="mt-2 text-xs font-semibold text-[var(--nim-secondary)]">
+              {nextStep.layer === "core" ? "Kernweg" : "Vertiefung"} · {nextStep.chipLabel}
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                if (nextStep.kind === "complete") {
+                  setSimpleMode(false);
+                  return;
+                }
+                if (nextStep.lessonId) {
+                  openLesson(nextStep.lessonId);
+                  return;
+                }
+                document
+                  .getElementById(nextStep.href.replace(/^#/, ""))
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="mt-4 w-full rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 py-3 text-sm font-black text-white hover:bg-[var(--nim-primary-strong)]"
+            >
+              {nextStep.primaryLabel}
+            </button>
           </section>
 
           <section
@@ -699,6 +757,7 @@ export default function Home() {
             </div>
           </section>
 
+      {!simpleMode ? (
           <section
             id="glossar"
             {...explainAttrs("glossar")}
@@ -727,6 +786,7 @@ export default function Home() {
               ))}
             </div>
           </section>
+      ) : null}
         </aside>
       </main>
 

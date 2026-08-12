@@ -374,6 +374,80 @@ export const interactiveChallenges: InteractiveChallenge[] = [
     scenarioDomain: "alltag",
   },
   {
+    id: "challenge-nofear-stop",
+    worldId: "world-no-fear",
+    lessonId: null,
+    title: "Stoppen, wenn es heikel wird",
+    plainIntro:
+      "Die KI gibt dir eine selbstsichere Empfehlung zu einem medizinischen Symptom.",
+    prompt: "Was ist der vernünftigste nächste Schritt?",
+    options: [
+      {
+        id: "a",
+        label: "Die Empfehlung ungeprüft an die Familie weiterleiten.",
+        feedback:
+          "Zu riskant. Selbstsicherer Ton ersetzt keine Fachperson.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Stoppen, keine Diagnose übernehmen und bei Bedarf eine Fachperson oder offizielle Stelle fragen.",
+        feedback:
+          "Richtig. Bei Gesundheit entscheidet der Mensch mit echter Hilfe — nicht der Chat.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Noch zehnmal nachfragen, bis die Antwort „sicherer“ klingt.",
+        feedback:
+          "Mehr Nachfragen machen eine Laie-Antwort nicht zur Diagnose.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Wann stoppst du bei KI-Antworten und holst echte Hilfe?",
+    methodIds: ["method-scenario", "method-confidence", "method-retrieval"],
+    scenarioDomain: "sicherheit",
+  },
+  {
+    id: "challenge-nofear-first-step",
+    worldId: "world-no-fear",
+    lessonId: null,
+    title: "Erster sicherer Schritt ohne Overwhelm",
+    plainIntro:
+      "Du bist neu und siehst viele Themenwelten. Was ist der beste Start?",
+    prompt: "Welche Reihenfolge ist am ruhigsten?",
+    options: [
+      {
+        id: "a",
+        label: "Alle Welten parallel öffnen und alles markieren.",
+        feedback:
+          "Das erzeugt Chaos. Besser ein klarer nächster Schritt.",
+        isGood: false,
+      },
+      {
+        id: "b",
+        label:
+          "Selbstcheck oder Kurzpfad zuerst, dann eine Lektion — Welten später als Vertiefung.",
+        feedback:
+          "Genau. Kernweg zuerst, Vertiefung danach — ohne Angst.",
+        isGood: true,
+      },
+      {
+        id: "c",
+        label: "Sofort eine Advanced-Welt starten, weil sie „modern“ klingt.",
+        feedback:
+          "Advanced kommt später. Einsteiger starten ruhig und sicher.",
+        isGood: false,
+      },
+    ],
+    teachBackPrompt:
+      "Was ist dein persönlicher erster Schritt im Portal — in einem Satz?",
+    methodIds: ["method-progressive", "method-playful", "method-teachback"],
+    scenarioDomain: "grundlagen",
+  },
+  {
     id: "challenge-truth-hallucination",
     worldId: "world-research-truth",
     lessonId: "l8",

@@ -1,89 +1,77 @@
 "use client";
 
-import type { Lesson } from "../../data/types";
+import type { NextStep } from "../../data/next-step";
 
 type TodayStartCardProps = {
-  lesson: Lesson | null;
+  nextStep: NextStep;
   moduleTitle: string | null;
-  completedLessons: number;
-  totalLessons: number;
-  dueReviews?: number;
   onOpenLesson: (lessonId: string) => void;
+  onShowMore?: () => void;
 };
 
 export function TodayStartCard({
-  lesson,
+  nextStep,
   moduleTitle,
-  completedLessons,
-  totalLessons,
-  dueReviews = 0,
   onOpenLesson,
+  onShowMore,
 }: TodayStartCardProps) {
+  const handlePrimary = () => {
+    if (nextStep.kind === "complete" && onShowMore) {
+      onShowMore();
+      return;
+    }
+    if (nextStep.lessonId) {
+      onOpenLesson(nextStep.lessonId);
+      return;
+    }
+    if (typeof document !== "undefined") {
+      const id = nextStep.href.replace(/^#/, "");
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section
       id="heute"
       data-testid="today-start-card"
+      data-next-step-kind={nextStep.kind}
       aria-labelledby="today-start-title"
       data-explain="heute"
       className="rounded-[var(--nim-radius-xl)] border border-white/25 bg-white/12 p-5 backdrop-blur-sm"
     >
       <p className="text-xs font-black uppercase tracking-widest text-white">
-        Heute empfohlen
+        {nextStep.eyebrow}
+        {moduleTitle && nextStep.kind === "lesson" ? ` · ${moduleTitle}` : ""}
       </p>
 
-      {lesson ? (
-        <>
-          <p className="mt-3 text-sm font-black text-white">
-            {moduleTitle ?? "KI-Start"} · Lektion {lesson.order}
-          </p>
-          <p
-            id="today-start-title"
-            className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold leading-tight text-white"
-          >
-            {lesson.title}
-          </p>
-          <p className="mt-3 text-sm font-semibold leading-6 text-white">
-            {lesson.estimatedMinutes} Minuten · aus deinem lokalen Fortschritt ausgewählt
-          </p>
-          <p className="mt-2 text-xs font-semibold text-white">
-            {completedLessons}/{totalLessons || 12} Lektionen erledigt
-            {dueReviews > 0 ? ` · ${dueReviews} Abruf fällig` : ""}
-          </p>
-          <button
-            type="button"
-            onClick={() => onOpenLesson(lesson.id)}
-            className="nim-interactive mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-4 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
-          >
-            Heute hier weitermachen
-          </button>
-          {dueReviews > 0 ? (
-            <a
-              href="#wiederholen"
-              className="nim-interactive mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-4 py-3 text-sm font-black text-white hover:bg-white/20"
-            >
-              {dueReviews} Abruf-Karten üben
-            </a>
-          ) : null}
-        </>
-      ) : (
-        <>
-          <p
-            id="today-start-title"
-            className="mt-3 font-[family-name:var(--font-display)] text-2xl font-semibold text-white"
-          >
-            Lernpfad abgeschlossen
-          </p>
-          <p className="mt-3 text-sm font-semibold leading-7 text-white">
-            Alle Lektionen sind lokal als erledigt markiert. Wiederhole unsichere Themen oder prüfe die Quellen.
-          </p>
-          <a
-            href="#wiederholen"
-            className="nim-interactive mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-4 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
-          >
-            Abruf starten{dueReviews > 0 ? ` (${dueReviews} fällig)` : ""}
-          </a>
-        </>
-      )}
+      <p
+        id="today-start-title"
+        className="mt-3 font-[family-name:var(--font-display)] text-2xl font-semibold leading-tight text-white"
+      >
+        {nextStep.title}
+      </p>
+      <p className="mt-3 text-sm font-semibold leading-6 text-white">{nextStep.reason}</p>
+      <p className="mt-2 text-xs font-semibold text-white/90">
+        Schicht: {nextStep.layer === "core" ? "Kernweg" : "Vertiefung"} · {nextStep.chipLabel}
+      </p>
+
+      <button
+        type="button"
+        data-testid="today-next-step-cta"
+        onClick={handlePrimary}
+        className="nim-interactive mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-4 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
+      >
+        {nextStep.primaryLabel}
+      </button>
+
+      {nextStep.kind === "lesson" ? (
+        <a
+          href="#literacy-pfad"
+          className="nim-interactive mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-4 py-3 text-sm font-black text-white hover:bg-white/20"
+        >
+          Oder im Kurzpfad weitermachen
+        </a>
+      ) : null}
     </section>
   );
 }

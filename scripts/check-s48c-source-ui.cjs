@@ -115,6 +115,48 @@ function escapeRegExp(value) {
   );
 }
 
+/**
+ * Packaging A collapses inactive modules in #pfad. Closed <details>
+ * hide lesson buttons from the a11y tree, so Playwright getByRole
+ * cannot find them until the parent module summary is opened.
+ */
+async function ensureModuleOpenForLesson(page, lessonTitle) {
+  await page.evaluate((title) => {
+    const pfad = document.querySelector("#pfad");
+    if (!pfad) return;
+
+    const buttons = [
+      ...pfad.querySelectorAll("button"),
+    ];
+    const match = buttons.find((button) =>
+      (button.textContent || "")
+        .toLowerCase()
+        .includes(title.toLowerCase()),
+    );
+    if (!match) return;
+
+    const details = match.closest("details");
+    if (!details || details.open) return;
+
+    const summary = details.querySelector("summary");
+    if (summary) summary.click();
+  }, lessonTitle);
+
+  await page
+    .getByRole("button")
+    .filter({
+      hasText: new RegExp(
+        escapeRegExp(lessonTitle),
+        "i",
+      ),
+    })
+    .first()
+    .waitFor({
+      state: "visible",
+      timeout: 15_000,
+    });
+}
+
 async function main() {
   const {
     seedSources,
@@ -187,6 +229,11 @@ async function main() {
     await dismissExplainClouds(page);
 
     for (const lesson of lessons) {
+      await ensureModuleOpenForLesson(
+        page,
+        lesson.title,
+      );
+
       const lessonButton = page
         .getByRole("button")
         .filter({
@@ -198,13 +245,13 @@ async function main() {
         .first();
 
       await lessonButton.waitFor({
-        state: "attached",
+        state: "visible",
         timeout: 15_000,
       });
 
       await dismissExplainClouds(page);
       await lessonButton.scrollIntoViewIfNeeded();
-      await lessonButton.click({ force: true });
+      await lessonButton.click();
 
       const lessonHeading = page.getByRole("heading", {
         name: lesson.title,

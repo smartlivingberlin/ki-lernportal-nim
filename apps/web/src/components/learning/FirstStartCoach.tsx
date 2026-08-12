@@ -48,14 +48,14 @@ const steps = [
     title: "2. 60-Minuten-Pfad starten",
     body: "Folge den acht Stationen: Sicherheit, Scam, Prompts, Szenarien — am Ende ein lokaler Teilnahme-Nachweis.",
     href: "#literacy-pfad",
-    cta: "Zum Literacy-Pfad",
+    cta: "Zum 60-Minuten-Pfad",
   },
   {
     id: "review",
     title: "3. Kurz wiederholen",
-    body: "Aktives Abrufen statt nur lesen. Unsichere Karten kommen früher wieder — alles bleibt im Browser.",
+    body: "Aktives Üben statt nur lesen. Unsichere Karten kommen früher wieder — alles bleibt im Browser.",
     href: "#wiederholen",
-    cta: "Zur Abruf-Übung",
+    cta: "Zum Wiederholen",
   },
 ] as const;
 
@@ -149,8 +149,8 @@ export function FirstStartCoach({
 
       <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
         Kein langer Rundgang. Nur drei klare Schritte — du kannst jederzeit abbrechen.
-        Tipp: Fahre mit der Maus über Bereiche und Buttons — am Cursor erscheint die
-        Erklärungswolke mit Bedienungshinweisen.
+        Ausführliche Hover-Hilfe startet erst, wenn du den Coach ausblendest (oder über die
+        kleinen „?“-Buttons, falls vorhanden).
       </p>
 
       {!simpleMode ? (

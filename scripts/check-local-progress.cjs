@@ -73,13 +73,39 @@ async function waitForStoredLessonIds(page, expectedIds) {
   );
 }
 
+/**
+ * Packaging A collapses inactive modules. Closed <details> hide
+ * lesson buttons from Playwright's a11y tree until the summary opens.
+ */
+async function ensureModuleOpenForLesson(page, lessonTitle) {
+  await page.evaluate((title) => {
+    const pfad = document.querySelector("#pfad");
+    if (!pfad) return;
+
+    const buttons = [...pfad.querySelectorAll("button")];
+    const match = buttons.find((button) =>
+      (button.textContent || "")
+        .toLowerCase()
+        .includes(title.toLowerCase()),
+    );
+    if (!match) return;
+
+    const details = match.closest("details");
+    if (!details || details.open) return;
+
+    const summary = details.querySelector("summary");
+    if (summary) summary.click();
+  }, lessonTitle);
+}
+
 async function lessonButton(page, title) {
+  await ensureModuleOpenForLesson(page, title);
   const button = page
     .locator("#pfad")
     .getByRole("button")
     .filter({ hasText: title })
     .first();
-  await button.waitFor({ state: "attached", timeout: 15_000 });
+  await button.waitFor({ state: "visible", timeout: 15_000 });
   await button.scrollIntoViewIfNeeded();
   return button;
 }
@@ -305,6 +331,95 @@ const phases = {
     });
     assert.equal(await forbiddenControls.count(), 0);
     console.log("NO_LOGIN_PAYMENT_TRACKING_CHAT_OK=YES");
+
+    const bottomNav = page.getByRole("navigation", {
+      name: "Mobile Schnellnavigation",
+    });
+    for (const label of ["Start", "Check", "Pfad", "Üben", "Scam"]) {
+      assert.equal(
+        await bottomNav.getByRole("link", { name: label, exact: true }).count(),
+        1,
+        `bottom nav missing label: ${label}`,
+      );
+    }
+    assert.equal(
+      await bottomNav.getByRole("link", { name: "Abruf", exact: true }).count(),
+      0,
+    );
+    assert.equal(
+      await page.getByRole("link", { name: "Jetzt starten", exact: true }).count(),
+      1,
+    );
+    console.log("MASS_AUDIENCE_CHROME_LABELS_OK=YES");
+  },
+
+  async packaging(page) {
+    await page.evaluate(() => {
+      window.localStorage.setItem("ki-lernportal-nim:simple-mode:v1", "1");
+      window.localStorage.setItem("ki-lernportal-nim:first-start-coach:v1", "dismissed");
+    });
+    await page.reload({ waitUntil: "load", timeout: navigationTimeout });
+    await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({
+      state: "visible",
+    });
+    await suppressExplainClouds(page);
+
+    await page.getByTestId("simple-mode-pack-hint").waitFor({ state: "visible" });
+    assert.equal(await page.locator("#ziele").count(), 0);
+    assert.equal(await page.locator("#szenarien").count(), 0);
+    assert.equal(await page.locator("#methoden").count(), 0);
+
+    await page.getByRole("button", { name: "Mehr Bereiche einblenden" }).click();
+    await page.locator("#ziele").waitFor({ state: "visible" });
+    assert.equal(await page.getByTestId("simple-mode-pack-hint").count(), 0);
+    console.log("PACKAGING_A_SIMPLE_MODE_PACK_OK=YES");
+
+    await page.getByRole("button", { name: "Fortschritt zurücksetzen" }).click();
+    await expectExactText(page, "Haken an den 12 Lektionen");
+    await expectExactText(page, "Wiederholungs-Queue (Übungskarten)");
+    console.log("PACKAGING_A_HONEST_RESET_COPY_OK=YES");
+  },
+
+  async "next-step"(page) {
+    await page.evaluate(() => {
+      window.localStorage.removeItem("ki-lernportal-nim:literacy-path:v1");
+      window.localStorage.setItem("ki-lernportal-nim:first-start-coach:v1", "dismissed");
+      window.localStorage.setItem("ki-lernportal-nim:simple-mode:v1", "1");
+      window.localStorage.setItem("ki-lernportal-nim:local-progress:v1", "[]");
+    });
+    await page.reload({ waitUntil: "load", timeout: navigationTimeout });
+    await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({
+      state: "visible",
+    });
+    await suppressExplainClouds(page);
+
+    const today = page.getByTestId("today-start-card");
+    await today.waitFor({ state: "visible" });
+    assert.equal(await today.getAttribute("data-next-step-kind"), "self-check");
+    await expectExactText(page, "Selbstcheck machen");
+    console.log("NEXT_STEP_CONTRACT_TODAY_SELF_CHECK_OK=YES");
+  },
+
+  async "content-wave"(page) {
+    await page.evaluate(() => {
+      window.localStorage.setItem("ki-lernportal-nim:simple-mode:v1", "0");
+      window.localStorage.setItem("ki-lernportal-nim:first-start-coach:v1", "dismissed");
+    });
+    await page.reload({ waitUntil: "load", timeout: navigationTimeout });
+    await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({
+      state: "visible",
+    });
+    await suppressExplainClouds(page);
+
+    await page.locator("#ziele").scrollIntoViewIfNeeded();
+    await page.getByRole("button", { name: /Ohne Angst|KI ohne Angst/i }).first().click().catch(async () => {
+      await page.locator("#ziele button").first().click();
+    });
+    const track = page.getByTestId("theme-world-track");
+    await track.waitFor({ state: "visible", timeout: 15_000 });
+    await expectExactText(page, "Start hier");
+    await page.getByText(/Weitere Einheiten \(\d+\)/).first().waitFor({ state: "visible" });
+    console.log("CONTENT_WAVE_C_WORLD_OVERVIEW_OK=YES");
   },
 };
 

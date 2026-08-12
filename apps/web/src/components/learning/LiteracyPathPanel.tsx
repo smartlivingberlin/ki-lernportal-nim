@@ -1,18 +1,24 @@
 "use client";
 
 import { literacyPathMeta, literacyStations } from "../../data/literacy-path";
+import { literacyStationForMode } from "../../data/next-step";
 import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
 import { useLiteracyPathProgress } from "../../hooks/useLiteracyPathProgress";
+import { useSimpleMode } from "../../hooks/useSimpleMode";
 
 export function LiteracyPathPanel() {
   const { completedStationIds, markComplete, unmark, reset } = useLiteracyPathProgress();
+  const { enabled: simpleMode } = useSimpleMode();
   const doneCount = completedStationIds.length;
   const total = literacyStations.length;
   const allDone = doneCount === total;
   const percent = Math.round((doneCount / total) * 100);
-  const nextStation =
+  const nextStationRaw =
     literacyStations.find((station) => !completedStationIds.includes(station.id)) ?? null;
+  const nextStation = nextStationRaw
+    ? literacyStationForMode(nextStationRaw, simpleMode)
+    : null;
 
   const printProof = () => {
     window.print();
@@ -27,7 +33,7 @@ export function LiteracyPathPanel() {
     >
       <ExplainHotspot tipId="literacy-path">
         <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
-          Kurzpfad · ca. {literacyPathMeta.totalMinutes} Min.
+          Kernweg · Kurzpfad · ca. {literacyPathMeta.totalMinutes} Min.
         </p>
         <h2
           id="literacy-pfad-title"
@@ -36,14 +42,14 @@ export function LiteracyPathPanel() {
           {literacyPathMeta.title}
         </h2>
         <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
-          {literacyPathMeta.subtitle}
+          {literacyPathMeta.subtitle} Derselbe „Nächste Schritt“ wie in der Heute-Karte.
         </p>
       </ExplainHotspot>
 
       <div
         className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] p-4"
         role="group"
-        aria-label="Fortschritt Literacy-Pfad"
+        aria-label="Fortschritt 60-Minuten-Kurzpfad"
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="text-sm font-black text-[var(--nim-primary)]">
@@ -67,14 +73,17 @@ export function LiteracyPathPanel() {
           />
         </div>
         <p className="sr-only">
-          Literacy-Pfad Fortschritt: {doneCount} von {total} Stationen erledigt.
+          Kurzpfad-Fortschritt: {doneCount} von {total} Stationen erledigt.
         </p>
       </div>
 
       {nextStation ? (
-        <div className="rounded-[var(--nim-radius-md)] border border-[var(--nim-primary)]/30 bg-[var(--nim-primary-soft)] p-4">
+        <div
+          data-testid="literacy-next-step"
+          className="rounded-[var(--nim-radius-md)] border border-[var(--nim-primary)]/30 bg-[var(--nim-primary-soft)] p-4"
+        >
           <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
-            Nächste Station · {nextStation.order}/{total}
+            Nächster Schritt · Station {nextStation.order}/{total}
           </p>
           <p className="mt-2 font-[family-name:var(--font-display)] text-xl font-semibold text-[var(--foreground)]">
             {nextStation.title}
@@ -99,7 +108,8 @@ export function LiteracyPathPanel() {
       ) : null}
 
       <ol className="space-y-3">
-        {literacyStations.map((station) => {
+        {literacyStations.map((stationRaw) => {
+          const station = literacyStationForMode(stationRaw, simpleMode);
           const done = completedStationIds.includes(station.id);
           const isNext = nextStation?.id === station.id;
           return (
@@ -130,7 +140,7 @@ export function LiteracyPathPanel() {
                       : "bg-white text-[var(--nim-secondary)]",
                   ].join(" ")}
                 >
-                  {done ? "erledigt" : isNext ? "als Nächstes" : "offen"}
+                  {done ? "erledigt" : isNext ? "Nächster Schritt" : "offen"}
                 </span>
               </div>
               <div className="mt-4 flex flex-wrap gap-2">

@@ -118,24 +118,27 @@ export function SelfCheckPanel({ onRecommendWorld }: SelfCheckPanelProps) {
       {submitted && topWorld ? (
         <div className="rounded-[var(--nim-radius-lg)] border border-[var(--nim-success)]/40 bg-[var(--nim-success-soft)] p-5">
           <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-success)]">
-            Deine Startempfehlung
+            Nächster Schritt · Empfehlung
           </p>
           <p className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold text-[var(--foreground)]">
-            {topWorld.title}
+            Weiter im Kurzpfad — optional später „{topWorld.title}“
           </p>
-          <p className="mt-2 text-sm leading-7 text-[var(--nim-secondary)]">{topWorld.description}</p>
+          <p className="mt-2 text-sm leading-7 text-[var(--nim-secondary)]">
+            Deine Themenwelt-Empfehlung: {topWorld.title}. Das ist Vertiefung. Zuerst den
+            gemeinsamen Kernweg (Kurzpfad) fortsetzen — dieselbe Sprache wie in der Heute-Karte.
+          </p>
           <p className="mt-2 text-sm font-medium text-[var(--nim-secondary)]">
             {selfCheckMeta.resultDisclaimer}
           </p>
           <p className="mt-2 text-xs font-semibold text-[var(--nim-secondary)]">
-            Station „Selbstcheck“ im 60-Minuten-Pfad wurde lokal als erledigt markiert.
+            Station „Selbstcheck“ im Kurzpfad wurde lokal als erledigt markiert.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             <a
               href="#literacy-pfad"
               className="nim-interactive inline-flex min-h-11 items-center rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 text-sm font-black text-white"
             >
-              Weiter im 60-Minuten-Pfad
+              Nächster Schritt: Kurzpfad
             </a>
             <button
               type="button"
@@ -145,12 +148,12 @@ export function SelfCheckPanel({ onRecommendWorld }: SelfCheckPanelProps) {
                 document.getElementById("ziele")?.scrollIntoView({ behavior: "smooth" });
               }}
             >
-              Diese Themenwelt öffnen
+              Später vertiefen: {topWorld.shortLabel}
             </button>
           </div>
           {ranking.length > 1 ? (
             <p className="mt-4 text-xs font-semibold text-[var(--nim-secondary)]">
-              Weitere passende Welten:{" "}
+              Weitere passende Welten (Vertiefung):{" "}
               {ranking
                 .slice(1, 3)
                 .map((item) => themeWorlds.find((world) => world.id === item.worldId)?.shortLabel)
