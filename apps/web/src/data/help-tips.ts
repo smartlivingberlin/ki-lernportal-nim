@@ -102,24 +102,25 @@ export const helpTips: HelpTip[] = [
   },
   {
     id: "heute",
-    label: "Heute empfohlen",
-    short: "Eine konkrete nächste Lektion — aus deinem lokalen Fortschritt.",
+    label: "Nächster Schritt",
+    short: "Eine gemeinsame Empfehlung: Selbstcheck → Kurzpfad → Wiederholen → Lektion → Vertiefen.",
     whatIs:
-      "Eine Vorschlagskarte. Sie zeigt die erste Lektion, die bei dir noch offen ist. Kein Algorithmus in der Cloud — nur dein Stand in diesem Browser.",
+      "Die Heute-Karte folgt dem Portal-Vertrag „Nächster Schritt“. Kein Cloud-Algorithmus — nur dein lokaler Stand (Kurzpfad, Wiederholen, Lektionen).",
     whatFor:
-      "Sie spart die Frage „Womit fange ich an?“. Gerade ohne KI-Vorkenntnisse hilft ein einzelner, klarer nächster Schritt mehr als eine lange Liste.",
+      "Eine Handlung statt vieler Türen. Dieselbe Priorität wie Kurzpfad und Seitenleiste.",
     canDo: [
-      "Titel und Kurzinfo lesen.",
-      "„Heute hier weitermachen“ antippen — die Lektion öffnet sich im Lernraum.",
-      "Nach dem Üben als erledigt markieren, damit der nächste Vorschlag weiterwandert.",
+      "Den vorgeschlagenen Schritt antippen.",
+      "Im Kurzpfad dieselbe Station wiederfinden.",
+      "Themenwelten erst als Vertiefung nutzen — nicht als parallelen Start.",
     ],
     example:
-      "0 von 12 erledigt → meist Lektion 1 „Was ist KI?“. Nach dem Haken erscheint als Nächstes Lektion 2.",
+      "Neu: „Selbstcheck machen“. Nach dem Check: nächste Kurzpfad-Station. Später: Lektion oder Wiederholen.",
     mistake:
-      "Die Empfehlung ignorieren und ziellos durch alle Welten scrollen. Dann fühlt sich alles nach „zu viel“ an.",
+      "Die Karte ignorieren und in alle Welten springen. Dann wirkt das Portal wieder überfordernd.",
     links: [
-      { href: "#lernraum", label: "Zum Lernraum" },
-      { href: "#pfad", label: "Alle Lektionen im Pfad" },
+      { href: "#selbstcheck", label: "Selbstcheck" },
+      { href: "#literacy-pfad", label: "Kurzpfad" },
+      { href: "#pfad", label: "Lektionen" },
     ],
   },
   {
@@ -170,26 +171,25 @@ export const helpTips: HelpTip[] = [
   },
   {
     id: "ziele",
-    label: "Ziel wählen",
-    short: "Hier suchst du aus, was du heute mit KI üben willst.",
+    label: "Themenwelten vertiefen",
+    short: "Optional nach dem Kernweg: Micro-Einheiten zu einem Ziel.",
     whatIs:
-      "Das ist die Themenwelt-Auswahl. Jede Kachel steht für ein Lernziel (z. B. Chat & Prompting, Recherche & Wahrheit). Du wählst nicht „alles KI“, sondern ein klares Thema für heute.",
+      "Themenwelt-Auswahl als Vertiefungsschicht. Nicht der Erst-Einstieg — der liegt bei Selbstcheck, Kurzpfad und Lektionen.",
     whatFor:
-      "Ohne Ziel wirkt KI wie ein Ozean. Mit Ziel wird daraus ein überschaubarer See: eine Welt, kurze Einheiten, passende Übungen. Das senkt Überforderung.",
+      "Wenn der Kernweg klar ist, kannst du gezielt tiefer gehen — ohne alles parallel zu öffnen.",
     canDo: [
-      "Eine Kachel antippen, die zu deinem Alltag passt.",
-      "Darunter die Micro-Einheiten und Challenges ansehen.",
-      "Eine Einheit öffnen und die kurze Übung machen.",
-      "Wenn es zu voll wirkt: Einfache Ansicht einschalten.",
+      "Erst den „Nächsten Schritt“ in der Heute-Karte erledigen.",
+      "Dann eine Welt antippen und eine Micro-Einheit üben.",
+      "Bei Überforderung: Einfache Ansicht an — Welten sind dann nur ausgeblendet.",
     ],
     example:
-      "Du willst gerüchtefeste Recherche: Kachel „Recherche & Wahrheit“ → Einheit zu Halluzinationen → eine Challenge entscheiden.",
+      "Nach dem Kurzpfad: Welt „Recherche & Wahrheit“ → eine Einheit zu Halluzinationen.",
     mistake:
-      "Alle Welten parallel öffnen und dann abbrechen. Besser eine Welt fertig anreißen.",
+      "Welten als Ersatz für Selbstcheck und Kurzpfad nutzen. Dann fehlen Orientierung und Sicherheit.",
     links: [
-      { href: "#lernraum", label: "Im Lernraum bleiben" },
-      { href: "#themenwelt", label: "Zu den Micro-Einheiten" },
-      { href: "#werkzeuge", label: "Werkzeuge dazu üben" },
+      { href: "#heute", label: "Nächster Schritt" },
+      { href: "#literacy-pfad", label: "Kurzpfad" },
+      { href: "#themenwelt", label: "Micro-Einheiten" },
     ],
   },
   {
@@ -450,24 +450,23 @@ export const helpTips: HelpTip[] = [
   },
   {
     id: "naechste",
-    label: "Nächste offene Lektion",
-    short: "Zeigt den nächsten sinnvollen Schritt anhand deiner Haken.",
+    label: "Nächster Schritt",
+    short: "Dieselbe Empfehlung wie die Heute-Karte — aus dem Portal-Vertrag.",
     whatIs:
-      "Ein Kurzblock, der die nächste noch nicht erledigte Lektion vorschlägt. Grundlage ist dein lokaler Fortschritt.",
+      "Seitenleisten-Spiegel der Heute-Karte. Priorität: Selbstcheck → Kurzpfad → Wiederholen → Lektion → Vertiefen.",
     whatFor:
-      "Immer eine klare „nächste Handlung“ haben — ohne die ganze Liste durchsuchen zu müssen.",
+      "Auch beim Scrollen im Coach-Bereich denselben nächsten Schritt sehen.",
     canDo: [
       "Den Vorschlag lesen.",
-      "„Zu dieser Lektion“ (oder vergleichbaren Button) antippen.",
-      "Nach dem Abschluss den Fortschritt aktualisieren.",
+      "Den Button antippen — springt zum passenden Bereich oder öffnet die Lektion.",
     ],
     example:
-      "Lektion 4 ist die erste offene → der Button öffnet genau Lektion 4.",
+      "Wenn der Kurzpfad bei Station 3 steht, sagt die Seitenleiste dasselbe wie die Heute-Karte.",
     mistake:
-      "Immer bei Lektion 1 bleiben, obwohl schon viel erledigt ist. Dann fehlt das Erfolgserlebnis des Weitergehens.",
+      "Hier eine andere Logik erwarten als oben. Es ist absichtlich dieselbe Sprache.",
     links: [
-      { href: "#pfad", label: "Gesamten Pfad sehen" },
-      { href: "#heute", label: "Heute empfohlen" },
+      { href: "#heute", label: "Heute-Karte" },
+      { href: "#literacy-pfad", label: "Kurzpfad" },
     ],
   },
   {
@@ -612,23 +611,24 @@ export const helpTips: HelpTip[] = [
   {
     id: "self-check",
     label: "Selbstcheck",
-    short: "Kurze Fragen — Empfehlung einer Themenwelt, keine Note.",
+    short: "Einstieg ohne Note — danach derselbe „Nächste Schritt“ wie überall.",
     whatIs:
-      "Ein Einstiegsquiz mit Alltagsfragen. Es bewertet dich nicht, sondern schlägt eine passende Themenwelt vor.",
+      "Kurze Alltagsfragen. Ergebnis: Themenwelt als Vertiefungs-Hinweis, Primärhandlung bleibt der Kurzpfad.",
     whatFor:
-      "Weniger Starre: Du startest nicht zufällig, sondern mit einem Vorschlag, der zu deinem Ziel passt.",
+      "Orientierung ohne Prüfungsangst. Du startest nicht zufällig.",
     canDo: [
       "Alle Fragen beantworten.",
       "„Empfehlung zeigen“ antippen.",
-      "Die vorgeschlagene Welt öffnen oder den Literacy-Pfad starten.",
+      "Primär: „Nächster Schritt: Kurzpfad“. Optional später die Welt vertiefen.",
     ],
     example:
-      "Viele Sicherheitsantworten → Empfehlung „Daten, Sicherheit & Recht“ oder ähnliche Welt.",
+      "Sicherheitsantworten → Welt „Daten & Recht“ gemerkt → zuerst Station 2 im Kurzpfad.",
     mistake:
-      "Den Selbstcheck als Prüfung sehen und deshalb abbrechen. Es gibt kein Bestehen oder Durchfallen.",
+      "Sofort in die Themenwelt springen und den Kurzpfad liegen lassen.",
     links: [
       { href: "#selbstcheck", label: "Selbstcheck starten" },
-      { href: "#ziele", label: "Alle Themenwelten" },
+      { href: "#literacy-pfad", label: "Kurzpfad" },
+      { href: "#heute", label: "Nächster Schritt" },
     ],
   },
   {

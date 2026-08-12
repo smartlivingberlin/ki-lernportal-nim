@@ -333,6 +333,26 @@ const phases = {
     await expectExactText(page, "Wiederholungs-Queue (Übungskarten)");
     console.log("PACKAGING_A_HONEST_RESET_COPY_OK=YES");
   },
+
+  async "next-step"(page) {
+    await page.evaluate(() => {
+      window.localStorage.removeItem("ki-lernportal-nim:literacy-path:v1");
+      window.localStorage.setItem("ki-lernportal-nim:first-start-coach:v1", "dismissed");
+      window.localStorage.setItem("ki-lernportal-nim:simple-mode:v1", "1");
+      window.localStorage.setItem("ki-lernportal-nim:local-progress:v1", "[]");
+    });
+    await page.reload({ waitUntil: "load", timeout: navigationTimeout });
+    await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({
+      state: "visible",
+    });
+    await suppressExplainClouds(page);
+
+    const today = page.getByTestId("today-start-card");
+    await today.waitFor({ state: "visible" });
+    assert.equal(await today.getAttribute("data-next-step-kind"), "self-check");
+    await expectExactText(page, "Selbstcheck machen");
+    console.log("NEXT_STEP_CONTRACT_TODAY_SELF_CHECK_OK=YES");
+  },
 };
 
 async function runPhase(browser, phaseName) {

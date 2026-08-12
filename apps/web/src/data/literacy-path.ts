@@ -14,9 +14,9 @@ export type LiteracyStation = {
 
 export const literacyPathMeta = {
   id: "literacy-60",
-  title: "60-Minuten AI-Literacy",
+  title: "60-Minuten KI-Kurzpfad",
   subtitle:
-    "Ein klarer Kurzpfad: verstehen, sicher üben, prüfen — ohne Konto und ohne Cloud-KI.",
+    "Ein klarer Kernweg: verstehen, sicher üben, prüfen — ohne Konto und ohne Cloud-KI.",
   totalMinutes: 60,
   disclaimer:
     "Am Ende kannst du einen lokalen Teilnahme-Nachweis anzeigen und drucken. Das ist kein amtliches Zertifikat und keine Rechtsberatung — nur dein Lernbeleg in diesem Browser.",
@@ -37,9 +37,9 @@ export const literacyStations: LiteracyStation[] = [
     order: 2,
     title: "Was KI ist — und was nicht",
     minutes: 8,
-    summary: "Alltagssprache, Grenzen, ohne Panik.",
+    summary: "Alltagssprache, Grenzen, ohne Panik — optional in einer Themenwelt vertiefen.",
     href: "#ziele",
-    actionLabel: "Zu den Themenwelten",
+    actionLabel: "Themenwelten vertiefen",
   },
   {
     id: "lit-safety",
@@ -80,11 +80,11 @@ export const literacyStations: LiteracyStation[] = [
   {
     id: "lit-review",
     order: 7,
-    title: "Kurz abrufen (Spaced Review)",
+    title: "Kurz wiederholen",
     minutes: 8,
-    summary: "Eine Abruffrage beantworten und einschätzen, wie sicher du bist.",
+    summary: "Eine Übungsfrage beantworten und einschätzen, wie sicher du bist.",
     href: "#wiederholen",
-    actionLabel: "Zur Abruf-Übung",
+    actionLabel: "Zum Wiederholen",
   },
   {
     id: "lit-proof",

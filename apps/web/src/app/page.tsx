@@ -48,6 +48,7 @@ import { OnboardingRoutePanel } from "../components/learning/OnboardingRoutePane
 import { ResetProgressConfirm } from "../components/learning/ResetProgressConfirm";
 import { SimpleModePackHint } from "../components/learning/SimpleModePackHint";
 import { explainAttrs } from "../data/help-tips";
+import { resolveNextStep } from "../data/next-step";
 import { useLocalProgress } from "../hooks/useLocalProgress";
 import { useLocalReviewQueue } from "../hooks/useLocalReviewQueue";
 import { useLiteracyPathProgress } from "../hooks/useLiteracyPathProgress";
@@ -194,6 +195,27 @@ export default function Home() {
   const visibleMethods = simpleMode ? learningMethods.slice(0, 4) : learningMethods.slice(0, 6);
   const selectedWorld =
     themeWorlds.find((world) => world.id === selectedWorldId) ?? themeWorlds[0] ?? null;
+  const nextStep = useMemo(
+    () =>
+      resolveNextStep({
+        completedLiteracyStationIds: literacyPath.completedStationIds,
+        dueReviews,
+        nextOpenLesson,
+        completedLessons,
+        totalLessons,
+        simpleMode,
+        recommendedWorldTitle: selectedWorld?.title ?? null,
+      }),
+    [
+      literacyPath.completedStationIds,
+      dueReviews,
+      nextOpenLesson,
+      completedLessons,
+      totalLessons,
+      simpleMode,
+      selectedWorld?.title,
+    ],
+  );
   const worldUnits = selectedWorldId ? microUnitsForWorld(selectedWorldId) : [];
   const activeMicroUnit =
     worldUnits.find((unit) => unit.id === activeMicroUnitId) ??
@@ -399,12 +421,10 @@ export default function Home() {
                 </div>
               </div>
               <TodayStartCard
-                lesson={nextOpenLesson}
+                nextStep={nextStep}
                 moduleTitle={recommendedModule?.title ?? null}
-                completedLessons={completedLessons}
-                totalLessons={totalLessons}
-                dueReviews={dueReviews}
                 onOpenLesson={openLesson}
+                onShowMore={() => setSimpleMode(false)}
               />
             </div>
           </section>
@@ -673,24 +693,33 @@ export default function Home() {
             {...explainAttrs("naechste")}
             className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]"
           >
-            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Als nächstes offen</p>
-            <h2 className="mt-2 text-2xl font-black text-[var(--nim-primary)]">
-              {nextOpenLesson ? `Lektion ${nextOpenLesson.order}` : "Pfad abgeschlossen"}
-            </h2>
-            <p className="mt-2 text-sm leading-7 text-[var(--nim-secondary)]">
-              {nextOpenLesson
-                ? `${nextOpenLesson.title} — markiere erledigte Lektionen, damit der nächste offene Schritt nach vorn springt.`
-                : "Du hast alle Lektionen markiert. Wiederhole unsichere Stellen oder prüfe die Quellen."}
+            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
+              {nextStep.eyebrow}
             </p>
-            {nextOpenLesson && (
-              <button
-                type="button"
-                onClick={() => openLesson(nextOpenLesson.id)}
-                className="mt-4 w-full rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 py-3 text-sm font-black text-white hover:bg-[var(--nim-primary-strong)]"
-              >
-                Zu dieser Lektion
-              </button>
-            )}
+            <h2 className="mt-2 text-2xl font-black text-[var(--nim-primary)]">{nextStep.title}</h2>
+            <p className="mt-2 text-sm leading-7 text-[var(--nim-secondary)]">{nextStep.reason}</p>
+            <p className="mt-2 text-xs font-semibold text-[var(--nim-secondary)]">
+              {nextStep.layer === "core" ? "Kernweg" : "Vertiefung"} · {nextStep.chipLabel}
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                if (nextStep.kind === "complete") {
+                  setSimpleMode(false);
+                  return;
+                }
+                if (nextStep.lessonId) {
+                  openLesson(nextStep.lessonId);
+                  return;
+                }
+                document
+                  .getElementById(nextStep.href.replace(/^#/, ""))
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="mt-4 w-full rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 py-3 text-sm font-black text-white hover:bg-[var(--nim-primary-strong)]"
+            >
+              {nextStep.primaryLabel}
+            </button>
           </section>
 
           <section
