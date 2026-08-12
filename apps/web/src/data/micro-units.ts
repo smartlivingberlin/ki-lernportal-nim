@@ -26,7 +26,14 @@ export const allMicroUnits: MicroLearningUnitV2[] = [
 export function microUnitsForWorld(worldId: string): MicroLearningUnitV2[] {
   return allMicroUnits
     .filter((unit) => unit.worldId === worldId)
-    .sort((a, b) => a.order - b.order);
+    .sort((a, b) => {
+      // Kernweg (mit Lektion) vor Vertiefung — „Start hier“ trifft zuerst den Kern.
+      const layerDelta =
+        Number(microUnitLearningLayer(a) === "vertiefung") -
+        Number(microUnitLearningLayer(b) === "vertiefung");
+      if (layerDelta !== 0) return layerDelta;
+      return a.order - b.order;
+    });
 }
 
 export function microUnitForLesson(lessonId: string): MicroLearningUnitV2 | null {

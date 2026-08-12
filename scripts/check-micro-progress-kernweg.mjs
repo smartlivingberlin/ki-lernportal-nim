@@ -21,12 +21,15 @@ const micros = read("apps/web/src/data/micro-units.ts");
 assert.match(micros, /microUnitLearningLayer/);
 assert.match(micros, /microUnitLayerLabel/);
 assert.match(micros, /isMicroUnitCompleted/);
+assert.match(micros, /layerDelta/);
+assert.match(micros, /vor Vertiefung/);
 
 const track = read("apps/web/src/components/learning/ThemeWorldTrack.tsx");
 assert.match(track, /Kernweg/);
 assert.match(track, /Vertiefung/);
 assert.match(track, /completedMicroUnitIds/);
 assert.match(track, /data-layer/);
+assert.match(track, /zuerst Kernweg/);
 
 const view = read("apps/web/src/components/learning/MicroLearningUnitView.tsx");
 assert.match(view, /micro-unit-complete/);
