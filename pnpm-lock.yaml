@@ -28,11 +28,14 @@ importers:
   apps/web:
     dependencies:
       '@ki-lernportal-nim/auth':
-        specifier: workspace:*
+        specifier: file:../../packages/auth
         version: link:../../packages/auth
       '@ki-lernportal-nim/contracts':
-        specifier: workspace:*
+        specifier: file:../../packages/contracts
         version: link:../../packages/contracts
+      '@ki-lernportal-nim/domain':
+        specifier: file:../../packages/domain
+        version: link:../../packages/domain
       next:
         specifier: 16.2.11
         version: 16.2.11(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -81,7 +84,7 @@ importers:
   packages/contracts:
     dependencies:
       '@ki-lernportal-nim/domain':
-        specifier: workspace:*
+        specifier: file:../domain
         version: link:../domain
 
   packages/db:
