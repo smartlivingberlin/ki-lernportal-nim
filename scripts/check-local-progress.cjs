@@ -396,6 +396,7 @@ const phases = {
 
     await page.getByRole("button", { name: "Fortschritt zurücksetzen" }).click();
     await expectExactText(page, "Haken an den 12 Lektionen");
+    await expectExactText(page, "Vertiefungs-Einheiten (Themenwelten)");
     await expectExactText(page, "Wiederholungs-Queue (Übungskarten)");
     console.log("PACKAGING_A_HONEST_RESET_COPY_OK=YES");
   },
@@ -439,7 +440,73 @@ const phases = {
     await track.waitFor({ state: "visible", timeout: 15_000 });
     await expectExactText(page, "Start hier");
     await page.getByText(/Weitere Einheiten \(\d+\)/).first().waitFor({ state: "visible" });
+    assert.ok(
+      (await track.locator('[data-layer="kernweg"]').count()) +
+        (await track.locator('[data-layer="vertiefung"]').count()) >
+        0,
+      "theme world units must expose Kernweg/Vertiefung layer",
+    );
     console.log("CONTENT_WAVE_C_WORLD_OVERVIEW_OK=YES");
+  },
+
+  async "micro-progress"(page) {
+    await page.evaluate(() => {
+      window.localStorage.setItem("ki-lernportal-nim:simple-mode:v1", "0");
+      window.localStorage.setItem(
+        "ki-lernportal-nim:first-start-coach:v1",
+        "dismissed",
+      );
+      window.localStorage.setItem(
+        "ki-lernportal-nim:micro-progress:v1",
+        "[]",
+      );
+    });
+    await page.reload({ waitUntil: "load", timeout: navigationTimeout });
+    await page
+      .getByRole("heading", { name: "Dein geführter KI-Lernraum." })
+      .waitFor({ state: "visible" });
+    await suppressExplainClouds(page);
+
+    await page.locator("#ziele").scrollIntoViewIfNeeded();
+    await page.locator("#ziele button").first().click();
+    const track = page.getByTestId("theme-world-track");
+    await track.waitFor({ state: "visible", timeout: 15_000 });
+
+    const vertiefung = track.locator('[data-layer="vertiefung"]').first();
+    if ((await vertiefung.count()) === 0) {
+      // Pick a world that has Vertiefung units (e.g. multimodal).
+      await page
+        .getByRole("button", { name: /Multimodal|Bild|Stimme/i })
+        .first()
+        .click()
+        .catch(async () => {
+          await page.locator("#ziele button").nth(5).click();
+        });
+      await track.waitFor({ state: "visible", timeout: 15_000 });
+    }
+
+    const unitButton = track.locator('[data-layer="vertiefung"]').first();
+    await unitButton.waitFor({ state: "visible", timeout: 15_000 });
+    await unitButton.click();
+
+    const complete = page.getByTestId("micro-unit-complete");
+    await complete.waitFor({ state: "visible", timeout: 15_000 });
+    await complete.click();
+
+    await page.waitForFunction(() => {
+      try {
+        const raw = window.localStorage.getItem(
+          "ki-lernportal-nim:micro-progress:v1",
+        );
+        const ids = JSON.parse(raw || "[]");
+        return Array.isArray(ids) && ids.length >= 1;
+      } catch {
+        return false;
+      }
+    });
+
+    assert.equal(await unitButton.getAttribute("data-completed"), "true");
+    console.log("MICRO_PROGRESS_VERTIEFUNG_OK=YES");
   },
 };
 

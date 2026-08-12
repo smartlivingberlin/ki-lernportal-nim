@@ -6,12 +6,16 @@ import type { ConfidenceLevel, MicroLearningUnitV2, Source } from "../../data/ty
 type MicroLearningUnitViewProps = {
   unit: MicroLearningUnitV2;
   sources: Source[];
+  completed?: boolean;
+  onToggleCompleted?: () => void;
   onOpenLesson?: (lessonId: string) => void;
 };
 
 export function MicroLearningUnitView({
   unit,
   sources,
+  completed = false,
+  onToggleCompleted,
   onOpenLesson,
 }: MicroLearningUnitViewProps) {
   const baseId = useId();
@@ -27,7 +31,8 @@ export function MicroLearningUnitView({
       className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] md:p-7"
     >
       <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
-        Micro-Einheit {unit.order}
+        Vertiefung · Micro-Einheit {unit.order}
+        {completed ? " · erledigt" : ""}
       </p>
       <h3
         id={`${baseId}-title`}
@@ -171,11 +176,30 @@ export function MicroLearningUnitView({
         </section>
       ) : null}
 
+      {onToggleCompleted ? (
+        <button
+          type="button"
+          data-testid="micro-unit-complete"
+          onClick={onToggleCompleted}
+          aria-pressed={completed}
+          className={[
+            "nim-interactive mt-6 min-h-12 w-full rounded-[var(--nim-radius-md)] px-4 py-3 text-sm font-black",
+            completed
+              ? "bg-[var(--nim-success)] text-white"
+              : "bg-[var(--nim-primary)] text-white hover:bg-[var(--nim-primary-strong)]",
+          ].join(" ")}
+        >
+          {completed
+            ? "Erledigt zurücknehmen"
+            : "Diese Vertiefung als erledigt markieren"}
+        </button>
+      ) : null}
+
       {unit.lessonId && onOpenLesson ? (
         <button
           type="button"
           onClick={() => onOpenLesson(unit.lessonId as string)}
-          className="nim-interactive mt-6 min-h-12 w-full rounded-[var(--nim-radius-md)] bg-[var(--nim-accent)] px-4 py-3 text-sm font-black text-white hover:opacity-95"
+          className="nim-interactive mt-3 min-h-12 w-full rounded-[var(--nim-radius-md)] bg-[var(--nim-accent)] px-4 py-3 text-sm font-black text-white hover:opacity-95"
         >
           Zur verknüpften Lektion im Lernraum
         </button>

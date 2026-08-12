@@ -13,6 +13,7 @@
     "content:check": "node scripts/check-content-quality.mjs",
     "test:portal-clarity": "node scripts/check-portal-clarity-chrome.mjs",
     "test:mass-audience-monitor": "node scripts/check-mass-audience-monitor.mjs",
+    "test:micro-progress": "node scripts/check-micro-progress-kernweg.mjs",
     "test:s48b-a11y": "node scripts/check-s48b-accessibility.cjs",
     "test:s50d1-privacy-overflow": "node scripts/check-s50d1-privacy-overflow.cjs",
     "test:s50d2-security-headers": "node scripts/check-s50d2-security-headers.cjs",

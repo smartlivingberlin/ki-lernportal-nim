@@ -18,6 +18,7 @@ const page = read("apps/web/src/app/page.tsx");
 assert.match(page, /SimpleModePackHint/);
 assert.match(page, /literacyPath\.reset/);
 assert.match(page, /reviewQueue\.resetQueue/);
+assert.match(page, /setCompletedMicroUnitIds/);
 assert.match(page, /simpleMode \? \(\s*<SimpleModePackHint/);
 
 const moduleNav = read("apps/web/src/components/learning/ModuleNavigation.tsx");
@@ -27,6 +28,7 @@ assert.match(moduleNav, /onToggle/);
 
 const reset = read("apps/web/src/components/learning/ResetProgressConfirm.tsx");
 assert.match(reset, /Haken an den 12 Lektionen/);
+assert.match(reset, /Vertiefungs-Einheiten/);
 assert.match(reset, /60-Minuten-Kurzpfads/);
 assert.match(reset, /Wiederholungs-Queue/);
 

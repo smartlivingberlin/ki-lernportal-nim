@@ -34,6 +34,7 @@ export function ResetProgressConfirm({
       </p>
       <ul className="mt-2 list-disc space-y-1 pl-4 text-xs font-medium leading-5 text-[var(--nim-secondary)]">
         <li>Haken an den 12 Lektionen</li>
+        <li>Erledigt-Markierungen an Vertiefungs-Einheiten (Themenwelten)</li>
         <li>Stationen des 60-Minuten-Kurzpfads</li>
         <li>Wiederholungs-Queue (Übungskarten)</li>
       </ul>
