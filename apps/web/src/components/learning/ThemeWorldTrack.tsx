@@ -132,7 +132,8 @@ export function ThemeWorldTrack({
           {vertiefungCount > 0
             ? ` · ${vertiefungCount} Vertiefung (direkt)`
             : ""}
-          . Start mit den ersten {Math.min(START_VISIBLE, units.length)} — der
+          . „Start hier“ zeigt zuerst Kernweg-Einheiten
+          {kernwegCount === 0 ? " (in dieser Welt nur Vertiefung)" : ""} — der
           Rest bleibt zugeklappt, bis du bereit bist.
         </p>
       </ExplainHotspot>
@@ -156,6 +157,7 @@ export function ThemeWorldTrack({
       <div className="mt-5">
         <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
           Start hier
+          {kernwegCount > 0 ? " · zuerst Kernweg" : ""}
         </p>
         <ol className="mt-3 grid gap-3 sm:grid-cols-2">
           {startUnits.map((unit) => (
