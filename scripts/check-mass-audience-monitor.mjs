@@ -80,10 +80,14 @@ const versionJson = JSON.parse(version.body);
 assert.equal(versionJson.service, "web");
 assert.equal(versionJson.environment, "concept_demo");
 assert.ok(
-  typeof versionJson.build_sha === "string" && versionJson.build_sha.length > 0,
+  versionJson.build_sha === null ||
+    (typeof versionJson.build_sha === "string" &&
+      versionJson.build_sha.length > 0),
+  "build_sha must be null locally or a non-empty string",
 );
 pass(`/version build_sha=${versionJson.build_sha}`);
 if (expectShaPrefix) {
+  assert.equal(typeof versionJson.build_sha, "string");
   assert.ok(
     String(versionJson.build_sha).startsWith(expectShaPrefix),
     `build_sha ${versionJson.build_sha} does not start with ${expectShaPrefix}`,
