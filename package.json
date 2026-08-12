@@ -39,6 +39,7 @@
     "test:s52-d1-auth-http": "node --experimental-strip-types packages/auth/src/auth-http.test.ts",
     "test:s52-c-auth-web-scope": "node scripts/check-s52-c-auth-web-scope.mjs",
     "test:s52-d-auth-web-impl-scope": "node scripts/check-s52-d-auth-web-impl-scope.mjs",
+    "test:s52-d2b-staging-auth-docs": "node scripts/check-s52-d2b-staging-auth-docs.mjs",
     "packages:verify": "pnpm packages:boundaries && pnpm packages:typecheck"
   },
   "devDependencies": {

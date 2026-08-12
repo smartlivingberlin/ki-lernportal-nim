@@ -24,7 +24,7 @@ RAILWAY_CHANGE=NO
 
 ### Slice D1 — DONE (#142)
 ### Slice D2 — DONE (dieser PR): `/anmelden` + LoginForm hinter Flag
-### Slice D2b — Docs: Staging `AUTH_RUNTIME=true` manuell setzen
+### Slice D2b — DONE: Staging `AUTH_RUNTIME=true` manuell + HTTP-verifiziert (2026-08-12)
 ### Slice D3 — Security-Tests (eigene Freigabe)
 ### Slice D4 — Registrierung / DB-Sessions (eigene Freigabe)
 
@@ -34,4 +34,5 @@ RAILWAY_CHANGE=NO
 S52_D2_CODE_CHANGED=YES
 LOGIN_UI_IMPLEMENTED=YES
 AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY
+S52_D2B_STAGING_FLAG_HTTP_VERIFIED=YES
 ```

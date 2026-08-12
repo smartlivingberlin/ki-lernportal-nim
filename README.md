@@ -99,7 +99,9 @@ Isoliertes Staging-Environment `staging` ist angelegt und HTTP-grün unter
 Nachweise: `docs/architecture/S51D_B_STAGING_EXECUTION.md`.
 
 Live-Probe 2026-08-12: Production und Staging melden Build-SHA
-`9ab3513b5f1f` (`/version`, nach #156); Ready-Check `database=not_configured`.
+`fad6cc935f87` (`/version`, nach #158); Ready-Check `database=not_configured`.
+S52-D2b: Staging `AUTH_RUNTIME` HTTP-verifiziert (Login-Formular + `401`);
+Production bewusst `403 FEATURE_DISABLED`.
 
 Vor jeder weiteren Production-Änderung erneut read-only im Dashboard prüfen.
 
@@ -108,11 +110,12 @@ CURRENT_PRODUCTION_AUTODEPLOY=DISABLED
 CURRENT_WAIT_FOR_CI=ON
 CURRENT_CONFIG_SOURCE=DASHBOARD_NO_RAILWAY_JSON
 CURRENT_ROOT_DIRECTORY=apps/web
-LIVE_BUILD_SHA_OBSERVED=9ab3513b5f1f
+LIVE_BUILD_SHA_OBSERVED=fad6cc935f87
 STAGING_ENVIRONMENT_CREATED=YES
 STAGING_PUBLIC_DOMAIN=ki-lernportal-nim-staging.up.railway.app
 STAGING_AUTODEPLOY=DISABLED
 STAGING_WAIT_FOR_CI=ON
+S52_D2B_STAGING_FLAG_HTTP_VERIFIED=YES
 RAILWAY_REVERIFY_BEFORE_NEXT_PRODUCTION_CHANGE=REQUIRED
 ~~~
 
