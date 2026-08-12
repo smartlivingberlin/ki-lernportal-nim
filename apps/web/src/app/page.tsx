@@ -204,11 +204,12 @@ export default function Home() {
   const selectedWorld =
     themeWorlds.find((world) => world.id === selectedWorldId) ?? themeWorlds[0] ?? null;
   const nextDeepenMicro = useMemo(() => {
-    const orderedWorldIds = sortThemeWorldsKernwegFirst(themeWorlds).map(
-      (world) => world.id,
-    );
+    // Auto-CTA nur Kernweg-Welten — Später bleibt bewusste Vertiefungswahl in #ziele.
+    const kernwegWorldIds = sortThemeWorldsKernwegFirst(themeWorlds)
+      .filter((world) => Boolean(world.starterLessonId))
+      .map((world) => world.id);
     return nextOpenDeepenMicroUnit({
-      worldIds: orderedWorldIds,
+      worldIds: kernwegWorldIds,
       completedMicroUnitIds,
     });
   }, [completedMicroUnitIds]);

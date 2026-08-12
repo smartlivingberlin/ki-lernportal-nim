@@ -22,7 +22,16 @@ assert.match(read("apps/web/src/components/learning/LiteracyPathPanel.tsx"), /li
 assert.match(read("apps/web/src/app/page.tsx"), /resolveNextStep/);
 assert.match(read("apps/web/src/app/page.tsx"), /nextOpenDeepenMicroUnit/);
 assert.match(read("apps/web/src/app/page.tsx"), /revealWorlds/);
+assert.match(read("apps/web/src/app/page.tsx"), /starterLessonId/);
+assert.match(
+  read("apps/web/src/app/page.tsx"),
+  /Auto-CTA nur Kernweg-Welten/,
+);
 assert.match(read("apps/web/src/data/theme-worlds.ts"), /sortThemeWorldsKernwegFirst/);
 assert.match(read("apps/web/src/data/micro-units.ts"), /nextOpenDeepenMicroUnit/);
+assert.match(
+  read("apps/web/src/data/micro-units.ts"),
+  /nur Kernweg-Welten übergeben/,
+);
 
 console.log("NEXT_STEP_CONTRACT_STATIC_OK=YES");

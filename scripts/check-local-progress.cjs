@@ -445,8 +445,19 @@ const phases = {
     await suppressExplainClouds(page);
 
     await page.locator("#ziele").scrollIntoViewIfNeeded();
+    await page.getByTestId("spaeter-worlds-block").waitFor({ state: "visible" });
+    await expectExactText(page, "Später · reine Vertiefung");
+    assert.ok(
+      (await page.locator('#ziele [data-world-layer="kernweg"]').count()) > 0,
+      "kernweg world tiles present",
+    );
+    assert.ok(
+      (await page.locator('#ziele [data-world-layer="spaeter"]').count()) > 0,
+      "spaeter world tiles present",
+    );
+
     await page.getByRole("button", { name: /Ohne Angst|KI ohne Angst/i }).first().click().catch(async () => {
-      await page.locator("#ziele button").first().click();
+      await page.locator('#ziele [data-world-layer="kernweg"]').first().click();
     });
     const track = page.getByTestId("theme-world-track");
     await track.waitFor({ state: "visible", timeout: 15_000 });
@@ -458,7 +469,15 @@ const phases = {
         0,
       "theme world units must expose Kernweg/Vertiefung layer",
     );
+
+    await page.locator('#ziele [data-world-layer="spaeter"]').first().click();
+    await page.getByTestId("spaeter-world-banner").waitFor({ state: "visible", timeout: 15_000 });
+    assert.equal(
+      await page.getByTestId("theme-world-track").getAttribute("data-world-layer"),
+      "spaeter",
+    );
     console.log("CONTENT_WAVE_C_WORLD_OVERVIEW_OK=YES");
+    console.log("CONTENT_WAVE_C_SPAETER_SPLIT_OK=YES");
   },
 
   async "micro-progress"(page) {

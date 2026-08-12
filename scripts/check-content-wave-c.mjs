@@ -27,6 +27,8 @@ assert.match(goals, /data-world-layer/);
 assert.match(goals, /sortThemeWorldsKernwegFirst/);
 assert.match(goals, /spaeter-worlds-block/);
 assert.match(goals, /Später · reine Vertiefung/);
+assert.match(goals, /Später · bereit/);
+assert.match(goals, /Später · demnächst/);
 
 assert.match(
   read("apps/web/src/data/theme-worlds.ts"),
