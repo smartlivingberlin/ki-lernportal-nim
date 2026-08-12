@@ -139,7 +139,7 @@ export default function Home() {
   const [microFocusRequest, setMicroFocusRequest] = useState<{
     microUnitId: string;
   } | null>(null);
-  const [worldsFocusRequest, setWorldsFocusRequest] = useState(false);
+  const [worldsFocusToken, setWorldsFocusToken] = useState(0);
   const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
   const [selectedWorldId, setSelectedWorldId] = useState<string | null>("world-no-fear");
   const [activeMicroUnitId, setActiveMicroUnitId] = useState<string | null>("mu-nofear-01");
@@ -291,22 +291,20 @@ export default function Home() {
       document.getElementById("themenwelt-title") ??
       (pick as HTMLElement | null);
     focusEl?.focus({ preventScroll: true });
-    setMicroFocusRequest(null);
   }, [activeMicroUnitId, selectedWorldId, microFocusRequest, simpleMode]);
 
   useEffect(() => {
-    if (!worldsFocusRequest || simpleMode) return;
+    if (worldsFocusToken === 0 || simpleMode) return;
 
     const section = document.getElementById("ziele");
     const title = document.getElementById("ziele-title");
     section?.scrollIntoView({ behavior: "smooth", block: "start" });
     title?.focus({ preventScroll: true });
-    setWorldsFocusRequest(false);
-  }, [simpleMode, worldsFocusRequest]);
+  }, [simpleMode, worldsFocusToken]);
 
   const revealWorlds = () => {
     setSimpleMode(false);
-    setWorldsFocusRequest(true);
+    setWorldsFocusToken((token) => token + 1);
   };
 
   const openLesson = (lessonId: string) => {

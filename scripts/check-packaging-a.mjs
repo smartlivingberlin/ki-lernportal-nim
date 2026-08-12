@@ -45,6 +45,6 @@ assert.match(hint, /Schalter oben/);
 assert.match(hint, /Themenwelten/);
 
 assert.match(read("apps/web/src/app/page.tsx"), /revealWorlds/);
-assert.match(read("apps/web/src/app/page.tsx"), /worldsFocusRequest/);
+assert.match(read("apps/web/src/app/page.tsx"), /worldsFocusToken/);
 
 console.log("PACKAGING_A_STATIC_OK=YES");
