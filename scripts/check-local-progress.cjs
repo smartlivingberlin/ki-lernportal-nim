@@ -73,13 +73,39 @@ async function waitForStoredLessonIds(page, expectedIds) {
   );
 }
 
+/**
+ * Packaging A collapses inactive modules. Closed <details> hide
+ * lesson buttons from Playwright's a11y tree until the summary opens.
+ */
+async function ensureModuleOpenForLesson(page, lessonTitle) {
+  await page.evaluate((title) => {
+    const pfad = document.querySelector("#pfad");
+    if (!pfad) return;
+
+    const buttons = [...pfad.querySelectorAll("button")];
+    const match = buttons.find((button) =>
+      (button.textContent || "")
+        .toLowerCase()
+        .includes(title.toLowerCase()),
+    );
+    if (!match) return;
+
+    const details = match.closest("details");
+    if (!details || details.open) return;
+
+    const summary = details.querySelector("summary");
+    if (summary) summary.click();
+  }, lessonTitle);
+}
+
 async function lessonButton(page, title) {
+  await ensureModuleOpenForLesson(page, title);
   const button = page
     .locator("#pfad")
     .getByRole("button")
     .filter({ hasText: title })
     .first();
-  await button.waitFor({ state: "attached", timeout: 15_000 });
+  await button.waitFor({ state: "visible", timeout: 15_000 });
   await button.scrollIntoViewIfNeeded();
   return button;
 }

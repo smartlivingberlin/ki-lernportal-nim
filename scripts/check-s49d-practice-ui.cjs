@@ -93,7 +93,34 @@ async function storageSnapshot(page) {
   });
 }
 
+/**
+ * Packaging A collapses inactive modules. Closed <details> hide
+ * lesson buttons from Playwright's a11y tree until the summary opens.
+ */
+async function ensureModuleOpenForLesson(page, lessonTitle) {
+  await page.evaluate((title) => {
+    const pfad = document.querySelector("#pfad");
+    if (!pfad) return;
+
+    const buttons = [...pfad.querySelectorAll("button")];
+    const match = buttons.find((button) =>
+      (button.textContent || "")
+        .toLowerCase()
+        .includes(title.toLowerCase()),
+    );
+    if (!match) return;
+
+    const details = match.closest("details");
+    if (!details || details.open) return;
+
+    const summary = details.querySelector("summary");
+    if (summary) summary.click();
+  }, lessonTitle);
+}
+
 async function openLesson(page, lessonId, lessonTitle) {
+  await ensureModuleOpenForLesson(page, lessonTitle);
+
   const button = page
     .locator("#pfad")
     .getByRole("button", {
