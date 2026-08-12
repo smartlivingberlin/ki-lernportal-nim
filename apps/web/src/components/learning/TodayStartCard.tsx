@@ -47,7 +47,7 @@ export function TodayStartCard({
           </p>
           <p className="mt-2 text-xs font-semibold text-white">
             {completedLessons}/{totalLessons || 12} Lektionen erledigt
-            {dueReviews > 0 ? ` · ${dueReviews} Abruf fällig` : ""}
+            {dueReviews > 0 ? ` · ${dueReviews} zum Wiederholen` : ""}
           </p>
           <button
             type="button"
@@ -61,7 +61,7 @@ export function TodayStartCard({
               href="#wiederholen"
               className="nim-interactive mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-4 py-3 text-sm font-black text-white hover:bg-white/20"
             >
-              {dueReviews} Abruf-Karten üben
+              {dueReviews} Karten wiederholen
             </a>
           ) : null}
         </>
@@ -80,7 +80,7 @@ export function TodayStartCard({
             href="#wiederholen"
             className="nim-interactive mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-4 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
           >
-            Abruf starten{dueReviews > 0 ? ` (${dueReviews} fällig)` : ""}
+            Wiederholen starten{dueReviews > 0 ? ` (${dueReviews} fällig)` : ""}
           </a>
         </>
       )}

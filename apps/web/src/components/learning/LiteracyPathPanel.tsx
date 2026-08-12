@@ -43,7 +43,7 @@ export function LiteracyPathPanel() {
       <div
         className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] p-4"
         role="group"
-        aria-label="Fortschritt Literacy-Pfad"
+        aria-label="Fortschritt 60-Minuten-Kurzpfad"
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="text-sm font-black text-[var(--nim-primary)]">
@@ -67,7 +67,7 @@ export function LiteracyPathPanel() {
           />
         </div>
         <p className="sr-only">
-          Literacy-Pfad Fortschritt: {doneCount} von {total} Stationen erledigt.
+          Kurzpfad-Fortschritt: {doneCount} von {total} Stationen erledigt.
         </p>
       </div>
 

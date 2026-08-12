@@ -14,7 +14,7 @@ export type LiteracyStation = {
 
 export const literacyPathMeta = {
   id: "literacy-60",
-  title: "60-Minuten AI-Literacy",
+  title: "60-Minuten KI-Kurzpfad",
   subtitle:
     "Ein klarer Kurzpfad: verstehen, sicher üben, prüfen — ohne Konto und ohne Cloud-KI.",
   totalMinutes: 60,
@@ -80,11 +80,11 @@ export const literacyStations: LiteracyStation[] = [
   {
     id: "lit-review",
     order: 7,
-    title: "Kurz abrufen (Spaced Review)",
+    title: "Kurz wiederholen",
     minutes: 8,
-    summary: "Eine Abruffrage beantworten und einschätzen, wie sicher du bist.",
+    summary: "Eine Übungsfrage beantworten und einschätzen, wie sicher du bist.",
     href: "#wiederholen",
-    actionLabel: "Zur Abruf-Übung",
+    actionLabel: "Zum Wiederholen",
   },
   {
     id: "lit-proof",

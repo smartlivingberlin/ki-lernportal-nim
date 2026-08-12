@@ -24,14 +24,15 @@ const routeSteps = [
     id: "review",
     n: "3",
     title: "Kurz wiederholen",
-    body: "Abruffragen mit Abstand. Unsichere Karten kommen früher wieder — nur in deinem Browser.",
+    body: "Kurze Übungsfragen mit Abstand. Unsichere Karten kommen früher wieder — nur in deinem Browser.",
     href: "#wiederholen",
-    cta: "Abruf starten",
+    cta: "Wiederholen starten",
   },
 ] as const;
 
 /**
- * Eine klare Einstiegsstory: Selbstcheck → Literacy-Pfad → Spaced Review.
+ * Persistente Wegkarte nach dem Erststart-Coach (kein zweites Tutorial).
+ * Reihenfolge: Selbstcheck → 60-Minuten-Pfad → Wiederholen.
  */
 export function OnboardingRoutePanel() {
   return (
@@ -43,16 +44,17 @@ export function OnboardingRoutePanel() {
     >
       <ExplainHotspot tipId="einstieg-route">
         <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)]">
-          Roter Faden · ohne Konto
+          Dein Weg · ohne Konto
         </p>
         <h2
           id="einstieg-route-title"
           className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)]"
         >
-          Dein Einstieg in drei Schritten
+          Drei Stationen — jederzeit wiederfinden
         </h2>
         <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
-          Statt zu suchen: erst einschätzen, dann den Kurzpfad gehen, danach aktiv abrufen.
+          Kein neues Tutorial: nur die Übersicht zu Selbstcheck, Kurzpfad und Wiederholen —
+          falls du zwischendurch abschweifst.
         </p>
       </ExplainHotspot>
 

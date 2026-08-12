@@ -305,6 +305,26 @@ const phases = {
     });
     assert.equal(await forbiddenControls.count(), 0);
     console.log("NO_LOGIN_PAYMENT_TRACKING_CHAT_OK=YES");
+
+    const bottomNav = page.getByRole("navigation", {
+      name: "Mobile Schnellnavigation",
+    });
+    for (const label of ["Start", "Check", "Pfad", "Üben", "Scam"]) {
+      assert.equal(
+        await bottomNav.getByRole("link", { name: label, exact: true }).count(),
+        1,
+        `bottom nav missing label: ${label}`,
+      );
+    }
+    assert.equal(
+      await bottomNav.getByRole("link", { name: "Abruf", exact: true }).count(),
+      0,
+    );
+    assert.equal(
+      await page.getByRole("link", { name: "Jetzt starten", exact: true }).count(),
+      1,
+    );
+    console.log("MASS_AUDIENCE_CHROME_LABELS_OK=YES");
   },
 };
 

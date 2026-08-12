@@ -78,14 +78,14 @@ export const helpTips: HelpTip[] = [
   {
     id: "hero",
     label: "Willkommen und Start",
-    short: "Dein Einstieg: in drei Schritten starten oder die heutige Empfehlung öffnen.",
+    short: "Dein Einstieg: „Jetzt starten“ oder die heutige Empfehlung öffnen.",
     whatIs:
-      "Das ist der Startbereich. Er fasst zusammen, worum es im Portal geht, und bietet klare Türen: Einstiegsroute, Selbstcheck, 60-Minuten-Pfad, Abruf — plus die Karte „Heute empfohlen“.",
+      "Das ist der Startbereich. Eine klare Haupttür („Jetzt starten“ / „Zum Einstieg“), darunter Kurzlinks zu Selbstcheck, 60-Minuten-Pfad und Wiederholen — plus die Karte „Heute empfohlen“.",
     whatFor:
       "Er nimmt die Entscheidungslast. Du musst das Portal nicht erst „studieren“. Eine Handlung reicht: Einstieg folgen oder die Empfehlung öffnen.",
     canDo: [
-      "Neu hier? „In 3 Schritten starten“ antippen — Selbstcheck, Kurzpfad, Abruf.",
-      "Oder direkt „Selbstcheck“, „60-Minuten-Pfad“ oder „Abruf“ wählen.",
+      "Neu hier? „Jetzt starten“ antippen — der 3-Minuten-Coach führt dich.",
+      "Oder unten die Kurzlinks „Selbstcheck“, „60-Minuten-Pfad“ oder „Wiederholen“ wählen.",
       "Die Karte „Heute empfohlen“ / „Heute hier weitermachen“ für die nächste offene Lektion nutzen.",
       "Oben den Fortschritt ablesen (lokal in diesem Browser).",
     ],
@@ -94,7 +94,7 @@ export const helpTips: HelpTip[] = [
     mistake:
       "Alles gleichzeitig anklicken (Ziele, Werkzeuge, Quellen) und dann die Übersicht verlieren. Besser: eine Tür, ein Schritt.",
     links: [
-      { href: "#einstieg-route", label: "In 3 Schritten starten" },
+      { href: "#erststart", label: "Jetzt starten" },
       { href: "#selbstcheck", label: "Selbstcheck" },
       { href: "#literacy-pfad", label: "60-Minuten-Pfad" },
       { href: "#heute", label: "Heute empfohlen" },
@@ -125,46 +125,46 @@ export const helpTips: HelpTip[] = [
   {
     id: "erststart",
     label: "3-Minuten-Coach",
-    short: "Drei kurze Schritte: Selbstcheck, 60-Minuten-Pfad, Abruf.",
+    short: "Drei kurze Schritte: Selbstcheck, 60-Minuten-Pfad, Wiederholen.",
     whatIs:
-      "Ein kleiner Begleiter für den ersten Besuch. Er führt dich durch Selbstcheck, den 60-Minuten-Literacy-Pfad und eine kurze Abruf-Übung.",
+      "Ein kleiner Begleiter für den ersten Besuch. Er führt dich durch Selbstcheck, den 60-Minuten-Pfad und eine kurze Wiederholungsübung.",
     whatFor:
       "Er nimmt Angst vor dem „großen Portal“. Du brauchst kein Vorwissen über KI. Drei Minuten reichen für ein Erfolgserlebnis.",
     canDo: [
       "Selbstcheck öffnen und eine Themenwelt-Empfehlung holen.",
       "Den 60-Minuten-Pfad Station für Station gehen.",
-      "Eine Abruffrage beantworten und die Sicherheit einschätzen.",
+      "Eine Wiederholungsfrage beantworten und die Sicherheit einschätzen.",
       "Den Coach ausblenden, wenn du allein weitergehen willst.",
     ],
     example:
-      "In drei Minuten: Selbstcheck → Station 1 im Literacy-Pfad markieren → eine Abrufkarte üben.",
+      "In drei Minuten: Selbstcheck → Station 1 im Pfad markieren → eine Wiederholungskarte üben.",
     mistake:
       "Den Coach als Pflicht-Tutorial sehen und deshalb gar nicht starten. Er ist optional und darf geschlossen werden.",
     links: [
       { href: "#selbstcheck", label: "Selbstcheck" },
       { href: "#literacy-pfad", label: "60-Minuten-Pfad" },
-      { href: "#wiederholen", label: "Abruf" },
+      { href: "#wiederholen", label: "Wiederholen" },
     ],
   },
   {
     id: "einstieg-route",
-    label: "Einstieg in drei Schritten",
-    short: "Der rote Faden: einschätzen → Kurzpfad → abrufen.",
+    label: "Dein Weg im Überblick",
+    short: "Die drei Stationen wiederfinden: einschätzen → Kurzpfad → wiederholen.",
     whatIs:
-      "Eine Übersichtskarte mit drei klaren Stationen. Sie ersetzt das Suchen im Portal durch eine feste Reihenfolge.",
+      "Eine Übersichtskarte — kein zweites Tutorial. Nach dem Coach siehst du hier jederzeit Selbstcheck, Kurzpfad und Wiederholen.",
     whatFor:
-      "Du siehst sofort, was zuerst dran ist — ohne dich in Themenwelten oder Werkzeugen zu verlieren.",
+      "Du findest den roten Faden wieder, wenn du zwischendurch in Welten oder Werkzeuge abgebogen bist.",
     canDo: [
       "Schritt 1: Selbstcheck starten.",
       "Schritt 2: 60-Minuten-Pfad öffnen.",
-      "Schritt 3: Abruf-Übung machen.",
+      "Schritt 3: Wiederholen üben.",
     ],
     example:
-      "Du tippst „Selbstcheck“, bekommst eine Welt-Empfehlung, gehst weiter zum Pfad und schließt mit einer Abrufkarte ab.",
+      "Du tippst „Selbstcheck“, bekommst eine Welt-Empfehlung, gehst weiter zum Pfad und schließt mit einer Wiederholungskarte ab.",
     mistake:
       "Alle drei Schritte parallel öffnen und keinem zu Ende folgen. Besser: einen Schritt fertig machen, dann den nächsten.",
     links: [
-      { href: "#einstieg-route", label: "Zur Einstiegsroute" },
+      { href: "#einstieg-route", label: "Zur Wegkarte" },
       { href: "#erststart", label: "Zum 3-Minuten-Coach" },
     ],
   },
@@ -264,7 +264,7 @@ export const helpTips: HelpTip[] = [
   },
   {
     id: "wiederholen",
-    label: "Abruf und Wiederholen",
+    label: "Wiederholen",
     short: "Kurze Fragen mit Abstand — so bleibt Wissen besser hängen.",
     whatIs:
       "Ein kleiner Wiederhol-Bereich. Du siehst eine Frage, denkst nach, deckst die Antwort auf und sagst, wie sicher du warst. Unsicheres kommt früher wieder.",
@@ -282,14 +282,14 @@ export const helpTips: HelpTip[] = [
       "Sofort „Antwort anzeigen“ tippen ohne nachzudenken. Dann trainierst du Klicken, nicht Erinnern.",
     links: [
       { href: "#methoden", label: "Lernmethoden erklären" },
-      { href: "#literacy-pfad", label: "Im Literacy-Pfad (Station 7)" },
+      { href: "#literacy-pfad", label: "Im 60-Minuten-Pfad (Station 7)" },
       { href: "#pfad", label: "Zurück zu den Lektionen" },
     ],
   },
   {
     id: "methoden",
     label: "Lernmethoden",
-    short: "Die Prinzipien hinter dem Portal: Beispiel → Abruf → Abstand → eigene Worte.",
+    short: "Die Prinzipien hinter dem Portal: Beispiel → Üben → Abstand → eigene Worte.",
     whatIs:
       "Eine kurze Erklärung, warum das Portal so aufgebaut ist. Du lernst nicht durch langes Lesen allein, sondern durch Beispiel, eigene Übung, Abruf und Wiederholung mit Abstand.",
     whatFor:
@@ -306,7 +306,7 @@ export const helpTips: HelpTip[] = [
       "Nur die Methodenübersicht lesen und die Übungen überspringen. Die Methode wirkt erst beim Tun.",
     links: [
       { href: "#lernraum", label: "Jetzt eine Einheit üben" },
-      { href: "#wiederholen", label: "Abruf starten" },
+      { href: "#wiederholen", label: "Wiederholen starten" },
     ],
   },
   {
@@ -564,33 +564,34 @@ export const helpTips: HelpTip[] = [
   {
     id: "mobilnav",
     label: "Untere Navigation",
-    short: "Auf dem Handy: schnelle Sprünge zu den wichtigsten Bereichen.",
+    short: "Auf dem Handy: Start, Check, Pfad, Üben, Scam — große Tipptargets.",
     whatIs:
-      "Die daumengerechte Variante der oberen Leiste. Dieselben Bereiche: Lernraum, Pfad, Hilfe/Coach, Quellen — nur unten und größer tippbar.",
+      "Die daumengerechte Schnellnavigation unten: Start (Einstieg), Check (Selbstcheck), Pfad (60 Minuten), Üben (Wiederholen), Scam (Betrugserkennung).",
     whatFor:
       "Auch unterwegs Orientierung behalten, ohne präzise auf kleine Links oben zielen zu müssen.",
     canDo: [
-      "Einen Bereich antippen.",
-      "Inhalt lesen oder üben.",
-      "Mit dem nächsten Tab weiterwechseln.",
+      "„Start“ für den Einstieg / Coach.",
+      "„Check“ für den Selbstcheck.",
+      "„Pfad“ für den 60-Minuten-Weg, „Üben“ zum Wiederholen, „Scam“ für Sicherheit.",
     ],
     example:
-      "In der Bahn: „Hilfe“ → Sicherheits-Coach lesen → zurück zum „Pfad“ für die nächste Lektion.",
+      "In der Bahn: „Check“ → Empfehlung holen → „Pfad“ für die nächste Station → „Üben“ für eine kurze Karte.",
     mistake:
-      "Untere und obere Navigation für völlig verschiedene Orte halten. Sie führen zu denselben Bereichen.",
+      "Untere und obere Navigation für völlig verschiedene Orte halten. Beide führen in denselben Lernraum — unten nur die häufigsten Sprünge.",
     links: [
-      { href: "#lernraum", label: "Lernraum" },
-      { href: "#pfad", label: "Pfad" },
-      { href: "#coach", label: "Coach" },
-      { href: "#quellen", label: "Quellen" },
+      { href: "#erststart", label: "Start" },
+      { href: "#selbstcheck", label: "Check" },
+      { href: "#literacy-pfad", label: "Pfad" },
+      { href: "#wiederholen", label: "Üben" },
+      { href: "#scam", label: "Scam" },
     ],
   },
   {
     id: "literacy-path",
-    label: "60-Minuten AI-Literacy",
+    label: "60-Minuten KI-Kurzpfad",
     short: "Ein klarer Kurzpfad mit Stationen und lokalem Teilnahme-Nachweis.",
     whatIs:
-      "Ein geführter 60-Minuten-Weg aus acht Stationen: Selbstcheck, Grundlagen, Sicherheit, Scam, Prompts, Szenarien, Abruf, Nachweis.",
+      "Ein geführter 60-Minuten-Weg aus acht Stationen: Selbstcheck, Grundlagen, Sicherheit, Scam, Prompts, Szenarien, Wiederholen, Nachweis.",
     whatFor:
       "Du brauchst keinen langen Kursplan. In etwa einer Stunde bekommst du Orientierung und einen lokalen Beleg — ohne Konto.",
     canDo: [
@@ -599,13 +600,13 @@ export const helpTips: HelpTip[] = [
       "Am Ende den lokalen Nachweis mit Stationsliste drucken oder als PDF speichern.",
     ],
     example:
-      "Nach dem Selbstcheck markierst du Station 1, gehst zum Scam-Modul, übst Abruf und schließt mit dem Nachweis ab.",
+      "Nach dem Selbstcheck markierst du Station 1, gehst zum Scam-Modul, übst Wiederholen und schließt mit dem Nachweis ab.",
     mistake:
       "Den Nachweis für ein amtliches Zertifikat halten. Er gilt nur als lokaler Lernbeleg in diesem Browser.",
     links: [
-      { href: "#literacy-pfad", label: "Zum Literacy-Pfad" },
+      { href: "#literacy-pfad", label: "Zum Kurzpfad" },
       { href: "#selbstcheck", label: "Zum Selbstcheck" },
-      { href: "#wiederholen", label: "Zur Abruf-Übung" },
+      { href: "#wiederholen", label: "Zum Wiederholen" },
       { href: "#literacy-nachweis", label: "Zum Nachweis" },
     ],
   },
@@ -620,7 +621,7 @@ export const helpTips: HelpTip[] = [
     canDo: [
       "Alle Fragen beantworten.",
       "„Empfehlung zeigen“ antippen.",
-      "Die vorgeschlagene Welt öffnen oder den Literacy-Pfad starten.",
+      "Die vorgeschlagene Welt öffnen oder den 60-Minuten-Pfad starten.",
     ],
     example:
       "Viele Sicherheitsantworten → Empfehlung „Daten, Sicherheit & Recht“ oder ähnliche Welt.",
