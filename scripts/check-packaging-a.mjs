@@ -40,5 +40,7 @@ assert.match(explain, /useSimpleMode/);
 const hint = read("apps/web/src/components/learning/SimpleModePackHint.tsx");
 assert.match(hint, /nur ausgeblendet/);
 assert.match(hint, /Mehr Bereiche einblenden/);
+assert.match(hint, /Zum Einstieg bleiben/);
+assert.match(hint, /Schalter oben/);
 
 console.log("PACKAGING_A_STATIC_OK=YES");

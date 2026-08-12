@@ -335,15 +335,35 @@ const phases = {
     const bottomNav = page.getByRole("navigation", {
       name: "Mobile Schnellnavigation",
     });
-    for (const label of ["Start", "Check", "Pfad", "Üben", "Scam"]) {
+    const expected = [
+      { visible: "Start", name: "Start: Einstieg" },
+      { visible: "Selbst", name: "Selbstcheck" },
+      { visible: "Pfad", name: "60-Minuten-Kurzpfad" },
+      { visible: "Üben", name: "Wiederholen und üben" },
+      { visible: "Sicher", name: "Sicherheit und Scam-Schutz" },
+    ];
+    for (const item of expected) {
       assert.equal(
-        await bottomNav.getByRole("link", { name: label, exact: true }).count(),
+        await bottomNav.getByRole("link", { name: item.name, exact: true }).count(),
         1,
-        `bottom nav missing label: ${label}`,
+        `bottom nav missing accessible name: ${item.name}`,
+      );
+      assert.equal(
+        await bottomNav.getByText(item.visible, { exact: true }).count(),
+        1,
+        `bottom nav missing visible label: ${item.visible}`,
       );
     }
     assert.equal(
       await bottomNav.getByRole("link", { name: "Abruf", exact: true }).count(),
+      0,
+    );
+    assert.equal(
+      await bottomNav.getByText("Check", { exact: true }).count(),
+      0,
+    );
+    assert.equal(
+      await bottomNav.getByText("Scam", { exact: true }).count(),
       0,
     );
     assert.equal(

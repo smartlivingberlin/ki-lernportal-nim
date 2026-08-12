@@ -4,13 +4,32 @@ type MobileBottomNavProps = {
   simpleMode: boolean;
 };
 
-/** Labels müssen zu Hilfe-Tipp „mobilnav“ und zur Hero-Sprache passen. */
+/**
+ * Kurze sichtbare Labels + vollständige aria-Labels für Einsteiger.
+ * Muss zu Hilfe-Tipp „mobilnav“ und Guardrail-Smoke passen.
+ */
 const items = [
-  { href: "#erststart", label: "Start" },
-  { href: "#selbstcheck", label: "Check" },
-  { href: "#literacy-pfad", label: "Pfad" },
-  { href: "#wiederholen", label: "Üben" },
-  { href: "#scam", label: "Scam" },
+  { href: "#erststart", label: "Start", ariaLabel: "Start: Einstieg" },
+  {
+    href: "#selbstcheck",
+    label: "Selbst",
+    ariaLabel: "Selbstcheck",
+  },
+  {
+    href: "#literacy-pfad",
+    label: "Pfad",
+    ariaLabel: "60-Minuten-Kurzpfad",
+  },
+  {
+    href: "#wiederholen",
+    label: "Üben",
+    ariaLabel: "Wiederholen und üben",
+  },
+  {
+    href: "#scam",
+    label: "Sicher",
+    ariaLabel: "Sicherheit und Scam-Schutz",
+  },
 ] as const;
 
 export function MobileBottomNav({ simpleMode }: MobileBottomNavProps) {
@@ -18,9 +37,12 @@ export function MobileBottomNav({ simpleMode }: MobileBottomNavProps) {
     <nav
       aria-label="Mobile Schnellnavigation"
       data-explain="mobilnav"
+      data-testid="mobile-bottom-nav"
       className={[
         "fixed inset-x-0 bottom-0 z-50 border-t border-[var(--nim-border)] bg-[var(--nim-surface)]/95 px-2 py-2 backdrop-blur md:hidden",
-        simpleMode ? "pb-[max(0.5rem,env(safe-area-inset-bottom))]" : "pb-[max(0.5rem,env(safe-area-inset-bottom))]",
+        simpleMode
+          ? "pb-[max(0.5rem,env(safe-area-inset-bottom))]"
+          : "pb-[max(0.5rem,env(safe-area-inset-bottom))]",
       ].join(" ")}
     >
       <ul className="mx-auto flex max-w-lg items-stretch justify-between gap-1">
@@ -28,6 +50,7 @@ export function MobileBottomNav({ simpleMode }: MobileBottomNavProps) {
           <li key={item.href} className="flex-1">
             <a
               href={item.href}
+              aria-label={item.ariaLabel}
               className="nim-interactive flex min-h-12 flex-col items-center justify-center rounded-[var(--nim-radius-sm)] px-1 text-xs font-black text-[var(--nim-primary)] hover:bg-[var(--nim-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nim-focus)]"
             >
               {item.label}

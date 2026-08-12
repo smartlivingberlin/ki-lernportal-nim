@@ -562,26 +562,27 @@ export const helpTips: HelpTip[] = [
   {
     id: "mobilnav",
     label: "Untere Navigation",
-    short: "Auf dem Handy: Start, Check, Pfad, Üben, Scam — große Tipptargets.",
+    short:
+      "Auf dem Handy: Start, Selbst, Pfad, Üben, Sicher — große Tipptargets.",
     whatIs:
-      "Die daumengerechte Schnellnavigation unten: Start (Einstieg), Check (Selbstcheck), Pfad (60 Minuten), Üben (Wiederholen), Scam (Betrugserkennung).",
+      "Die daumengerechte Schnellnavigation unten: Start (Einstieg), Selbst (Selbstcheck), Pfad (60 Minuten), Üben (Wiederholen), Sicher (Scam-Schutz).",
     whatFor:
       "Auch unterwegs Orientierung behalten, ohne präzise auf kleine Links oben zielen zu müssen.",
     canDo: [
       "„Start“ für den Einstieg / Coach.",
-      "„Check“ für den Selbstcheck.",
-      "„Pfad“ für den 60-Minuten-Weg, „Üben“ zum Wiederholen, „Scam“ für Sicherheit.",
+      "„Selbst“ für den Selbstcheck.",
+      "„Pfad“ für den 60-Minuten-Weg, „Üben“ zum Wiederholen, „Sicher“ für Betrugsschutz.",
     ],
     example:
-      "In der Bahn: „Check“ → Empfehlung holen → „Pfad“ für die nächste Station → „Üben“ für eine kurze Karte.",
+      "In der Bahn: „Selbst“ → Empfehlung holen → „Pfad“ für die nächste Station → „Üben“ für eine kurze Karte.",
     mistake:
       "Untere und obere Navigation für völlig verschiedene Orte halten. Beide führen in denselben Lernraum — unten nur die häufigsten Sprünge.",
     links: [
       { href: "#erststart", label: "Start" },
-      { href: "#selbstcheck", label: "Check" },
+      { href: "#selbstcheck", label: "Selbst" },
       { href: "#literacy-pfad", label: "Pfad" },
       { href: "#wiederholen", label: "Üben" },
-      { href: "#scam", label: "Scam" },
+      { href: "#scam", label: "Sicher" },
     ],
   },
   {

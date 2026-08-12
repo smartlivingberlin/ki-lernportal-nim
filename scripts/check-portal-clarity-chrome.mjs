@@ -17,7 +17,13 @@ function read(rel) {
 const mobileNav = read("apps/web/src/components/learning/MobileBottomNav.tsx");
 assert.match(mobileNav, /href: "#erststart"/);
 assert.match(mobileNav, /label: "Üben"/);
+assert.match(mobileNav, /label: "Selbst"/);
+assert.match(mobileNav, /label: "Sicher"/);
+assert.match(mobileNav, /ariaLabel: "Selbstcheck"/);
+assert.match(mobileNav, /ariaLabel: "Sicherheit und Scam-Schutz"/);
 assert.doesNotMatch(mobileNav, /label: "Abruf"/);
+assert.doesNotMatch(mobileNav, /label: "Check"/);
+assert.doesNotMatch(mobileNav, /label: "Scam"/);
 assert.match(mobileNav, /label: "Pfad"/);
 
 const page = read("apps/web/src/app/page.tsx");
