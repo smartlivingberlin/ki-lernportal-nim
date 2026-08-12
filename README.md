@@ -17,23 +17,24 @@ Dieses Repository enthält aktuell:
 - eine produktionsfähig baubare Next.js-Anwendung unter `apps/web`;
 - den in `main` integrierten S51A-Package-Skeleton;
 - das in `main` integrierte lokale S51B-B-MySQL-/Drizzle-Adapterfundament;
-- zwölf strukturierte Anfängerlektionen;
-- lokale Suche und lokalen Lernfortschritt;
+- lokales S51B-C1/C2 Pilot-Schema und disposable MySQL-Proof (keine Live-DB);
+- zwölf strukturierte Anfängerlektionen plus Themenwelten/Micro-Einheiten;
+- lokalen Lernfortschritt, Klarheits-/Packaging- und „Nächster Schritt“-Vertrag;
 - zwölf Übungen und 36 Selbstprüfungsfragen;
 - Content-, Quellen-, Accessibility-, Governance- und Supply-Chain-Gates;
+- Railway-Production-Isolation (`apps/web/vendor`, npm-Overrides) und Staging;
 - einen reproduzierbaren Next.js-Standalone-Build;
-- eine öffentlich erreichbare Railway-Konzeptdemo.
+- eine öffentlich erreichbare Railway-Konzeptdemo unter
+  `https://web-production-51d3c8.up.railway.app`.
 
 Noch nicht vorhanden oder nicht freigegeben sind insbesondere:
 
-- produktive Benutzerkonten;
-- produktive MySQL-/Drizzle-Persistenz;
-- Tabellen, Schema, Migrationen oder Seeds;
+- produktive Benutzerkonten und freigeschaltete Production-Auth-Runtime;
+- produktive MySQL-/Drizzle-Persistenz (Live-Verbindung, Seeds, Migrate);
 - ein echtes Admin- und Publikationssystem;
 - serverseitiger Lernfortschritt;
 - eine produktive KI-/RAG-Laufzeit;
-- ein isoliertes Railway-Staging;
-- ein freigegebener Production-Deploy-Ablauf.
+- bezahlte NVIDIA-NIM- oder sonstige Cloud-KI-Anbindung.
 
 Die Railway-Konzeptdemo ist kein Nachweis für vollständige Produktionsreife.
 
@@ -88,12 +89,17 @@ Netzwerkverbindung aus.
 
 Dashboard-Reverify 2026-08-11 (menschlich): Production-Autodeploy ist
 **disabled**, Wait for CI / Check Suites ist **on**. Config Source für
-Production bleibt Dashboard (kein `railway.json` am Repo-Root).
+Production bleibt Dashboard (kein `railway.json` am Repo-Root). Root
+Directory Production: `apps/web` (npm + vendored Packages unter
+`apps/web/vendor`).
 
 Isoliertes Staging-Environment `staging` ist angelegt und HTTP-grün unter
 `https://ki-lernportal-nim-staging.up.railway.app` (Root `/`, Config
 `/railway.staging.json`, Staging-Autodeploy disabled, Wait for CI on).
 Nachweise: `docs/architecture/S51D_B_STAGING_EXECUTION.md`.
+
+Live-Probe 2026-08-12: Production und Staging melden Build-SHA
+`147fb4317f39` (`/version`); Ready-Check `database=not_configured`.
 
 Vor jeder weiteren Production-Änderung erneut read-only im Dashboard prüfen.
 
@@ -101,6 +107,8 @@ Vor jeder weiteren Production-Änderung erneut read-only im Dashboard prüfen.
 CURRENT_PRODUCTION_AUTODEPLOY=DISABLED
 CURRENT_WAIT_FOR_CI=ON
 CURRENT_CONFIG_SOURCE=DASHBOARD_NO_RAILWAY_JSON
+CURRENT_ROOT_DIRECTORY=apps/web
+LIVE_BUILD_SHA_OBSERVED=147fb4317f39
 STAGING_ENVIRONMENT_CREATED=YES
 STAGING_PUBLIC_DOMAIN=ki-lernportal-nim-staging.up.railway.app
 STAGING_AUTODEPLOY=DISABLED
