@@ -146,20 +146,20 @@ export default function DatenschutzPage() {
         <p>
           Dafür werden derzeit folgende technische Schlüssel verwendet:
         </p>
-        <ul className="mt-2 list-disc space-y-2 pl-5">
-          <li>
-            Lektionen:{" "}
+        <ul className="mt-2 min-w-0 list-disc space-y-3 overflow-x-hidden pl-5">
+          <li className="min-w-0">
+            <span className="block">Lektionen:</span>
             <code
-              className="rounded bg-slate-100 px-1"
+              className="mt-1 block max-w-full rounded bg-slate-100 px-1"
               style={{ wordBreak: "break-all", overflowWrap: "anywhere" }}
             >
               ki-lernportal-nim:local-progress:v1
             </code>
           </li>
-          <li>
-            Vertiefungs-Einheiten:{" "}
+          <li className="min-w-0">
+            <span className="block">Vertiefungs-Einheiten:</span>
             <code
-              className="rounded bg-slate-100 px-1"
+              className="mt-1 block max-w-full rounded bg-slate-100 px-1"
               style={{ wordBreak: "break-all", overflowWrap: "anywhere" }}
             >
               ki-lernportal-nim:micro-progress:v1
