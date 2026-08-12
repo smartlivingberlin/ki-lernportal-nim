@@ -328,7 +328,7 @@ const phases = {
     assert.equal(await page.getByTestId("simple-mode-pack-hint").count(), 0);
     console.log("PACKAGING_A_SIMPLE_MODE_PACK_OK=YES");
 
-    await page.getByRole("button", { name: "Zurücksetzen" }).click();
+    await page.getByRole("button", { name: "Fortschritt zurücksetzen" }).click();
     await expectExactText(page, "Haken an den 12 Lektionen");
     await expectExactText(page, "Wiederholungs-Queue (Übungskarten)");
     console.log("PACKAGING_A_HONEST_RESET_COPY_OK=YES");
