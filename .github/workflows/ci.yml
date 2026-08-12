@@ -64,6 +64,9 @@ jobs:
       - name: Validate S51A package boundaries
         run: pnpm packages:boundaries
 
+      - name: Check Railway web vendor sync
+        run: pnpm railway:web-vendor:check
+
       - name: Typecheck S51A packages
         run: pnpm packages:typecheck
 

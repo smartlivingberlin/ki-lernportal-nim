@@ -1672,18 +1672,14 @@ function validatePackageSkeletons() {
         );
       }
 
-      const domainDep =
-        manifest.dependencies?.[`${scope}/domain`];
-      // file: keeps Railway Production (Root=apps/web, npm) resolvable;
-      // workspace:* remains valid for pure pnpm consumers.
       if (
-        domainDep !== "workspace:*" &&
-        domainDep !== "file:../domain"
+        manifest.dependencies?.[`${scope}/domain`] !==
+        "workspace:*"
       ) {
         fail(
           `${rel(
             manifestPath,
-          )} must declare ${scope}/domain as workspace:* or file:../domain`,
+          )} must declare ${scope}/domain as workspace:*`,
         );
       }
 

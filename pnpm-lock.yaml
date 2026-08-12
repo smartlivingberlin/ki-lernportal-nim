@@ -28,14 +28,14 @@ importers:
   apps/web:
     dependencies:
       '@ki-lernportal-nim/auth':
-        specifier: file:../../packages/auth
-        version: link:../../packages/auth
+        specifier: file:./vendor/auth
+        version: file:apps/web/vendor/auth
       '@ki-lernportal-nim/contracts':
-        specifier: file:../../packages/contracts
-        version: link:../../packages/contracts
+        specifier: file:./vendor/contracts
+        version: file:apps/web/vendor/contracts
       '@ki-lernportal-nim/domain':
-        specifier: file:../../packages/domain
-        version: link:../../packages/domain
+        specifier: file:./vendor/domain
+        version: file:apps/web/vendor/domain
       next:
         specifier: 16.2.11
         version: 16.2.11(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -84,7 +84,7 @@ importers:
   packages/contracts:
     dependencies:
       '@ki-lernportal-nim/domain':
-        specifier: file:../domain
+        specifier: workspace:*
         version: link:../domain
 
   packages/db:
@@ -763,6 +763,15 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@ki-lernportal-nim/auth@file:apps/web/vendor/auth':
+    resolution: {directory: apps/web/vendor/auth, type: directory}
+
+  '@ki-lernportal-nim/contracts@file:apps/web/vendor/contracts':
+    resolution: {directory: apps/web/vendor/contracts, type: directory}
+
+  '@ki-lernportal-nim/domain@file:apps/web/vendor/domain':
+    resolution: {directory: apps/web/vendor/domain, type: directory}
 
   '@napi-rs/wasm-runtime@1.1.5':
     resolution: {integrity: sha512-AWPoBRJ9tsnVhor4sjO7rkni+7p+2IAEFj6cx06UgP10jkQHqay/36uRV/bFkgrh18D9vb4cr8Q0Pthskgzy+Q==}
@@ -3074,6 +3083,14 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  '@ki-lernportal-nim/auth@file:apps/web/vendor/auth': {}
+
+  '@ki-lernportal-nim/contracts@file:apps/web/vendor/contracts':
+    dependencies:
+      '@ki-lernportal-nim/domain': file:apps/web/vendor/domain
+
+  '@ki-lernportal-nim/domain@file:apps/web/vendor/domain': {}
 
   '@napi-rs/wasm-runtime@1.1.5(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
     dependencies:
