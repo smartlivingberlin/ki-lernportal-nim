@@ -21,6 +21,8 @@
     "governance:check": "node scripts/check-github-governance.mjs",
     "packages:boundaries": "node scripts/check-package-boundaries.mjs",
     "packages:typecheck": "node scripts/check-package-boundaries.mjs --typecheck",
+    "railway:web-vendor:sync": "node scripts/sync-web-railway-vendor.mjs",
+    "railway:web-vendor:check": "node scripts/sync-web-railway-vendor.mjs --check",
     "test:s51b-b-db-runtime": "node --experimental-strip-types packages/db/src/runtime-config.test.ts && node --experimental-strip-types packages/db/src/mysql-runtime.test.ts",
     "test:s51b-c1-pilot-schema": "node --experimental-strip-types packages/db/src/pilot-schema.test.ts",
     "test:s51b-c2-local-mysql": "bash scripts/test-s51b-c-local-mysql.sh",

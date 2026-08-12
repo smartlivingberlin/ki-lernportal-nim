@@ -1,5 +1,5 @@
 {
-  "name": "@ki-lernportal-nim/contracts",
+  "name": "@ki-lernportal-nim/domain",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,8 +9,5 @@
       "types": "./src/index.ts",
       "default": "./src/index.ts"
     }
-  },
-  "dependencies": {
-    "@ki-lernportal-nim/domain": "workspace:*"
   }
 }
