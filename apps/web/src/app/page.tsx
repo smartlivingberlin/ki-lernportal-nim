@@ -50,6 +50,7 @@ import { SimpleModePackHint } from "../components/learning/SimpleModePackHint";
 import { explainAttrs } from "../data/help-tips";
 import { resolveNextStep } from "../data/next-step";
 import { useLocalProgress } from "../hooks/useLocalProgress";
+import { useLocalMicroProgress } from "../hooks/useLocalMicroProgress";
 import { useLocalReviewQueue } from "../hooks/useLocalReviewQueue";
 import { useLiteracyPathProgress } from "../hooks/useLiteracyPathProgress";
 import { useSimpleMode } from "../hooks/useSimpleMode";
@@ -139,6 +140,8 @@ export default function Home() {
   const [activeMicroUnitId, setActiveMicroUnitId] = useState<string | null>("mu-nofear-01");
   const { enabled: simpleMode, setEnabled: setSimpleMode } = useSimpleMode();
   const { completedLessonIds, setCompletedLessonIds } = useLocalProgress();
+  const { completedMicroUnitIds, setCompletedMicroUnitIds } =
+    useLocalMicroProgress();
   const coachDismissed = useFirstStartCoachDismissed();
   const reviewQueue = useLocalReviewQueue();
   const literacyPath = useLiteracyPathProgress();
@@ -314,13 +317,14 @@ export default function Home() {
 
   const resetProgress = () => {
     setCompletedLessonIds([]);
+    setCompletedMicroUnitIds([]);
     literacyPath.reset();
     reviewQueue.resetQueue();
     setActiveLessonId(allLessons[0]?.id ?? null);
     setLessonFocusRequest(null);
     setResetConfirmOpen(false);
     setProgressAnnouncement(
-      "Der lokale Lernfortschritt wurde zurückgesetzt. Gelöscht: Lektions-Haken, Kurzpfad und Wiederholen.",
+      "Der lokale Lernfortschritt wurde zurückgesetzt. Gelöscht: Lektions-Haken, Vertiefungs-Einheiten, Kurzpfad und Wiederholen.",
     );
   };
 
@@ -469,6 +473,8 @@ export default function Home() {
                   learningOutcomes={selectedWorld?.learningOutcomes ?? []}
                   units={worldUnits}
                   activeUnitId={activeMicroUnit?.id ?? null}
+                  completedLessonIds={completedLessonIds}
+                  completedMicroUnitIds={completedMicroUnitIds}
                   onSelectUnit={selectMicroUnit}
                 />
               ) : null}
@@ -477,6 +483,21 @@ export default function Home() {
                 <MicroLearningUnitView
                   unit={activeMicroUnit}
                   sources={activeMicroSources}
+                  completed={completedMicroUnitIds.includes(activeMicroUnit.id)}
+                  onToggleCompleted={() => {
+                    const unitId = activeMicroUnit.id;
+                    const wasCompleted =
+                      completedMicroUnitIds.includes(unitId);
+                    const next = wasCompleted
+                      ? completedMicroUnitIds.filter((id) => id !== unitId)
+                      : [...completedMicroUnitIds, unitId];
+                    setCompletedMicroUnitIds(next);
+                    setProgressAnnouncement(
+                      wasCompleted
+                        ? `Vertiefung „${activeMicroUnit.title}“ wieder als offen markiert.`
+                        : `Vertiefung „${activeMicroUnit.title}“ als erledigt markiert.`,
+                    );
+                  }}
                 />
               ) : null}
 

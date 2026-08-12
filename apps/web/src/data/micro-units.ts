@@ -33,6 +33,35 @@ export function microUnitForLesson(lessonId: string): MicroLearningUnitV2 | null
   return allMicroUnits.find((unit) => unit.lessonId === lessonId) ?? null;
 }
 
+export function microUnitsForLesson(lessonId: string): MicroLearningUnitV2[] {
+  return allMicroUnits.filter((unit) => unit.lessonId === lessonId);
+}
+
+/** Kernweg = an eine Klassik-Lektion gebunden; Vertiefung = eigenständig. */
+export function microUnitLearningLayer(
+  unit: MicroLearningUnitV2,
+): "kernweg" | "vertiefung" {
+  return unit.lessonId ? "kernweg" : "vertiefung";
+}
+
+export function microUnitLayerLabel(unit: MicroLearningUnitV2): string {
+  return microUnitLearningLayer(unit) === "kernweg"
+    ? "Kernweg"
+    : "Vertiefung";
+}
+
+export function isMicroUnitCompleted(options: {
+  unit: MicroLearningUnitV2;
+  completedLessonIds: readonly string[];
+  completedMicroUnitIds: readonly string[];
+}): boolean {
+  const { unit, completedLessonIds, completedMicroUnitIds } = options;
+  if (unit.lessonId) {
+    return completedLessonIds.includes(unit.lessonId);
+  }
+  return completedMicroUnitIds.includes(unit.id);
+}
+
 export const worldsWithMicroUnits = [
   "world-no-fear",
   "world-chat-prompting",
