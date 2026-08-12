@@ -372,7 +372,7 @@ const phases = {
     const track = page.getByTestId("theme-world-track");
     await track.waitFor({ state: "visible", timeout: 15_000 });
     await expectExactText(page, "Start hier");
-    await expectExactText(page, "Weitere Einheiten");
+    await page.getByText(/Weitere Einheiten \(\d+\)/).first().waitFor({ state: "visible" });
     console.log("CONTENT_WAVE_C_WORLD_OVERVIEW_OK=YES");
   },
 };
