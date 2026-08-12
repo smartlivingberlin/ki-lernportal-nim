@@ -67,6 +67,12 @@ jobs:
       - name: Check Railway web vendor sync
         run: pnpm railway:web-vendor:check
 
+      - name: Check Railway apps/web npm isolation contract
+        run: pnpm railway:web-npm-isolation
+
+      - name: Verify isolated Railway npm install pins
+        run: pnpm railway:web-npm-isolation:install
+
       - name: Typecheck S51A packages
         run: pnpm packages:typecheck
 

@@ -70,15 +70,30 @@ function syncOne(name) {
   rmSync(staging, { recursive: true, force: true });
   mkdirSync(staging, { recursive: true });
 
-  // package.json
+  // package.json — keep vendor deps explicit and fail closed if canonical
+  // packages grow unexpected runtime dependencies that would be dropped.
   const manifest = JSON.parse(
     readFileSync(path.join(source, "package.json"), "utf8"),
   );
+  const sourceDeps = Object.keys(manifest.dependencies ?? {}).sort();
   if (name === "contracts") {
+    if (
+      sourceDeps.length !== 1 ||
+      sourceDeps[0] !== "@ki-lernportal-nim/domain"
+    ) {
+      throw new Error(
+        `packages/contracts has unexpected dependencies (${sourceDeps.join(", ") || "none"}); update sync-web-railway-vendor.mjs intentionally`,
+      );
+    }
     manifest.dependencies = {
       "@ki-lernportal-nim/domain": "file:../domain",
     };
   } else {
+    if (sourceDeps.length > 0) {
+      throw new Error(
+        `packages/${name} has unexpected dependencies (${sourceDeps.join(", ")}); update sync-web-railway-vendor.mjs intentionally`,
+      );
+    }
     delete manifest.dependencies;
   }
   // Railway npm install does not need package test tooling.

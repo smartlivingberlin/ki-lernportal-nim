@@ -145,7 +145,10 @@ export default function DatenschutzPage() {
 
         <p>
           Dafür wird derzeit folgender technischer Schlüssel verwendet:{" "}
-          <code className="break-all rounded bg-slate-100 px-1">
+          <code
+            className="rounded bg-slate-100 px-1"
+            style={{ wordBreak: "break-all", overflowWrap: "anywhere" }}
+          >
             ki-lernportal-nim:local-progress:v1
           </code>
           .
