@@ -11,6 +11,6 @@
     }
   },
   "dependencies": {
-    "@ki-lernportal-nim/domain": "workspace:*"
+    "@ki-lernportal-nim/domain": "file:../domain"
   }
 }
