@@ -1,6 +1,6 @@
 import type { MicroLearningUnitV2 } from "./types";
 
-const REVIEWED = "2026-08-10";
+const REVIEWED = "2026-08-12";
 
 /**
  * Themenwelt „Chat & Prompting“ — Schema v2.
@@ -318,5 +318,161 @@ export const microUnitsChatPrompting: MicroLearningUnitV2[] = [
     lastReviewed: REVIEWED,
     estimatedMinutes: 6,
     methodIds: ["method-teachback", "method-progressive", "method-confidence"],
+  },
+  {
+    id: "mu-chat-09",
+    worldId: "world-chat-prompting",
+    lessonId: null,
+    order: 9,
+    title: "Beispiel zeigen: So macht die KI dein Muster nach",
+    whyUseful:
+      "Mit ein bis zwei kurzen Beispielen steuerst du den Ton — ohne Fachwort „Few-Shot“.",
+    oneSentence:
+      "Zeig der KI ein kurzes Vorher-Nachher-Beispiel, dann folgt sie dem Muster zuverlässiger.",
+    everydayExample:
+      "„So will ich es: Vorher ‚Komm sofort.‘ Nachher ‚Kannst du bitte in 10 Minuten kommen?‘ Formuliere jetzt meine Nachricht genauso höflich.“",
+    steps: [
+      "Schreibe ein kleines Beispiel (vor → nach).",
+      "Sag: „Mach meine neue Aufgabe im gleichen Stil.“",
+      "Prüfe, ob Ton und Länge passen.",
+    ],
+    practiceTask:
+      "Erfinde ein Vorher-Nachher-Beispiel für eine höflichere WhatsApp-Nachricht und baue es in einen Prompt.",
+    samplePath:
+      "Vorher grob → Nachher höflich → „Formuliere diesen Text im gleichen Stil: …“",
+    whyItWorks:
+      "Beispiele machen unsichtbare Regeln sichtbar — die KI muss weniger raten.",
+    commonMistake:
+      "Nur „mach es besser“ sagen, ohne zu zeigen, was „besser“ heißt.",
+    safetyNote:
+      "Im Beispiel keine echten Namen, Adressen oder Kundendaten verwenden.",
+    retrievalQuestions: [
+      "Warum hilft ein Beispiel im Prompt?",
+      "Was zeigst du im Vorher-Nachher?",
+      "Was prüfst du danach?",
+    ],
+    teachBackPrompt:
+      "Erklär in einem Satz, warum ein kleines Beispiel den Prompt verbessert.",
+    sourceIds: ["digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-worked-example", "method-retrieval", "method-playful"],
+  },
+  {
+    id: "mu-chat-10",
+    worldId: "world-chat-prompting",
+    lessonId: null,
+    order: 10,
+    title: "Zwei Antworten vergleichen — welche ist brauchbarer?",
+    whyUseful:
+      "Du trainierst Urteilskraft statt die erste Antwort blind zu übernehmen.",
+    oneSentence:
+      "Lass zwei Varianten erzeugen und entscheide mit klaren Kriterien: klar, korrekt, passend.",
+    everydayExample:
+      "„Gib mir zwei Varianten einer Absage-Mail: A kurz, B etwas wärmer. Ich wähle danach.“",
+    steps: [
+      "Bitte um zwei unterschiedlich gekennzeichnete Varianten.",
+      "Bewerte Klarheit, Ton und fehlende Fakten.",
+      "Übernimm nur das Geprüfte — oder mische selbst.",
+    ],
+    practiceTask:
+      "Schreibe einen Prompt, der zwei Varianten einer Dankesmail erzeugt, und notiere dein Auswahlkriterium.",
+    samplePath:
+      "Variante A: 4 Sätze sachlich. Variante B: 5 Sätze freundlich. Danach: A wählen und einen Satz aus B übernehmen.",
+    whyItWorks:
+      "Vergleich macht Qualität sichtbar und reduziert Blindvertrauen.",
+    commonMistake:
+      "Die längere Variante automatisch für „besser“ halten.",
+    safetyNote:
+      "Auch bei Varianten: keine sensiblen Daten in den Prompt.",
+    retrievalQuestions: [
+      "Welche drei Kriterien nutzt du beim Vergleich?",
+      "Warum zwei Varianten statt einer?",
+      "Was machst du nach der Wahl?",
+    ],
+    teachBackPrompt:
+      "Wie vergleichst du zwei KI-Antworten, ohne die erste zu übernehmen?",
+    sourceIds: ["digcomp-30", "nist-genai-profile"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-confidence", "method-retrieval", "method-playful"],
+  },
+  {
+    id: "mu-chat-11",
+    worldId: "world-chat-prompting",
+    lessonId: null,
+    order: 11,
+    title: "Stop-Signal: Wann ist Nachfragen genug?",
+    whyUseful:
+      "Endlose Nachfragen kosten Zeit und erzeugen oft mehr Unsicherheit.",
+    oneSentence:
+      "Plane maximal zwei Verbesserungsrunden — dann entscheidest du selbst und hörst auf.",
+    everydayExample:
+      "Runde 1: Entwurf. Runde 2: „Kürzer und klarer.“ Fertig — absenden nach menschlicher Prüfung.",
+    steps: [
+      "Lege vor dem Chat fest: höchstens zwei Iterationen.",
+      "Formuliere die zweite Runde gezielt (nicht „nochmal besser“).",
+      "Stoppe und prüfe selbst, bevor du weitermachst.",
+    ],
+    practiceTask:
+      "Notiere für eine Aufgabe dein Stop-Signal (z. B. „nach 2 Runden fertig“).",
+    samplePath:
+      "Aufgabe: Einladung. Runde 1 Entwurf. Runde 2 kürzer. Stop. Selbst lesen. Senden.",
+    whyItWorks:
+      "Ein Stop-Signal schützt vor Perfektionsdruck und Chat-Endlosschleifen.",
+    commonMistake:
+      "Zehnmal „mach es besser“ tippen, ohne zu wissen, was fehlt.",
+    safetyNote:
+      "Je länger der Chat, desto eher können vertrauliche Details versehentlich landen — sparsam bleiben.",
+    retrievalQuestions: [
+      "Wie viele Verbesserungsrunden sind sinnvoll?",
+      "Was ist ein Stop-Signal?",
+      "Was kommt nach dem Stop?",
+    ],
+    teachBackPrompt:
+      "Erklär jemandem dein Stop-Signal für KI-Chats.",
+    sourceIds: ["digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 5,
+    methodIds: ["method-progressive", "method-confidence", "method-teachback"],
+  },
+  {
+    id: "mu-chat-12",
+    worldId: "world-chat-prompting",
+    lessonId: null,
+    order: 12,
+    title: "Alltag: Termin-Mail in drei Prompt-Schritten",
+    whyUseful:
+      "Du übst den kompletten Mini-Ablauf an einer echten, harmlosen Aufgabe.",
+    oneSentence:
+      "Ziel nennen → Prompt-Formel → einmal iterieren → selbst prüfen → erst dann nutzen.",
+    everydayExample:
+      "„Schreibe eine kurze Mail, um einen Arzttermin zu verschieben — höflich, 5 Sätze, ohne Diagnose.“",
+    steps: [
+      "Ziel und Grenze notieren (keine Gesundheitsdetails).",
+      "Prompt mit Formel schreiben und Variante A holen.",
+      "Eine gezielte Verbesserung, dann selbst gegenlesen.",
+    ],
+    practiceTask:
+      "Schreibe den Drei-Schritt-Prompt für eine Terminverschiebung ohne private Details.",
+    samplePath:
+      "1 Ziel: Termin verschieben 2 Prompt mit Rolle/Format/Grenze 3 „Kürzer“ 4 Selbst prüfen",
+    whyItWorks:
+      "Der Ablauf verbindet Formel, Iteration und Prüfung zu einer Gewohnheit.",
+    commonMistake:
+      "Diagnosen oder Versicherungsnummern „zur Info“ in den Prompt tippen.",
+    safetyNote:
+      "Gesundheit, Versicherungen und Ausweisnummern gehören nie ungeprüft in den Chat.",
+    retrievalQuestions: [
+      "Welche drei Schritte hat der Ablauf?",
+      "Was bleibt aus dem Prompt draußen?",
+      "Wann darfst du die Mail nutzen?",
+    ],
+    teachBackPrompt:
+      "Beschreibe den Drei-Schritt-Ablauf für eine Termin-Mail.",
+    sourceIds: ["digcomp-30", "eu-gdpr"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 7,
+    methodIds: ["method-worked-example", "method-scenario", "method-progressive"],
   },
 ];

@@ -1,6 +1,6 @@
 import type { MicroLearningUnitV2 } from "./types";
 
-const REVIEWED = "2026-08-10";
+const REVIEWED = "2026-08-12";
 
 /**
  * Themenwelt „Arbeit & Alltag“ — Schema v2.
@@ -318,5 +318,161 @@ export const microUnitsWorkLife: MicroLearningUnitV2[] = [
     lastReviewed: REVIEWED,
     estimatedMinutes: 5,
     methodIds: ["method-progressive", "method-teachback", "method-confidence"],
+  },
+  {
+    id: "mu-work-09",
+    worldId: "world-work-life",
+    lessonId: null,
+    order: 9,
+    title: "Einkaufen & Haushalt: Listen ohne Blindübernahme",
+    whyUseful:
+      "KI kann Listen vorschlagen — Preise, Allergene und Angebote prüfst du selbst.",
+    oneSentence:
+      "Lass eine Einkaufs- oder Putzliste skizzieren, streiche Unpassendes und übernimm nur Geprüftes.",
+    everydayExample:
+      "„Erstelle eine Wochen-Einkaufsliste für 2 Personen, vegetarisch, ohne Markennamen.“ Danach selbst anpassen.",
+    steps: [
+      "Ziel und Grenzen nennen (Budget, Ernährung, keine Markenpflicht).",
+      "Liste erzeugen lassen.",
+      "Streiche, ergänze, prüfe Vorräte — dann erst kaufen.",
+    ],
+    practiceTask:
+      "Schreibe einen Prompt für eine kurze Haushalts-To-do-Liste und markiere, was du selbst prüfen musst.",
+    samplePath:
+      "Prompt → Liste → „Milch schon da“ streichen → Allergene prüfen → fertig",
+    whyItWorks:
+      "Struktur ja, Verantwortung bleibt bei dir — besonders bei Gesundheit und Geld.",
+    commonMistake:
+      "Die Liste ungeprüft abarbeiten und Unnötiges kaufen.",
+    safetyNote:
+      "Keine Gesundheitsdiagnosen oder Medikamentenpläne von der KI übernehmen.",
+    retrievalQuestions: [
+      "Was prüfst du an einer KI-Einkaufsliste?",
+      "Warum Grenzen im Prompt?",
+      "Wann ist Blindübernahme riskant?",
+    ],
+    teachBackPrompt:
+      "Wie nutzt du KI für Haushaltslisten, ohne alles zu glauben?",
+    sourceIds: ["digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 5,
+    methodIds: ["method-scenario", "method-confidence", "method-retrieval"],
+  },
+  {
+    id: "mu-work-10",
+    worldId: "world-work-life",
+    lessonId: null,
+    order: 10,
+    title: "Reisen planen: Ideen ja — Buchung selbst prüfen",
+    whyUseful:
+      "Inspiration ist erlaubt; Preise, Visa und Öffnungszeiten kommen von offiziellen Quellen.",
+    oneSentence:
+      "Nutze KI für Ideen und Packlisten — buche und prüfe Termine immer auf Primärseiten.",
+    everydayExample:
+      "„Schlage drei ruhige Tagesausflüge bei Regen vor.“ Danach Öffnungszeiten auf der offiziellen Seite checken.",
+    steps: [
+      "Ideen und Alternativen sammeln lassen.",
+      "Jede konkrete Angabe (Preis, Zeit, Regel) markieren.",
+      "Nur markierte Punkte auf offiziellen Seiten gegenprüfen.",
+    ],
+    practiceTask:
+      "Erstelle einen Prompt für eine Packliste und eine Checkliste „Was ich selbst prüfe“.",
+    samplePath:
+      "Ideen → Packliste → „Öffnungszeiten/Preise selbst“ → Buchung nur auf vertrauenswürdiger Seite",
+    whyItWorks:
+      "Trennung von Ideengeber und Wahrheitsquelle verhindert teure Fehler.",
+    commonMistake:
+      "Fahrpläne oder Visa-Infos aus dem Chat als verbindlich behandeln.",
+    safetyNote:
+      "Keine Reisepassnummern oder Buchungsdaten in den Prompt kopieren.",
+    retrievalQuestions: [
+      "Was darf KI bei der Reiseplanung?",
+      "Was musst du selbst prüfen?",
+      "Warum keine Passdaten im Prompt?",
+    ],
+    teachBackPrompt:
+      "Erklär die Regel „Ideen ja, Buchung selbst prüfen“.",
+    sourceIds: ["digcomp-30", "nist-genai-profile"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
+  },
+  {
+    id: "mu-work-11",
+    worldId: "world-work-life",
+    lessonId: null,
+    order: 11,
+    title: "Familie & Schule: Hilfe ohne Abschreiben",
+    whyUseful:
+      "KI kann erklären und üben — Abschreiben zerstört Lernen und verstößt oft gegen Regeln.",
+    oneSentence:
+      "Lass erklären und Übungsfragen erzeugen; die Antwort schreibt der Mensch in eigenen Worten.",
+    everydayExample:
+      "„Erkläre Brüche mit Pizza-Beispiel. Stelle danach 3 Übungsfragen — ohne fertige Aufsatzlösung.“",
+    steps: [
+      "Erklären lassen, nicht die Hausaufgabe lösen lassen.",
+      "Teach-back: Kind/Erwachsener sagt es in eigenen Worten.",
+      "Schul- oder Kursregeln beachten.",
+    ],
+    practiceTask:
+      "Formuliere einen Prompt, der erklärt und übt — aber keine fertige Abgabe liefert.",
+    samplePath:
+      "Erklärung → 3 Übungsfragen → eigene Antwort → erst dann Hilfe vergleichen",
+    whyItWorks:
+      "Aktives Wiedergeben sitzt; fertige Texte umgehen das Lernen.",
+    commonMistake:
+      "Komplette Aufsätze generieren und abgeben.",
+    safetyNote:
+      "Keine Fotos von Klassenarbeiten oder Schülerdaten in fremde Tools laden.",
+    retrievalQuestions: [
+      "Was ist erlaubt beim Lernen mit KI?",
+      "Warum Teach-back?",
+      "Welche Daten bleiben draußen?",
+    ],
+    teachBackPrompt:
+      "Wie hilft KI in der Schule, ohne dass jemand abschreibt?",
+    sourceIds: ["digcomp-30"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 6,
+    methodIds: ["method-teachback", "method-retrieval", "method-scenario"],
+  },
+  {
+    id: "mu-work-12",
+    worldId: "world-work-life",
+    lessonId: null,
+    order: 12,
+    title: "Zeitfresser: Was du lieber selbst entscheidest",
+    whyUseful:
+      "Nicht jede Aufgabe braucht KI — manche gehen schneller und sicherer ohne.",
+    oneSentence:
+      "Nutze KI für Entwürfe und Struktur; Entscheidungen, Gefühle und heikle Fakten behältst du.",
+    everydayExample:
+      "Agenda-Skizze: ja. Ob du den Job kündigst: nein. Beileidsmail: Ton skizzieren, Inhalt persönlich schreiben.",
+    steps: [
+      "Frage: Ist das Entwurf oder Entscheidung?",
+      "Nur Entwürfe an KI geben.",
+      "Entscheidungen und heikle Nachrichten selbst finalisieren.",
+    ],
+    practiceTask:
+      "Liste drei Aufgaben: eine für KI, eine gemischt, eine nur Mensch — mit kurzer Begründung.",
+    samplePath:
+      "KI: Struktur. Gemischt: Mail-Entwurf. Mensch: Kündigung / Beileid / Vertrag unterschreiben.",
+    whyItWorks:
+      "Klare Zuständigkeit spart Zeit und schützt Beziehungen und Rechte.",
+    commonMistake:
+      "Schwierige Gespräche komplett von der KI schreiben lassen und ungeprüft senden.",
+    safetyNote:
+      "Rechtliche, medizinische und finanzielle Entscheidungen nie allein der KI überlassen.",
+    retrievalQuestions: [
+      "Wann reicht ein KI-Entwurf?",
+      "Was entscheidest du selbst?",
+      "Warum ist das ein Zeitgewinn?",
+    ],
+    teachBackPrompt:
+      "Erklär die Regel „Entwurf ja, Entscheidung selbst“.",
+    sourceIds: ["digcomp-30", "oecd-ai-principles"],
+    lastReviewed: REVIEWED,
+    estimatedMinutes: 5,
+    methodIds: ["method-confidence", "method-progressive", "method-teachback"],
   },
 ];

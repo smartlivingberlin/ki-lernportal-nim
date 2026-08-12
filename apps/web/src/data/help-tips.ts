@@ -217,25 +217,24 @@ export const helpTips: HelpTip[] = [
   {
     id: "themenwelt",
     label: "Themenwelt und Micro-Einheiten",
-    short: "Kleine Lernhappen: Warum → Beispiel → Üben → Prüfen.",
+    short: "Vertiefung: Überblick, Start-Einheiten, Rest zugeklappt.",
     whatIs:
-      "Micro-Einheiten sind kurze Lernstücke statt langer Vorlesungen. Typisch: Nutzen, Beispielweg, Übung, kurze Abruffragen. Du kannst in wenigen Minuten etwas Konkretes mitnehmen.",
+      "Kurze Lernstücke in einer Themenwelt. Oben siehst du Überblick und Lernziele, dann „Start hier“. Weitere Einheiten öffnest du erst bei Bedarf.",
     whatFor:
-      "Lange Texte vergessen viele Menschen schnell. Kurze Happen mit Übung bleiben besser hängen — auch ohne Technik-Hintergrund.",
+      "Nicht 12–16 Kacheln auf einmal. Du bleibst ruhig und wählst einen Happen.",
     canDo: [
-      "Eine Einheit antippen und von oben nach unten gehen.",
-      "Das Beispiel wirklich lesen (nicht nur überfliegen).",
-      "Die Übung selbst ausfüllen — in eigenen Worten.",
-      "Die Abruffragen beantworten, bevor du weiterspringst.",
+      "Die ersten Einheiten unter „Start hier“ wählen.",
+      "Bei Bedarf „Weitere Einheiten“ aufklappen.",
+      "Eine Einheit von oben nach unten üben (Beispiel → Übung → Prüfen).",
     ],
     example:
-      "5 Minuten „Was ist ein Prompt?“: lesen, Mini-Übung schreiben, eine Abruffrage beantworten.",
+      "Welt „Chat & Prompting“: Einheit 1–4 starten; Einheit 9–12 erst nach dem Kernweg.",
     mistake:
-      "Nur überfliegen und Abruffragen überspringen. Dann fühlt sich alles „gelesen“ an, sitzt aber nicht.",
+      "Alles aufklappen und parallel anfangen. Dann fühlt sich Vertiefung wieder nach Überforderung an.",
     links: [
-      { href: "#ziele", label: "Andere Themenwelt wählen" },
-      { href: "#wiederholen", label: "Später wiederholen" },
-      { href: "#methoden", label: "Warum diese Methoden?" },
+      { href: "#ziele", label: "Andere Themenwelt" },
+      { href: "#heute", label: "Nächster Schritt" },
+      { href: "#wiederholen", label: "Wiederholen" },
     ],
   },
   {

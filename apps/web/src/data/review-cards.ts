@@ -122,6 +122,33 @@ export const reviewCards: ReviewCard[] = [
     sourceIds: ["eu-ai-act", "nist-ai-rmf", "oecd-ai-principles"],
     sourceNote: "EU AI Act Kontext, NIST AI RMF, OECD-Prinzipien.",
   },
+  {
+    id: "rev-prompt-02",
+    worldId: "world-chat-prompting",
+    prompt: "Warum hilft ein kleines Vorher-Nachher-Beispiel im Prompt?",
+    answer:
+      "Es zeigt der KI den gewünschten Ton und Stil. Sie muss weniger raten — du bekommst eher passende Antworten.",
+    sourceIds: ["digcomp-30"],
+    sourceNote: "DigComp 3.0: klare, kompetente Nutzung digitaler Werkzeuge.",
+  },
+  {
+    id: "rev-alltag-02",
+    worldId: "world-work-life",
+    prompt: "Was bedeutet „Ideen ja — Buchung selbst prüfen“ beim Reisen mit KI?",
+    answer:
+      "KI darf Inspiration und Packlisten liefern. Preise, Öffnungszeiten und Buchungen prüfst und erledigst du auf offiziellen oder vertrauenswürdigen Seiten.",
+    sourceIds: ["digcomp-30", "nist-genai-profile"],
+    sourceNote: "DigComp Informationsprüfung und NIST GenAI-Risiken.",
+  },
+  {
+    id: "rev-nofear-02",
+    worldId: "world-no-fear",
+    prompt: "Was tust du, wenn eine KI-Antwort sehr selbstsicher klingt?",
+    answer:
+      "Selbstsicherheit ist kein Wahrheitsbeweis. Wichtige Aussagen gegenprüfen und bei Unsicherheit nachfragen oder eine Quelle nutzen.",
+    sourceIds: ["nist-genai-profile", "oecd-ai-principles"],
+    sourceNote: "NIST GenAI-Profile und OECD-Prinzipien (menschliche Kontrolle).",
+  },
 ];
 
 export function reviewCardById(id: string): ReviewCard | null {

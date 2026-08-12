@@ -458,10 +458,10 @@ export default function Home() {
               {selectedWorldId && worldHasMicroUnits(selectedWorldId) && worldUnits.length > 0 ? (
                 <ThemeWorldTrack
                   worldTitle={selectedWorld?.title ?? "Themenwelt"}
+                  learningOutcomes={selectedWorld?.learningOutcomes ?? []}
                   units={worldUnits}
                   activeUnitId={activeMicroUnit?.id ?? null}
                   onSelectUnit={selectMicroUnit}
-                  simpleMode={false}
                 />
               ) : null}
 
