@@ -320,7 +320,7 @@ export default function Home() {
     setLessonFocusRequest(null);
     setResetConfirmOpen(false);
     setProgressAnnouncement(
-      "Lokaler Lernstand zurückgesetzt: Lektions-Haken, Kurzpfad und Wiederholen.",
+      "Der lokale Lernfortschritt wurde zurückgesetzt. Gelöscht: Lektions-Haken, Kurzpfad und Wiederholen.",
     );
   };
 
