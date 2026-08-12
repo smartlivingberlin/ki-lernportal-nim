@@ -397,11 +397,11 @@ export default function Home() {
                   >
                     {showPortalOnboarding ? "Zum Einstieg" : "Jetzt starten"}
                   </a>
-                  <p className="flex flex-wrap gap-x-3 gap-y-1 text-sm font-bold text-white/95">
+                  <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm font-bold text-white/95">
                     <a
                       href="#selbstcheck"
                       {...explainAttrs("self-check")}
-                      className="nim-interactive underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                      className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
                     >
                       Selbstcheck
                     </a>
@@ -411,7 +411,7 @@ export default function Home() {
                     <a
                       href="#literacy-pfad"
                       {...explainAttrs("literacy-path")}
-                      className="nim-interactive underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                      className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
                     >
                       60-Minuten-Pfad
                     </a>
@@ -421,7 +421,7 @@ export default function Home() {
                     <a
                       href="#wiederholen"
                       {...explainAttrs("wiederholen")}
-                      className="nim-interactive underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                      className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
                     >
                       Wiederholen{dueReviews > 0 ? ` (${dueReviews})` : ""}
                     </a>
