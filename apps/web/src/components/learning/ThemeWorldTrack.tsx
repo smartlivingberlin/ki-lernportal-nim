@@ -37,6 +37,7 @@ function UnitButton({
   return (
     <button
       type="button"
+      id={`micro-pick-${unit.id}`}
       data-explain="themenwelt"
       data-layer={unit.lessonId ? "kernweg" : "vertiefung"}
       data-completed={completed ? "true" : "false"}
@@ -119,7 +120,8 @@ export function ThemeWorldTrack({
         </p>
         <h2
           id="themenwelt-title"
-          className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)]"
+          tabIndex={-1}
+          className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--foreground)] outline-none"
         >
           {worldTitle}
         </h2>

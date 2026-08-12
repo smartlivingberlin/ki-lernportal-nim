@@ -5,7 +5,6 @@ import { seedGlossary } from "../data/glossary";
 import { seedLearningPaths } from "../data/learning-paths";
 import { seedResources } from "../data/resources";
 import { publicSources } from "../data/sources";
-import { themeWorlds } from "../data/theme-worlds";
 import { learningMethods } from "../data/learning-methods";
 import {
   challengesByDomain,
@@ -16,6 +15,7 @@ import {
 import {
   microUnitForLesson,
   microUnitsForWorld,
+  nextOpenDeepenMicroUnit,
   worldHasMicroUnits,
   worldsWithMicroUnits,
 } from "../data/micro-units";
@@ -49,6 +49,7 @@ import { ResetProgressConfirm } from "../components/learning/ResetProgressConfir
 import { SimpleModePackHint } from "../components/learning/SimpleModePackHint";
 import { explainAttrs } from "../data/help-tips";
 import { resolveNextStep } from "../data/next-step";
+import { sortThemeWorldsKernwegFirst, themeWorlds } from "../data/theme-worlds";
 import { useLocalProgress } from "../hooks/useLocalProgress";
 import { useLocalMicroProgress } from "../hooks/useLocalMicroProgress";
 import { useLocalReviewQueue } from "../hooks/useLocalReviewQueue";
@@ -135,6 +136,10 @@ export default function Home() {
   const [activeLessonId, setActiveLessonId] = useState<string | null>(seedLearningPaths[0]?.lessons[0]?.id ?? null);
   const [progressAnnouncement, setProgressAnnouncement] = useState("");
   const [lessonFocusRequest, setLessonFocusRequest] = useState<{ lessonId: string } | null>(null);
+  const [microFocusRequest, setMicroFocusRequest] = useState<{
+    microUnitId: string;
+  } | null>(null);
+  const [worldsFocusRequest, setWorldsFocusRequest] = useState(false);
   const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
   const [selectedWorldId, setSelectedWorldId] = useState<string | null>("world-no-fear");
   const [activeMicroUnitId, setActiveMicroUnitId] = useState<string | null>("mu-nofear-01");
@@ -198,6 +203,19 @@ export default function Home() {
   const visibleMethods = simpleMode ? learningMethods.slice(0, 4) : learningMethods.slice(0, 6);
   const selectedWorld =
     themeWorlds.find((world) => world.id === selectedWorldId) ?? themeWorlds[0] ?? null;
+  const nextDeepenMicro = useMemo(() => {
+    const orderedWorldIds = sortThemeWorldsKernwegFirst(themeWorlds).map(
+      (world) => world.id,
+    );
+    return nextOpenDeepenMicroUnit({
+      worldIds: orderedWorldIds,
+      completedMicroUnitIds,
+    });
+  }, [completedMicroUnitIds]);
+  const nextDeepenWorldTitle = nextDeepenMicro
+    ? (themeWorlds.find((world) => world.id === nextDeepenMicro.worldId)?.title ??
+      null)
+    : (selectedWorld?.title ?? null);
   const nextStep = useMemo(
     () =>
       resolveNextStep({
@@ -207,7 +225,10 @@ export default function Home() {
         completedLessons,
         totalLessons,
         simpleMode,
-        recommendedWorldTitle: selectedWorld?.title ?? null,
+        recommendedWorldTitle: nextDeepenWorldTitle,
+        nextDeepenMicroUnitId: nextDeepenMicro?.id ?? null,
+        nextDeepenMicroTitle: nextDeepenMicro?.title ?? null,
+        nextDeepenWorldId: nextDeepenMicro?.worldId ?? null,
       }),
     [
       literacyPath.completedStationIds,
@@ -216,7 +237,10 @@ export default function Home() {
       completedLessons,
       totalLessons,
       simpleMode,
-      selectedWorld?.title,
+      nextDeepenWorldTitle,
+      nextDeepenMicro?.id,
+      nextDeepenMicro?.title,
+      nextDeepenMicro?.worldId,
     ],
   );
   const worldUnits = selectedWorldId ? microUnitsForWorld(selectedWorldId) : [];
@@ -249,6 +273,41 @@ export default function Home() {
     section?.scrollIntoView({ behavior: "smooth", block: "start" });
     heading?.focus({ preventScroll: true });
   }, [activeLessonId, lessonFocusRequest]);
+
+  useEffect(() => {
+    if (!microFocusRequest) return;
+
+    const pick = document.getElementById(
+      `micro-pick-${microFocusRequest.microUnitId}`,
+    );
+    const article = document.getElementById(
+      `micro-${microFocusRequest.microUnitId}`,
+    );
+    const themenwelt = document.getElementById("themenwelt");
+    const target = article ?? themenwelt ?? pick;
+    target?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const focusEl =
+      (article as HTMLElement | null) ??
+      document.getElementById("themenwelt-title") ??
+      (pick as HTMLElement | null);
+    focusEl?.focus({ preventScroll: true });
+    setMicroFocusRequest(null);
+  }, [activeMicroUnitId, selectedWorldId, microFocusRequest, simpleMode]);
+
+  useEffect(() => {
+    if (!worldsFocusRequest || simpleMode) return;
+
+    const section = document.getElementById("ziele");
+    const title = document.getElementById("ziele-title");
+    section?.scrollIntoView({ behavior: "smooth", block: "start" });
+    title?.focus({ preventScroll: true });
+    setWorldsFocusRequest(false);
+  }, [simpleMode, worldsFocusRequest]);
+
+  const revealWorlds = () => {
+    setSimpleMode(false);
+    setWorldsFocusRequest(true);
+  };
 
   const openLesson = (lessonId: string) => {
     const lesson = allLessons.find((item) => item.id === lessonId);
@@ -290,6 +349,20 @@ export default function Home() {
       openLesson(unit.lessonId);
     }
     setProgressAnnouncement(`Micro-Einheit „${unit.title}“ geöffnet.`);
+  };
+
+  const openDeepenMicro = (microUnitId: string, worldId: string) => {
+    const unit =
+      microUnitsForWorld(worldId).find((item) => item.id === microUnitId) ??
+      null;
+    setSelectedWorldId(worldId);
+    setActiveMicroUnitId(microUnitId);
+    setMicroFocusRequest({ microUnitId });
+    setProgressAnnouncement(
+      unit
+        ? `Vertiefung „${unit.title}“ geöffnet.`
+        : "Vertiefung in der Themenwelt geöffnet.",
+    );
   };
 
   const toggleLessonDone = (lessonId: string) => {
@@ -436,7 +509,8 @@ export default function Home() {
                 nextStep={nextStep}
                 moduleTitle={recommendedModule?.title ?? null}
                 onOpenLesson={openLesson}
-                onShowMore={() => setSimpleMode(false)}
+                onOpenDeepenMicro={openDeepenMicro}
+                onShowMore={revealWorlds}
               />
             </div>
           </section>
@@ -456,7 +530,7 @@ export default function Home() {
           <SpacedReviewQueue simpleMode={simpleMode} />
 
           {simpleMode ? (
-            <SimpleModePackHint onShowMore={() => setSimpleMode(false)} />
+            <SimpleModePackHint onShowMore={revealWorlds} />
           ) : (
             <>
               <GoalNavigation
@@ -734,16 +808,27 @@ export default function Home() {
               type="button"
               onClick={() => {
                 if (nextStep.kind === "complete") {
-                  setSimpleMode(false);
+                  revealWorlds();
                   return;
                 }
                 if (nextStep.lessonId) {
                   openLesson(nextStep.lessonId);
                   return;
                 }
-                document
-                  .getElementById(nextStep.href.replace(/^#/, ""))
-                  ?.scrollIntoView({ behavior: "smooth" });
+                if (
+                  nextStep.kind === "deepen" &&
+                  nextStep.microUnitId &&
+                  nextStep.worldId
+                ) {
+                  openDeepenMicro(nextStep.microUnitId, nextStep.worldId);
+                  return;
+                }
+                const id = nextStep.href.replace(/^#/, "");
+                const section = document.getElementById(id);
+                section?.scrollIntoView({ behavior: "smooth", block: "start" });
+                document.getElementById(`${id}-title`)?.focus({
+                  preventScroll: true,
+                });
               }}
               className="mt-4 w-full rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 py-3 text-sm font-black text-white hover:bg-[var(--nim-primary-strong)]"
             >

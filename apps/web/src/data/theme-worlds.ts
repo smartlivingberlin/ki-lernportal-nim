@@ -192,3 +192,15 @@ export const themeWorlds: ThemeWorld[] = [
 export const activeThemeWorlds = themeWorlds.filter(
   (world) => world.status === "active" || world.status === "planned",
 );
+
+/** Kernweg-Welten (mit starterLessonId) vor reiner Vertiefung („Später“). */
+export function sortThemeWorldsKernwegFirst(
+  worlds: readonly ThemeWorld[],
+): ThemeWorld[] {
+  return [...worlds].sort((a, b) => {
+    const aCore = a.starterLessonId ? 0 : 1;
+    const bCore = b.starterLessonId ? 0 : 1;
+    if (aCore !== bCore) return aCore - bCore;
+    return a.audienceLevel - b.audienceLevel;
+  });
+}

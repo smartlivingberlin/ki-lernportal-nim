@@ -19,12 +19,18 @@ assert.match(mobileNav, /href: "#erststart"/);
 assert.match(mobileNav, /label: "Üben"/);
 assert.match(mobileNav, /label: "Selbst"/);
 assert.match(mobileNav, /label: "Sicher"/);
+assert.match(mobileNav, /label: "Welten"/);
+assert.match(mobileNav, /href: "#ziele"/);
 assert.match(mobileNav, /ariaLabel: "Selbstcheck"/);
 assert.match(mobileNav, /ariaLabel: "Sicherheit und Scam-Schutz"/);
+assert.match(mobileNav, /ariaLabel: "Themenwelten"/);
 assert.doesNotMatch(mobileNav, /label: "Abruf"/);
 assert.doesNotMatch(mobileNav, /label: "Check"/);
 assert.doesNotMatch(mobileNav, /label: "Scam"/);
 assert.match(mobileNav, /label: "Pfad"/);
+assert.match(mobileNav, /scrollIntoView/);
+assert.match(mobileNav, /\$\{id\}-title/);
+assert.match(mobileNav, /data-nav-mode/);
 
 const page = read("apps/web/src/app/page.tsx");
 assert.match(page, /Jetzt starten/);

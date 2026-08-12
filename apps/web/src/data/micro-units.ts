@@ -36,6 +36,21 @@ export function microUnitsForWorld(worldId: string): MicroLearningUnitV2[] {
     });
 }
 
+/** Nächste offene Vertiefungs-Einheit (ohne Lektionsbindung), Welten in Anzeigereihenfolge. */
+export function nextOpenDeepenMicroUnit(options: {
+  worldIds: readonly string[];
+  completedMicroUnitIds: readonly string[];
+}): MicroLearningUnitV2 | null {
+  const completed = new Set(options.completedMicroUnitIds);
+  for (const worldId of options.worldIds) {
+    for (const unit of microUnitsForWorld(worldId)) {
+      if (unit.lessonId) continue;
+      if (!completed.has(unit.id)) return unit;
+    }
+  }
+  return null;
+}
+
 export function microUnitForLesson(lessonId: string): MicroLearningUnitV2 | null {
   return allMicroUnits.find((unit) => unit.lessonId === lessonId) ?? null;
 }

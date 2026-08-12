@@ -27,11 +27,13 @@ export function SimpleModePackHint({ onShowMore }: SimpleModePackHintProps) {
         Nichts fehlt im Portal. Du siehst jetzt den ruhigen Einstieg: Selbstcheck,
         Kurzpfad, Wiederholen, Sicherheit und deine Lektionen. Alles Weitere bleibt
         im System — und erscheint wieder, wenn du die Einfache Ansicht ausschaltest
-        (Schalter oben) oder hier mehr einblendest.
+        (Schalter oben) oder hier mehr einblendest. Danach landest du bei den
+        Themenwelten.
       </p>
       <div className="mt-4 flex flex-wrap gap-2">
         <button
           type="button"
+          data-testid="simple-mode-show-worlds"
           onClick={onShowMore}
           className="nim-interactive inline-flex min-h-11 items-center justify-center rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 text-sm font-black text-white hover:bg-[var(--nim-primary-strong)]"
         >
