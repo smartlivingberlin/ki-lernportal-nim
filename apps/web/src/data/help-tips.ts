@@ -172,20 +172,22 @@ export const helpTips: HelpTip[] = [
   {
     id: "ziele",
     label: "Themenwelten vertiefen",
-    short: "Optional nach dem Kernweg: Micro-Einheiten zu einem Ziel.",
+    short:
+      "Optional nach dem Kernweg: zuerst Welten mit Lektionen, darunter „Später“.",
     whatIs:
-      "Themenwelt-Auswahl als Vertiefungsschicht. Nicht der Erst-Einstieg — der liegt bei Selbstcheck, Kurzpfad und Lektionen.",
+      "Themenwelt-Auswahl als Vertiefungsschicht. Kernweg-Welten stehen oben; reine Vertiefungswelten sind als „Später“ getrennt. Nicht der Erst-Einstieg — der liegt bei Selbstcheck, Kurzpfad und Lektionen.",
     whatFor:
       "Wenn der Kernweg klar ist, kannst du gezielt tiefer gehen — ohne alles parallel zu öffnen.",
     canDo: [
       "Erst den „Nächsten Schritt“ in der Heute-Karte erledigen.",
-      "Dann eine Welt antippen und eine Micro-Einheit üben.",
+      "Eine Kernweg-Welt antippen und eine Micro-Einheit üben.",
+      "Später-Welten nur öffnen, wenn du bewusst vertiefen willst.",
       "Bei Überforderung: Einfache Ansicht an — Welten sind dann nur ausgeblendet.",
     ],
     example:
-      "Nach dem Kurzpfad: Welt „Recherche & Wahrheit“ → eine Einheit zu Halluzinationen.",
+      "Nach dem Kurzpfad: Welt „Recherche & Wahrheit“ → eine Einheit zu Halluzinationen. Medien/Agenten erst später.",
     mistake:
-      "Welten als Ersatz für Selbstcheck und Kurzpfad nutzen. Dann fehlen Orientierung und Sicherheit.",
+      "Später-Welten als Ersatz für Selbstcheck und Kurzpfad nutzen. Dann fehlen Orientierung und Sicherheit.",
     links: [
       { href: "#heute", label: "Nächster Schritt" },
       { href: "#literacy-pfad", label: "Kurzpfad" },
@@ -195,15 +197,17 @@ export const helpTips: HelpTip[] = [
   {
     id: "ziele-kachel",
     label: "Themenwelt-Kachel",
-    short: "Antippen aktiviert diese Themenwelt — danach erscheinen passende Mini-Einheiten.",
+    short:
+      "Kernweg oder Später: Antippen aktiviert die Welt und die Mini-Einheiten darunter.",
     whatIs:
-      "Eine einzelne Themenwelt als Kachel. „Startklar“ heißt: Inhalt ist vorhanden. Antippen wechselt die aktive Welt — die Seite bleibt dieselbe.",
+      "Eine einzelne Themenwelt als Kachel. Badge „Kernweg“ = mit Lektions-Anbindung. Badge „Später“ = reine Vertiefung ohne 12er-Pfad.",
     whatFor:
       "Du legst fest, worüber du gerade lernst, bevor du übst. Das verhindert zielloses Klicken.",
     canDo: [
       "Kachel antippen (sie wirkt aktiv/hervorgehoben).",
       "Im Bereich darunter die Einheiten lesen.",
       "Eine Einheit oder Challenge öffnen und üben.",
+      "Bei Später-Welten: Banner lesen und bei Bedarf zum Kernpfad zurück.",
     ],
     example:
       "„Chat & Prompting“ antippen → Einheiten zu Rollen, Grenzen und guten Aufträgen erscheinen darunter.",

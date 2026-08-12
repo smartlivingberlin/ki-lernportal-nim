@@ -17,17 +17,21 @@ assert.match(track, /START_VISIBLE = 4/);
 assert.match(track, /Start hier/);
 assert.match(track, /Weitere Einheiten/);
 assert.match(track, /learningOutcomes/);
+assert.match(track, /spaeter-world-banner/);
+assert.match(track, /worldLayer/);
+assert.match(track, /Später · reine Vertiefung/);
 
 const goals = read("apps/web/src/components/learning/GoalNavigation.tsx");
 assert.match(goals, /Später/);
 assert.match(goals, /data-world-layer/);
 assert.match(goals, /sortThemeWorldsKernwegFirst/);
+assert.match(goals, /spaeter-worlds-block/);
+assert.match(goals, /Später · reine Vertiefung/);
 
 assert.match(
   read("apps/web/src/data/theme-worlds.ts"),
   /sortThemeWorldsKernwegFirst/,
 );
-
 const chat = read("apps/web/src/data/micro-units-chat-prompting.ts");
 assert.match(chat, /mu-chat-09/);
 assert.match(chat, /mu-chat-12/);

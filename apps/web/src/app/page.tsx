@@ -321,6 +321,7 @@ export default function Home() {
 
   const selectWorld = (world: ThemeWorld) => {
     setSelectedWorldId(world.id);
+    const isSpaeterWorld = !world.starterLessonId;
     if (worldHasMicroUnits(world.id)) {
       const firstUnit = microUnitsForWorld(world.id)[0] ?? null;
       setActiveMicroUnitId(firstUnit?.id ?? null);
@@ -328,7 +329,9 @@ export default function Home() {
         openLesson(firstUnit.lessonId);
       }
       setProgressAnnouncement(
-        `Themenwelt „${world.title}“ mit ${microUnitsForWorld(world.id).length} Einheiten geöffnet.`,
+        isSpaeterWorld
+          ? `Später-Welt „${world.title}“ geöffnet — optionale Vertiefung, kein Muss.`
+          : `Themenwelt „${world.title}“ mit ${microUnitsForWorld(world.id).length} Einheiten geöffnet.`,
       );
       return;
     }
@@ -336,7 +339,9 @@ export default function Home() {
       openLesson(world.starterLessonId);
       setProgressAnnouncement(`${world.title}: Einstieg geöffnet.`);
     } else {
-      setProgressAnnouncement(`${world.title}: Inhalte folgen.`);
+      setProgressAnnouncement(
+        `Später-Welt „${world.title}“: Inhalte folgen oder noch ohne Micro-Einheiten.`,
+      );
     }
   };
 
@@ -542,6 +547,9 @@ export default function Home() {
               {selectedWorldId && worldHasMicroUnits(selectedWorldId) && worldUnits.length > 0 ? (
                 <ThemeWorldTrack
                   worldTitle={selectedWorld?.title ?? "Themenwelt"}
+                  worldLayer={
+                    selectedWorld?.starterLessonId ? "kernweg" : "spaeter"
+                  }
                   learningOutcomes={selectedWorld?.learningOutcomes ?? []}
                   units={worldUnits}
                   activeUnitId={activeMicroUnit?.id ?? null}
