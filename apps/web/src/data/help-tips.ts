@@ -56,22 +56,22 @@ export const helpTips: HelpTip[] = [
   {
     id: "simple-mode",
     label: "Einfache Ansicht",
-    short: "Weniger auf dem Bildschirm — ruhiger Einstieg ohne Ablenkung.",
+    short: "Ruhiger Einstieg: Nebenbereiche nur ausgeblendet, nicht gelöscht.",
     whatIs:
-      "Einfache Ansicht ist ein Schalter, der Nebenbereiche ausblendet und Texte ruhiger und größer wirken lässt. Du lernst weiter — nur mit weniger Reizen.",
+      "Einfache Ansicht blendet Themenwelten, Werkzeuge, Suche und Extra-Szenarien aus und macht Texte ruhiger. Alle Inhalte bleiben im Portal.",
     whatFor:
-      "Er hilft gegen das Gefühl „Die Seite ist zu voll“. Viele Einsteiger:innen sind unsicher in digitalen Oberflächen. Weniger Elemente bedeuten: klarer nächster Schritt, weniger Angst vor Fehlklicks.",
+      "Gegen das Gefühl „Die Seite ist zu voll“. Einsteiger:innen sehen den klaren Kernweg — ohne Angst vor Fehlklicks in Nebenräumen.",
     canDo: [
       "Schalter „Einfache Ansicht“ oben einschalten.",
-      "Nur eine Themenwelt wählen, eine Einheit öffnen und kurz üben.",
-      "Später wieder ausschalten, wenn du mehr Details und Werkzeuge sehen willst.",
+      "Selbstcheck, Kurzpfad, Wiederholen, Scam und Lektionen nutzen.",
+      "„Mehr Bereiche einblenden“ tippen oder den Schalter aus — dann erscheinen Welten und Werkzeuge wieder.",
     ],
     example:
-      "Beim ersten Besuch wirkt alles viel: Welten, Werkzeuge, Quellen. Mit Einfacher Ansicht siehst du vor allem den Einstieg — wie ein ruhiger Flur statt eines vollen Bahnhofs.",
+      "Beim ersten Besuch: Einfache Ansicht an → drei Einstiegsschritte → später Schalter aus für Themenwelten.",
     mistake:
-      "Einfache Ansicht mit „weniger lernen“ verwechseln. Du übst weiter. Es wird nur die Oberfläche vereinfacht.",
+      "Einfache Ansicht mit „weniger lernen“ verwechseln. Du übst weiter. Es wird nur die Oberfläche verpackt.",
     links: [
-      { href: "#ziele", label: "Zu den Themenwelten" },
+      { href: "#erststart", label: "Zum Einstieg" },
       { href: "#lernraum", label: "Zum Lernraum" },
     ],
   },

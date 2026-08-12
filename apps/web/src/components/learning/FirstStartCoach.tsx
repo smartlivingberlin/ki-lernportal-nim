@@ -149,8 +149,8 @@ export function FirstStartCoach({
 
       <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
         Kein langer Rundgang. Nur drei klare Schritte — du kannst jederzeit abbrechen.
-        Tipp: Fahre mit der Maus über Bereiche und Buttons — am Cursor erscheint die
-        Erklärungswolke mit Bedienungshinweisen.
+        Ausführliche Hover-Hilfe startet erst, wenn du den Coach ausblendest (oder über die
+        kleinen „?“-Buttons, falls vorhanden).
       </p>
 
       {!simpleMode ? (

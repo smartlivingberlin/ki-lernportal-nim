@@ -306,6 +306,33 @@ const phases = {
     assert.equal(await forbiddenControls.count(), 0);
     console.log("NO_LOGIN_PAYMENT_TRACKING_CHAT_OK=YES");
   },
+
+  async packaging(page) {
+    await page.evaluate(() => {
+      window.localStorage.setItem("ki-lernportal-nim:simple-mode:v1", "1");
+      window.localStorage.setItem("ki-lernportal-nim:first-start-coach:v1", "dismissed");
+    });
+    await page.reload({ waitUntil: "load", timeout: navigationTimeout });
+    await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({
+      state: "visible",
+    });
+    await suppressExplainClouds(page);
+
+    await page.getByTestId("simple-mode-pack-hint").waitFor({ state: "visible" });
+    assert.equal(await page.locator("#ziele").count(), 0);
+    assert.equal(await page.locator("#szenarien").count(), 0);
+    assert.equal(await page.locator("#methoden").count(), 0);
+
+    await page.getByRole("button", { name: "Mehr Bereiche einblenden" }).click();
+    await page.locator("#ziele").waitFor({ state: "visible" });
+    assert.equal(await page.getByTestId("simple-mode-pack-hint").count(), 0);
+    console.log("PACKAGING_A_SIMPLE_MODE_PACK_OK=YES");
+
+    await page.getByRole("button", { name: "Zurücksetzen" }).click();
+    await expectExactText(page, "Haken an den 12 Lektionen");
+    await expectExactText(page, "Wiederholungs-Queue (Übungskarten)");
+    console.log("PACKAGING_A_HONEST_RESET_COPY_OK=YES");
+  },
 };
 
 async function runPhase(browser, phaseName) {

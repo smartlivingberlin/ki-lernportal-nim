@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { helpTipById, type HelpLink, type HelpTip } from "../../data/help-tips";
+import { useFirstStartCoachDismissed } from "./FirstStartCoach";
+import { useSimpleMode } from "../../hooks/useSimpleMode";
 
 export const EXPLAIN_PIN_EVENT = "nim-explain-pin";
 export const EXPLAIN_UNPIN_EVENT = "nim-explain-unpin";
@@ -221,6 +223,10 @@ function ManualBody({ tip, interactive }: { tip: HelpTip; interactive: boolean }
 export function CursorExplainLayer() {
   const panelId = useId();
   const isClient = useIsClient();
+  const coachDismissed = useFirstStartCoachDismissed();
+  const { enabled: simpleMode } = useSimpleMode();
+  /** Hover-Handbuch erst nach Coach + nicht in Einfacher Ansicht. */
+  const hoverExplainEnabled = coachDismissed && !simpleMode;
   const [cloud, setCloud] = useState<CloudState | null>(null);
   const [engaged, setEngaged] = useState(false);
   const pinnedRef = useRef(false);
@@ -232,6 +238,11 @@ export function CursorExplainLayer() {
   const pendingTipRef = useRef<{ tip: HelpTip; x: number; y: number; avoid: AvoidRect | null } | null>(
     null,
   );
+  const hoverExplainEnabledRef = useRef(hoverExplainEnabled);
+
+  useEffect(() => {
+    hoverExplainEnabledRef.current = hoverExplainEnabled;
+  }, [hoverExplainEnabled]);
 
   useEffect(() => {
     pinnedRef.current = Boolean(cloud?.pinned);
@@ -282,6 +293,7 @@ export function CursorExplainLayer() {
     const onPointerMove = (event: PointerEvent) => {
       if (!canHoverFinePointer()) return;
       if (pinnedRef.current) return;
+      if (!hoverExplainEnabledRef.current) return;
 
       if (event.target instanceof Element && event.target.closest("[data-explain-cloud-root]")) {
         overCloudRef.current = true;
@@ -337,6 +349,7 @@ export function CursorExplainLayer() {
         const pending = pendingTipRef.current;
         if (!pending || pinnedRef.current || overCloudRef.current) return;
         if (Date.now() < suppressOpenUntilRef.current) return;
+        if (!hoverExplainEnabledRef.current) return;
         openTip(pending.tip, pending.x, pending.y, pending.avoid);
         pendingTipRef.current = null;
       }, TIP_SWITCH_DWELL_MS);

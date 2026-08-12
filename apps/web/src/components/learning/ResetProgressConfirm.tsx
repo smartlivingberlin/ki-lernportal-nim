@@ -7,7 +7,7 @@ type ResetProgressConfirmProps = {
 };
 
 /**
- * Inline-Bestätigung vor dem Löschen des lokalen Lernfortschritts.
+ * Inline-Bestätigung vor dem Löschen lokaler Lernmarkierungen.
  * Kein window.confirm — tastatur- und screenreader-freundlich.
  */
 export function ResetProgressConfirm({
@@ -27,11 +27,19 @@ export function ResetProgressConfirm({
         id="reset-progress-title"
         className="text-sm font-black text-[var(--nim-primary)]"
       >
-        Fortschritt wirklich zurücksetzen?
+        Lokalen Lernstand wirklich zurücksetzen?
       </p>
       <p className="mt-1 text-xs font-medium leading-5 text-[var(--nim-secondary)]">
-        Alle Haken in diesem Browser werden gelöscht. Das lässt sich nicht
-        rückgängig machen.
+        In diesem Browser werden gelöscht:
+      </p>
+      <ul className="mt-2 list-disc space-y-1 pl-4 text-xs font-medium leading-5 text-[var(--nim-secondary)]">
+        <li>Haken an den 12 Lektionen</li>
+        <li>Stationen des 60-Minuten-Kurzpfads</li>
+        <li>Wiederholungs-Queue (Übungskarten)</li>
+      </ul>
+      <p className="mt-2 text-xs font-medium leading-5 text-[var(--nim-secondary)]">
+        Unberührt bleiben: Einfache Ansicht, Einstiegshilfe und alle Lerninhalte im
+        Portal. Das Zurücksetzen lässt sich nicht rückgängig machen.
       </p>
       <div className="mt-3 flex flex-wrap gap-2">
         <button
