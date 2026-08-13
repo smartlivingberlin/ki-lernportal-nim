@@ -1,6 +1,6 @@
 /**
  * S51B-B connection-proof URL guards (typecheck-safe, no Node globals).
- * Runtime proof lives in scripts/run-s51b-b-connection-proof.ts.
+ * Runtime proof entry: connection-proof.ts (excluded from package typecheck).
  */
 export function assertLocalDisposableConnectionUrl(
   url: string,
