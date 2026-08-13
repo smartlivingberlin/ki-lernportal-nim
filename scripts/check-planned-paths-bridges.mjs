@@ -29,6 +29,13 @@ assert.match(panel, /id="weitere-pfade"/);
 assert.match(panel, /data-testid=\{`planned-path-\$\{bridge\.pathId\}`\}/);
 assert.match(panel, /plannedPathBridges/);
 assert.match(panel, /Alltag & Prompting/);
+assert.match(panel, /explainAttrs\("weitere-pfade"\)/);
+assert.match(panel, /tipId="weitere-pfade"/);
+assert.doesNotMatch(panel, /tipId="lernpfad"/);
+
+const tips = read("apps/web/src/data/help-tips.ts");
+assert.match(tips, /id: "weitere-pfade"/);
+assert.match(tips, /label: "Weitere Lernpfade"/);
 
 const page = read("apps/web/src/app/page.tsx");
 assert.match(page, /PlannedPathsPanel/);
