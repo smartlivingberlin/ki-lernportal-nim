@@ -612,14 +612,35 @@ const phases = {
 
     await page.locator("#weitere-pfade").scrollIntoViewIfNeeded();
     await page.getByTestId("planned-paths-panel").waitFor({ state: "visible" });
-    await expectExactText(page, "Alltag & Prompting — jetzt schon starten");
+    await expectExactText(
+      page,
+      "Weitere Lernpfade — Brücken und ehrlich Gesperrtes",
+    );
     await page.getByTestId("planned-path-path-daily-life").waitFor({
       state: "visible",
     });
     await page.getByTestId("planned-path-path-prompting").waitFor({
       state: "visible",
     });
+    await page.getByTestId("locked-paths-block").waitFor({ state: "visible" });
+    await page.getByTestId("locked-path-path-sources-rag").waitFor({
+      state: "visible",
+    });
+    await page.getByTestId("locked-path-path-business").waitFor({
+      state: "visible",
+    });
+    await page.getByTestId("locked-path-path-admin").waitFor({
+      state: "visible",
+    });
+    assert.equal(
+      await page
+        .getByTestId("locked-paths-block")
+        .getByRole("button", { name: /Öffnen/i })
+        .count(),
+      0,
+    );
     console.log("PLANNED_PATHS_PANEL_VISIBLE_OK=YES");
+    console.log("LOCKED_PATHS_HONESTY_VISIBLE_OK=YES");
 
     await page.getByTestId("planned-path-lesson-l4").click();
     await page.locator("#lesson-l4").waitFor({ state: "visible", timeout: 15_000 });

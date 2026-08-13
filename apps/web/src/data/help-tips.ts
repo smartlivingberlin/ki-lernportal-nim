@@ -425,6 +425,7 @@ export const helpTips: HelpTip[] = [
       "„Zurücksetzen“ und bestätigen „zum Aufräumen“. Dann sind die Haken weg. Aufräumen braucht keinen Zurücksetzen-Knopf.",
     links: [
       { href: "#lernraum", label: "Zur geöffneten Lektion" },
+      { href: "#weitere-pfade", label: "Weitere Lernpfade" },
       { href: "#heute", label: "Heute empfohlen" },
       { href: "#naechste", label: "Nächste offene Lektion" },
     ],

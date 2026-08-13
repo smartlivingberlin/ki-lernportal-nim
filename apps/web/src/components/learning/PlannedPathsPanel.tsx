@@ -2,8 +2,10 @@
 
 import { seedLessons } from "../../data/lessons";
 import {
+  lockedPathHonesty,
   plannedPathBridges,
   plannedPathById,
+  type LockedPathHonesty,
   type PlannedPathBridge,
 } from "../../data/learning-paths";
 import { explainAttrs } from "../../data/help-tips";
@@ -97,8 +99,43 @@ function BridgeCard({
   );
 }
 
+function LockedCard({ entry }: { entry: LockedPathHonesty }) {
+  const path = plannedPathById(entry.pathId);
+  if (!path) return null;
+
+  return (
+    <article
+      data-testid={`locked-path-${entry.pathId}`}
+      data-path-status={path.status}
+      aria-disabled="true"
+      className="rounded-[var(--nim-radius-lg)] border border-dashed border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 opacity-95"
+    >
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
+          {path.title}
+        </p>
+        <span className="rounded-[var(--nim-radius-sm)] bg-[var(--nim-surface-soft)] px-2 py-1 text-[0.7rem] font-black text-[var(--nim-secondary)]">
+          {entry.badge}
+        </span>
+      </div>
+      <p className="mt-2 text-sm font-medium leading-6 text-[var(--nim-secondary)]">
+        {path.description}
+      </p>
+      <p className="mt-3 text-sm font-semibold leading-6 text-[var(--foreground)]">
+        {entry.whyLocked}
+      </p>
+      <p className="mt-2 text-xs font-medium leading-5 text-[var(--nim-secondary)]">
+        {entry.laterNote}
+      </p>
+      <p className="mt-3 text-xs font-black uppercase tracking-wider text-[var(--nim-secondary)]">
+        Kein Start-Button — Inhalt folgt später
+      </p>
+    </article>
+  );
+}
+
 /**
- * Zeigt geplante Pfade Alltag/Prompting mit Brücken in den 12er-Kernweg.
+ * Geplante Pfade mit Kernweg-Brücken + ehrlich gesperrte Pfade.
  * Keine neuen Lesson-IDs — Integrity-Gate bleibt intakt.
  */
 export function PlannedPathsPanel({
@@ -109,6 +146,7 @@ export function PlannedPathsPanel({
   const bridges = simpleMode
     ? plannedPathBridges.slice(0, 1)
     : plannedPathBridges;
+  const locked = simpleMode ? [] : lockedPathHonesty;
 
   return (
     <section
@@ -127,12 +165,11 @@ export function PlannedPathsPanel({
           tabIndex={-1}
           className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-[var(--foreground)] outline-none md:text-3xl"
         >
-          Alltag & Prompting — jetzt schon starten
+          Weitere Lernpfade — Brücken und ehrlich Gesperrtes
         </h2>
         <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
-          Eigene Pfade für Alltag und Prompting sind vorbereitet, aber noch ohne
-          Extra-Lektionen. Du startest über bewährte Kernweg-Lektionen — ohne
-          Warteschlange und ohne leere Versprechen.
+          Alltag und Prompting kannst du schon über den Kernweg starten. Quellen,
+          Beruf und Admin bleiben sichtbar gesperrt — ohne leere „Öffnen“-Buttons.
         </p>
       </ExplainHotspot>
 
@@ -146,6 +183,30 @@ export function PlannedPathsPanel({
           />
         ))}
       </div>
+
+      {locked.length > 0 ? (
+        <div className="mt-8" data-testid="locked-paths-block">
+          <h3
+            id="weitere-pfade-locked-title"
+            className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]"
+          >
+            Gesperrt · später oder nicht für Einsteiger
+          </h3>
+          <p className="mt-2 max-w-3xl text-sm font-medium leading-6 text-[var(--nim-secondary)]">
+            Diese Pfade existieren im Katalog, haben aber noch keine eigenen
+            Lektionen. Du siehst sie, damit nichts „heimlich“ fehlt — und startest
+            trotzdem beim Kernweg.
+          </p>
+          <div
+            className="mt-4 grid gap-4 lg:grid-cols-3"
+            aria-labelledby="weitere-pfade-locked-title"
+          >
+            {locked.map((entry) => (
+              <LockedCard key={entry.pathId} entry={entry} />
+            ))}
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }

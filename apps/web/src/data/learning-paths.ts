@@ -91,6 +91,43 @@ export const plannedPathBridges: readonly PlannedPathBridge[] = [
   },
 ] as const;
 
+/**
+ * Gesperrte Pfade — sichtbar und ehrlich, ohne Start-CTAs oder neue Lektionen.
+ */
+export type LockedPathHonesty = {
+  pathId: 'path-sources-rag' | 'path-business' | 'path-admin';
+  badge: string;
+  whyLocked: string;
+  laterNote: string;
+};
+
+export const lockedPathHonesty: readonly LockedPathHonesty[] = [
+  {
+    pathId: 'path-sources-rag',
+    badge: 'Gesperrt · später',
+    whyLocked:
+      'Quellen und Vertrauen brauchst du, sobald du KI-Antworten ernsthaft einordnest — der Kernweg deckt Halluzinationen und Quellen prüfen schon ab.',
+    laterNote:
+      'Ein eigener Quellen-/RAG-Pfad kommt erst nach dem Kernweg. Bis dahin: Lektionen 8–9 und die Themenwelt „Recherche & Wahrheit“.',
+  },
+  {
+    pathId: 'path-business',
+    badge: 'Gesperrt · später',
+    whyLocked:
+      'Beruf und Selbstständigkeit setzen sicheren Alltagseinsatz voraus — ohne leere „Produktivitäts“-Versprechen.',
+    laterNote:
+      'Eigene Berufs-Lektionen folgen später. Bis dahin reicht der Kernweg inklusive „KI im Alltag und Beruf“.',
+  },
+  {
+    pathId: 'path-admin',
+    badge: 'Gesperrt · nicht für Einsteiger',
+    whyLocked:
+      'Admin und Content-Review sind hinter den Kulissen — kein Lernziel für den Massenstart.',
+    laterNote:
+      'Dieser Pfad bleibt bewusst gesperrt, bis es echte Rollen und Freigaben gibt. Für dich zählt jetzt der Kernweg.',
+  },
+] as const;
+
 export function plannedPathById(pathId: string): LearningPath | undefined {
   return seedLearningPaths.find((path) => path.id === pathId);
 }
