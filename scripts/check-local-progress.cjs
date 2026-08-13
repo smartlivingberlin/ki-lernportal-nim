@@ -589,7 +589,12 @@ const phases = {
       state: "visible",
       timeout: 10_000,
     });
+    await page.waitForFunction(() => {
+      const title = document.getElementById("progress-backup-title");
+      return title && document.activeElement === title;
+    }, null, { timeout: 5_000 });
     console.log("COACH_BACKUP_RESET_DEEPLINK_OK=YES");
+    console.log("COACH_BACKUP_HASH_FOCUS_OK=YES");
 
     await page.getByTestId("progress-backup-panel").scrollIntoViewIfNeeded();
     const downloadPromise = page.waitForEvent("download", { timeout: 15_000 });

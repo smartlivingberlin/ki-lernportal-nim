@@ -23,6 +23,8 @@ const panel = read(
 );
 assert.match(panel, /id="fortschritt-sichern"/);
 assert.match(panel, /data-testid="progress-backup-panel"/);
+assert.match(panel, /hashchange/);
+assert.match(panel, /titleRef/);
 assert.match(panel, /Herunterladen/);
 assert.match(panel, /Datei laden/);
 

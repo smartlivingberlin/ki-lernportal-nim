@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import {
   applyProgressBackupToStorage,
   buildProgressBackupFromStorage,
@@ -20,8 +20,20 @@ type ProgressBackupPanelProps = {
 export function ProgressBackupPanel({ onApplied }: ProgressBackupPanelProps) {
   const inputId = useId();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const focusIfTargeted = () => {
+      if (window.location.hash !== "#fortschritt-sichern") return;
+      titleRef.current?.focus({ preventScroll: true });
+    };
+
+    focusIfTargeted();
+    window.addEventListener("hashchange", focusIfTargeted);
+    return () => window.removeEventListener("hashchange", focusIfTargeted);
+  }, []);
 
   const handleExport = () => {
     setError(null);
@@ -90,6 +102,7 @@ export function ProgressBackupPanel({ onApplied }: ProgressBackupPanelProps) {
         Gerät wechseln
       </p>
       <h2
+        ref={titleRef}
         id="progress-backup-title"
         tabIndex={-1}
         className="mt-1 text-lg font-black text-[var(--nim-primary)] outline-none"
