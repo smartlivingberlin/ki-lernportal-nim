@@ -47,6 +47,7 @@ import { ScamModulePanel } from "../components/learning/ScamModulePanel";
 import { OnboardingRoutePanel } from "../components/learning/OnboardingRoutePanel";
 import { ResetProgressConfirm } from "../components/learning/ResetProgressConfirm";
 import { SimpleModePackHint } from "../components/learning/SimpleModePackHint";
+import { PlannedPathsPanel } from "../components/learning/PlannedPathsPanel";
 import { explainAttrs } from "../data/help-tips";
 import { resolveNextStep } from "../data/next-step";
 import { sortThemeWorldsKernwegFirst, themeWorlds } from "../data/theme-worlds";
@@ -530,6 +531,23 @@ export default function Home() {
           />
 
           <LiteracyPathPanel />
+
+          <PlannedPathsPanel
+            simpleMode={simpleMode}
+            onOpenLesson={openLesson}
+            onOpenWorld={(worldId) => {
+              const world = themeWorlds.find((item) => item.id === worldId);
+              if (world) {
+                setSimpleMode(false);
+                selectWorld(world);
+                window.requestAnimationFrame(() => {
+                  document
+                    .getElementById("ziele")
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                });
+              }
+            }}
+          />
 
           <SpacedReviewQueue simpleMode={simpleMode} />
 

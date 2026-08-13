@@ -145,6 +145,9 @@ jobs:
       - name: Micro progress and Kernweg/Vertiefung contract
         run: pnpm test:micro-progress
 
+      - name: Planned Alltag/Prompting path bridges
+        run: pnpm test:planned-paths
+
       - name: Source and lesson integrity check
         run: pnpm source:check
 
