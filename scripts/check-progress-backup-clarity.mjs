@@ -21,9 +21,20 @@ assert.match(backupLib, /applyProgressBackupToStorage/);
 const panel = read(
   "apps/web/src/components/learning/ProgressBackupPanel.tsx",
 );
+assert.match(panel, /id="fortschritt-sichern"/);
 assert.match(panel, /data-testid="progress-backup-panel"/);
 assert.match(panel, /Herunterladen/);
 assert.match(panel, /Datei laden/);
+
+const reset = read(
+  "apps/web/src/components/learning/ResetProgressConfirm.tsx",
+);
+assert.match(reset, /href="#fortschritt-sichern"/);
+assert.match(reset, /data-testid="reset-progress-backup-link"/);
+
+const helpTips = read("apps/web/src/data/help-tips.ts");
+assert.match(helpTips, /href: "#fortschritt-sichern"/);
+assert.match(helpTips, /label: "Fortschritt sichern"/);
 
 const goals = read("apps/web/src/components/learning/GoalNavigation.tsx");
 assert.match(goals, /id="ziele"/);
