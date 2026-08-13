@@ -101,6 +101,8 @@ Nachweise: `docs/architecture/S51D_B_STAGING_EXECUTION.md`.
 Live-Probe 2026-08-13: Production und Staging melden Build-SHA
 `cb6883670fe9` (`/version`, nach #181); Ready-Check `database=not_configured`.
 S52-D2b: Staging `AUTH_RUNTIME` HTTP-verifiziert (Login-Formular + `401`);
+Freigabe D: optionaler Staging-Memory-Seed über `STAGING_BOOTSTRAP_*`
+(Hash only, keine Secrets im Repo, Production unverändert).
 Production bewusst `403 FEATURE_DISABLED`.
 
 Vor jeder weiteren Production-Änderung erneut read-only im Dashboard prüfen.
