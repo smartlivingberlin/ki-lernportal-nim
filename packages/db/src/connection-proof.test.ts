@@ -2,7 +2,7 @@
  * Static / fake tests for S51B-B connection-proof URL guards.
  * Import must not open a network or database connection.
  */
-import { assertLocalDisposableConnectionUrl } from "./connection-proof.ts";
+import { assertLocalDisposableConnectionUrl } from "./connection-proof-guards.ts";
 
 function expectThrow(label: string, fn: () => void): void {
   try {

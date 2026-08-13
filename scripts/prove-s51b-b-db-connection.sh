@@ -109,6 +109,6 @@ if [[ "$DATABASE" != ki_nim_s51bb_* ]]; then
 fi
 
 node --experimental-strip-types \
-  "${ROOT}/packages/db/src/connection-proof.ts"
+  "${ROOT}/scripts/run-s51b-b-connection-proof.ts"
 
 STATUS="PASS"
