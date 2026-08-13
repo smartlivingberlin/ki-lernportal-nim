@@ -114,24 +114,26 @@ export function LocalSearchPanel({
 
   return (
     <section
+      id="suche"
       data-testid="local-search-panel"
       role="search"
       aria-labelledby="portal-search-title"
       data-explain="suche"
-      className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm md:p-6"
+      className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 md:p-6 lg:scroll-mt-36"
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="text-xs font-black uppercase tracking-widest text-nim-secondary">
-            Im Portal suchen
+          <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
+            Suche im Portal
           </p>
           <h2
             id="portal-search-title"
-            className="mt-2 text-2xl font-black text-nim-primary"
+            tabIndex={-1}
+            className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold text-[var(--nim-primary)] outline-none"
           >
-            Finde Lektionen, Begriffe und Lernangebote.
+            Finde Lektionen, Begriffe und Lernangebote
           </h2>
-          <p className="mt-2 max-w-3xl text-sm leading-7 text-nim-secondary">
+          <p className="mt-2 max-w-3xl text-sm leading-7 text-[var(--nim-secondary)]">
             Die Suche arbeitet nur mit den bereits geladenen Portalinhalten.
             Deine Eingabe wird nicht gespeichert oder versendet.
           </p>
@@ -141,7 +143,7 @@ export function LocalSearchPanel({
           <button
             type="button"
             onClick={() => setQuery("")}
-            className="min-h-11 shrink-0 rounded-2xl border border-slate-200 px-4 py-2 text-sm font-black text-nim-primary hover:border-nim-primary/30 hover:bg-slate-50"
+            className="nim-interactive min-h-11 shrink-0 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-4 py-2 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-surface-soft)]"
           >
             Suche leeren
           </button>
@@ -150,7 +152,7 @@ export function LocalSearchPanel({
 
       <label
         htmlFor="portal-search-input"
-        className="mt-5 block text-sm font-black text-nim-primary"
+        className="mt-5 block text-sm font-black text-[var(--nim-primary)]"
       >
         Suchbegriff
       </label>
@@ -164,34 +166,35 @@ export function LocalSearchPanel({
         placeholder="Zum Beispiel: Datenschutz, Prompt oder Quelle"
         autoComplete="off"
         aria-describedby="portal-search-help"
-        className="mt-2 min-h-12 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-base text-slate-950 outline-none placeholder:text-slate-500 focus:border-nim-primary focus:ring-4 focus:ring-nim-primary/10"
+        className="mt-2 min-h-12 w-full rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface)] px-4 py-3 text-base text-[var(--foreground)] outline-none placeholder:text-[var(--nim-secondary)] focus:border-[var(--nim-primary)] focus:ring-4 focus:ring-[var(--nim-primary)]/15"
       />
 
       <p
         id="portal-search-help"
-        className="mt-2 text-xs leading-6 text-nim-secondary"
+        className="mt-2 text-xs leading-6 text-[var(--nim-secondary)]"
       >
         Gib mindestens zwei Zeichen ein. Durchsucht werden zwölf Lektionen,
-        acht Lernangebote und zehn Begriffe.
+        Lernangebote und Glossarbegriffe. In der Einfachen Ansicht ist die Suche
+        ausgeblendet — Schalter oben aus für die volle Oberfläche.
       </p>
 
       <div aria-live="polite" className="mt-5">
         {!query.trim() ? (
-          <p className="rounded-2xl bg-slate-50 p-4 text-sm leading-7 text-nim-secondary">
+          <p className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] p-4 text-sm leading-7 text-[var(--nim-secondary)]">
             Beginne mit einem Thema, einem Begriff oder einer Alltagssituation.
           </p>
         ) : !searchReady ? (
-          <p className="rounded-2xl bg-amber-50 p-4 text-sm font-semibold leading-7 text-amber-950">
+          <p className="rounded-[var(--nim-radius-md)] bg-[var(--nim-accent-soft)] p-4 text-sm font-semibold leading-7 text-[var(--foreground)]">
             Bitte gib mindestens zwei Zeichen ein.
           </p>
         ) : resultCount === 0 ? (
-          <p className="rounded-2xl bg-slate-50 p-4 text-sm font-semibold leading-7 text-nim-secondary">
+          <p className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] p-4 text-sm font-semibold leading-7 text-[var(--nim-secondary)]">
             Keine passenden Inhalte gefunden. Versuche einen einfacheren
             Begriff wie KI, Prompt, Quelle oder Datenschutz.
           </p>
         ) : (
           <div className="space-y-6">
-            <p className="text-sm font-black text-nim-primary">
+            <p className="text-sm font-black text-[var(--nim-primary)]">
               {resultCount} passende Ergebnisse
             </p>
 
@@ -199,7 +202,7 @@ export function LocalSearchPanel({
               <section aria-labelledby="search-lessons-title">
                 <h3
                   id="search-lessons-title"
-                  className="text-xs font-black uppercase tracking-widest text-nim-secondary"
+                  className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]"
                 >
                   Lektionen
                 </h3>
@@ -212,15 +215,15 @@ export function LocalSearchPanel({
                       data-search-result-kind="lesson"
                       data-search-result-id={lesson.id}
                       onClick={() => onOpenLesson(lesson.id)}
-                      className="min-h-11 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left hover:border-nim-primary/30 hover:bg-white"
+                      className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface-soft)] p-4 text-left hover:border-[var(--nim-primary)] hover:bg-[var(--nim-surface)]"
                     >
-                      <span className="block text-xs font-black uppercase tracking-wider text-nim-secondary">
+                      <span className="block text-xs font-black uppercase tracking-wider text-[var(--nim-secondary)]">
                         Lektion {lesson.order} · {lesson.estimatedMinutes} Minuten
                       </span>
-                      <span className="mt-1 block font-black text-nim-primary">
+                      <span className="mt-1 block font-black text-[var(--nim-primary)]">
                         {lesson.title}
                       </span>
-                      <span className="mt-1 block text-sm leading-6 text-nim-secondary">
+                      <span className="mt-1 block text-sm leading-6 text-[var(--nim-secondary)]">
                         {lesson.description}
                       </span>
                     </button>
@@ -233,7 +236,7 @@ export function LocalSearchPanel({
               <section aria-labelledby="search-glossary-title">
                 <h3
                   id="search-glossary-title"
-                  className="text-xs font-black uppercase tracking-widest text-nim-secondary"
+                  className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]"
                 >
                   Einfach erklärt
                 </h3>
@@ -244,15 +247,15 @@ export function LocalSearchPanel({
                       key={entry.id}
                       data-search-result-kind="glossary"
                       data-search-result-id={entry.id}
-                      className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+                      className="rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface-soft)] p-4"
                     >
-                      <p className="font-black text-nim-primary">
+                      <p className="font-black text-[var(--nim-primary)]">
                         {entry.term}
                       </p>
-                      <p className="mt-1 text-sm leading-6 text-nim-secondary">
+                      <p className="mt-1 text-sm leading-6 text-[var(--nim-secondary)]">
                         {entry.definition}
                       </p>
-                      <p className="mt-2 text-xs leading-6 text-slate-600">
+                      <p className="mt-2 text-xs leading-6 text-[var(--nim-secondary)]">
                         Beispiel: {entry.example}
                       </p>
                     </article>
@@ -265,7 +268,7 @@ export function LocalSearchPanel({
               <section aria-labelledby="search-resources-title">
                 <h3
                   id="search-resources-title"
-                  className="text-xs font-black uppercase tracking-widest text-nim-secondary"
+                  className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]"
                 >
                   Lernangebote und Quellen
                 </h3>
@@ -279,15 +282,15 @@ export function LocalSearchPanel({
                       href={resource.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block min-h-11 rounded-2xl border border-slate-200 bg-slate-50 p-4 hover:border-nim-primary/30 hover:bg-white"
+                      className="nim-interactive block min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface-soft)] p-4 hover:border-[var(--nim-primary)] hover:bg-[var(--nim-surface)]"
                     >
-                      <span className="block text-xs font-black uppercase tracking-wider text-nim-secondary">
+                      <span className="block text-xs font-black uppercase tracking-wider text-[var(--nim-secondary)]">
                         {resource.resourceType} · {resource.provider}
                       </span>
-                      <span className="mt-1 block font-black text-nim-primary">
+                      <span className="mt-1 block font-black text-[var(--nim-primary)]">
                         {resource.title}
                       </span>
-                      <span className="mt-1 block text-sm leading-6 text-nim-secondary">
+                      <span className="mt-1 block text-sm leading-6 text-[var(--nim-secondary)]">
                         {resource.benefit}
                       </span>
                       <span className="sr-only">

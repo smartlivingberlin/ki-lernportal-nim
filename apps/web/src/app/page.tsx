@@ -46,6 +46,7 @@ import { PromptLibraryPanel } from "../components/learning/PromptLibraryPanel";
 import { ScamModulePanel } from "../components/learning/ScamModulePanel";
 import { OnboardingRoutePanel } from "../components/learning/OnboardingRoutePanel";
 import { ResetProgressConfirm } from "../components/learning/ResetProgressConfirm";
+import { ProgressBackupPanel } from "../components/learning/ProgressBackupPanel";
 import { SimpleModePackHint } from "../components/learning/SimpleModePackHint";
 import { explainAttrs } from "../data/help-tips";
 import { resolveNextStep } from "../data/next-step";
@@ -438,6 +439,9 @@ export default function Home() {
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#lernraum" {...explainAttrs("hero")}>Lernraum</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#literacy-pfad" {...explainAttrs("literacy-path")}>Kurzpfad</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#pfad" {...explainAttrs("lernpfad")}>Lektionen</a>
+              {!simpleMode ? (
+                <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#suche" {...explainAttrs("suche")}>Suche</a>
+              ) : null}
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#wiederholen" {...explainAttrs("wiederholen")}>Wiederholen</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#coach" {...explainAttrs("sicherheit")}>Hilfe</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#quellen" {...explainAttrs("quellen")}>Quellen</a>
@@ -543,6 +547,8 @@ export default function Home() {
                 onSelectWorld={selectWorld}
                 simpleMode={false}
                 worldsReady={worldsWithMicroUnits}
+                completedLessonIds={validCompletedLessonIds}
+                completedMicroUnitIds={completedMicroUnitIds}
               />
 
               {selectedWorldId && worldHasMicroUnits(selectedWorldId) && worldUnits.length > 0 ? (
@@ -724,6 +730,12 @@ export default function Home() {
           className="min-w-0 scroll-mt-72 space-y-5 sm:scroll-mt-64 lg:scroll-mt-36 xl:col-start-1 xl:row-start-1 xl:sticky xl:top-32 xl:max-h-[calc(100vh-9.5rem)] xl:self-start xl:overflow-y-auto xl:pb-1 xl:pr-1"
         >
           <PortalHero progressText={progressText} progressPercent={progressPercent} totalLessons={totalLessons} />
+
+          <ProgressBackupPanel
+            onApplied={(summary) => {
+              setProgressAnnouncement(summary);
+            }}
+          />
 
           <section
             {...explainAttrs("lernpfad")}

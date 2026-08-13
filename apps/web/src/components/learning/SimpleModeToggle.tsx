@@ -38,6 +38,11 @@ export function SimpleModeToggle({ enabled, onChange }: SimpleModeToggleProps) {
           />
         </span>
         <span>Einfache Ansicht</span>
+        {enabled ? (
+          <span className="hidden text-[0.7rem] font-bold uppercase tracking-wide text-[var(--nim-secondary)] sm:inline">
+            · Suche & Welten aus
+          </span>
+        ) : null}
       </button>
       <ExplainCloud tipId="simple-mode" compact />
     </span>

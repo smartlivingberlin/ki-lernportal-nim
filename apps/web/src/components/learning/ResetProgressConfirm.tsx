@@ -40,7 +40,8 @@ export function ResetProgressConfirm({
       </ul>
       <p className="mt-2 text-xs font-medium leading-5 text-[var(--nim-secondary)]">
         Unberührt bleiben: Einfache Ansicht, Einstiegshilfe und alle Lerninhalte im
-        Portal. Das Zurücksetzen lässt sich nicht rückgängig machen.
+        Portal. Das Zurücksetzen lässt sich nicht rückgängig machen — sichere den
+        Stand vorher unter „Fortschritt sichern“, falls du ihn behalten willst.
       </p>
       <div className="mt-3 flex flex-wrap gap-2">
         <button
