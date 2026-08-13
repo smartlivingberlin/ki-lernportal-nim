@@ -22,10 +22,17 @@ assert.match(d2b, /STAGING_POST_LOGIN_UNKNOWN_USER=401_AUTH_REQUIRED/);
 assert.match(d2b, /PRODUCTION_POST_LOGIN=403_FEATURE_DISABLED/);
 assert.match(d2b, /HUMAN_SETS_STAGING_AUTH_RUNTIME=YES/);
 assert.match(d2b, /RAILWAY_CHANGE_IN_REPO=NO/);
+assert.match(d2b, /S52_STAGING_AUTH_SEED_AUTHORIZED=YES/);
+assert.match(d2b, /S52_STAGING_AUTH_SEED_IMPLEMENTED=YES/);
+assert.match(d2b, /BOOTSTRAP_CREDENTIALS_IN_REPO=NO/);
+assert.match(d2b, /STAGING_BOOTSTRAP_PASSWORD_HASH/);
+assert.match(d2b, /PRODUCTION_USERS=NO/);
 
 const status = read("docs/00_PROJECT_STATUS.md");
 assert.match(status, /S52_D2B_STAGING_FLAG_HTTP_VERIFIED=YES/);
 assert.match(status, /AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY/);
+assert.match(status, /S52_STAGING_AUTH_SEED_IMPLEMENTED=YES/);
+assert.match(status, /S52_STAGING_AUTH_SEED_AUTHORIZED=YES/);
 assert.match(status, /LIVE_BUILD_SHA_OBSERVED=cb6883670fe9/);
 assert.match(status, /PR159_S52_D2B_STAGING_AUTH_DOCS_MERGED=YES/);
 assert.match(status, /PR161_DEEPEN_KERN_WEG_ONLY_MERGED=YES/);
