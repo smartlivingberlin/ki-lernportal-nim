@@ -595,6 +595,42 @@ const phases = {
     assert.ok(Array.isArray(parsed.lessons));
     console.log("COACH_BACKUP_EXPORT_OK=YES");
   },
+
+  async "planned-paths"(page) {
+    await page.evaluate(() => {
+      window.localStorage.setItem("ki-lernportal-nim:simple-mode:v1", "0");
+      window.localStorage.setItem(
+        "ki-lernportal-nim:first-start-coach:v1",
+        "dismissed",
+      );
+    });
+    await page.reload({ waitUntil: "load", timeout: navigationTimeout });
+    await page
+      .getByRole("heading", { name: "Dein geführter KI-Lernraum." })
+      .waitFor({ state: "visible" });
+    await suppressExplainClouds(page);
+
+    await page.locator("#weitere-pfade").scrollIntoViewIfNeeded();
+    await page.getByTestId("planned-paths-panel").waitFor({ state: "visible" });
+    await expectExactText(page, "Alltag & Prompting — jetzt schon starten");
+    await page.getByTestId("planned-path-path-daily-life").waitFor({
+      state: "visible",
+    });
+    await page.getByTestId("planned-path-path-prompting").waitFor({
+      state: "visible",
+    });
+    console.log("PLANNED_PATHS_PANEL_VISIBLE_OK=YES");
+
+    await page.getByTestId("planned-path-lesson-l4").click();
+    await page.locator("#lesson-l4").waitFor({ state: "visible", timeout: 15_000 });
+    await page.locator("#lesson-l4-title").waitFor({ state: "visible" });
+    console.log("PLANNED_PATHS_BRIDGE_LESSON_OK=YES");
+
+    await page.locator("#weitere-pfade").scrollIntoViewIfNeeded();
+    await page.getByTestId("planned-path-world-world-chat-prompting").click();
+    await page.locator("#ziele").waitFor({ state: "visible", timeout: 15_000 });
+    console.log("PLANNED_PATHS_WORLD_CTA_OK=YES");
+  },
 };
 
 async function runPhase(browser, phaseName) {

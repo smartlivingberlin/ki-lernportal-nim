@@ -463,19 +463,18 @@ export default function Home() {
             {...explainAttrs("hero")}
             className="portal-hero-plane relative overflow-hidden rounded-[var(--nim-radius-xl)] text-white shadow-[var(--shadow-lift)]"
           >
-            <div className="grid min-w-0 gap-5 p-6 md:grid-cols-[minmax(0,1fr)_minmax(220px,260px)] md:p-8">
+            <div className="grid min-w-0 gap-5 p-5 sm:p-6 md:grid-cols-[minmax(0,1fr)_minmax(220px,260px)] md:p-8">
               <div className="min-w-0">
-                <p className="text-xs font-black uppercase tracking-[0.28em] text-white">
-                  KI verstehen. KI ausprobieren. KI für dich nutzen.
+                <p className="font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight text-white sm:text-xl">
+                  KI-Lernportal NIM
                 </p>
-                <h2 className="mt-4 max-w-3xl font-[family-name:var(--font-display)] text-4xl font-semibold leading-tight md:text-5xl">
+                <h2 className="mt-3 max-w-3xl font-[family-name:var(--font-display)] text-3xl font-semibold leading-tight sm:mt-4 sm:text-4xl md:text-5xl">
                   Dein geführter KI-Lernraum.
                 </h2>
-                <p className="mt-4 max-w-2xl text-base font-semibold leading-8 text-white">
-                  Für Menschen mit Respekt vor Technik: klare Sprache, sichere Übungen,
-                  spielerische Challenges und Schritt-für-Schritt-Hilfen — kostenlos und ohne Druck.
+                <p className="mt-3 max-w-2xl text-sm font-semibold leading-7 text-white sm:mt-4 sm:text-base sm:leading-8">
+                  Klare Sprache, sichere Übungen, Schritt für Schritt — kostenlos und ohne Druck.
                 </p>
-                <div className="mt-6 flex flex-col gap-3">
+                <div className="mt-5 flex flex-col gap-3 sm:mt-6">
                   <a
                     href={showPortalOnboarding ? "#einstieg-route" : "#erststart"}
                     {...explainAttrs(showPortalOnboarding ? "einstieg-route" : "erststart")}
@@ -501,19 +500,36 @@ export default function Home() {
                     >
                       60-Minuten-Pfad
                     </a>
-                    <span aria-hidden="true" className="text-white/50">
+                    <span aria-hidden="true" className="hidden text-white/50 sm:inline">
                       ·
                     </span>
                     <a
                       href="#wiederholen"
                       {...explainAttrs("wiederholen")}
-                      className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                      className="nim-interactive hidden min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white sm:inline-flex"
                     >
                       Wiederholen{dueReviews > 0 ? ` (${dueReviews})` : ""}
                     </a>
                   </p>
                 </div>
               </div>
+              <div className="hidden md:block" data-testid="hero-today-card-desktop">
+                <TodayStartCard
+                  nextStep={nextStep}
+                  moduleTitle={recommendedModule?.title ?? null}
+                  onOpenLesson={openLesson}
+                  onOpenDeepenMicro={openDeepenMicro}
+                  onShowMore={revealWorlds}
+                />
+              </div>
+            </div>
+          </section>
+
+          <div className="md:hidden" data-testid="hero-today-card-mobile">
+            <section
+              aria-label="Heute empfohlen"
+              className="portal-hero-plane rounded-[var(--nim-radius-xl)] p-4 text-white shadow-[var(--shadow-lift)]"
+            >
               <TodayStartCard
                 nextStep={nextStep}
                 moduleTitle={recommendedModule?.title ?? null}
@@ -521,8 +537,8 @@ export default function Home() {
                 onOpenDeepenMicro={openDeepenMicro}
                 onShowMore={revealWorlds}
               />
-            </div>
-          </section>
+            </section>
+          </div>
 
           <FirstStartCoach simpleMode={simpleMode} />
 

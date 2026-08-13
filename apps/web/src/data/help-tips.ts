@@ -78,19 +78,18 @@ export const helpTips: HelpTip[] = [
   {
     id: "hero",
     label: "Willkommen und Start",
-    short: "Dein Einstieg: „Jetzt starten“ oder die heutige Empfehlung öffnen.",
+    short: "Marke, eine Überschrift und „Jetzt starten“ — die heutige Empfehlung folgt darunter.",
     whatIs:
-      "Das ist der Startbereich. Eine klare Haupttür („Jetzt starten“ / „Zum Einstieg“), darunter Kurzlinks zu Selbstcheck, 60-Minuten-Pfad und Wiederholen — plus die Karte „Heute empfohlen“.",
+      "Der Startbereich zeigt zuerst „KI-Lernportal NIM“, dann den Lernraum-Satz und einen klaren Start-Button. Kurzlinks zu Selbstcheck und 60-Minuten-Pfad bleiben sekundär. Die Karte „Heute empfohlen“ steht auf dem Handy unter dem Hero, auf großen Screens daneben.",
     whatFor:
-      "Er nimmt die Entscheidungslast. Du musst das Portal nicht erst „studieren“. Eine Handlung reicht: Einstieg folgen oder die Empfehlung öffnen.",
+      "Sofort Orientierung ohne Überforderung: eine Marke, eine Handlung, danach die Empfehlung.",
     canDo: [
-      "Neu hier? „Jetzt starten“ antippen — der 3-Minuten-Coach führt dich.",
-      "Oder unten die Kurzlinks „Selbstcheck“, „60-Minuten-Pfad“ oder „Wiederholen“ wählen.",
-      "Die Karte „Heute empfohlen“ / „Heute hier weitermachen“ für die nächste offene Lektion nutzen.",
-      "Oben den Fortschritt ablesen (lokal in diesem Browser).",
+      "„Jetzt starten“ antippen — Coach oder Einstiegsroute.",
+      "Selbstcheck oder 60-Minuten-Pfad als Textlink wählen.",
+      "Die Karte „Heute empfohlen“ für den nächsten offenen Schritt nutzen.",
     ],
     example:
-      "Nach einer Woche Pause: tippe „Heute hier weitermachen“. Das Portal öffnet die nächste offene Lektion — ohne Login und ohne zu raten, wo du warst.",
+      "Handy: Marke und Start zuerst sichtbar; nach kurzem Scroll die heutige Empfehlung.",
     mistake:
       "Alles gleichzeitig anklicken (Ziele, Werkzeuge, Quellen) und dann die Übersicht verlieren. Besser: eine Tür, ein Schritt.",
     links: [

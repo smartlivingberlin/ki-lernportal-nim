@@ -11,14 +11,17 @@ const hardPatterns = [
   { label: 'TODO_CONTENT marker', regex: /\bTODO_CONTENT\b/g },
   { label: 'PLACEHOLDER_CONTENT marker', regex: /\bPLACEHOLDER_CONTENT\b/g },
   { label: 'Lorem ipsum placeholder text', regex: /lorem ipsum/gi },
+  { label: 'FIXME marker', regex: /\bFIXME\b/g },
+  { label: 'TBD marker', regex: /\bTBD\b/g },
+  { label: 'PREMIUM marker (not allowed in public demo data)', regex: /\bPREMIUM\b/g },
+  { label: 'isPremium: true (not allowed in public demo data)', regex: /isPremium:\s*true/g },
 ];
 
 const softPatterns = [
-  { label: 'PREMIUM', regex: /\bPREMIUM\b/g },
-  { label: 'isPremium: true', regex: /isPremium:\s*true/g },
   { label: 'PRÜFUNGSTAUGLICH', regex: /PRÜFUNGSTAUGLICH/g },
   { label: 'caseStudy', regex: /caseStudy/g },
   { label: 'source/quellen terms', regex: /\b(source|sourceUrl|sources|quelle|quellen)\b/gi },
+  { label: 'empty description string', regex: /description:\s*['"]\s*['"]/g },
 ];
 
 function walk(dir) {
