@@ -12,6 +12,7 @@
     "lint": "pnpm --filter \"./apps/*\" --filter \"./services/*\" lint",
     "content:check": "node scripts/check-content-quality.mjs",
     "test:portal-clarity": "node scripts/check-portal-clarity-chrome.mjs",
+    "test:progress-backup": "node --experimental-strip-types apps/web/src/lib/local-progress-backup.test.ts && node scripts/check-progress-backup-clarity.mjs",
     "test:mass-audience-monitor": "node scripts/check-mass-audience-monitor.mjs",
     "test:micro-progress": "node scripts/check-micro-progress-kernweg.mjs",
     "test:planned-paths": "node scripts/check-planned-paths-bridges.mjs",

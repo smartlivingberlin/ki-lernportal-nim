@@ -117,11 +117,20 @@ export function ModuleNavigation({
                 {lesson.title}
               </span>
               <span
-                className={`block truncate text-xs font-semibold ${
+                className={`mt-0.5 block text-xs font-semibold leading-5 ${
+                  activeLessonId === lesson.id ? "text-white/90" : "text-[var(--nim-secondary)]"
+                }`}
+              >
+                {lesson.description}
+              </span>
+              <span
+                className={`mt-1 block truncate text-xs font-semibold ${
                   activeLessonId === lesson.id ? "text-white" : "text-[var(--nim-secondary)]"
                 }`}
               >
-                {completedLessonIds.includes(lesson.id) ? "erledigt" : "offen"}
+                {completedLessonIds.includes(lesson.id)
+                  ? "erledigt"
+                  : `${lesson.estimatedMinutes} Min. · offen`}
               </span>
             </span>
           </button>
