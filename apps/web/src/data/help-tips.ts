@@ -80,16 +80,16 @@ export const helpTips: HelpTip[] = [
     label: "Willkommen und Start",
     short: "Marke, eine Überschrift und „Jetzt starten“ — die heutige Empfehlung folgt darunter.",
     whatIs:
-      "Der Startbereich zeigt zuerst „KI-Lernportal NIM“, dann den Lernraum-Satz und einen klaren Start-Button. Kurzlinks zu Selbstcheck und 60-Minuten-Pfad bleiben sekundär. Die Karte „Heute empfohlen“ steht auf dem Handy unter dem Hero, auf großen Screens daneben.",
+      "Der Startbereich zeigt zuerst „KI-Lernportal NIM“, dann den Lernraum-Satz und einen klaren Start-Button. Kurzlinks zu Selbstcheck und 60-Minuten-Pfad bleiben sekundär. Daneben (bzw. darunter auf schmalen Screens) steht die Karte „Heute empfohlen“ — einmalig, ohne doppelte Bereiche.",
     whatFor:
-      "Sofort Orientierung ohne Überforderung: eine Marke, eine Handlung, danach die Empfehlung.",
+      "Sofort Orientierung ohne Überforderung: eine Marke, eine Handlung, eine Empfehlung.",
     canDo: [
       "„Jetzt starten“ antippen — Coach oder Einstiegsroute.",
       "Selbstcheck oder 60-Minuten-Pfad als Textlink wählen.",
       "Die Karte „Heute empfohlen“ für den nächsten offenen Schritt nutzen.",
     ],
     example:
-      "Handy: Marke und Start zuerst sichtbar; nach kurzem Scroll die heutige Empfehlung.",
+      "Marke und Start zuerst; die Heute-Karte folgt im gleichen Hero darunter oder daneben.",
     mistake:
       "Alles gleichzeitig anklicken (Ziele, Werkzeuge, Quellen) und dann die Übersicht verlieren. Besser: eine Tür, ein Schritt.",
     links: [

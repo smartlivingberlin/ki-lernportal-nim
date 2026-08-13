@@ -513,7 +513,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <div className="hidden md:block" data-testid="hero-today-card-desktop">
+              <div data-testid="hero-today-card">
                 <TodayStartCard
                   nextStep={nextStep}
                   moduleTitle={recommendedModule?.title ?? null}
@@ -524,21 +524,6 @@ export default function Home() {
               </div>
             </div>
           </section>
-
-          <div className="md:hidden" data-testid="hero-today-card-mobile">
-            <section
-              aria-label="Heute empfohlen"
-              className="portal-hero-plane rounded-[var(--nim-radius-xl)] p-4 text-white shadow-[var(--shadow-lift)]"
-            >
-              <TodayStartCard
-                nextStep={nextStep}
-                moduleTitle={recommendedModule?.title ?? null}
-                onOpenLesson={openLesson}
-                onOpenDeepenMicro={openDeepenMicro}
-                onShowMore={revealWorlds}
-              />
-            </section>
-          </div>
 
           <FirstStartCoach simpleMode={simpleMode} />
 
