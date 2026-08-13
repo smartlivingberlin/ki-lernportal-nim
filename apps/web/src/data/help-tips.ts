@@ -32,24 +32,27 @@ export const helpTips: HelpTip[] = [
     label: "Die Leiste oben",
     short: "Schnelle Sprünge zu den wichtigsten Bereichen — ohne die Seite zu verlassen.",
     whatIs:
-      "Das ist die Orientierungsleiste dieses Portals. Die Einträge sind keine neuen Websites, sondern Sprungmarken auf derselben Seite: Lernraum, Pfad, Coach und Quellen.",
+      "Das ist die Orientierungsleiste dieses Portals. Die Einträge sind keine neuen Websites, sondern Sprungmarken auf derselben Seite: Lernraum, Kurzpfad, Lektionen, Wiederholen, Hilfe und Quellen.",
     whatFor:
       "Sie löst das Problem „Ich weiß nicht, wo ich bin“. Statt lange zu scrollen, kommst du mit einem Tippen zurück zu dem Bereich, den du brauchst — besonders hilfreich, wenn du dich digital leicht verlierst.",
     canDo: [
-      "„Lernraum“ antippen → Ziele, Übungen und Werkzeuge.",
-      "„Pfad“ antippen → Lektionen in Reihenfolge und dein Fortschritt.",
-      "„Coach“ antippen → Sicherheitsregeln und ruhige Hinweise.",
+      "„Lernraum“ antippen → Willkommen, Heute-Start und geöffnete Lektion.",
+      "„Kurzpfad“ antippen → die 60-Minuten-Stationen (nicht die 12 Lektionen).",
+      "„Lektionen“ antippen → den Kernweg mit den 12 Lektionen und deinem Fortschritt.",
+      "„Wiederholen“ antippen → kurze Übungskarten zum Festigen.",
+      "„Hilfe“ antippen → Sicherheits-Coach und ruhige Hinweise.",
       "„Quellen“ antippen → geprüfte Ausgangspunkte zum Nachlesen.",
-      "Auf dem Handy zusätzlich die untere Leiste nutzen — gleicher Sinn, nur daumengerecht.",
+      "Auf dem Handy zusätzlich die untere Leiste nutzen — „Pfad“ dort meint den Kurzpfad.",
     ],
     example:
       "Du bist bei den Quellen und willst wieder üben: tippe oben auf „Lernraum“. Die Seite scrollt dorthin, du musst nichts neu laden und kein Konto öffnen.",
     mistake:
-      "Die Links für „externe Internetseiten“ halten. Sie bleiben im Portal. Externe Quellen erkennst du später im Quellenraum daran, dass sie in einem neuen Tab öffnen.",
+      "„Pfad“ in der Handy-Leiste mit den 12 Lektionen verwechseln. Oben heißt der 60-Minuten-Weg „Kurzpfad“, die 12 Lektionen heißen „Lektionen“.",
     links: [
       { href: "#lernraum", label: "Zum Lernraum" },
-      { href: "#pfad", label: "Zum Lernpfad" },
-      { href: "#coach", label: "Zum Sicherheits-Coach" },
+      { href: "#literacy-pfad", label: "Zum Kurzpfad" },
+      { href: "#pfad", label: "Zu den Lektionen" },
+      { href: "#coach", label: "Zur Hilfe" },
       { href: "#quellen", label: "Zum Quellenraum" },
     ],
   },

@@ -37,6 +37,8 @@ assert.match(page, /Jetzt starten/);
 assert.match(page, /Wiederholen/);
 assert.match(page, /KI-Lernportal NIM/);
 assert.match(page, /hero-today-card/);
+assert.match(page, /const showLessonGuidedSteps = true/);
+assert.match(page, /GuidedStartSteps/);
 assert.doesNotMatch(page, /hero-today-card-desktop/);
 assert.doesNotMatch(page, /hero-today-card-mobile/);
 assert.doesNotMatch(page, />Abruf</);
@@ -48,5 +50,12 @@ assert.match(literacy, /Zum Wiederholen/);
 const onboarding = read("apps/web/src/components/learning/OnboardingRoutePanel.tsx");
 assert.match(onboarding, /Drei Stationen — jederzeit wiederfinden/);
 assert.match(onboarding, /Wiederholen starten/);
+
+const helpTips = read("apps/web/src/data/help-tips.ts");
+assert.match(helpTips, /id: "navigation"/);
+assert.match(helpTips, /href: "#literacy-pfad"/);
+assert.match(helpTips, /label: "Zum Kurzpfad"/);
+assert.match(helpTips, /label: "Zu den Lektionen"/);
+assert.doesNotMatch(helpTips, /"Pfad" antippen → Lektionen/);
 
 console.log("PORTAL_CLARITY_CHROME_STATIC_OK=YES");

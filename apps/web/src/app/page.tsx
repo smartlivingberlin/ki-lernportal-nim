@@ -164,7 +164,7 @@ export default function Home() {
   );
   const completedLessons = validCompletedLessonIds.length;
   const totalLessons = allLessons.length;
-  const showLessonGuidedSteps = completedLessons > 0;
+  const showLessonGuidedSteps = true;
   const progressPercent = totalLessons ? Math.round((completedLessons / totalLessons) * 100) : 0;
   const progressText = `${completedLessons}/${totalLessons || 12}`;
   const activeLesson = allLessons.find((lesson) => lesson.id === activeLessonId) ?? allLessons[0] ?? null;

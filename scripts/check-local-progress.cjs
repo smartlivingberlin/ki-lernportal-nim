@@ -203,7 +203,11 @@ const phases = {
   async start(page) {
     await expectExactText(page, "0/12");
     await expectExactText(page, "0%");
+    await page.getByTestId("guided-start-steps").waitFor({ state: "visible" });
+    await expectExactText(page, "So bearbeitest du eine Lektion in drei Schritten.");
+    await page.getByTestId("guided-start-open-lesson").waitFor({ state: "visible" });
     console.log("START_0_12_OK=YES");
+    console.log("GUIDED_START_AT_ZERO_OK=YES");
   },
 
   async assets(page) {
