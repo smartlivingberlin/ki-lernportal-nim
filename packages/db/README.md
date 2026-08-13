@@ -52,17 +52,20 @@ Der geprüfte PR-Head war
 S51B-C1 ergänzt das code-first Schema der acht Kerntabellen, die generierte
 SQL-Migration `drizzle/0000_s51bc_pilot_core.sql`, Snapshots und statische
 Tests. Environment, MySQL-Treiber, Pool und Drizzle-Adapter werden weiterhin
-erst durch den ausdrücklichen Aufruf von `initialize()` ausgewertet. Die Tests verwenden ausschließlich Fakes und Dateiprüfungen; es erfolgt
-keine echte Datenbankverbindung, kein Netzwerkaufruf und keine
-Migrationausführung.
+erst durch den ausdrücklichen Aufruf von `initialize()` ausgewertet.
+
+Freigabe B (2026-08-13): Disposable Connection-Proof über
+`pnpm test:s51b-b-connection-proof` (`createMySqlRuntime().initialize()` +
+`SELECT 1` gegen `ki_nim_s51bb_*`). Fake-/Unit-Tests und Modulimport öffnen
+weiterhin keine echte Verbindung. Schema-Migrationen bleiben ein eigener Gate
+(S51B-C / Freigabe C).
 
 ## Spätere Slices
 
-S51B-C2 darf erst nach separater Freigabe eine disposable lokale MySQL-
-Testdatenbank starten, die eingecheckte Migration anwenden und Constraints
-prüfen.
+S51B-C2 darf eine disposable lokale MySQL-Testdatenbank starten, die
+eingecheckte Migration anwenden und Constraints prüfen.
 
-`drizzle-kit migrate`, Seeds, Railway-Datenbanken und Produktionsmigrationen
+`drizzle-kit push`, Seeds, Railway-Datenbanken und Produktionsmigrationen
 bleiben gesperrt, bis ausdrücklich freigegeben.
 
 ## Sicherheit und Datenschutz
