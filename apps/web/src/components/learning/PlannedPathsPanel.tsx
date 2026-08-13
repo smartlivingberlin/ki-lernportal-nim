@@ -107,7 +107,6 @@ function LockedCard({ entry }: { entry: LockedPathHonesty }) {
     <article
       data-testid={`locked-path-${entry.pathId}`}
       data-path-status={path.status}
-      aria-disabled="true"
       className="rounded-[var(--nim-radius-lg)] border border-dashed border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 opacity-95"
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
