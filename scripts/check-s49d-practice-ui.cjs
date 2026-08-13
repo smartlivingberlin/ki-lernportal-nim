@@ -3,6 +3,20 @@ const path = require("path");
 const { chromium } = require("playwright");
 const { dismissExplainClouds } = require("./playwright-dismiss-explain-clouds.cjs");
 
+async function suppressExplainClouds(page) {
+  await page.addStyleTag({
+    content:
+      "[data-explain-cloud-root]{display:none!important;pointer-events:none!important;}",
+  }).catch(() => {});
+  await dismissExplainClouds(page);
+}
+
+async function safeCheck(page, locator) {
+  await locator.scrollIntoViewIfNeeded().catch(() => {});
+  await suppressExplainClouds(page);
+  await locator.check({ force: true });
+}
+
 const baseUrl =
   process.env.S49D_BASE_URL || "http://127.0.0.1:3000";
 
@@ -45,7 +59,7 @@ function escapeRegex(value) {
 
 async function safeClick(page, locator) {
   await locator.scrollIntoViewIfNeeded().catch(() => {});
-  await dismissExplainClouds(page);
+  await suppressExplainClouds(page);
   await locator.evaluate((el) => {
     if (el instanceof HTMLElement) {
       el.click();
@@ -68,7 +82,7 @@ async function toggleExpanded(page, locator, expectedExpanded) {
       return;
     }
 
-    await dismissExplainClouds(page);
+    await suppressExplainClouds(page);
     await page.waitForTimeout(120);
   }
 
@@ -135,7 +149,7 @@ async function openLesson(page, lessonId, lessonTitle) {
 
   for (let attempt = 0; attempt < 4; attempt += 1) {
     await button.scrollIntoViewIfNeeded().catch(() => {});
-    await dismissExplainClouds(page);
+    await suppressExplainClouds(page);
     await button.evaluate((el) => {
       if (el instanceof HTMLElement) {
         el.click();
@@ -157,7 +171,7 @@ async function openLesson(page, lessonId, lessonTitle) {
         lessonId,
         { timeout: 4_000 },
       );
-      await dismissExplainClouds(page);
+      await suppressExplainClouds(page);
       return;
     } catch {
       await page.waitForTimeout(150);
@@ -403,14 +417,14 @@ async function runViewport(browser, viewport) {
     }
   });
   await page.reload({ waitUntil: "networkidle" });
-  await dismissExplainClouds(page);
+  await suppressExplainClouds(page);
 
   await page
     .locator("[data-testid=\"lesson-practice\"]")
     .waitFor({
       state: "visible",
     });
-  await dismissExplainClouds(page);
+  await suppressExplainClouds(page);
 
   const initialPanel = page.locator(
     "[data-testid=\"lesson-practice\"]"
@@ -556,7 +570,7 @@ async function runViewport(browser, viewport) {
     "input[type=\"checkbox\"]"
   );
 
-  await checkboxes.nth(0).check();
+  await safeCheck(page, checkboxes.nth(0));
 
   assert(
     await checkboxes.nth(0).isChecked(),
@@ -584,7 +598,7 @@ async function runViewport(browser, viewport) {
   );
 
   await textarea.fill("Antwort vor Lektionswechsel");
-  await checkboxes.nth(1).check();
+  await safeCheck(page, checkboxes.nth(1));
 
   await openLesson(
     page,
