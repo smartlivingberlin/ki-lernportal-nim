@@ -26,7 +26,7 @@ assert.match(d2b, /RAILWAY_CHANGE_IN_REPO=NO/);
 const status = read("docs/00_PROJECT_STATUS.md");
 assert.match(status, /S52_D2B_STAGING_FLAG_HTTP_VERIFIED=YES/);
 assert.match(status, /AUTH_RUNTIME_FLAG_FLIP=STAGING_ONLY/);
-assert.match(status, /LIVE_BUILD_SHA_OBSERVED=eb4c285062b9/);
+assert.match(status, /LIVE_BUILD_SHA_OBSERVED=8610251433e4/);
 assert.match(status, /PR159_S52_D2B_STAGING_AUTH_DOCS_MERGED=YES/);
 assert.match(status, /PR161_DEEPEN_KERN_WEG_ONLY_MERGED=YES/);
 assert.match(status, /PR160_DOCS_SYNC_D8D46CE_MERGED=YES/);
@@ -41,6 +41,8 @@ assert.match(status, /PR173_DOCS_SYNC_019FA4B_MERGED=YES/);
 assert.match(status, /PR175_S49D_EXPLAIN_FLAKE_MERGED=YES/);
 assert.match(status, /PR174_BACKUP_DEEPLINK_MERGED=YES/);
 assert.match(status, /PR176_DOCS_SYNC_CB1D493_MERGED=YES/);
+assert.match(status, /PR178_DOCS_SYNC_EB4C285_MERGED=YES/);
+assert.match(status, /PR179_WEITERE_PFADE_HELP_TIP_MERGED=YES/);
 
 assert.match(
   read("scripts/probe-s52-d2b-staging-auth.sh"),
