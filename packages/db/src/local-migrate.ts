@@ -1,50 +1,22 @@
 /**
  * S51B-C local migrate applicator (disposable localhost only).
  *
- * Requires env from scripts/migrate-s51b-c-local.sh:
- * - DATABASE_URL (127.0.0.1 / localhost, database prefix ki_nim_s51bc_)
- * - S51B_C_LOCAL_MIGRATE=1
- * - S51B_C_EXPECTED_DATABASE
- *
- * Module import must not open a connection; work happens in main().
+ * Requires env from scripts/migrate-s51b-c-local.sh.
+ * Excluded from packages/db typecheck (Node/mysql2 CLI entry).
  */
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createConnection } from "mysql2/promise";
+import {
+  assertLocalMigrateUrl,
+  prepareMigrationSql,
+} from "./local-migrate-guards.ts";
 
 function assertTrue(value: boolean, label: string): void {
   if (!value) {
     throw new Error(`${label}: expected true`);
   }
-}
-
-export function assertLocalMigrateUrl(
-  url: string,
-  expectedDatabase: string,
-): void {
-  assertTrue(url.startsWith("mysql://"), "DATABASE_URL must be mysql://");
-  assertTrue(
-    url.includes("@127.0.0.1:") || url.includes("@localhost:"),
-    "DATABASE_URL must target localhost only",
-  );
-  assertTrue(
-    !/railway|production|\.rlwy\.|\.amazonaws\.|cloud/.test(url.toLowerCase()),
-    "DATABASE_URL must not look like Railway/production",
-  );
-  assertTrue(
-    expectedDatabase.startsWith("ki_nim_s51bc_"),
-    "expected database must use ki_nim_s51bc_ prefix",
-  );
-  assertTrue(
-    url.includes(`/${expectedDatabase}`),
-    "DATABASE_URL must include expected database",
-  );
-}
-
-/** Strip Drizzle statement-breakpoint markers; keep SQL statements intact. */
-export function prepareMigrationSql(raw: string): string {
-  return raw.replace(/-->\s*statement-breakpoint/g, "");
 }
 
 async function main(): Promise<void> {

@@ -5,7 +5,7 @@
 import {
   assertLocalMigrateUrl,
   prepareMigrationSql,
-} from "./local-migrate.ts";
+} from "./local-migrate-guards.ts";
 
 function expectThrow(label: string, fn: () => void): void {
   try {
