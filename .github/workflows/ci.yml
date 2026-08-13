@@ -145,6 +145,9 @@ jobs:
       - name: Micro progress and Kernweg/Vertiefung contract
         run: pnpm test:micro-progress
 
+      - name: Local progress backup and clarity contract
+        run: pnpm test:progress-backup
+
       - name: Source and lesson integrity check
         run: pnpm source:check
 
@@ -310,6 +313,9 @@ jobs:
 
       - name: "Smoke: micro progress Vertiefung"
         run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=micro-progress node scripts/check-local-progress.cjs
+
+      - name: "Smoke: coach lesson backup export"
+        run: BASE_URL=http://127.0.0.1:3000 SMOKE_PHASE=coach-backup node scripts/check-local-progress.cjs
 
       - name: Stop local web server
         if: always()

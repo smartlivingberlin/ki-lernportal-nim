@@ -345,6 +345,7 @@ export const helpTips: HelpTip[] = [
     whatFor:
       "Schnell finden, ohne zu scrollen. Wenn du ein Wort gehört hast (z. B. Prompt, Halluzination), findest du die passende Stelle.",
     canDo: [
+      "In der vollen Ansicht oben „Suche“ antippen (in der Einfachen Ansicht ausgeblendet).",
       "Mindestens zwei Zeichen eingeben.",
       "Einen Treffer antippen — du springst zum Inhalt.",
       "Den Begriff eingrenzen, wenn zu viele Treffer kommen.",
@@ -354,6 +355,7 @@ export const helpTips: HelpTip[] = [
     mistake:
       "Annehmen, die Suche würde das gesamte Internet durchsuchen oder Daten an eine KI senden. Das ist eine Portal-Suche.",
     links: [
+      { href: "#suche", label: "Zur Suche" },
       { href: "#lernraum", label: "Im Lernraum bleiben" },
       { href: "#quellen", label: "Externe Quellen separat" },
     ],
@@ -392,12 +394,13 @@ export const helpTips: HelpTip[] = [
     canDo: [
       "Am Ende einer Lektion „erledigt“ markieren.",
       "„Heute hier weitermachen“ / „Heute empfohlen“ für den nächsten offenen Schritt nutzen.",
+      "Unter „Fortschritt sichern“ eine JSON-Datei herunterladen oder wieder laden — für Gerätewechsel ohne Konto.",
       "„Zurücksetzen“ antippen und mit „Ja, zurücksetzen“ bestätigen — nur wenn du wirklich bei null neu starten willst.",
     ],
     example:
       "3 von 12 erledigt → die Empfehlung zeigt die nächste offene Lektion, nicht wieder Lektion 1.",
     mistake:
-      "Glauben, der Fortschritt sei überall gespeichert (Handy + Laptop + Cloud). Anderer Browser oder Gerät = anderer Stand, bis Server-Accounts später kommen.",
+      "Glauben, der Fortschritt sei überall gespeichert (Handy + Laptop + Cloud). Anderer Browser oder Gerät = anderer Stand, bis du eine Sicherungsdatei lädst oder später Server-Accounts kommen.",
     links: [
       { href: "#pfad", label: "Fortschritt im Lernpfad" },
       { href: "/datenschutz", label: "Mehr zum Datenschutz" },

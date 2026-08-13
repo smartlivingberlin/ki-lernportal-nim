@@ -83,9 +83,9 @@ export function TodayStartCard({
       {nextStep.kind === "lesson" ? (
         <a
           href="#literacy-pfad"
-          className="nim-interactive mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-[var(--nim-radius-md)] border-2 border-white/70 bg-white/10 px-4 py-3 text-sm font-black text-white hover:bg-white/20"
+          className="mt-3 inline-flex min-h-11 items-center text-sm font-bold text-white/90 underline decoration-white/45 underline-offset-4 hover:decoration-white"
         >
-          Oder im Kurzpfad weitermachen
+          Alternative: 60-Minuten-Kurzpfad
         </a>
       ) : null}
     </section>

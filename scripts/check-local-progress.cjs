@@ -539,6 +539,62 @@ const phases = {
     assert.equal(await unitButton.getAttribute("data-completed"), "true");
     console.log("MICRO_PROGRESS_VERTIEFUNG_OK=YES");
   },
+
+  async "coach-backup"(page) {
+    await page.evaluate(() => {
+      window.localStorage.removeItem("ki-lernportal-nim:first-start-coach:v1");
+      window.localStorage.setItem("ki-lernportal-nim:simple-mode:v1", "0");
+      window.localStorage.setItem("ki-lernportal-nim:local-progress:v1", "[]");
+    });
+    await page.reload({ waitUntil: "load", timeout: navigationTimeout });
+    await page
+      .getByRole("heading", { name: "Dein geführter KI-Lernraum." })
+      .waitFor({ state: "visible" });
+    await suppressExplainClouds(page);
+
+    const coach = page.locator("#erststart");
+    await coach.waitFor({ state: "visible" });
+    await expectExactText(page, "So startest du sicher");
+    await expectExactText(page, "1. Selbstcheck machen");
+    await page.getByRole("button", { name: "Nächster Schritt", exact: true }).click();
+    await expectExactText(page, "2. 60-Minuten-Pfad starten");
+    await page.getByRole("button", { name: "Nächster Schritt", exact: true }).click();
+    await expectExactText(page, "3. Kurz wiederholen");
+    await page.getByRole("button", { name: "Fertig — Coach ausblenden" }).click();
+    await page.getByRole("button", { name: "3-Minuten-Coach erneut zeigen" }).waitFor({
+      state: "visible",
+      timeout: 10_000,
+    });
+    console.log("COACH_BACKUP_COACH_FLOW_OK=YES");
+
+    await ensureModuleOpenForLesson(page, "Was ist KI?");
+    await page
+      .locator("#pfad")
+      .getByRole("button", { name: /Was ist KI\?/ })
+      .first()
+      .click();
+    await page.locator("#lesson-l1").waitFor({ state: "visible", timeout: 15_000 });
+    await page.locator("#lesson-l1-title").waitFor({ state: "visible" });
+    console.log("COACH_BACKUP_LESSON_OPEN_OK=YES");
+
+    await page.getByTestId("progress-backup-panel").scrollIntoViewIfNeeded();
+    const downloadPromise = page.waitForEvent("download", { timeout: 15_000 });
+    await page.getByTestId("progress-backup-export").click();
+    const download = await downloadPromise;
+    assert.match(
+      download.suggestedFilename(),
+      /^ki-lernportal-nim-fortschritt-.*\.json$/,
+    );
+    const downloadPath = await download.path();
+    assert.ok(downloadPath, "download path available");
+    const fs = require("node:fs");
+    const raw = fs.readFileSync(downloadPath, "utf8");
+    const parsed = JSON.parse(raw);
+    assert.equal(parsed.format, "ki-lernportal-nim-progress-backup");
+    assert.equal(parsed.version, 1);
+    assert.ok(Array.isArray(parsed.lessons));
+    console.log("COACH_BACKUP_EXPORT_OK=YES");
+  },
 };
 
 async function runPhase(browser, phaseName) {

@@ -1,6 +1,10 @@
 "use client";
 
 import type { ThemeWorld } from "../../data/types";
+import {
+  isMicroUnitCompleted,
+  microUnitsForWorld,
+} from "../../data/micro-units";
 import { sortThemeWorldsKernwegFirst } from "../../data/theme-worlds";
 import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
@@ -13,19 +17,52 @@ type GoalNavigationProps = {
   onSelectWorld: (world: ThemeWorld) => void;
   simpleMode: boolean;
   worldsReady?: ReadonlySet<string> | readonly string[];
+  completedLessonIds?: readonly string[];
+  completedMicroUnitIds?: readonly string[];
 };
+
+function worldProgressLabel(options: {
+  worldId: string;
+  available: boolean;
+  completedLessonIds: readonly string[];
+  completedMicroUnitIds: readonly string[];
+}): { fraction: string; state: "offen" | "in-arbeit" | "fertig" | "demnächst" } {
+  const units = microUnitsForWorld(options.worldId);
+  if (!options.available) {
+    return { fraction: "0/0", state: "demnächst" };
+  }
+  if (units.length === 0) {
+    return { fraction: "0/0", state: "offen" };
+  }
+  const completed = units.filter((unit) =>
+    isMicroUnitCompleted({
+      unit,
+      completedLessonIds: options.completedLessonIds,
+      completedMicroUnitIds: options.completedMicroUnitIds,
+    }),
+  ).length;
+  if (completed <= 0) return { fraction: `0/${units.length}`, state: "offen" };
+  if (completed >= units.length) {
+    return { fraction: `${completed}/${units.length}`, state: "fertig" };
+  }
+  return { fraction: `${completed}/${units.length}`, state: "in-arbeit" };
+}
 
 function WorldTile({
   world,
   selected,
   available,
   isKernwegWorld,
+  progressFraction,
+  progressState,
   onSelectWorld,
 }: {
   world: ThemeWorld;
   selected: boolean;
   available: boolean;
   isKernwegWorld: boolean;
+  progressFraction: string;
+  progressState: "offen" | "in-arbeit" | "fertig" | "demnächst";
   onSelectWorld: (world: ThemeWorld) => void;
 }) {
   const accentClass =
@@ -33,11 +70,30 @@ function WorldTile({
       ? "hover:border-[var(--nim-accent)] focus-visible:outline-[var(--nim-accent)]"
       : "hover:border-[var(--nim-primary)] focus-visible:outline-[var(--nim-primary)]";
 
+  const layerBadge = isKernwegWorld
+    ? available
+      ? "Kernweg"
+      : "Kernweg · demnächst"
+    : available
+      ? "Später · bereit"
+      : "Später · demnächst";
+
+  const progressBadge =
+    progressState === "fertig"
+      ? "Fertig"
+      : progressState === "in-arbeit"
+        ? "In Arbeit"
+        : progressState === "demnächst"
+          ? "Demnächst"
+          : "Startklar";
+
   return (
     <li>
       <button
         type="button"
         data-world-layer={isKernwegWorld ? "kernweg" : "spaeter"}
+        data-world-progress={progressState}
+        data-testid={`world-tile-${world.id}`}
         {...explainAttrs("ziele-kachel")}
         onClick={() => onSelectWorld(world)}
         aria-pressed={selected}
@@ -55,13 +111,7 @@ function WorldTile({
             {world.shortLabel}
           </span>
           <span className="rounded-[var(--nim-radius-sm)] bg-[var(--nim-surface)] px-2 py-1 text-[0.7rem] font-black text-[var(--nim-secondary)]">
-            {isKernwegWorld
-              ? available
-                ? "Kernweg"
-                : "Kernweg · demnächst"
-              : available
-                ? "Später · bereit"
-                : "Später · demnächst"}
+            {layerBadge}
           </span>
         </span>
         <span className="mt-2 font-[family-name:var(--font-display)] text-xl font-semibold text-[var(--foreground)]">
@@ -75,6 +125,11 @@ function WorldTile({
             ? world.goalPrompt
             : `Später vertiefen: ${world.goalPrompt}`}
         </span>
+        <span className="mt-3 flex items-center justify-between gap-2 text-[0.7rem] font-black uppercase tracking-wider text-[var(--nim-primary-strong)]">
+          <span data-testid={`world-progress-${world.id}`}>
+            {progressFraction} Einheiten · {progressBadge}
+          </span>
+        </span>
       </button>
     </li>
   );
@@ -86,6 +141,8 @@ export function GoalNavigation({
   onSelectWorld,
   simpleMode,
   worldsReady,
+  completedLessonIds = [],
+  completedMicroUnitIds = [],
 }: GoalNavigationProps) {
   const readySet = worldsReady ? new Set(worldsReady) : null;
   const baseWorlds = simpleMode
@@ -133,6 +190,12 @@ export function GoalNavigation({
               const available =
                 world.status === "active" &&
                 (readySet ? readySet.has(world.id) : true);
+              const progress = worldProgressLabel({
+                worldId: world.id,
+                available,
+                completedLessonIds,
+                completedMicroUnitIds,
+              });
               return (
                 <WorldTile
                   key={world.id}
@@ -140,6 +203,8 @@ export function GoalNavigation({
                   selected={selectedWorldId === world.id}
                   available={available}
                   isKernwegWorld
+                  progressFraction={progress.fraction}
+                  progressState={progress.state}
                   onSelectWorld={onSelectWorld}
                 />
               );
@@ -167,6 +232,12 @@ export function GoalNavigation({
                 const available =
                   world.status === "active" &&
                   (readySet ? readySet.has(world.id) : false);
+                const progress = worldProgressLabel({
+                  worldId: world.id,
+                  available,
+                  completedLessonIds,
+                  completedMicroUnitIds,
+                });
                 return (
                   <WorldTile
                     key={world.id}
@@ -174,6 +245,8 @@ export function GoalNavigation({
                     selected={selectedWorldId === world.id}
                     available={available}
                     isKernwegWorld={false}
+                    progressFraction={progress.fraction}
+                    progressState={progress.state}
                     onSelectWorld={onSelectWorld}
                   />
                 );
