@@ -1752,7 +1752,7 @@ function validatePackageSkeletons() {
         );
       }
 
-      if (pkg.dir === "db" || pkg.dir === "auth") {
+      if (pkg.dir === "auth") {
         if (
           JSON.stringify(tsconfig?.exclude) !==
           JSON.stringify(["src/**/*.test.ts"])
@@ -1762,6 +1762,29 @@ function validatePackageSkeletons() {
               tsconfigPath,
             )} must exclude src/**/*.test.ts for authorized runtime packages`,
           );
+        }
+      } else if (pkg.dir === "db") {
+        const exclude = tsconfig?.exclude;
+        if (!Array.isArray(exclude) || !exclude.includes("src/**/*.test.ts")) {
+          fail(
+            `${rel(
+              tsconfigPath,
+            )} must exclude src/**/*.test.ts for authorized runtime packages`,
+          );
+        }
+        const allowedDbExclude = new Set([
+          "src/**/*.test.ts",
+          "src/connection-proof.ts",
+          "src/local-migrate.ts",
+        ]);
+        for (const entry of exclude) {
+          if (!allowedDbExclude.has(entry)) {
+            fail(
+              `${rel(
+                tsconfigPath,
+              )} has unexpected exclude entry ${entry}`,
+            );
+          }
         }
       } else if (tsconfig?.exclude) {
         fail(
