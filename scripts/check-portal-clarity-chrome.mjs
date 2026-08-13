@@ -35,6 +35,10 @@ assert.match(mobileNav, /data-nav-mode/);
 const page = read("apps/web/src/app/page.tsx");
 assert.match(page, /Jetzt starten/);
 assert.match(page, /Wiederholen/);
+assert.match(page, /KI-Lernportal NIM/);
+assert.match(page, /hero-today-card/);
+assert.doesNotMatch(page, /hero-today-card-desktop/);
+assert.doesNotMatch(page, /hero-today-card-mobile/);
 assert.doesNotMatch(page, />Abruf</);
 
 const literacy = read("apps/web/src/data/literacy-path.ts");
