@@ -577,6 +577,20 @@ const phases = {
     await page.locator("#lesson-l1-title").waitFor({ state: "visible" });
     console.log("COACH_BACKUP_LESSON_OPEN_OK=YES");
 
+    await page
+      .getByRole("button", { name: "Fortschritt zurücksetzen" })
+      .click();
+    await page.getByTestId("reset-progress-backup-link").waitFor({
+      state: "visible",
+      timeout: 10_000,
+    });
+    await page.getByTestId("reset-progress-backup-link").click();
+    await page.locator("#fortschritt-sichern").waitFor({
+      state: "visible",
+      timeout: 10_000,
+    });
+    console.log("COACH_BACKUP_RESET_DEEPLINK_OK=YES");
+
     await page.getByTestId("progress-backup-panel").scrollIntoViewIfNeeded();
     const downloadPromise = page.waitForEvent("download", { timeout: 15_000 });
     await page.getByTestId("progress-backup-export").click();

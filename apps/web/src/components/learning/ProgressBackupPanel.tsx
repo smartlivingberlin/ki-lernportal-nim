@@ -80,17 +80,19 @@ export function ProgressBackupPanel({ onApplied }: ProgressBackupPanelProps) {
 
   return (
     <section
+      id="fortschritt-sichern"
       data-testid="progress-backup-panel"
       aria-labelledby="progress-backup-title"
       {...explainAttrs("fortschritt")}
-      className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 shadow-[var(--shadow-lift)]"
+      className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 shadow-[var(--shadow-lift)] sm:scroll-mt-64 lg:scroll-mt-36"
     >
       <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
         Gerät wechseln
       </p>
       <h2
         id="progress-backup-title"
-        className="mt-1 text-lg font-black text-[var(--nim-primary)]"
+        tabIndex={-1}
+        className="mt-1 text-lg font-black text-[var(--nim-primary)] outline-none"
       >
         Fortschritt sichern
       </h2>

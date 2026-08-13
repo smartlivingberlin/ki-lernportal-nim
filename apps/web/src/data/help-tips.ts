@@ -401,6 +401,7 @@ export const helpTips: HelpTip[] = [
     mistake:
       "Glauben, der Fortschritt sei überall gespeichert (Handy + Laptop + Cloud). Anderer Browser oder Gerät = anderer Stand, bis du eine Sicherungsdatei lädst oder später Server-Accounts kommen.",
     links: [
+      { href: "#fortschritt-sichern", label: "Fortschritt sichern" },
       { href: "#pfad", label: "Fortschritt im Lernpfad" },
       { href: "/datenschutz", label: "Mehr zum Datenschutz" },
     ],

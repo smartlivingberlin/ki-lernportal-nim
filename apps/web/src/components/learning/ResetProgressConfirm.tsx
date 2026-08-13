@@ -41,7 +41,15 @@ export function ResetProgressConfirm({
       <p className="mt-2 text-xs font-medium leading-5 text-[var(--nim-secondary)]">
         Unberührt bleiben: Einfache Ansicht, Einstiegshilfe und alle Lerninhalte im
         Portal. Das Zurücksetzen lässt sich nicht rückgängig machen — sichere den
-        Stand vorher unter „Fortschritt sichern“, falls du ihn behalten willst.
+        Stand vorher unter{" "}
+        <a
+          href="#fortschritt-sichern"
+          data-testid="reset-progress-backup-link"
+          className="font-black text-[var(--nim-primary)] underline underline-offset-2"
+        >
+          Fortschritt sichern
+        </a>
+        , falls du ihn behalten willst.
       </p>
       <div className="mt-3 flex flex-wrap gap-2">
         <button
