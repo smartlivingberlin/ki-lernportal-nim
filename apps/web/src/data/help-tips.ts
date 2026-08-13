@@ -407,6 +407,29 @@ export const helpTips: HelpTip[] = [
     ],
   },
   {
+    id: "weitere-pfade",
+    label: "Weitere Lernpfade",
+    short: "Alltag & Prompting starten über Kernweg-Lektionen — ohne Extra-Kurs und ohne leere Versprechen.",
+    whatIs:
+      "Ein Bereich mit geplanten Themen (Alltag, Prompting). Es gibt noch keine eigenen Extra-Lektionen dafür. Stattdessen öffnest du passende Lektionen aus dem 12er-Kernweg.",
+    whatFor:
+      "Neugier auf Alltag oder Prompting stillen, ohne den roten Faden zu verlieren. Du bleibst im bewährten Kernweg und siehst klar: Was geht jetzt, was kommt später.",
+    canDo: [
+      "Eine Brücken-Lektion unter Alltag oder Prompting öffnen.",
+      "Optional die passende Themenwelt ansehen (außer in der Einfachen Ansicht).",
+      "Zurück zum Kernweg springen und dort weitermachen.",
+    ],
+    example:
+      "Unter Prompting „Was ist ein Prompt?“ öffnen → im Lernraum üben → Haken setzen → weiter im Kernweg.",
+    mistake:
+      "Warten auf einen „fertigen“ Extra-Pfad. Die Brücken sind absichtlich der Start — nicht eine Warteschlange.",
+    links: [
+      { href: "#weitere-pfade", label: "Zu Alltag & Prompting" },
+      { href: "#pfad", label: "Zu den 12 Lektionen" },
+      { href: "#heute", label: "Heute empfohlen" },
+    ],
+  },
+  {
     id: "lernpfad",
     label: "Lernpfad",
     short: "Die Lektionen in Reihenfolge — antippen öffnet die gewählte Lektion.",

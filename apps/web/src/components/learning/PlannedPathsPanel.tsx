@@ -115,10 +115,10 @@ export function PlannedPathsPanel({
       id="weitere-pfade"
       data-testid="planned-paths-panel"
       aria-labelledby="weitere-pfade-title"
-      {...explainAttrs("lernpfad")}
+      {...explainAttrs("weitere-pfade")}
       className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 md:p-6 lg:scroll-mt-36"
     >
-      <ExplainHotspot tipId="lernpfad">
+      <ExplainHotspot tipId="weitere-pfade">
         <p className="text-xs font-black uppercase tracking-[0.22em] text-[var(--nim-primary)]">
           Mehr Wege · ehrlich geplant
         </p>
