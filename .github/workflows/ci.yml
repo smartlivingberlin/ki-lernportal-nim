@@ -148,6 +148,9 @@ jobs:
       - name: Local progress backup and clarity contract
         run: pnpm test:progress-backup
 
+      - name: Planned Alltag/Prompting path bridges
+        run: pnpm test:planned-paths
+
       - name: Source and lesson integrity check
         run: pnpm source:check
 

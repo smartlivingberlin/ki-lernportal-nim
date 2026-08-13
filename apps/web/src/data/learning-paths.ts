@@ -51,3 +51,46 @@ export const seedLearningPaths: LearningPath[] = [
     status: 'locked'
   }
 ];
+
+/**
+ * Brücken in den bestehenden 12er-Kernweg — ohne neue Lesson-IDs
+ * (Integrity-Gate: genau 12 Lektionen, alle path-beginner).
+ */
+export type PlannedPathBridge = {
+  pathId: 'path-daily-life' | 'path-prompting';
+  badge: string;
+  whyNow: string;
+  laterNote: string;
+  bridgeLessonIds: readonly string[];
+  bridgeWorldId: string;
+  worldCtaLabel: string;
+};
+
+export const plannedPathBridges: readonly PlannedPathBridge[] = [
+  {
+    pathId: 'path-daily-life',
+    badge: 'Geplant · Brücke bereit',
+    whyNow:
+      'Alltag heißt: E-Mails klarer machen und KI sinnvoll im Tagesablauf nutzen — ohne Blindvertrauen.',
+    laterNote:
+      'Eigene Alltag-Lektionen folgen später. Bis dahin startest du über den Kernweg und die Themenwelt „Arbeit & Alltag“.',
+    bridgeLessonIds: ['l6', 'l11'],
+    bridgeWorldId: 'world-work-life',
+    worldCtaLabel: 'Themenwelt Arbeit & Alltag',
+  },
+  {
+    pathId: 'path-prompting',
+    badge: 'Geplant · Brücke bereit',
+    whyNow:
+      'Gute Prompts sind klare Aufträge: Rolle, Ziel, Format, Grenzen — dann prüfst du das Ergebnis.',
+    laterNote:
+      'Ein eigener Prompting-Pfad kommt später. Bis dahin: Lektionen 4–5 und die Themenwelt „Chat & Prompting“.',
+    bridgeLessonIds: ['l4', 'l5'],
+    bridgeWorldId: 'world-chat-prompting',
+    worldCtaLabel: 'Themenwelt Chat & Prompting',
+  },
+] as const;
+
+export function plannedPathById(pathId: string): LearningPath | undefined {
+  return seedLearningPaths.find((path) => path.id === pathId);
+}
