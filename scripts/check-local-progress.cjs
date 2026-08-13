@@ -650,6 +650,54 @@ const phases = {
     await page.locator("#ziele").waitFor({ state: "visible", timeout: 15_000 });
     console.log("PLANNED_PATHS_WORLD_CTA_OK=YES");
   },
+
+  async "kernweg-complete"(page) {
+    await page.evaluate(() => {
+      window.localStorage.setItem("ki-lernportal-nim:simple-mode:v1", "0");
+      window.localStorage.setItem(
+        "ki-lernportal-nim:first-start-coach:v1",
+        "dismissed",
+      );
+      window.localStorage.setItem(
+        "ki-lernportal-nim:local-progress:v1",
+        JSON.stringify([
+          "l1",
+          "l2",
+          "l3",
+          "l4",
+          "l5",
+          "l6",
+          "l7",
+          "l8",
+          "l9",
+          "l10",
+          "l11",
+          "l12",
+        ]),
+      );
+    });
+    await page.reload({ waitUntil: "load", timeout: navigationTimeout });
+    await page
+      .getByRole("heading", { name: "Dein geführter KI-Lernraum." })
+      .waitFor({ state: "visible" });
+    await suppressExplainClouds(page);
+    await expectExactText(page, "12/12");
+    await page.getByTestId("kernweg-complete-panel").waitFor({
+      state: "visible",
+      timeout: 10_000,
+    });
+    await expectExactText(page, "Kernweg abgeschlossen");
+    assert.equal(
+      await page.getByTestId("guided-start-steps").count(),
+      0,
+    );
+    await page.getByTestId("kernweg-complete-backup").click();
+    await page.locator("#fortschritt-sichern").waitFor({
+      state: "visible",
+      timeout: 10_000,
+    });
+    console.log("KERN_WEG_COMPLETE_PANEL_OK=YES");
+  },
 };
 
 async function runPhase(browser, phaseName) {

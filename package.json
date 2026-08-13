@@ -16,6 +16,7 @@
     "test:mass-audience-monitor": "node scripts/check-mass-audience-monitor.mjs",
     "test:micro-progress": "node scripts/check-micro-progress-kernweg.mjs",
     "test:planned-paths": "node scripts/check-planned-paths-bridges.mjs",
+    "test:kernweg-complete": "node scripts/check-kernweg-complete.mjs",
     "test:s48b-a11y": "node scripts/check-s48b-accessibility.cjs",
     "test:s50d1-privacy-overflow": "node scripts/check-s50d1-privacy-overflow.cjs",
     "test:s50d2-security-headers": "node scripts/check-s50d2-security-headers.cjs",

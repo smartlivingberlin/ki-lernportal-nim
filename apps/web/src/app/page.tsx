@@ -25,6 +25,7 @@ import { ModuleNavigation } from "../components/learning/ModuleNavigation";
 import { PortalHero } from "../components/learning/PortalHero";
 import { TodayStartCard } from "../components/learning/TodayStartCard";
 import { GuidedStartSteps } from "../components/learning/GuidedStartSteps";
+import { KernwegCompletePanel } from "../components/learning/KernwegCompletePanel";
 import { LocalSearchPanel } from "../components/learning/LocalSearchPanel";
 import { ResourceCard } from "../components/learning/ResourceCard";
 import { GoalNavigation } from "../components/learning/GoalNavigation";
@@ -647,7 +648,14 @@ export default function Home() {
             </h2>
           )}
 
-          {showLessonGuidedSteps ? (
+          {!nextOpenLesson && completedLessons > 0 ? (
+            <KernwegCompletePanel
+              completedLessons={completedLessons}
+              totalLessons={totalLessons}
+              simpleMode={simpleMode}
+              onShowWorlds={revealWorlds}
+            />
+          ) : showLessonGuidedSteps ? (
             <GuidedStartSteps
               lesson={nextOpenLesson}
               completedLessons={completedLessons}
