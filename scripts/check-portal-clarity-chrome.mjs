@@ -43,13 +43,36 @@ assert.match(page, /hero-today-card/);
 assert.doesNotMatch(page, /hero-today-card-desktop/);
 assert.doesNotMatch(page, /hero-today-card-mobile/);
 assert.doesNotMatch(page, />Abruf</);
+assert.match(page, /href="#coach"[^>]*>Sicherheit</);
+assert.doesNotMatch(page, /href="#coach"[^>]*>Hilfe</);
+assert.match(page, /id="glossar"/);
+assert.doesNotMatch(
+  page,
+  /\{\!simpleMode \? \(\s*<section\s+id="glossar"/,
+);
 
 const literacy = read("apps/web/src/data/literacy-path.ts");
 assert.match(literacy, /60-Minuten KI-Kurzpfad/);
 assert.match(literacy, /Zum Wiederholen/);
 
+const literacyPanel = read(
+  "apps/web/src/components/learning/LiteracyPathPanel.tsx",
+);
+assert.match(literacyPanel, /data-testid="literacy-path-reset"/);
+assert.match(literacyPanel, /ResetProgressConfirm/);
+assert.match(literacyPanel, /Kurzpfad wirklich zurücksetzen\?/);
+assert.match(literacyPanel, /className="literacy-proof/);
+
+const globalsCss = read("apps/web/src/app/globals.css");
+assert.match(globalsCss, /@media print/);
+assert.match(globalsCss, /\.literacy-proof/);
+
 const onboarding = read("apps/web/src/components/learning/OnboardingRoutePanel.tsx");
 assert.match(onboarding, /Drei Stationen — jederzeit wiederfinden/);
 assert.match(onboarding, /Wiederholen starten/);
+
+const helpTips = read("apps/web/src/data/help-tips.ts");
+assert.match(helpTips, /Echte Hilfe: die kleinen/);
+assert.match(helpTips, /„Sicherheit“ antippen/);
 
 console.log("PORTAL_CLARITY_CHROME_STATIC_OK=YES");

@@ -4,7 +4,21 @@ type ResetProgressConfirmProps = {
   open: boolean;
   onCancel: () => void;
   onConfirm: () => void;
+  /** Stable id for aria-labelledby; defaults to global reset title. */
+  titleId?: string;
+  title?: string;
+  /** Bullet list of what will be cleared. */
+  items?: string[];
+  /** data-testid for the backup deeplink (default: reset-progress-backup-link). */
+  backupLinkTestId?: string;
 };
+
+const DEFAULT_ITEMS = [
+  "Haken an den 12 Lektionen",
+  "Erledigt-Markierungen an Vertiefungs-Einheiten (Themenwelten)",
+  "Stationen des 60-Minuten-Kurzpfads",
+  "Wiederholungs-Queue (Übungskarten)",
+];
 
 /**
  * Inline-Bestätigung vor dem Löschen lokaler Lernmarkierungen.
@@ -14,29 +28,32 @@ export function ResetProgressConfirm({
   open,
   onCancel,
   onConfirm,
+  titleId = "reset-progress-title",
+  title = "Lokalen Lernstand wirklich zurücksetzen?",
+  items = DEFAULT_ITEMS,
+  backupLinkTestId = "reset-progress-backup-link",
 }: ResetProgressConfirmProps) {
   if (!open) return null;
 
   return (
     <div
       role="group"
-      aria-labelledby="reset-progress-title"
+      aria-labelledby={titleId}
       className="mt-3 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface-soft)] p-3"
     >
       <p
-        id="reset-progress-title"
+        id={titleId}
         className="text-sm font-black text-[var(--nim-primary)]"
       >
-        Lokalen Lernstand wirklich zurücksetzen?
+        {title}
       </p>
       <p className="mt-1 text-xs font-medium leading-5 text-[var(--nim-secondary)]">
         In diesem Browser werden gelöscht:
       </p>
       <ul className="mt-2 list-disc space-y-1 pl-4 text-xs font-medium leading-5 text-[var(--nim-secondary)]">
-        <li>Haken an den 12 Lektionen</li>
-        <li>Erledigt-Markierungen an Vertiefungs-Einheiten (Themenwelten)</li>
-        <li>Stationen des 60-Minuten-Kurzpfads</li>
-        <li>Wiederholungs-Queue (Übungskarten)</li>
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
       </ul>
       <p className="mt-2 text-xs font-medium leading-5 text-[var(--nim-secondary)]">
         Unberührt bleiben: Einfache Ansicht, Einstiegshilfe und alle Lerninhalte im
@@ -44,7 +61,7 @@ export function ResetProgressConfirm({
         Stand vorher unter{" "}
         <a
           href="#fortschritt-sichern"
-          data-testid="reset-progress-backup-link"
+          data-testid={backupLinkTestId}
           className="font-black text-[var(--nim-primary)] underline underline-offset-2"
         >
           Fortschritt sichern

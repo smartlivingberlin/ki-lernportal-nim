@@ -178,3 +178,30 @@ article {
     transform: none;
   }
 }
+
+/* Teilnahme-Nachweis: beim Drucken nur die Proof-Karte, nicht die Portal-Chrome. */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  .literacy-proof,
+  .literacy-proof * {
+    visibility: visible !important;
+  }
+
+  .literacy-proof {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0 !important;
+    box-shadow: none !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  .print\:hidden {
+    display: none !important;
+  }
+}

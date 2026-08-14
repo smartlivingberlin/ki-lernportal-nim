@@ -25,7 +25,7 @@ export function SimpleModePackHint({ onShowMore }: SimpleModePackHintProps) {
       </h2>
       <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
         Nichts fehlt im Portal. Du siehst jetzt den ruhigen Einstieg: Selbstcheck,
-        Kurzpfad, Wiederholen, Sicherheit und deine Lektionen. Alles Weitere bleibt
+        Kurzpfad, Wiederholen, Sicherheit, Lektionen und Begriffe. Alles Weitere bleibt
         im System — und erscheint wieder, wenn du die Einfache Ansicht ausschaltest
         (Schalter oben) oder hier mehr einblendest. Danach landest du bei den
         Themenwelten.

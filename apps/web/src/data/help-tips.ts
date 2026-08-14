@@ -32,24 +32,27 @@ export const helpTips: HelpTip[] = [
     label: "Die Leiste oben",
     short: "Schnelle Sprünge zu den wichtigsten Bereichen — ohne die Seite zu verlassen.",
     whatIs:
-      "Das ist die Orientierungsleiste dieses Portals. Die Einträge sind keine neuen Websites, sondern Sprungmarken auf derselben Seite: Lernraum, Pfad, Coach und Quellen.",
+      "Das ist die Orientierungsleiste dieses Portals. Die Einträge sind keine neuen Websites, sondern Sprungmarken auf derselben Seite: Lernraum, Kurzpfad, Lektionen, Wiederholen, Sicherheit und Quellen.",
     whatFor:
       "Sie löst das Problem „Ich weiß nicht, wo ich bin“. Statt lange zu scrollen, kommst du mit einem Tippen zurück zu dem Bereich, den du brauchst — besonders hilfreich, wenn du dich digital leicht verlierst.",
     canDo: [
       "„Lernraum“ antippen → Ziele, Übungen und Werkzeuge.",
-      "„Pfad“ antippen → Lektionen in Reihenfolge und dein Fortschritt.",
-      "„Coach“ antippen → Sicherheitsregeln und ruhige Hinweise.",
+      "„Kurzpfad“ antippen → der 60-Minuten-Einstieg mit Stationen.",
+      "„Lektionen“ antippen → die 12 Kernlektionen und dein Fortschritt.",
+      "„Sicherheit“ antippen → drei Prüfregeln (Sicherheits-Coach), nicht das Mini-Handbuch.",
+      "Echte Hilfe: die kleinen „?“-Chips neben Überschriften — die öffnen das Mini-Handbuch.",
       "„Quellen“ antippen → geprüfte Ausgangspunkte zum Nachlesen.",
       "Auf dem Handy zusätzlich die untere Leiste nutzen — gleicher Sinn, nur daumengerecht.",
     ],
     example:
       "Du bist bei den Quellen und willst wieder üben: tippe oben auf „Lernraum“. Die Seite scrollt dorthin, du musst nichts neu laden und kein Konto öffnen.",
     mistake:
-      "Die Links für „externe Internetseiten“ halten. Sie bleiben im Portal. Externe Quellen erkennst du später im Quellenraum daran, dass sie in einem neuen Tab öffnen.",
+      "„Sicherheit“ mit dem Mini-Handbuch verwechseln. Sicherheit = Prüfregeln. Hilfe-Fragen beantworten die „?“-Chips. Die Nav-Links bleiben im Portal; externe Quellen öffnen im Quellenraum einen neuen Tab.",
     links: [
       { href: "#lernraum", label: "Zum Lernraum" },
-      { href: "#pfad", label: "Zum Lernpfad" },
-      { href: "#coach", label: "Zum Sicherheits-Coach" },
+      { href: "#literacy-pfad", label: "Zum Kurzpfad" },
+      { href: "#pfad", label: "Zu den Lektionen" },
+      { href: "#coach", label: "Zur Sicherheit" },
       { href: "#quellen", label: "Zum Quellenraum" },
     ],
   },
@@ -58,12 +61,12 @@ export const helpTips: HelpTip[] = [
     label: "Einfache Ansicht",
     short: "Ruhiger Einstieg: Nebenbereiche nur ausgeblendet, nicht gelöscht.",
     whatIs:
-      "Einfache Ansicht blendet Themenwelten, Werkzeuge, Suche und Extra-Szenarien aus und macht Texte ruhiger. Alle Inhalte bleiben im Portal.",
+      "Einfache Ansicht blendet Themenwelten, Werkzeuge, Suche und Extra-Szenarien aus und macht Texte ruhiger. Glossar/Begriffe bleiben sichtbar. Alle Inhalte bleiben im Portal.",
     whatFor:
       "Gegen das Gefühl „Die Seite ist zu voll“. Einsteiger:innen sehen den klaren Kernweg — ohne Angst vor Fehlklicks in Nebenräumen.",
     canDo: [
       "Schalter „Einfache Ansicht“ oben einschalten.",
-      "Selbstcheck, Kurzpfad, Wiederholen, Scam und Lektionen nutzen.",
+      "Selbstcheck, Kurzpfad, Wiederholen, Sicherheit, Lektionen und Begriffe nutzen.",
       "„Mehr Bereiche einblenden“ tippen oder den Schalter aus — dann erscheinen Welten und Werkzeuge wieder.",
     ],
     example:
@@ -394,7 +397,7 @@ export const helpTips: HelpTip[] = [
     canDo: [
       "Am Ende einer Lektion „erledigt“ markieren.",
       "„Heute hier weitermachen“ / „Heute empfohlen“ für den nächsten offenen Schritt nutzen.",
-      "Unter „Fortschritt sichern“ eine JSON-Datei herunterladen oder wieder laden — für Gerätewechsel ohne Konto.",
+      "Unter „Fortschritt sichern“ eine Sicherungsdatei herunterladen oder wieder laden — für Gerätewechsel ohne Konto.",
       "„Zurücksetzen“ antippen und mit „Ja, zurücksetzen“ bestätigen — nur wenn du wirklich bei null neu starten willst.",
     ],
     example:
@@ -564,6 +567,7 @@ export const helpTips: HelpTip[] = [
     mistake:
       "Fachwörter überspringen und später ratlos sein. Lieber sofort nachschlagen — dafür ist das Glossar da.",
     links: [
+      { href: "#glossar", label: "Zu den Begriffen" },
       { href: "#lernraum", label: "Im Text weiterlesen" },
       { href: "#methoden", label: "Warum Abruf hilft" },
     ],

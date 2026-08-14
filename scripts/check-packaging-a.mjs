@@ -43,6 +43,14 @@ assert.match(hint, /Mehr Bereiche einblenden/);
 assert.match(hint, /Zum Einstieg bleiben/);
 assert.match(hint, /Schalter oben/);
 assert.match(hint, /Themenwelten/);
+assert.match(hint, /Begriffe/);
+
+const literacyPanel = read(
+  "apps/web/src/components/learning/LiteracyPathPanel.tsx",
+);
+assert.match(literacyPanel, /ResetProgressConfirm/);
+assert.match(literacyPanel, /data-testid="literacy-path-reset"/);
+assert.match(literacyPanel, /Kurzpfad wirklich zurücksetzen/);
 
 assert.match(read("apps/web/src/app/page.tsx"), /revealWorlds/);
 assert.match(read("apps/web/src/app/page.tsx"), /worldsFocusToken/);
