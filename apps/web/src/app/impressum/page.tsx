@@ -3,9 +3,9 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Impressum | KI-Lernraum",
+  title: "Impressum | KI-Lernportal NIM",
   description:
-    "Impressum und Anbieterinformationen für die öffentlich erreichbare Konzeptdemo des KI-Lernraums.",
+    "Impressum und Anbieterinformationen für die öffentlich erreichbare Konzeptdemo des KI-Lernportal NIMs.",
 };
 
 function Section({
@@ -34,7 +34,7 @@ export default function ImpressumPage() {
         </p>
         <p className="mt-2">
           Dieses Impressum gehört zur öffentlich erreichbaren Konzeptdemo
-          „KI-Lernraum“. Die Angaben beschreiben den aktuellen
+          „KI-Lernportal NIM“. Die Angaben beschreiben den aktuellen
           Entwicklungsstand und müssen bei wesentlichen Änderungen des Angebots
           erneut geprüft werden.
         </p>
@@ -131,7 +131,7 @@ export default function ImpressumPage() {
 
       <Section title="Keine NVIDIA- oder NIM-Verbindung">
         <p>
-          Der KI-Lernraum ist ein unabhängiges Lernprojekt. Im aktuell
+          Der KI-Lernportal NIM ist ein unabhängiges Lernprojekt. Im aktuell
           öffentlich sichtbaren Portal besteht keine produktive Integration von
           NVIDIA NIM und keine dargestellte Partnerschaft, Unterstützung oder
           Zertifizierung durch NVIDIA.

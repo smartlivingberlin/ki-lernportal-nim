@@ -3,9 +3,9 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Datenschutz | KI-Lernraum",
+  title: "Datenschutz | KI-Lernportal NIM",
   description:
-    "Datenschutzhinweise für die öffentlich erreichbare Konzeptdemo des KI-Lernraums.",
+    "Datenschutzhinweise für die öffentlich erreichbare Konzeptdemo des KI-Lernportal NIM.",
 };
 
 function Section({
@@ -51,7 +51,7 @@ export default function DatenschutzPage() {
 
         <p className="max-w-3xl text-base leading-8 text-slate-700">
           Informationen zur Verarbeitung personenbezogener Daten beim Besuch
-          der öffentlich erreichbaren Konzeptdemo „KI-Lernraum“.
+          der öffentlich erreichbaren Konzeptdemo „KI-Lernportal NIM“.
         </p>
 
         <Link
@@ -138,8 +138,8 @@ export default function DatenschutzPage() {
 
       <Section title="4. Lokaler Lernfortschritt im Browser">
         <p>
-          Das Portal speichert die Kennungen der als erledigt markierten
-          Lektionen im lokalen Speicher des verwendeten Browsers (
+          Das Portal speichert Lernmarkierungen und Einstellungen im lokalen
+          Speicher des verwendeten Browsers (
           <code className="rounded bg-slate-100 px-1">localStorage</code>).
         </p>
 
@@ -165,7 +165,50 @@ export default function DatenschutzPage() {
               ki-lernportal-nim:micro-progress:v1
             </code>
           </li>
+          <li className="min-w-0">
+            <span className="block">60-Minuten-Kurzpfad:</span>
+            <code
+              className="mt-1 block max-w-full rounded bg-slate-100 px-1"
+              style={{ wordBreak: "break-all", overflowWrap: "anywhere" }}
+            >
+              ki-lernportal-nim:literacy-path:v1
+            </code>
+          </li>
+          <li className="min-w-0">
+            <span className="block">Wiederholungs-Übungen:</span>
+            <code
+              className="mt-1 block max-w-full rounded bg-slate-100 px-1"
+              style={{ wordBreak: "break-all", overflowWrap: "anywhere" }}
+            >
+              ki-lernportal-nim:spaced-review:v1
+            </code>
+          </li>
+          <li className="min-w-0">
+            <span className="block">Einfache Ansicht (Schalter):</span>
+            <code
+              className="mt-1 block max-w-full rounded bg-slate-100 px-1"
+              style={{ wordBreak: "break-all", overflowWrap: "anywhere" }}
+            >
+              ki-lernportal-nim:simple-mode:v1
+            </code>
+          </li>
+          <li className="min-w-0">
+            <span className="block">Einstiegs-Coach (Hinweis erledigt):</span>
+            <code
+              className="mt-1 block max-w-full rounded bg-slate-100 px-1"
+              style={{ wordBreak: "break-all", overflowWrap: "anywhere" }}
+            >
+              ki-lernportal-nim:first-start-coach:v1
+            </code>
+          </li>
         </ul>
+
+        <p>
+          Die Sicherungsdatei unter „Fortschritt sichern“ enthält die vier
+          Lernstände (Lektionen, Vertiefung, Kurzpfad, Wiederholen). Einfache
+          Ansicht und Einstiegs-Coach bleiben absichtlich außerhalb der
+          Sicherung und außerhalb des globalen Zurücksetzens.
+        </p>
 
         <p>
           Nach dem aktuellen Code verbleibt dieser Lernstand auf dem verwendeten

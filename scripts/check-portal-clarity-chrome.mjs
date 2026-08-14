@@ -18,19 +18,24 @@ const mobileNav = read("apps/web/src/components/learning/MobileBottomNav.tsx");
 assert.match(mobileNav, /href: "#erststart"/);
 assert.match(mobileNav, /label: "Üben"/);
 assert.match(mobileNav, /label: "Selbst"/);
-assert.match(mobileNav, /label: "Sicher"/);
+assert.match(mobileNav, /label: "Schutz"/);
 assert.match(mobileNav, /label: "Welten"/);
 assert.match(mobileNav, /href: "#ziele"/);
 assert.match(mobileNav, /ariaLabel: "Selbstcheck"/);
-assert.match(mobileNav, /ariaLabel: "Sicherheit und Scam-Schutz"/);
+assert.match(mobileNav, /ariaLabel: "Betrugsschutz und Scam-Modul"/);
 assert.match(mobileNav, /ariaLabel: "Themenwelten"/);
 assert.doesNotMatch(mobileNav, /label: "Abruf"/);
 assert.doesNotMatch(mobileNav, /label: "Check"/);
 assert.doesNotMatch(mobileNav, /label: "Scam"/);
+assert.doesNotMatch(mobileNav, /label: "Sicher"/);
 assert.match(mobileNav, /label: "Pfad"/);
-assert.match(mobileNav, /scrollIntoView/);
-assert.match(mobileNav, /\$\{id\}-title/);
+assert.match(mobileNav, /navigatePortalHash/);
 assert.match(mobileNav, /data-nav-mode/);
+
+const hashNav = read("apps/web/src/lib/portal-hash-nav.ts");
+assert.match(hashNav, /REVEAL_WORLDS_EVENT/);
+assert.match(hashNav, /navigatePortalHash/);
+assert.match(hashNav, /\$\{id\}-title/);
 
 const page = read("apps/web/src/app/page.tsx");
 assert.match(page, /Jetzt starten/);
@@ -43,13 +48,16 @@ assert.match(page, /hero-today-card/);
 assert.doesNotMatch(page, /hero-today-card-desktop/);
 assert.doesNotMatch(page, /hero-today-card-mobile/);
 assert.doesNotMatch(page, />Abruf</);
-assert.match(page, /href="#coach"[^>]*>Sicherheit</);
+assert.match(page, /href="#coach"[^>]*>Regeln</);
 assert.doesNotMatch(page, /href="#coach"[^>]*>Hilfe</);
+assert.doesNotMatch(page, /href="#coach"[^>]*>Sicherheit</);
 assert.match(page, /id="glossar"/);
 assert.doesNotMatch(
   page,
   /\{\!simpleMode \? \(\s*<section\s+id="glossar"/,
 );
+assert.match(page, /onRevealWorld/);
+assert.match(page, /REVEAL_WORLDS_EVENT/);
 
 const literacy = read("apps/web/src/data/literacy-path.ts");
 assert.match(literacy, /60-Minuten KI-Kurzpfad/);
@@ -73,6 +81,7 @@ assert.match(onboarding, /Wiederholen starten/);
 
 const helpTips = read("apps/web/src/data/help-tips.ts");
 assert.match(helpTips, /Echte Hilfe: die kleinen/);
-assert.match(helpTips, /„Sicherheit“ antippen/);
+assert.match(helpTips, /„Regeln“ antippen/);
+assert.match(helpTips, /„Schutz“ öffnet das Scam-Modul/);
 
 console.log("PORTAL_CLARITY_CHROME_STATIC_OK=YES");

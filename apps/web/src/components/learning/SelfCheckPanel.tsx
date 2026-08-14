@@ -13,9 +13,14 @@ import { useLiteracyPathProgress } from "../../hooks/useLiteracyPathProgress";
 
 type SelfCheckPanelProps = {
   onRecommendWorld: (worldId: string) => void;
+  /** Blendet Einfache Ansicht aus und scrollt zur Themenwelt (auch wenn #ziele fehlte). */
+  onRevealWorld: (worldId: string) => void;
 };
 
-export function SelfCheckPanel({ onRecommendWorld }: SelfCheckPanelProps) {
+export function SelfCheckPanel({
+  onRecommendWorld,
+  onRevealWorld,
+}: SelfCheckPanelProps) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const { markComplete } = useLiteracyPathProgress();
@@ -145,7 +150,7 @@ export function SelfCheckPanel({ onRecommendWorld }: SelfCheckPanelProps) {
               className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-white px-4 text-sm font-black text-[var(--nim-primary)]"
               onClick={() => {
                 onRecommendWorld(topWorld.id);
-                document.getElementById("ziele")?.scrollIntoView({ behavior: "smooth" });
+                onRevealWorld(topWorld.id);
               }}
             >
               Später vertiefen: {topWorld.shortLabel}

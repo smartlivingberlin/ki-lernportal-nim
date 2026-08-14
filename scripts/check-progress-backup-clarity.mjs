@@ -66,6 +66,6 @@ const mobileNav = read(
   "apps/web/src/components/learning/MobileBottomNav.tsx",
 );
 assert.match(mobileNav, /href: "#ziele"/);
-assert.match(mobileNav, /scrollIntoView/);
+assert.match(mobileNav, /navigatePortalHash/);
 
 console.log("PROGRESS_BACKUP_CLARITY_STATIC_OK=YES");

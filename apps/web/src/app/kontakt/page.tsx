@@ -3,9 +3,9 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Kontakt & Fehler melden | KI-Lernraum",
+  title: "Kontakt & Fehler melden | KI-Lernportal NIM",
   description:
-    "Kontaktmöglichkeit und Fehlerhinweise für die öffentlich erreichbare Konzeptdemo des KI-Lernraums.",
+    "Kontaktmöglichkeit und Fehlerhinweise für die öffentlich erreichbare Konzeptdemo des KI-Lernportal NIMs.",
 };
 
 function Section({
@@ -35,8 +35,9 @@ export default function KontaktPage() {
 
         <p className="mt-2">
           Diese Kontaktseite gehört zur öffentlich erreichbaren Konzeptdemo
-          „KI-Lernraum“. Es gibt aktuell kein Kontaktformular, keinen Login,
-          keine Upload-Funktion und kein verbindliches Supportversprechen.
+          „KI-Lernportal NIM“. Es gibt aktuell kein Kontaktformular und in der
+          öffentlichen Konzeptdemo keinen öffentlichen Login, keine Upload-Funktion
+          und kein verbindliches Supportversprechen.
         </p>
       </div>
 
@@ -75,7 +76,7 @@ export default function KontaktPage() {
 
         <p>
           Bitte verwenden Sie einen verständlichen Betreff, zum Beispiel
-          „Fehlerhinweis KI-Lernraum“ oder „Rückmeldung zu Lektion 3“.
+          „Fehlerhinweis KI-Lernportal NIM“ oder „Rückmeldung zu Lektion 3“.
         </p>
       </Section>
 
