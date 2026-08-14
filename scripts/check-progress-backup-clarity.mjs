@@ -28,7 +28,25 @@ assert.match(panel, /titleRef/);
 assert.match(panel, /Herunterladen/);
 assert.match(panel, /Datei laden/);
 assert.match(panel, /Sicherungsdatei/);
+assert.match(panel, /data-testid="progress-backup-import-confirm"/);
+assert.match(panel, /data-testid="progress-backup-import-confirm-yes"/);
+assert.match(panel, /Ja, Stand ersetzen/);
+assert.match(panel, /pendingImport/);
+assert.match(panel, /confirmPendingImport/);
 assert.doesNotMatch(panel, /JSON-Datei/);
+const importHandler = panel.slice(
+  panel.indexOf("const handleImportFile"),
+  panel.indexOf("const cancelPendingImport"),
+);
+assert.doesNotMatch(
+  importHandler,
+  /applyProgressBackupToStorage/,
+  "file pick must not apply before confirm",
+);
+assert.match(
+  panel.slice(panel.indexOf("const confirmPendingImport")),
+  /applyProgressBackupToStorage/,
+);
 
 const backupErrors = read("apps/web/src/lib/local-progress-backup.ts");
 assert.match(backupErrors, /keine gültige Fortschritts-Datei/);
@@ -44,6 +62,7 @@ const helpTips = read("apps/web/src/data/help-tips.ts");
 assert.match(helpTips, /href: "#fortschritt-sichern"/);
 assert.match(helpTips, /label: "Fortschritt sichern"/);
 assert.match(helpTips, /Sicherungsdatei herunterladen/);
+assert.match(helpTips, /Ja, Stand ersetzen/);
 assert.doesNotMatch(helpTips, /JSON-Datei/);
 
 const goals = read("apps/web/src/components/learning/GoalNavigation.tsx");

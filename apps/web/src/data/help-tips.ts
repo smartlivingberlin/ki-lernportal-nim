@@ -402,6 +402,7 @@ export const helpTips: HelpTip[] = [
       "Am Ende einer Lektion „erledigt“ markieren.",
       "„Heute hier weitermachen“ / „Heute empfohlen“ für den nächsten offenen Schritt nutzen.",
       "Unter „Fortschritt sichern“ eine Sicherungsdatei herunterladen oder wieder laden — für Gerätewechsel ohne Konto.",
+      "Beim Laden bestätigen „Ja, Stand ersetzen“ — sonst bleibt der aktuelle Browser-Stand.",
       "„Zurücksetzen“ antippen und mit „Ja, zurücksetzen“ bestätigen — nur wenn du wirklich bei null neu starten willst.",
     ],
     example:
