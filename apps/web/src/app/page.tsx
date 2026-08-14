@@ -1023,12 +1023,15 @@ export default function Home() {
 
           <section
             id="naechste"
-            aria-labelledby="naechste-title"
+            aria-labelledby="naechste-landmark-title"
             {...explainAttrs("naechste")}
             className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]"
           >
-            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
-              {nextStep.eyebrow}
+            <p
+              id="naechste-landmark-title"
+              className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]"
+            >
+              {nextStep.eyebrow} · Seitenleiste
             </p>
             <h2 id="naechste-title" className="mt-2 text-2xl font-black text-[var(--nim-primary)]">{nextStep.title}</h2>
             <p className="mt-2 text-sm leading-7 text-[var(--nim-secondary)]">{nextStep.reason}</p>
