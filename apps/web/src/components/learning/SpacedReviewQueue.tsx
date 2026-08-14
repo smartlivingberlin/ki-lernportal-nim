@@ -179,7 +179,7 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
           titleId="spaced-review-reset-title"
           title="Wiederholungs-Übungen wirklich zurücksetzen?"
           items={[
-            "Wiederholungs-Queue (Übungskarten und Confidence-Einträge)",
+            "Wiederholungs-Übungen (Karten und Einschätzungen)",
           ]}
           backupLinkTestId="spaced-review-reset-backup-link"
         />

@@ -39,7 +39,7 @@ export const learningMethods: LearningMethod[] = [
     whyItHelps:
       "Abstand macht das Abrufen etwas schwerer und dadurch nachhaltiger.",
     howWeUseIt:
-      "Lokale Wiederholungsqueue: Abruffragen mit Abstand nach Confidence (sicher / unsicher / unklar).",
+      "Lokale Wiederholungsübungen: Abruffragen mit Abstand nach Einschätzung (sicher / unsicher / unklar).",
     interactionHint: "Markiere „noch unklar“, damit die Karte früher wiederkommt.",
   },
   {
@@ -75,7 +75,7 @@ export const learningMethods: LearningMethod[] = [
     whyItHelps:
       "Metakognition steuert Wiederholung und verhindert falsche Sicherheit.",
     howWeUseIt:
-      "Confidence-Buttons in der Wiederholen-Queue — dort lokal gespeichert. Challenges speichern Confidence noch nicht dauerhaft.",
+      "Confidence-Buttons in der Wiederholen-Übung — dort lokal gespeichert. Challenges speichern Confidence noch nicht dauerhaft.",
     interactionHint: "Kein Test. Ehrlichkeit hilft dem Lernweg mehr als „perfekt“.",
   },
   {
