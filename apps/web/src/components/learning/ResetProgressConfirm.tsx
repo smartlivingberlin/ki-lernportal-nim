@@ -18,6 +18,8 @@ const DEFAULT_ITEMS = [
   "Erledigt-Markierungen an Vertiefungs-Einheiten (Themenwelten)",
   "Stationen des 60-Minuten-Kurzpfads",
   "Wiederholungs-Queue (Übungskarten)",
+  "„Noch unsicher“-Markierungen an Lektionen",
+  "Antworten und Empfehlung aus dem Selbstcheck",
 ];
 
 /**

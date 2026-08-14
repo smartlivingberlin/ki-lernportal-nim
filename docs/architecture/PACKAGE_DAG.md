@@ -47,8 +47,8 @@ Fachfunktion bereits produktiv implementiert ist.
 | `ui` | UI-Primitives, Design Tokens, barrierearme Komponenten | Drizzle, Auth-Entscheidungen, Provider-SDKs | Skeleton integriert |
 | `contracts` | Zod-Schemas, DTOs, Events und kontrollierte Fehler | Datenzugriff, React-Komponenten, Providerlogik | Skeleton integriert |
 | `domain` | Entitäten, Value Objects, Policies und Use-Case-Interfaces | Next.js, Drizzle, Railway, Provider-SDKs | Skeleton integriert |
-| `db` | Drizzle-Schema, Migrationen, Repositories und Transaktionen | React, KI-Provider, UI | lokales Adapterfundament integriert; Schema ausstehend |
-| `auth` | Credentials, Sessions, Rollen, Scopes und Ownership | React-Seiten, direkte KI-Aufrufe | S52-A/B Runtime; S52-D1 Login/Logout-Routen hinter Flag (keine Login-UI, keine DB) |
+| `db` | Drizzle-Schema, Migrationen, Repositories und Transaktionen | React, KI-Provider, UI | Adapter + Pilot-Schema + lokale Migration integriert; Railway-/Prod-DB gesperrt |
+| `auth` | Credentials, Sessions, Rollen, Scopes und Ownership | React-Seiten, direkte KI-Aufrufe | S52-A/B Runtime; S52-D1/D2 Login-UI + Routen hinter Flag; Memory-Sessions; Staging-Seed optional |
 | `admin` | Review, Publish, Rollback und Audit-Use-Cases | versteckte Client-Autorisierung | Skeleton integriert; Runtime ausstehend |
 | `ai-core` | Provideradapter, Retrieval, Zitate, Budgets und Safety | direkte UI- oder Drizzle-Kopplung | Skeleton integriert; Provider ausstehend |
 | `testing` | Fixtures, Test-DB, Policy- und Browserhelfer | Produktionslaufzeitlogik | Skeleton integriert |
@@ -245,9 +245,9 @@ S52_STAGING_AUTH_SEED_AUTHORIZED=YES
 RAILWAY_DATABASE_PROHIBITED=YES
 HUMAN_FREIGABE_ABCD_AT=2026-08-13
 AUTH_RUNTIME_AUTHORIZED=YES
-AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_ONLY
-AUTH_WEB_SURFACE=DOCUMENTED_NOT_IMPLEMENTED
-LOGIN_UI=NO
+AUTH_RUNTIME_SURFACE=PACKAGES_AUTH_PLUS_WEB_ADAPTER
+AUTH_WEB_SURFACE=D2_LOGIN_UI_BEHIND_FLAG
+LOGIN_UI=AUTHORIZED_BEHIND_FLAG
 ADMIN_RUNTIME_AUTHORIZED=NO
 AI_RUNTIME_AUTHORIZED=NO
 RAILWAY_STAGING_AUTHORIZED=YES_ISOLATED_STAGING_CREATED

@@ -145,11 +145,20 @@ jobs:
       - name: Portal clarity chrome contract
         run: pnpm test:portal-clarity
 
+      - name: Packaging A Simple Mode / reset contract
+        run: pnpm test:packaging-a
+
+      - name: Next-step contract
+        run: pnpm test:next-step-contract
+
       - name: Micro progress and Kernweg/Vertiefung contract
         run: pnpm test:micro-progress
 
       - name: Local progress backup and clarity contract
         run: pnpm test:progress-backup
+
+      - name: Shareable lesson URL contract
+        run: pnpm test:lesson-share-url
 
       - name: Planned Alltag/Prompting path bridges
         run: pnpm test:planned-paths

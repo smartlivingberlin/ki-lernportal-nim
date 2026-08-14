@@ -24,6 +24,7 @@ type GoalNavigationProps = {
 function worldProgressLabel(options: {
   worldId: string;
   available: boolean;
+  estimatedUnits: number;
   completedLessonIds: readonly string[];
   completedMicroUnitIds: readonly string[];
 }): { fraction: string; state: "offen" | "in-arbeit" | "fertig" | "demnächst" } {
@@ -31,7 +32,14 @@ function worldProgressLabel(options: {
   if (!options.available) {
     return { fraction: "0/0", state: "demnächst" };
   }
+  // Lazy Später-Welten: units may be [] until ensure/preload; show estimate.
   if (units.length === 0) {
+    if (options.estimatedUnits > 0) {
+      return {
+        fraction: `0/${options.estimatedUnits}`,
+        state: "offen",
+      };
+    }
     return { fraction: "0/0", state: "offen" };
   }
   const completed = units.filter((unit) =>
@@ -193,6 +201,7 @@ export function GoalNavigation({
               const progress = worldProgressLabel({
                 worldId: world.id,
                 available,
+                estimatedUnits: world.estimatedUnits,
                 completedLessonIds,
                 completedMicroUnitIds,
               });
@@ -228,13 +237,14 @@ export function GoalNavigation({
               className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3"
               aria-labelledby="ziele-spaeter-title"
             >
-              {spaeterWorlds.map((world) => {
+              {              spaeterWorlds.map((world) => {
                 const available =
                   world.status === "active" &&
                   (readySet ? readySet.has(world.id) : false);
                 const progress = worldProgressLabel({
                   worldId: world.id,
                   available,
+                  estimatedUnits: world.estimatedUnits,
                   completedLessonIds,
                   completedMicroUnitIds,
                 });

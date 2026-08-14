@@ -48,6 +48,9 @@ export type NextStepInput = {
   nextDeepenMicroUnitId?: string | null;
   nextDeepenMicroTitle?: string | null;
   nextDeepenWorldId?: string | null;
+  /** Erledigte Lektion, die als „Noch unsicher“ markiert wurde (S-Product-C4). */
+  nextUnsureLessonId?: string | null;
+  nextUnsureLessonTitle?: string | null;
 };
 
 /** In Einfacher Ansicht fehlen manche Anker — auf Kernpfad umbiegen. */
@@ -114,6 +117,8 @@ export function resolveNextStep(input: NextStepInput): NextStep {
     nextDeepenMicroUnitId,
     nextDeepenMicroTitle,
     nextDeepenWorldId,
+    nextUnsureLessonId,
+    nextUnsureLessonTitle,
   } = input;
 
   const literacyNext = nextLiteracyStation(completedLiteracyStationIds, simpleMode);
@@ -180,6 +185,22 @@ export function resolveNextStep(input: NextStepInput): NextStep {
       microUnitId: null,
       worldId: null,
       chipLabel: `Lektion ${nextOpenLesson.order}`,
+    };
+  }
+
+  if (nextUnsureLessonId && nextUnsureLessonTitle) {
+    return {
+      kind: "lesson",
+      layer: "core",
+      eyebrow: "Nächster Schritt",
+      title: nextUnsureLessonTitle,
+      reason: `Du hattest „${nextUnsureLessonTitle}“ als „Noch unsicher“ markiert — kurz nochmal ansehen, bevor es weitergeht.`,
+      primaryLabel: "Nochmal ansehen",
+      href: `#lesson-${nextUnsureLessonId}`,
+      lessonId: nextUnsureLessonId,
+      microUnitId: null,
+      worldId: null,
+      chipLabel: "Nochmal ansehen",
     };
   }
 

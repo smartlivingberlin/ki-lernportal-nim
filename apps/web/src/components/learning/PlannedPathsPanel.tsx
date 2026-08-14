@@ -2,10 +2,12 @@
 
 import { seedLessons } from "../../data/lessons";
 import {
+  lockedLearningPaths,
   plannedPathBridges,
   plannedPathById,
   type PlannedPathBridge,
 } from "../../data/learning-paths";
+import type { LearningPath } from "../../data/types";
 import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
 
@@ -98,6 +100,36 @@ function BridgeCard({
 }
 
 /**
+ * Ehrliche „Demnächst“-Karte für gesperrte Pfade — nicht anklickbar, kein
+ * vorgetäuschter Kurs (S-Product-C5).
+ */
+function LockedPathCard({ path }: { path: LearningPath }) {
+  return (
+    <article
+      data-testid={`planned-path-locked-${path.id}`}
+      aria-label={`${path.title} — demnächst, noch keine Inhalte`}
+      className="rounded-[var(--nim-radius-lg)] border border-dashed border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 opacity-90"
+    >
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
+          {path.title}
+        </p>
+        <span className="rounded-[var(--nim-radius-sm)] bg-[var(--nim-surface-soft)] px-2 py-1 text-[0.7rem] font-black text-[var(--nim-secondary)]">
+          Demnächst
+        </span>
+      </div>
+      <p className="mt-2 text-sm font-medium leading-6 text-[var(--nim-secondary)]">
+        {path.description}
+      </p>
+      <p className="mt-3 text-xs font-semibold leading-5 text-[var(--nim-secondary)]">
+        Noch ohne Lektionen — hier steht kein fertiger Kurs. Dieser Pfad ist geplant,
+        aber noch nicht umgesetzt.
+      </p>
+    </article>
+  );
+}
+
+/**
  * Zeigt geplante Pfade Alltag/Prompting mit Brücken in den 12er-Kernweg.
  * Keine neuen Lesson-IDs — Integrity-Gate bleibt intakt.
  */
@@ -146,6 +178,19 @@ export function PlannedPathsPanel({
           />
         ))}
       </div>
+
+      {!simpleMode && lockedLearningPaths.length > 0 ? (
+        <div className="mt-6">
+          <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
+            Weitere geplante Pfade — noch gesperrt
+          </p>
+          <div className="mt-3 grid gap-3 lg:grid-cols-3">
+            {lockedLearningPaths.map((path) => (
+              <LockedPathCard key={path.id} path={path} />
+            ))}
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }

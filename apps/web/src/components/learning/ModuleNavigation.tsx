@@ -18,6 +18,8 @@ type ModuleNavigationProps = {
   completedCount: number;
   activeLessonId: string | null;
   completedLessonIds: string[];
+  /** Lektionen mit „Noch unsicher“-Markierung (S-Product-C4). */
+  unsureLessonIds?: string[];
   onOpenLesson: (lessonId: string) => void;
 };
 
@@ -27,6 +29,7 @@ export function ModuleNavigation({
   completedCount,
   activeLessonId,
   completedLessonIds,
+  unsureLessonIds = [],
   onOpenLesson,
 }: ModuleNavigationProps) {
   const panelId = useId();
@@ -83,58 +86,69 @@ export function ModuleNavigation({
 
       <div id={panelId} className="mt-4 space-y-2">
         <p className="text-xs leading-5 text-[var(--nim-secondary)]">{module.description}</p>
-        {lessons.map((lesson) => (
-          <button
-            key={lesson.id}
-            type="button"
-            data-explain="lektion"
-            aria-current={activeLessonId === lesson.id ? "step" : undefined}
-            onClick={() => onOpenLesson(lesson.id)}
-            className={`nim-interactive flex w-full items-center gap-3 rounded-[var(--nim-radius-md)] p-3 text-left ${
-              activeLessonId === lesson.id
-                ? "bg-[var(--nim-primary-strong)] text-white"
-                : "bg-[var(--nim-surface)] text-[var(--foreground)] hover:bg-[var(--nim-primary-soft)]"
-            }`}
-          >
-            <span
-              className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--nim-radius-sm)] text-xs font-black ${
-                completedLessonIds.includes(lesson.id)
-                  ? "bg-[var(--nim-success)] text-white"
-                  : activeLessonId === lesson.id
-                    ? "bg-white text-[var(--nim-primary-strong)]"
-                    : "bg-[var(--nim-surface-soft)] text-[var(--nim-primary)]"
+        {lessons.map((lesson) => {
+          const lessonUnsure = unsureLessonIds.includes(lesson.id);
+          return (
+            <button
+              key={lesson.id}
+              type="button"
+              data-explain="lektion"
+              aria-current={activeLessonId === lesson.id ? "step" : undefined}
+              onClick={() => onOpenLesson(lesson.id)}
+              className={`nim-interactive flex w-full items-center gap-3 rounded-[var(--nim-radius-md)] p-3 text-left ${
+                activeLessonId === lesson.id
+                  ? "bg-[var(--nim-primary-strong)] text-white"
+                  : "bg-[var(--nim-surface)] text-[var(--foreground)] hover:bg-[var(--nim-primary-soft)]"
               }`}
             >
-              {completedLessonIds.includes(lesson.id) ? "✓" : lesson.order}
-            </span>
+              <span
+                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--nim-radius-sm)] text-xs font-black ${
+                  lessonUnsure
+                    ? "bg-[var(--nim-accent)] text-white"
+                    : completedLessonIds.includes(lesson.id)
+                      ? "bg-[var(--nim-success)] text-white"
+                      : activeLessonId === lesson.id
+                        ? "bg-white text-[var(--nim-primary-strong)]"
+                        : "bg-[var(--nim-surface-soft)] text-[var(--nim-primary)]"
+                }`}
+                aria-hidden="true"
+              >
+                {lessonUnsure
+                  ? "?"
+                  : completedLessonIds.includes(lesson.id)
+                    ? "✓"
+                    : lesson.order}
+              </span>
 
-            <span className="min-w-0">
-              <span
-                className={`block truncate text-sm font-black ${
-                  activeLessonId === lesson.id ? "text-white" : "text-[var(--foreground)]"
-                }`}
-              >
-                {lesson.title}
+              <span className="min-w-0">
+                <span
+                  className={`block truncate text-sm font-black ${
+                    activeLessonId === lesson.id ? "text-white" : "text-[var(--foreground)]"
+                  }`}
+                >
+                  {lesson.title}
+                </span>
+                <span
+                  className={`mt-0.5 block text-xs font-semibold leading-5 ${
+                    activeLessonId === lesson.id ? "text-white/90" : "text-[var(--nim-secondary)]"
+                  }`}
+                >
+                  {lesson.description}
+                </span>
+                <span
+                  className={`mt-1 block truncate text-xs font-semibold ${
+                    activeLessonId === lesson.id ? "text-white" : "text-[var(--nim-secondary)]"
+                  }`}
+                >
+                  {completedLessonIds.includes(lesson.id)
+                    ? "erledigt"
+                    : `${lesson.estimatedMinutes} Min. · offen`}
+                  {lessonUnsure ? " · noch unsicher" : ""}
+                </span>
               </span>
-              <span
-                className={`mt-0.5 block text-xs font-semibold leading-5 ${
-                  activeLessonId === lesson.id ? "text-white/90" : "text-[var(--nim-secondary)]"
-                }`}
-              >
-                {lesson.description}
-              </span>
-              <span
-                className={`mt-1 block truncate text-xs font-semibold ${
-                  activeLessonId === lesson.id ? "text-white" : "text-[var(--nim-secondary)]"
-                }`}
-              >
-                {completedLessonIds.includes(lesson.id)
-                  ? "erledigt"
-                  : `${lesson.estimatedMinutes} Min. · offen`}
-              </span>
-            </span>
-          </button>
-        ))}
+            </button>
+          );
+        })}
       </div>
     </details>
   );

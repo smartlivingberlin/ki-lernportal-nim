@@ -94,3 +94,11 @@ export const plannedPathBridges: readonly PlannedPathBridge[] = [
 export function plannedPathById(pathId: string): LearningPath | undefined {
   return seedLearningPaths.find((path) => path.id === pathId);
 }
+
+/**
+ * Gesperrte Pfade (noch ohne Freigabe/Inhalte) — werden ehrlich als
+ * „Demnächst“ gezeigt, nicht anklickbar, kein vorgetäuschter Kurs.
+ */
+export const lockedLearningPaths: readonly LearningPath[] = seedLearningPaths.filter(
+  (path) => path.status === "locked",
+);
