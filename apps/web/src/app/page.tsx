@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import { seedGlossary } from "../data/glossary";
 import { seedLearningPaths } from "../data/learning-paths";
@@ -13,9 +14,11 @@ import {
   interactiveChallenges,
 } from "../data/interactive-challenges";
 import {
+  ensureMicroUnitsForWorld,
   microUnitForLesson,
   microUnitsForWorld,
   nextOpenDeepenMicroUnit,
+  preloadSpaeterMicroUnits,
   worldHasMicroUnits,
   worldsWithMicroUnits,
 } from "../data/micro-units";
@@ -26,7 +29,6 @@ import { PortalHero } from "../components/learning/PortalHero";
 import { TodayStartCard } from "../components/learning/TodayStartCard";
 import { GuidedStartSteps } from "../components/learning/GuidedStartSteps";
 import { KernwegCompletePanel } from "../components/learning/KernwegCompletePanel";
-import { LocalSearchPanel } from "../components/learning/LocalSearchPanel";
 import { ResourceCard } from "../components/learning/ResourceCard";
 import { GoalNavigation } from "../components/learning/GoalNavigation";
 import { InteractiveChallengeCard } from "../components/learning/InteractiveChallengeCard";
@@ -34,20 +36,14 @@ import { SimpleModeToggle } from "../components/learning/SimpleModeToggle";
 import { MobileBottomNav } from "../components/learning/MobileBottomNav";
 import { ThemeWorldTrack } from "../components/learning/ThemeWorldTrack";
 import { MicroLearningUnitView } from "../components/learning/MicroLearningUnitView";
-import { ModelNavigator } from "../components/learning/ModelNavigator";
-import { LearningWorkspaces } from "../components/learning/LearningWorkspaces";
 import { FirstStartCoach, useFirstStartCoachDismissed } from "../components/learning/FirstStartCoach";
 import { ExplainHotspot } from "../components/learning/ExplainCloud";
-import { CursorExplainLayer } from "../components/learning/CursorExplainLayer";
 import { InlineGlossaryText } from "../components/learning/InlineGlossary";
 import { SpacedReviewQueue } from "../components/learning/SpacedReviewQueue";
-import { LiteracyPathPanel } from "../components/learning/LiteracyPathPanel";
 import { SelfCheckPanel } from "../components/learning/SelfCheckPanel";
-import { PromptLibraryPanel } from "../components/learning/PromptLibraryPanel";
 import { ScamModulePanel } from "../components/learning/ScamModulePanel";
 import { OnboardingRoutePanel } from "../components/learning/OnboardingRoutePanel";
 import { ResetProgressConfirm } from "../components/learning/ResetProgressConfirm";
-import { ProgressBackupPanel } from "../components/learning/ProgressBackupPanel";
 import { SimpleModePackHint } from "../components/learning/SimpleModePackHint";
 import { PlannedPathsPanel } from "../components/learning/PlannedPathsPanel";
 import { explainAttrs } from "../data/help-tips";
@@ -64,6 +60,88 @@ import {
   REVEAL_WORLDS_EVENT,
   type RevealWorldsDetail,
 } from "../lib/portal-hash-nav";
+
+const LocalSearchPanel = dynamic(
+  () =>
+    import("../components/learning/LocalSearchPanel").then((m) => ({
+      default: m.LocalSearchPanel,
+    })),
+  {
+    loading: () => (
+      <section id="suche" aria-busy="true" className="scroll-mt-52 min-h-24" />
+    ),
+  },
+);
+
+const ModelNavigator = dynamic(
+  () =>
+    import("../components/learning/ModelNavigator").then((m) => ({
+      default: m.ModelNavigator,
+    })),
+  {
+    loading: () => <section aria-busy="true" className="min-h-24" />,
+  },
+);
+
+const PromptLibraryPanel = dynamic(
+  () =>
+    import("../components/learning/PromptLibraryPanel").then((m) => ({
+      default: m.PromptLibraryPanel,
+    })),
+  {
+    loading: () => <section aria-busy="true" className="min-h-24" />,
+  },
+);
+
+const LearningWorkspaces = dynamic(
+  () =>
+    import("../components/learning/LearningWorkspaces").then((m) => ({
+      default: m.LearningWorkspaces,
+    })),
+  {
+    loading: () => <section aria-busy="true" className="min-h-24" />,
+  },
+);
+
+const CursorExplainLayer = dynamic(
+  () =>
+    import("../components/learning/CursorExplainLayer").then((m) => ({
+      default: m.CursorExplainLayer,
+    })),
+  { loading: () => null },
+);
+
+const LiteracyPathPanel = dynamic(
+  () =>
+    import("../components/learning/LiteracyPathPanel").then((m) => ({
+      default: m.LiteracyPathPanel,
+    })),
+  {
+    loading: () => (
+      <section
+        id="literacy-pfad"
+        aria-busy="true"
+        className="scroll-mt-52 min-h-24"
+      />
+    ),
+  },
+);
+
+const ProgressBackupPanel = dynamic(
+  () =>
+    import("../components/learning/ProgressBackupPanel").then((m) => ({
+      default: m.ProgressBackupPanel,
+    })),
+  {
+    loading: () => (
+      <section
+        id="fortschritt-sichern"
+        aria-busy="true"
+        className="scroll-mt-52 min-h-16"
+      />
+    ),
+  },
+);
 
 const SCAM_CHALLENGE_IDS = [
   "challenge-authority-email",
@@ -151,6 +229,8 @@ export default function Home() {
   const [resetConfirmOpen, setResetConfirmOpen] = useState(false);
   const [selectedWorldId, setSelectedWorldId] = useState<string | null>("world-no-fear");
   const [activeMicroUnitId, setActiveMicroUnitId] = useState<string | null>("mu-nofear-01");
+  /** Bumps after lazy micro-unit loads so sync readers re-render. */
+  const [microUnitsTick, setMicroUnitsTick] = useState(0);
   const { enabled: simpleMode, setEnabled: setSimpleMode } = useSimpleMode();
   const { completedLessonIds, setCompletedLessonIds } = useLocalProgress();
   const { completedMicroUnitIds, setCompletedMicroUnitIds } =
@@ -252,7 +332,11 @@ export default function Home() {
       nextDeepenMicro?.worldId,
     ],
   );
-  const worldUnits = selectedWorldId ? microUnitsForWorld(selectedWorldId) : [];
+  const worldUnits = useMemo(
+    () => (selectedWorldId ? microUnitsForWorld(selectedWorldId) : []),
+    // microUnitsTick invalidates after ensure/preload fills the lazy cache.
+    [selectedWorldId, microUnitsTick],
+  );
   const activeMicroUnit =
     worldUnits.find((unit) => unit.id === activeMicroUnitId) ??
     (activeLesson ? microUnitForLesson(activeLesson.id) : null) ??
@@ -268,6 +352,20 @@ export default function Home() {
   useEffect(() => {
     document.body.classList.toggle("simple-mode", simpleMode);
   }, [simpleMode]);
+
+  useEffect(() => {
+    if (simpleMode) return;
+    void preloadSpaeterMicroUnits().then(() => {
+      setMicroUnitsTick((tick) => tick + 1);
+    });
+  }, [simpleMode]);
+
+  useEffect(() => {
+    if (!selectedWorldId) return;
+    void ensureMicroUnitsForWorld(selectedWorldId).then(() => {
+      setMicroUnitsTick((tick) => tick + 1);
+    });
+  }, [selectedWorldId]);
 
   useEffect(() => {
     if (!lessonFocusRequest) return;
