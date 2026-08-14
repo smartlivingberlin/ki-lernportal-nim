@@ -98,10 +98,12 @@ Isoliertes Staging-Environment `staging` ist angelegt und HTTP-grün unter
 `/railway.staging.json`, Staging-Autodeploy disabled, Wait for CI on).
 Nachweise: `docs/architecture/S51D_B_STAGING_EXECUTION.md`.
 
-Live-Probe 2026-08-13: Production und Staging melden Build-SHA
-`f8bc8a5f1ca6` (`/version`, nach #183); Ready-Check `database=not_configured`.
-Menschliche Freigabe A–D (2026-08-13): Connection-Proof, lokale Schema/Migration,
-Staging-Auth-Seed — Umsetzung in Folge-PRs; Production-Auth/Railway-DB gesperrt.
+Live-Probe 2026-08-14: Production und Staging melden Build-SHA
+`09674f37640b` (`/version`, nach #187 Freigabe-D-Stack A–D); Ready-Check
+`database=not_configured`. Freigabe A–D ist in `main` integriert
+(Connection-Proof, lokaler Migrate-Helper, Staging-Auth-Seed). Production-Auth
+und Railway-DB bleiben gesperrt. Offene PRs #184/#185/#186 sind durch #187
+überholt.
 S52-D2b: Staging `AUTH_RUNTIME` HTTP-verifiziert (Login-Formular + `401`);
 Freigabe D: optionaler Staging-Memory-Seed über `STAGING_BOOTSTRAP_*`
 (Hash only, keine Secrets im Repo, Production unverändert).
@@ -114,7 +116,7 @@ CURRENT_PRODUCTION_AUTODEPLOY=DISABLED
 CURRENT_WAIT_FOR_CI=ON
 CURRENT_CONFIG_SOURCE=DASHBOARD_NO_RAILWAY_JSON
 CURRENT_ROOT_DIRECTORY=apps/web
-LIVE_BUILD_SHA_OBSERVED=f8bc8a5f1ca6
+LIVE_BUILD_SHA_OBSERVED=09674f37640b
 STAGING_ENVIRONMENT_CREATED=YES
 STAGING_PUBLIC_DOMAIN=ki-lernportal-nim-staging.up.railway.app
 STAGING_AUTODEPLOY=DISABLED
