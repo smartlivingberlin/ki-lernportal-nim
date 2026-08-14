@@ -51,7 +51,7 @@ export const learningMethods: LearningMethod[] = [
     whyItHelps:
       "Lücken werden sichtbar, sobald du nicht mehr abschreiben kannst.",
     howWeUseIt:
-      "„Erklär es selbst“-Felder und Abschlusschecks in Alltagssprache.",
+      "„Erklär es selbst“-Felder in Challenges und Vertiefung — nur für die aktuelle Ansicht, nicht in der Sicherung.",
     interactionHint: "Schreibe einen kurzen Satz ohne Fachwort — oder übersetze das Fachwort.",
   },
   {
