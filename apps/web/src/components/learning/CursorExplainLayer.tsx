@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { helpTipById, type HelpLink, type HelpTip } from "../../data/help-tips";
+import { navigatePortalHash } from "../../lib/portal-hash-nav";
 import { useFirstStartCoachDismissed } from "./FirstStartCoach";
 import { useSimpleMode } from "../../hooks/useSimpleMode";
 
@@ -145,6 +146,15 @@ function ManualLinks({ links, interactive }: { links: HelpLink[]; interactive: b
             <a
               href={link.href}
               {...(link.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              onClick={(event) => {
+                if (link.external || !link.href.startsWith("#")) return;
+                const id = link.href.slice(1);
+                if (typeof document !== "undefined" && document.getElementById(id)) {
+                  return;
+                }
+                event.preventDefault();
+                navigatePortalHash(link.href, { revealIfMissing: true });
+              }}
               className="font-semibold text-[var(--nim-primary-strong)] underline decoration-2 underline-offset-2 hover:text-[var(--nim-primary)]"
             >
               {link.label}

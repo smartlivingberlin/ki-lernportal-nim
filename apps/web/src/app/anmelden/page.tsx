@@ -3,7 +3,7 @@ import Link from "next/link";
 import { LoginForm } from "../../components/auth/LoginForm";
 
 export const metadata: Metadata = {
-  title: "Anmelden | KI-Lernraum",
+  title: "Anmelden | KI-Lernportal NIM",
   description:
     "Anmeldung für die freigegebene Auth-Runtime hinter Feature-Flag. Kein öffentlicher Produktiv-Login.",
 };

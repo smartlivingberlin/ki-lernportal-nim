@@ -59,6 +59,11 @@ import { useLocalReviewQueue } from "../hooks/useLocalReviewQueue";
 import { useLiteracyPathProgress } from "../hooks/useLiteracyPathProgress";
 import { useSimpleMode } from "../hooks/useSimpleMode";
 import { designSystemMeta } from "../design/tokens";
+import {
+  navigatePortalHash,
+  REVEAL_WORLDS_EVENT,
+  type RevealWorldsDetail,
+} from "../lib/portal-hash-nav";
 
 const SCAM_CHALLENGE_IDS = [
   "challenge-authority-email",
@@ -311,6 +316,21 @@ export default function Home() {
     setWorldsFocusToken((token) => token + 1);
   };
 
+  useEffect(() => {
+    const onReveal = (event: Event) => {
+      const detail = (event as CustomEvent<RevealWorldsDetail>).detail;
+      setSimpleMode(false);
+      setWorldsFocusToken((token) => token + 1);
+      const hash = detail?.hash;
+      if (!hash?.startsWith("#")) return;
+      window.setTimeout(() => {
+        navigatePortalHash(hash, { revealIfMissing: false });
+      }, 80);
+    };
+    window.addEventListener(REVEAL_WORLDS_EVENT, onReveal);
+    return () => window.removeEventListener(REVEAL_WORLDS_EVENT, onReveal);
+  }, [setSimpleMode]);
+
   const openLesson = (lessonId: string) => {
     const lesson = allLessons.find((item) => item.id === lessonId);
 
@@ -471,7 +491,7 @@ export default function Home() {
                 <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#suche" {...explainAttrs("suche")}>Suche</a>
               ) : null}
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#wiederholen" {...explainAttrs("wiederholen")}>Wiederholen</a>
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#coach" {...explainAttrs("sicherheit")}>Sicherheit</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#coach" {...explainAttrs("sicherheit")}>Regeln</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#quellen" {...explainAttrs("quellen")}>Quellen</a>
             </nav>
           </div>
@@ -586,6 +606,16 @@ export default function Home() {
           <SelfCheckPanel
             onRecommendWorld={(worldId) => {
               setSelectedWorldId(worldId);
+            }}
+            onRevealWorld={(worldId) => {
+              const world = themeWorlds.find((item) => item.id === worldId);
+              setSimpleMode(false);
+              if (world) {
+                selectWorld(world);
+              } else {
+                setSelectedWorldId(worldId);
+              }
+              setWorldsFocusToken((token) => token + 1);
             }}
           />
 
@@ -744,12 +774,15 @@ export default function Home() {
 
           <section
             id="challenge"
-            aria-label="Interaktive Challenges"
+            aria-labelledby="challenge-title"
             {...explainAttrs("challenge")}
             className="scroll-mt-72 space-y-4 sm:scroll-mt-64 lg:scroll-mt-36"
           >
             <ExplainHotspot tipId="challenge">
-              <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[var(--foreground)]">
+              <h2
+                id="challenge-title"
+                className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[var(--foreground)]"
+              >
                 Challenges zur aktuellen Lektion
               </h2>
               <p className="mt-2 max-w-2xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
@@ -824,7 +857,7 @@ export default function Home() {
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">Lernpfad</p>
-                <h2 className="mt-1 text-2xl font-black text-[var(--nim-primary)]">KI-Start</h2>
+                <h2 id="pfad-title" className="mt-1 text-2xl font-black text-[var(--nim-primary)]">KI-Start</h2>
               </div>
               <button
                 type="button"
@@ -880,7 +913,7 @@ export default function Home() {
             <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary-strong)]">
               Sicherheits-Coach
             </p>
-            <h2 className="mt-2 text-2xl font-black text-[var(--foreground)]">Erst prüfen, dann übernehmen.</h2>
+            <h2 id="coach-title" className="mt-2 text-2xl font-black text-[var(--foreground)]">Erst prüfen, dann übernehmen.</h2>
             <div className="mt-5 space-y-3">
               {trustRules.map((rule) => (
                 <p key={rule} className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface)]/90 p-4 text-sm font-semibold leading-7 text-[var(--foreground)]">
@@ -892,13 +925,17 @@ export default function Home() {
 
           <section
             id="naechste"
+            aria-labelledby="naechste-landmark-title"
             {...explainAttrs("naechste")}
             className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]"
           >
-            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
-              {nextStep.eyebrow}
+            <p
+              id="naechste-landmark-title"
+              className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]"
+            >
+              {nextStep.eyebrow} · Seitenleiste
             </p>
-            <h2 className="mt-2 text-2xl font-black text-[var(--nim-primary)]">{nextStep.title}</h2>
+            <h2 id="naechste-title" className="mt-2 text-2xl font-black text-[var(--nim-primary)]">{nextStep.title}</h2>
             <p className="mt-2 text-sm leading-7 text-[var(--nim-secondary)]">{nextStep.reason}</p>
             <p className="mt-2 text-xs font-semibold text-[var(--nim-secondary)]">
               {nextStep.layer === "core" ? "Kernweg" : "Vertiefung"} · {nextStep.chipLabel}
@@ -941,11 +978,15 @@ export default function Home() {
 
           <section
             id="glossar"
+            aria-labelledby="glossar-title"
             {...explainAttrs("glossar")}
             className="rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-5 shadow-[var(--shadow-lift)]"
           >
             <ExplainHotspot tipId="glossar">
-              <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
+              <p
+                id="glossar-title"
+                className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]"
+              >
                 Begriffe
               </p>
               <p className="mt-2 text-sm font-medium leading-6 text-[var(--nim-secondary)]">

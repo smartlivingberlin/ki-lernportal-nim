@@ -341,7 +341,7 @@ const phases = {
       { visible: "Selbst", name: "Selbstcheck" },
       { visible: "Pfad", name: "60-Minuten-Kurzpfad" },
       { visible: "Welten", name: "Themenwelten" },
-      { visible: "Sicher", name: "Sicherheit und Scam-Schutz" },
+      { visible: "Schutz", name: "Betrugsschutz und Scam-Modul" },
     ];
     for (const item of expectedFull) {
       assert.equal(

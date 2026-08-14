@@ -1,5 +1,7 @@
 "use client";
 
+import { navigatePortalHash } from "../../lib/portal-hash-nav";
+
 type MobileBottomNavProps = {
   simpleMode: boolean;
 };
@@ -34,8 +36,8 @@ const simpleItems: readonly NavItem[] = [
   },
   {
     href: "#scam",
-    label: "Sicher",
-    ariaLabel: "Sicherheit und Scam-Schutz",
+    label: "Schutz",
+    ariaLabel: "Betrugsschutz und Scam-Modul",
   },
 ];
 
@@ -58,8 +60,8 @@ const fullItems: readonly NavItem[] = [
   },
   {
     href: "#scam",
-    label: "Sicher",
-    ariaLabel: "Sicherheit und Scam-Schutz",
+    label: "Schutz",
+    ariaLabel: "Betrugsschutz und Scam-Modul",
   },
 ];
 
@@ -81,23 +83,8 @@ export function MobileBottomNav({ simpleMode }: MobileBottomNavProps) {
               href={item.href}
               aria-label={item.ariaLabel}
               onClick={(event) => {
-                const id = item.href.replace(/^#/, "");
-                if (typeof document === "undefined") return;
-                const section = document.getElementById(id);
-                if (!section) return;
                 event.preventDefault();
-                section.scrollIntoView({ behavior: "smooth", block: "start" });
-                const focusTarget =
-                  document.getElementById(`${id}-title`) ?? section;
-                if (focusTarget instanceof HTMLElement) {
-                  if (!focusTarget.hasAttribute("tabindex")) {
-                    focusTarget.setAttribute("tabindex", "-1");
-                  }
-                  focusTarget.focus({ preventScroll: true });
-                }
-                if (typeof history !== "undefined") {
-                  history.replaceState(null, "", item.href);
-                }
+                navigatePortalHash(item.href, { revealIfMissing: true });
               }}
               className="nim-interactive flex min-h-12 flex-col items-center justify-center rounded-[var(--nim-radius-sm)] px-1 text-xs font-black text-[var(--nim-primary)] hover:bg-[var(--nim-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--nim-focus)]"
             >

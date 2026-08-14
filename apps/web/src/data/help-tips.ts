@@ -39,20 +39,22 @@ export const helpTips: HelpTip[] = [
       "„Lernraum“ antippen → Ziele, Übungen und Werkzeuge.",
       "„Kurzpfad“ antippen → der 60-Minuten-Einstieg mit Stationen.",
       "„Lektionen“ antippen → die 12 Kernlektionen und dein Fortschritt.",
-      "„Sicherheit“ antippen → drei Prüfregeln (Sicherheits-Coach), nicht das Mini-Handbuch.",
+      "„Regeln“ antippen → drei Prüfregeln (Sicherheits-Coach), nicht das Mini-Handbuch.",
       "Echte Hilfe: die kleinen „?“-Chips neben Überschriften — die öffnen das Mini-Handbuch.",
       "„Quellen“ antippen → geprüfte Ausgangspunkte zum Nachlesen.",
+      "Auf dem Handy: „Schutz“ öffnet das Scam-Modul — das ist ein anderer Ort als „Regeln“ oben.",
       "Auf dem Handy zusätzlich die untere Leiste nutzen — gleicher Sinn, nur daumengerecht.",
     ],
     example:
       "Du bist bei den Quellen und willst wieder üben: tippe oben auf „Lernraum“. Die Seite scrollt dorthin, du musst nichts neu laden und kein Konto öffnen.",
     mistake:
-      "„Sicherheit“ mit dem Mini-Handbuch verwechseln. Sicherheit = Prüfregeln. Hilfe-Fragen beantworten die „?“-Chips. Die Nav-Links bleiben im Portal; externe Quellen öffnen im Quellenraum einen neuen Tab.",
+      "„Regeln“ (oben) mit „Schutz“ (Handy) oder dem Mini-Handbuch verwechseln. Regeln = drei Prüfregeln. Schutz = Scam-Modul. Hilfe-Fragen beantworten die „?“-Chips.",
     links: [
       { href: "#lernraum", label: "Zum Lernraum" },
       { href: "#literacy-pfad", label: "Zum Kurzpfad" },
       { href: "#pfad", label: "Zu den Lektionen" },
-      { href: "#coach", label: "Zur Sicherheit" },
+      { href: "#coach", label: "Zu den Regeln" },
+      { href: "#scam", label: "Zum Betrugsschutz" },
       { href: "#quellen", label: "Zum Quellenraum" },
     ],
   },
@@ -598,9 +600,9 @@ export const helpTips: HelpTip[] = [
     id: "mobilnav",
     label: "Untere Navigation",
     short:
-      "Auf dem Handy: Start, Selbst, Pfad, dann Üben (einfach) oder Welten (voll) und Sicher.",
+      "Auf dem Handy: Start, Selbst, Pfad, dann Üben (einfach) oder Welten (voll) und Schutz.",
     whatIs:
-      "Die daumengerechte Schnellnavigation unten. In der Einfachen Ansicht: Start, Selbst, Pfad, Üben, Sicher. Mit allen Bereichen: Start, Selbst, Pfad, Welten (Themenwelten), Sicher — mit Scroll und Fokus auf die jeweilige Sektion.",
+      "Die daumengerechte Schnellnavigation unten. In der Einfachen Ansicht: Start, Selbst, Pfad, Üben, Schutz. Mit allen Bereichen: Start, Selbst, Pfad, Welten (Themenwelten), Schutz — mit Scroll und Fokus auf die jeweilige Sektion. „Schutz“ führt zum Scam-Modul; die oberen „Regeln“ führen zum Sicherheits-Coach.",
     whatFor:
       "Auch unterwegs Orientierung behalten, ohne präzise auf kleine Links oben zielen zu müssen.",
     canDo: [
@@ -608,19 +610,19 @@ export const helpTips: HelpTip[] = [
       "„Selbst“ für den Selbstcheck.",
       "„Pfad“ für den 60-Minuten-Weg.",
       "„Üben“ (einfach) oder „Welten“ (voll) — Welten scrollt zu den Themenwelten.",
-      "„Sicher“ für Betrugsschutz.",
+      "„Schutz“ für Betrugsschutz und Scam-Modul.",
     ],
     example:
       "In der Bahn: „Selbst“ → Empfehlung holen → „Pfad“ für die nächste Station → bei Bedarf „Welten“ für eine kurze Vertiefung.",
     mistake:
-      "Untere und obere Navigation für völlig verschiedene Orte halten. Beide führen in denselben Lernraum — unten nur die häufigsten Sprünge.",
+      "„Schutz“ unten mit „Regeln“ oben verwechseln. Beide gehören zur Sicherheit, aber Schutz = Scam-Modul, Regeln = drei Prüfregeln.",
     links: [
       { href: "#erststart", label: "Start" },
       { href: "#selbstcheck", label: "Selbst" },
       { href: "#literacy-pfad", label: "Pfad" },
       { href: "#ziele", label: "Welten" },
       { href: "#wiederholen", label: "Üben" },
-      { href: "#scam", label: "Sicher" },
+      { href: "#scam", label: "Schutz" },
     ],
   },
   {
