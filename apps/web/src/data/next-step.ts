@@ -2,7 +2,8 @@
  * Kanonischer „Nächster Schritt“-Vertrag.
  *
  * Eine Priorität für Heute-Karte, Selbstcheck-Ergebnis, Kurzpfad und Seitenleiste:
- * Einstieg (Selbstcheck) → Kurzpfad-Station → Wiederholen → Lektion → Vertiefen.
+ * Einstieg (Selbstcheck) → Kurzpfad-Station → Wiederholen →
+ * unsichere erledigte Lektion → offene Lektion → Vertiefen.
  * Themenwelten sind Vertiefung, kein paralleler Erst-Einstieg.
  */
 
@@ -101,9 +102,10 @@ function nextLiteracyStation(
  * 1. Selbstcheck (Station 1)
  * 2. Nächste Kurzpfad-Station
  * 3. Fällige Wiederholung
- * 4. Nächste offene Lektion im 12er-Spine
- * 5. Vertiefen (Themenwelten) — nur außerhalb Simple Mode sinnvoll beworben
- * 6. Fertig
+ * 4. Erledigte Lektion mit „Noch unsicher“ (auch mitten im Spine)
+ * 5. Nächste offene Lektion im 12er-Spine
+ * 6. Vertiefen (Themenwelten) — nur außerhalb Simple Mode sinnvoll beworben
+ * 7. Fertig
  */
 export function resolveNextStep(input: NextStepInput): NextStep {
   const {
@@ -172,22 +174,6 @@ export function resolveNextStep(input: NextStepInput): NextStep {
     };
   }
 
-  if (nextOpenLesson) {
-    return {
-      kind: "lesson",
-      layer: "core",
-      eyebrow: "Nächster Schritt",
-      title: nextOpenLesson.title,
-      reason: `Lektion ${nextOpenLesson.order} im Kernpfad · ${nextOpenLesson.estimatedMinutes} Min. · ${completedLessons}/${totalLessons || 12} erledigt.`,
-      primaryLabel: "Heute hier weitermachen",
-      href: `#lesson-${nextOpenLesson.id}`,
-      lessonId: nextOpenLesson.id,
-      microUnitId: null,
-      worldId: null,
-      chipLabel: `Lektion ${nextOpenLesson.order}`,
-    };
-  }
-
   if (nextUnsureLessonId && nextUnsureLessonTitle) {
     return {
       kind: "lesson",
@@ -201,6 +187,22 @@ export function resolveNextStep(input: NextStepInput): NextStep {
       microUnitId: null,
       worldId: null,
       chipLabel: "Nochmal ansehen",
+    };
+  }
+
+  if (nextOpenLesson) {
+    return {
+      kind: "lesson",
+      layer: "core",
+      eyebrow: "Nächster Schritt",
+      title: nextOpenLesson.title,
+      reason: `Lektion ${nextOpenLesson.order} im Kernpfad · ${nextOpenLesson.estimatedMinutes} Min. · ${completedLessons}/${totalLessons || 12} erledigt.`,
+      primaryLabel: "Heute hier weitermachen",
+      href: `#lesson-${nextOpenLesson.id}`,
+      lessonId: nextOpenLesson.id,
+      microUnitId: null,
+      worldId: null,
+      chipLabel: `Lektion ${nextOpenLesson.order}`,
     };
   }
 

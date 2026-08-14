@@ -269,13 +269,17 @@ export default function Home() {
   const activeLessonIndex = activeLesson ? allLessons.findIndex((lesson) => lesson.id === activeLesson.id) : -1;
   const nextLesson = activeLessonIndex >= 0 ? allLessons[activeLessonIndex + 1] ?? null : null;
   const nextOpenLesson = allLessons.find((lesson) => !validCompletedLessonIds.includes(lesson.id)) ?? null;
-  /** Als „Noch unsicher“ markierte Lektion mit der kleinsten Reihenfolge (S-Product-C4). */
+  /** Erledigte + „Noch unsicher“ — kleinste Order (auch mitten im Spine, S-Product-C4). */
   const nextUnsureLesson = useMemo(
     () =>
       allLessons
-        .filter((lesson) => unsureLessonIds.includes(lesson.id))
+        .filter(
+          (lesson) =>
+            unsureLessonIds.includes(lesson.id) &&
+            validCompletedLessonIds.includes(lesson.id),
+        )
         .sort((a, b) => a.order - b.order)[0] ?? null,
-    [allLessons, unsureLessonIds],
+    [allLessons, unsureLessonIds, validCompletedLessonIds],
   );
   const recommendedModule = nextOpenLesson
     ? learningModules.find((module) => module.lessonIds.includes(nextOpenLesson.id)) ?? fallbackModule

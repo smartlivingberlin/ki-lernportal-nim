@@ -27,6 +27,27 @@ assert.match(
   read("apps/web/src/app/page.tsx"),
   /Auto-CTA nur Kernweg-Welten/,
 );
+assert.match(
+  read("apps/web/src/app/page.tsx"),
+  /validCompletedLessonIds\.includes\(lesson\.id\)/,
+);
+const nextStepSource = read("apps/web/src/data/next-step.ts");
+assert.match(nextStepSource, /unsichere erledigte Lektion/);
+assert.match(nextStepSource, /Erledigte Lektion mit „Noch unsicher“/);
+const unsureBranch = nextStepSource.indexOf(
+  "if (nextUnsureLessonId && nextUnsureLessonTitle)",
+);
+const openLessonBranch = nextStepSource.indexOf("if (nextOpenLesson)");
+assert.ok(unsureBranch > 0, "unsure branch missing");
+assert.ok(openLessonBranch > 0, "open-lesson branch missing");
+assert.ok(
+  unsureBranch < openLessonBranch,
+  "unsure mid-path must rank before next open lesson",
+);
+assert.match(
+  read("apps/web/src/components/learning/LessonWorkspace.tsx"),
+  /Noch unsicher — Nächster Schritt erinnert dich/,
+);
 assert.match(read("apps/web/src/data/theme-worlds.ts"), /sortThemeWorldsKernwegFirst/);
 assert.match(read("apps/web/src/data/micro-units.ts"), /nextOpenDeepenMicroUnit/);
 assert.match(
