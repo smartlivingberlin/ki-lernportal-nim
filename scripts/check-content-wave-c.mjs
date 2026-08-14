@@ -45,6 +45,20 @@ assert.match(work, /mu-work-12/);
 const worlds = read("apps/web/src/data/theme-worlds.ts");
 assert.match(worlds, /id: "world-chat-prompting"[\s\S]*estimatedUnits: 12/);
 assert.match(worlds, /id: "world-work-life"[\s\S]*estimatedUnits: 12/);
+assert.match(worlds, /oft RAG genannt/);
+assert.match(worlds, /Leitplanken verstehen/);
+assert.match(worlds, /Freigabe durch Menschen/);
+assert.doesNotMatch(worlds, /\bMCP\b/);
+assert.doesNotMatch(worlds, /Human-in-the-loop/);
+assert.doesNotMatch(worlds, /Ich will RAG,/);
+assert.doesNotMatch(worlds, /"RAG grob erklären"/);
+assert.doesNotMatch(worlds, /"Guardrails verstehen"/);
+
+const glossary = read("apps/web/src/data/glossary.ts");
+assert.match(glossary, /term: 'Leitplanke'/);
+assert.match(glossary, /Rechenprogramm hinter einem Chat/);
+assert.doesNotMatch(glossary, /term: 'Guardrail'/);
+assert.doesNotMatch(glossary, /„Engine“/);
 
 assert.match(read("apps/web/src/data/review-cards.ts"), /rev-prompt-02/);
 assert.match(read("apps/web/src/data/review-cards.ts"), /rev-nofear-02/);
