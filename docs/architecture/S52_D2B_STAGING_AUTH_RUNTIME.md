@@ -83,11 +83,37 @@ AUTH_RUNTIME_FLAG_FLIP_PRODUCTION=NO
 ```text
 S52_STAGING_AUTH_SEED_AUTHORIZED=YES
 HUMAN_FREIGABE_D_STAGING_AUTH_SEED=YES
+HUMAN_FREIGABE_ABCD_AT=2026-08-13
 BOOTSTRAP_CREDENTIALS_IN_REPO=NO
 AUTH_RUNTIME_FLAG_FLIP_PRODUCTION=NO
 PRODUCTION_USERS=NO
-S52_STAGING_AUTH_SEED_IMPLEMENTED=NO
+S52_STAGING_AUTH_SEED_IMPLEMENTED=YES
+S52_STAGING_AUTH_SEED_STORE=MEMORY
 ```
 
-Umsetzung erfolgt in einem eigenen PR (Memory-Bootstrap hinter Staging-Env-Variablen,
-kein Secret im Repo, kein Production-Flip).
+### Operator-Schritte (manuell, Staging-Dashboard)
+
+1. Hash lokal erzeugen (Klartext nicht committen):
+
+```bash
+pnpm hash:staging-bootstrap-password
+# → nim-scrypt-v1$…  (nur in Railway Staging Variables eintragen)
+```
+
+2. Staging-Variables setzen (nicht Production, nicht Git):
+
+```text
+AUTH_RUNTIME=true
+STAGING_BOOTSTRAP_EMAIL=<operator-email>
+STAGING_BOOTSTRAP_PASSWORD_HASH=<nim-scrypt-v1-hash>
+STAGING_BOOTSTRAP_SUBJECT_ID=staging-bootstrap
+STAGING_BOOTSTRAP_ROLE=Learner
+```
+
+3. Staging redeployen. Production bleibt ohne `AUTH_RUNTIME` und ohne Bootstrap-Vars.
+
+4. Prüfen: Staging-Login mit Bootstrap-User → `200`; unbekannter User → `401`;
+   Production-Login → weiterhin `403 FEATURE_DISABLED`.
+
+Privileged Roles (`Admin`/`Owner`) werden vom Seed-Parser abgelehnt.
+Production-ähnliche `APP_ENV` / `RAILWAY_ENVIRONMENT_NAME` verhindern den Seed.

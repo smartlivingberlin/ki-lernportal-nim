@@ -5,6 +5,7 @@
   ],
   "exclude": [
     "src/**/*.test.ts",
-    "src/connection-proof.ts"
+    "src/connection-proof.ts",
+    "src/local-migrate.ts"
   ]
 }

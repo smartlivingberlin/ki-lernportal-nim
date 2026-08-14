@@ -69,7 +69,11 @@ S51B-C2 darf eine disposable lokale MySQL-Testdatenbank starten, die
 eingecheckte Migration anwenden und Constraints prüfen.
 
 `drizzle-kit push`, Seeds, Railway-Datenbanken und Produktionsmigrationen
-bleiben gesperrt, bis ausdrücklich freigegeben.
+bleiben gesperrt.
+
+Freigabe C (2026-08-13): Lokaler Migrate-Helper
+`pnpm migrate:s51b-c-local` wendet nur die committed SQL-Datei gegen
+`ki_nim_s51bc_*` auf localhost an.
 
 ## Sicherheit und Datenschutz
 

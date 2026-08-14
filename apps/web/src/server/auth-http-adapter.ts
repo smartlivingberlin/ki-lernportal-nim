@@ -1,7 +1,7 @@
 /**
- * S52-D1 – Composition adapter for Auth HTTP handlers.
+ * S52-D1 / Freigabe D – Composition adapter for Auth HTTP handlers.
  * auth_runtime stays false unless AUTH_RUNTIME=true (explicit opt-in).
- * Does not seed production users.
+ * Optional staging memory bootstrap from env (hash only); never production users.
  */
 
 import {
@@ -16,6 +16,7 @@ import {
   isFeatureEnabled,
   resolveFeatureFlags,
 } from "@ki-lernportal-nim/contracts";
+import { readStagingBootstrapCredentials } from "./staging-auth-seed";
 
 let handlers: AuthHttpHandlers | null = null;
 
@@ -23,13 +24,20 @@ function readAuthRuntimeOverride(): boolean {
   return process.env.AUTH_RUNTIME === "true";
 }
 
+export {
+  isProductionLikeAuthEnvironment,
+  readStagingBootstrapCredentials,
+} from "./staging-auth-seed";
+
 export function getAuthHttpHandlers(): AuthHttpHandlers {
   if (handlers) {
     return handlers;
   }
 
   const runtime = createSessionRuntime(createMemorySessionStore());
-  const credentials = createMemoryCredentialStore([]);
+  const credentials = createMemoryCredentialStore(
+    readStagingBootstrapCredentials(process.env),
+  );
 
   handlers = createAuthHttpHandlers({
     runtime,
