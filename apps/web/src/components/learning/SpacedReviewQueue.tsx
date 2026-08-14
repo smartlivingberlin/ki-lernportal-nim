@@ -153,6 +153,9 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
                     </button>
                   ))}
                 </div>
+                <p className="mt-2 text-xs font-semibold leading-5 text-[var(--nim-secondary)]">
+                  Wird in diesem Browser gespeichert und steuert, wann die Karte wieder kommt.
+                </p>
               </fieldset>
             </div>
           )}
