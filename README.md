@@ -103,6 +103,8 @@ Live-Probe 2026-08-13: Production und Staging melden Build-SHA
 Menschliche Freigabe A–D (2026-08-13): Connection-Proof, lokale Schema/Migration,
 Staging-Auth-Seed — Umsetzung in Folge-PRs; Production-Auth/Railway-DB gesperrt.
 S52-D2b: Staging `AUTH_RUNTIME` HTTP-verifiziert (Login-Formular + `401`);
+Freigabe D: optionaler Staging-Memory-Seed über `STAGING_BOOTSTRAP_*`
+(Hash only, keine Secrets im Repo, Production unverändert).
 Production bewusst `403 FEATURE_DISABLED`.
 
 Vor jeder weiteren Production-Änderung erneut read-only im Dashboard prüfen.
