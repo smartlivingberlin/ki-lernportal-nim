@@ -903,7 +903,7 @@ export default function Home() {
 
         <aside
           id="coach"
-          aria-labelledby="coach-title"
+          aria-label="Sicherheits-Coach, nächste Lektion, Quellen und Begriffe"
           className="min-w-0 scroll-mt-72 space-y-5 sm:scroll-mt-64 lg:scroll-mt-36 xl:col-start-3 xl:row-start-1 xl:sticky xl:top-32 xl:max-h-[calc(100vh-9.5rem)] xl:self-start xl:overflow-y-auto xl:pb-1 xl:pr-1"
         >
           <section
