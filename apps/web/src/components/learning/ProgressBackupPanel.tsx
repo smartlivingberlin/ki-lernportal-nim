@@ -7,11 +7,17 @@ import {
   countBackupItems,
   parseProgressBackup,
   serializeProgressBackup,
+  type ProgressBackupV1,
 } from "../../lib/local-progress-backup";
 import { explainAttrs } from "../../data/help-tips";
 
 type ProgressBackupPanelProps = {
   onApplied?: (summary: string) => void;
+};
+
+type PendingImport = {
+  backup: ProgressBackupV1;
+  count: number;
 };
 
 /**
@@ -23,6 +29,7 @@ export function ProgressBackupPanel({ onApplied }: ProgressBackupPanelProps) {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [pendingImport, setPendingImport] = useState<PendingImport | null>(null);
 
   useEffect(() => {
     const focusIfTargeted = () => {
@@ -35,8 +42,15 @@ export function ProgressBackupPanel({ onApplied }: ProgressBackupPanelProps) {
     return () => window.removeEventListener("hashchange", focusIfTargeted);
   }, []);
 
+  const clearFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const handleExport = () => {
     setError(null);
+    setPendingImport(null);
     try {
       const backup = buildProgressBackupFromStorage(window.localStorage);
       const blob = new Blob([serializeProgressBackup(backup)], {
@@ -67,6 +81,7 @@ export function ProgressBackupPanel({ onApplied }: ProgressBackupPanelProps) {
   const handleImportFile = async (file: File | undefined) => {
     setError(null);
     setStatus(null);
+    setPendingImport(null);
     if (!file) return;
 
     try {
@@ -76,18 +91,34 @@ export function ProgressBackupPanel({ onApplied }: ProgressBackupPanelProps) {
         setError(parsed.error);
         return;
       }
-      applyProgressBackupToStorage(parsed.value, window.localStorage);
-      const count = countBackupItems(parsed.value);
-      const message = `Lokaler Stand wiederhergestellt (${count} Einträge).`;
-      setStatus(message);
-      onApplied?.(message);
+      setPendingImport({
+        backup: parsed.value,
+        count: countBackupItems(parsed.value),
+      });
     } catch {
       setError("Datei konnte nicht gelesen werden.");
     } finally {
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
+      clearFileInput();
     }
+  };
+
+  const cancelPendingImport = () => {
+    setPendingImport(null);
+    setStatus("Laden abgebrochen — aktueller Stand bleibt unverändert.");
+  };
+
+  const confirmPendingImport = () => {
+    if (!pendingImport) return;
+    applyProgressBackupToStorage(pendingImport.backup, window.localStorage);
+    const { count } = pendingImport;
+    const message =
+      count === 0
+        ? "Leere Sicherungsdatei übernommen — lokaler Stand ist jetzt leer."
+        : `Lokaler Stand wiederhergestellt (${count} Einträge).`;
+    setPendingImport(null);
+    setError(null);
+    setStatus(message);
+    onApplied?.(message);
   };
 
   return (
@@ -126,6 +157,8 @@ export function ProgressBackupPanel({ onApplied }: ProgressBackupPanelProps) {
         <button
           type="button"
           data-testid="progress-backup-import"
+          aria-expanded={Boolean(pendingImport)}
+          aria-controls="progress-backup-import-confirm"
           onClick={() => fileInputRef.current?.click()}
           className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface-soft)] px-3 py-2 text-xs font-black text-[var(--nim-primary)]"
         >
@@ -143,6 +176,53 @@ export function ProgressBackupPanel({ onApplied }: ProgressBackupPanelProps) {
             void handleImportFile(event.target.files?.[0]);
           }}
         />
+      </div>
+
+      <div id="progress-backup-import-confirm">
+        {pendingImport ? (
+          <div
+            role="group"
+            aria-labelledby="progress-backup-import-title"
+            data-testid="progress-backup-import-confirm"
+            className="mt-3 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface-soft)] p-3"
+          >
+            <p
+              id="progress-backup-import-title"
+              className="text-sm font-black text-[var(--nim-primary)]"
+            >
+              Sicherungsdatei wirklich laden?
+            </p>
+            <p className="mt-1 text-xs font-medium leading-5 text-[var(--nim-secondary)]">
+              {pendingImport.count === 0
+                ? "Die Datei enthält 0 Einträge und würde den aktuellen Stand in diesem Browser leeren."
+                : `Die Datei enthält ${pendingImport.count} Einträge und ersetzt den aktuellen Stand in diesem Browser.`}
+            </p>
+            <p className="mt-2 text-xs font-medium leading-5 text-[var(--nim-secondary)]">
+              Betroffen: Lektions-Haken, Vertiefungs-Einheiten, Kurzpfad, Wiederholen,
+              „Noch unsicher“ und Selbstcheck. Das lässt sich nicht rückgängig machen —
+              lade vorher „Herunterladen“, falls du den jetzigen Stand behalten willst.
+              Kein Konto, kein Server.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button
+                type="button"
+                data-testid="progress-backup-import-cancel"
+                onClick={cancelPendingImport}
+                className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface)] px-3 py-2 text-xs font-black text-[var(--nim-primary)]"
+              >
+                Abbrechen
+              </button>
+              <button
+                type="button"
+                data-testid="progress-backup-import-confirm-yes"
+                onClick={confirmPendingImport}
+                className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-3 py-2 text-xs font-black text-white"
+              >
+                Ja, Stand ersetzen
+              </button>
+            </div>
+          </div>
+        ) : null}
       </div>
 
       {status ? (
