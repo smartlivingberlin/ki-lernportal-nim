@@ -29,6 +29,14 @@ export function buildLessonShareUrl(
   return `${location.pathname}${query ? `?${query}` : ""}`;
 }
 
+/** Absolute Teil-URL für Zwischenablage (Origin + `?lesson=`). */
+export function buildAbsoluteLessonShareUrl(
+  location: { origin: string; pathname: string; search: string },
+  lessonId: string,
+): string {
+  return `${location.origin}${buildLessonShareUrl(location, lessonId)}`;
+}
+
 /** Aktualisiert die Adressleiste ohne Reload (history.replaceState). */
 export function updateLessonUrl(lessonId: string): void {
   if (typeof window === "undefined" || typeof history === "undefined") return;
