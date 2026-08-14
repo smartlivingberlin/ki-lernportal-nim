@@ -123,9 +123,17 @@ export function MicroLearningUnitView({
           value={teachBack}
           onChange={(event) => setTeachBack(event.target.value.slice(0, 1000))}
           rows={3}
+          aria-describedby={`${baseId}-teachback-note`}
           className="mt-3 w-full rounded-[var(--nim-radius-md)] border-2 border-[var(--nim-border)] bg-[var(--nim-surface)] px-4 py-3 text-sm leading-6 outline-none focus:border-[var(--nim-focus)] focus:ring-4 focus:ring-[color:rgb(10_92_122/0.15)]"
           placeholder="In Alltagssprache…"
         />
+        <p
+          id={`${baseId}-teachback-note`}
+          data-testid="micro-teachback-ephemeral-note"
+          className="mt-2 text-xs font-semibold leading-5 text-[var(--nim-secondary)]"
+        >
+          Nur für diese Ansicht — nicht gesendet, nicht in der Sicherung, nach Reload weg.
+        </p>
       </div>
 
       <fieldset className="mt-5">

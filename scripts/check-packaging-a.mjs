@@ -73,14 +73,20 @@ const challenge = read(
   "apps/web/src/components/learning/InteractiveChallengeCard.tsx",
 );
 assert.match(challenge, /data-testid="challenge-confidence-ephemeral-note"/);
+assert.match(challenge, /data-testid="challenge-teachback-ephemeral-note"/);
 assert.match(challenge, /Nur für diese Ansicht/);
+assert.match(challenge, /nicht in der Sicherung/);
+assert.match(challenge, /aria-describedby=\{`\$\{baseId\}-teachback-note`\}/);
 assert.match(challenge, /href="#wiederholen"/);
 
 const microUnit = read(
   "apps/web/src/components/learning/MicroLearningUnitView.tsx",
 );
 assert.match(microUnit, /data-testid="micro-confidence-ephemeral-note"/);
+assert.match(microUnit, /data-testid="micro-teachback-ephemeral-note"/);
 assert.match(microUnit, /Nur für diese Ansicht/);
+assert.match(microUnit, /nicht in der Sicherung/);
+assert.match(microUnit, /aria-describedby=\{`\$\{baseId\}-teachback-note`\}/);
 assert.match(microUnit, /href="#wiederholen"/);
 
 assert.match(read("apps/web/src/app/page.tsx"), /revealWorlds/);
