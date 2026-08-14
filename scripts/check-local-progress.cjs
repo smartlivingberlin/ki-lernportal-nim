@@ -409,7 +409,7 @@ const phases = {
     await page.getByRole("button", { name: "Fortschritt zurücksetzen" }).click();
     await expectExactText(page, "Haken an den 12 Lektionen");
     await expectExactText(page, "Vertiefungs-Einheiten (Themenwelten)");
-    await expectExactText(page, "Wiederholungs-Queue (Übungskarten)");
+    await expectExactText(page, "Wiederholungs-Übungen (Karten und Einschätzungen)");
     console.log("PACKAGING_A_HONEST_RESET_COPY_OK=YES");
   },
 

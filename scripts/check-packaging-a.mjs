@@ -30,7 +30,7 @@ const reset = read("apps/web/src/components/learning/ResetProgressConfirm.tsx");
 assert.match(reset, /Haken an den 12 Lektionen/);
 assert.match(reset, /Vertiefungs-Einheiten/);
 assert.match(reset, /60-Minuten-Kurzpfads/);
-assert.match(reset, /Wiederholungs-Queue/);
+assert.match(reset, /Wiederholungs-Übungen/);
 
 const explain = read("apps/web/src/components/learning/CursorExplainLayer.tsx");
 assert.match(explain, /hoverExplainEnabled/);
@@ -51,6 +51,23 @@ const literacyPanel = read(
 assert.match(literacyPanel, /ResetProgressConfirm/);
 assert.match(literacyPanel, /data-testid="literacy-path-reset"/);
 assert.match(literacyPanel, /Kurzpfad wirklich zurücksetzen/);
+
+const spacedReview = read(
+  "apps/web/src/components/learning/SpacedReviewQueue.tsx",
+);
+assert.match(spacedReview, /ResetProgressConfirm/);
+assert.match(spacedReview, /data-testid="spaced-review-reset"/);
+assert.match(spacedReview, /Übungen zurücksetzen/);
+assert.match(spacedReview, /Wiederholungs-Übungen wirklich zurücksetzen/);
+assert.doesNotMatch(spacedReview, /Queue zurücksetzen/);
+assert.doesNotMatch(spacedReview, /Confidence-Einträge/);
+
+const selfCheck = read("apps/web/src/components/learning/SelfCheckPanel.tsx");
+assert.match(selfCheck, /ResetProgressConfirm/);
+assert.match(selfCheck, /data-testid="self-check-reset"/);
+assert.match(selfCheck, /Selbstcheck wirklich zurücksetzen/);
+assert.match(selfCheck, /unmark\("lit-selfcheck"\)/);
+assert.doesNotMatch(selfCheck, /onClick=\{reset\}/);
 
 assert.match(read("apps/web/src/app/page.tsx"), /revealWorlds/);
 assert.match(read("apps/web/src/app/page.tsx"), /worldsFocusToken/);

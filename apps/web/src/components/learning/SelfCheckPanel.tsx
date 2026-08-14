@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { themeWorlds } from "../../data/theme-worlds";
 import {
   scoreSelfCheck,
@@ -9,6 +9,7 @@ import {
 } from "../../data/self-check";
 import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
+import { ResetProgressConfirm } from "./ResetProgressConfirm";
 import { useLiteracyPathProgress } from "../../hooks/useLiteracyPathProgress";
 import { useSelfCheckProgress } from "../../hooks/useSelfCheckProgress";
 
@@ -24,7 +25,8 @@ export function SelfCheckPanel({
 }: SelfCheckPanelProps) {
   const { answers, submitted, recommendedWorldId, setAnswer, submit, reset } =
     useSelfCheckProgress();
-  const { markComplete } = useLiteracyPathProgress();
+  const { markComplete, unmark } = useLiteracyPathProgress();
+  const [resetOpen, setResetOpen] = useState(false);
 
   const answeredCount = Object.keys(answers).length;
   const complete = answeredCount === selfCheckQuestions.length;
@@ -40,6 +42,12 @@ export function SelfCheckPanel({
     const result = scoreSelfCheck(answers);
     submit(result[0]?.worldId ?? null);
     markComplete("lit-selfcheck");
+  };
+
+  const confirmReset = () => {
+    reset();
+    unmark("lit-selfcheck");
+    setResetOpen(false);
   };
 
   // Nach einem Reload eine bereits gespeicherte Empfehlung erneut anwenden,
@@ -121,11 +129,28 @@ export function SelfCheckPanel({
         </button>
         <button
           type="button"
+          data-testid="self-check-reset"
+          aria-expanded={resetOpen}
+          aria-controls="self-check-reset-confirm"
           className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-4 text-sm font-black text-[var(--nim-primary)]"
-          onClick={reset}
+          onClick={() => setResetOpen(true)}
         >
-          Zurücksetzen
+          Antworten zurücksetzen
         </button>
+      </div>
+      <div id="self-check-reset-confirm">
+        <ResetProgressConfirm
+          open={resetOpen}
+          onCancel={() => setResetOpen(false)}
+          onConfirm={confirmReset}
+          titleId="self-check-reset-title"
+          title="Selbstcheck wirklich zurücksetzen?"
+          items={[
+            "Antworten und Empfehlung aus dem Selbstcheck",
+            "Erledigt-Markierung der Kurzpfad-Station „Selbstcheck“",
+          ]}
+          backupLinkTestId="self-check-reset-backup-link"
+        />
       </div>
 
       {submitted && topWorld ? (

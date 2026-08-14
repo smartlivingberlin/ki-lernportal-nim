@@ -17,7 +17,7 @@ const DEFAULT_ITEMS = [
   "Haken an den 12 Lektionen",
   "Erledigt-Markierungen an Vertiefungs-Einheiten (Themenwelten)",
   "Stationen des 60-Minuten-Kurzpfads",
-  "Wiederholungs-Queue (Übungskarten)",
+  "Wiederholungs-Übungen (Karten und Einschätzungen)",
   "„Noch unsicher“-Markierungen an Lektionen",
   "Antworten und Empfehlung aus dem Selbstcheck",
 ];

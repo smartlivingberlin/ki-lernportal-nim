@@ -6,6 +6,7 @@ import { useLocalReviewQueue } from "../../hooks/useLocalReviewQueue";
 import type { ConfidenceLevel } from "../../data/types";
 import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
+import { ResetProgressConfirm } from "./ResetProgressConfirm";
 
 /**
  * Lokale Spaced-Review-Queue auf kuratierter Karten-"Datenbank" mit Quellenangaben.
@@ -15,6 +16,7 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
   const { entries, totalCards, cards, recordConfidence, resetQueue } =
     useLocalReviewQueue();
   const [revealed, setRevealed] = useState(false);
+  const [resetOpen, setResetOpen] = useState(false);
   const [nowMs, setNowMs] = useState(() => Date.now());
 
   const dueCards = useMemo(
@@ -39,6 +41,13 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
     recordConfidence(card.id, level, stamped);
     setNowMs(stamped);
     setRevealed(false);
+  };
+
+  const confirmReset = () => {
+    resetQueue();
+    setNowMs((value) => value + 1);
+    setRevealed(false);
+    setResetOpen(false);
   };
 
   return (
@@ -76,7 +85,7 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
 
       {!card ? (
         <p className="mt-5 rounded-[var(--nim-radius-md)] bg-[var(--nim-success-soft)] p-4 text-sm font-bold text-[var(--nim-success)]">
-          Gerade ist nichts fällig. Komm später wieder — oder setze die Queue zurück, um erneut zu üben.
+          Gerade ist nichts fällig. Komm später wieder — oder setze die Übungen zurück, um erneut zu starten.
         </p>
       ) : (
         <div className="mt-5 rounded-[var(--nim-radius-lg)] bg-[var(--nim-surface-soft)] p-4">
@@ -153,15 +162,27 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
       <div className="mt-4 flex flex-wrap gap-2">
         <button
           type="button"
-          onClick={() => {
-            resetQueue();
-            setNowMs((value) => value + 1);
-            setRevealed(false);
-          }}
+          data-testid="spaced-review-reset"
+          aria-expanded={resetOpen}
+          aria-controls="spaced-review-reset-confirm"
+          onClick={() => setResetOpen(true)}
           className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-4 text-xs font-black text-[var(--nim-primary)]"
         >
-          Queue zurücksetzen
+          Übungen zurücksetzen
         </button>
+      </div>
+      <div id="spaced-review-reset-confirm">
+        <ResetProgressConfirm
+          open={resetOpen}
+          onCancel={() => setResetOpen(false)}
+          onConfirm={confirmReset}
+          titleId="spaced-review-reset-title"
+          title="Wiederholungs-Übungen wirklich zurücksetzen?"
+          items={[
+            "Wiederholungs-Übungen (Karten und Einschätzungen)",
+          ]}
+          backupLinkTestId="spaced-review-reset-backup-link"
+        />
       </div>
     </section>
   );
