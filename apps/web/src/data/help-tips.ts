@@ -108,18 +108,19 @@ export const helpTips: HelpTip[] = [
   {
     id: "heute",
     label: "Nächster Schritt",
-    short: "Eine gemeinsame Empfehlung: Selbstcheck → Kurzpfad → Wiederholen → Lektion → Vertiefen.",
+    short: "Eine gemeinsame Empfehlung: Selbstcheck → Kurzpfad → Wiederholen → Nochmal ansehen → Lektion → Vertiefen.",
     whatIs:
-      "Die Heute-Karte folgt dem Portal-Vertrag „Nächster Schritt“. Kein Cloud-Algorithmus — nur dein lokaler Stand (Kurzpfad, Wiederholen, Lektionen).",
+      "Die Heute-Karte folgt dem Portal-Vertrag „Nächster Schritt“. Kein Cloud-Algorithmus — nur dein lokaler Stand (Kurzpfad, Wiederholen, Lektionen, „Noch unsicher“).",
     whatFor:
       "Eine Handlung statt vieler Türen. Dieselbe Priorität wie Kurzpfad und Seitenleiste.",
     canDo: [
       "Den vorgeschlagenen Schritt antippen.",
       "Im Kurzpfad dieselbe Station wiederfinden.",
+      "„Noch unsicher“ an einer erledigten Lektion setzen — der Nächste Schritt erinnert dich auch mitten im Pfad.",
       "Themenwelten erst als Vertiefung nutzen — nicht als parallelen Start.",
     ],
     example:
-      "Neu: „Selbstcheck machen“. Nach dem Check: nächste Kurzpfad-Station. Später: Lektion oder Wiederholen.",
+      "Neu: „Selbstcheck machen“. Nach dem Check: nächste Kurzpfad-Station. Später: Wiederholen, Nochmal ansehen oder nächste Lektion.",
     mistake:
       "Die Karte ignorieren und in alle Welten springen. Dann wirkt das Portal wieder überfordernd.",
     links: [
@@ -488,7 +489,7 @@ export const helpTips: HelpTip[] = [
     label: "Nächster Schritt",
     short: "Dieselbe Empfehlung wie die Heute-Karte — aus dem Portal-Vertrag.",
     whatIs:
-      "Seitenleisten-Spiegel der Heute-Karte. Priorität: Selbstcheck → Kurzpfad → Wiederholen → Lektion → Vertiefen.",
+      "Seitenleisten-Spiegel der Heute-Karte. Priorität: Selbstcheck → Kurzpfad → Wiederholen → Nochmal ansehen → Lektion → Vertiefen.",
     whatFor:
       "Auch beim Scrollen im Coach-Bereich denselben nächsten Schritt sehen.",
     canDo: [

@@ -193,7 +193,7 @@ export function LessonWorkspace({
                   : "border-[var(--nim-border)] bg-[var(--nim-surface)] text-[var(--nim-primary)] hover:border-[var(--nim-primary)]"
               }`}
             >
-              {unsure ? "Nicht mehr unsicher" : "Noch unsicher — später wiederholen"}
+              {unsure ? "Nicht mehr unsicher" : "Noch unsicher — Nächster Schritt erinnert dich"}
             </button>
 
             {nextLesson && (
