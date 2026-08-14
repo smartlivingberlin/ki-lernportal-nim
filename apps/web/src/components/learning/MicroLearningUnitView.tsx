@@ -154,6 +154,19 @@ export function MicroLearningUnitView({
             </button>
           ))}
         </div>
+        <p
+          data-testid="micro-confidence-ephemeral-note"
+          className="mt-2 text-xs font-semibold leading-5 text-[var(--nim-secondary)]"
+        >
+          Nur für diese Ansicht — nach Reload weg. Dauerhaft üben unter{" "}
+          <a
+            href="#wiederholen"
+            className="font-black text-[var(--nim-primary)] underline underline-offset-2"
+          >
+            Wiederholen
+          </a>
+          .
+        </p>
       </fieldset>
 
       {sources.length > 0 ? (

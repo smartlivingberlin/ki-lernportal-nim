@@ -69,6 +69,20 @@ assert.match(selfCheck, /Selbstcheck wirklich zurücksetzen/);
 assert.match(selfCheck, /unmark\("lit-selfcheck"\)/);
 assert.doesNotMatch(selfCheck, /onClick=\{reset\}/);
 
+const challenge = read(
+  "apps/web/src/components/learning/InteractiveChallengeCard.tsx",
+);
+assert.match(challenge, /data-testid="challenge-confidence-ephemeral-note"/);
+assert.match(challenge, /Nur für diese Ansicht/);
+assert.match(challenge, /href="#wiederholen"/);
+
+const microUnit = read(
+  "apps/web/src/components/learning/MicroLearningUnitView.tsx",
+);
+assert.match(microUnit, /data-testid="micro-confidence-ephemeral-note"/);
+assert.match(microUnit, /Nur für diese Ansicht/);
+assert.match(microUnit, /href="#wiederholen"/);
+
 assert.match(read("apps/web/src/app/page.tsx"), /revealWorlds/);
 assert.match(read("apps/web/src/app/page.tsx"), /worldsFocusToken/);
 
