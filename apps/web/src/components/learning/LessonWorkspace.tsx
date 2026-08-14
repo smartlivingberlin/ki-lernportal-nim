@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { microUnitForLesson } from "../../data/micro-units";
 import { practiceByLessonId } from "../../data/practice";
 import type { Lesson, Source } from "../../data/types";
@@ -20,6 +20,11 @@ type LessonWorkspaceProps = {
   onOpenLesson: (lessonId: string) => void;
 };
 
+type ShareFeedback = {
+  lessonId: string;
+  status: "copied" | "failed";
+};
+
 export function LessonWorkspace({
   lesson,
   sources,
@@ -30,18 +35,14 @@ export function LessonWorkspace({
   onToggleUnsure,
   onOpenLesson,
 }: LessonWorkspaceProps) {
-  const [shareStatus, setShareStatus] = useState<"idle" | "copied" | "failed">(
-    "idle",
-  );
+  const [shareFeedback, setShareFeedback] = useState<ShareFeedback | null>(null);
+  const shareStatus =
+    shareFeedback?.lessonId === lesson.id ? shareFeedback.status : "idle";
   const practice =
     practiceByLessonId[
       lesson.id as keyof typeof practiceByLessonId
     ];
   const microUnit = microUnitForLesson(lesson.id);
-
-  useEffect(() => {
-    setShareStatus("idle");
-  }, [lesson.id]);
 
   const explainText = microUnit
     ? [
@@ -62,20 +63,27 @@ export function LessonWorkspace({
 
   const copyLessonLink = async () => {
     if (typeof window === "undefined") return;
-    const url = buildAbsoluteLessonShareUrl(window.location, lesson.id);
+    const lessonId = lesson.id;
+    const url = buildAbsoluteLessonShareUrl(window.location, lessonId);
     try {
       await navigator.clipboard.writeText(url);
-      setShareStatus("copied");
-      window.setTimeout(
-        () => setShareStatus((current) => (current === "copied" ? "idle" : current)),
-        2000,
-      );
+      setShareFeedback({ lessonId, status: "copied" });
+      window.setTimeout(() => {
+        setShareFeedback((current) =>
+          current?.lessonId === lessonId && current.status === "copied"
+            ? null
+            : current,
+        );
+      }, 2000);
     } catch {
-      setShareStatus("failed");
-      window.setTimeout(
-        () => setShareStatus((current) => (current === "failed" ? "idle" : current)),
-        3000,
-      );
+      setShareFeedback({ lessonId, status: "failed" });
+      window.setTimeout(() => {
+        setShareFeedback((current) =>
+          current?.lessonId === lessonId && current.status === "failed"
+            ? null
+            : current,
+        );
+      }, 3000);
     }
   };
 
