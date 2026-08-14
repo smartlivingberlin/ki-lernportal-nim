@@ -246,7 +246,7 @@ Vorhanden sind:
   Konfiguration, Lazy Initialization sowie Fake- und Unit-Tests;
 - zwölf strukturierte Anfängerlektionen;
 - lokale Suche und lokaler Lernfortschritt;
-- zwölf Übungen und 36 Selbstprüfungsfragen;
+- zwölf Übungen und 36 Selbstprüfungsfragen sowie 37 interaktive Challenges;
 - Content-, Quellen-, Accessibility-, Governance- und Supply-Chain-Gates;
 - ein reproduzierbarer Next.js-Standalone-Build;
 - eine öffentlich erreichbare Railway-Konzeptdemo.
@@ -255,23 +255,27 @@ Die Konzeptdemo ist kein Nachweis für vollständige Produktionsreife.
 
 ## 3. Noch nicht vorhanden oder nicht freigegeben
 
-Nicht vorhanden oder nicht freigegeben sind insbesondere:
+**Integriert, aber nicht produktiv live** (Code/Staging-Gating, keine Prod-Nutzung):
 
-- produktive Benutzerkonten;
-- eine echte produktive MySQL-/Drizzle-Verbindung;
-- Tabellen, kanonisches Schema, Migrationen und Seeds;
-- widerrufbare Serversitzungen;
-- Rollen-, Scope- und Ownership-Persistenz;
-- ein Admin- und Publikationssystem;
+- lokales Pilot-Schema + disposable Migrate/Connection-Proof (Freigabe B/C);
+- Login-UI `/anmelden` und Auth-Routen hinter `AUTH_RUNTIME` (Staging optional an, Production aus);
+- isoliertes Railway-Staging als Concept-Demo-Twin (ohne Railway-DB).
+
+**Nicht vorhanden oder nicht freigegeben** bleiben insbesondere:
+
+- produktive Benutzerkonten / Production-Auth-Flag;
+- Railway-/Production-MySQL und Live-Migrate;
+- widerrufbare DB-Sessions und Ownership-Persistenz;
+- Admin- und Publikationssystem;
 - serverseitiger Lernfortschritt;
 - Hintergrundworker oder Transactional Outbox;
 - serverseitige Search-Laufzeit;
 - produktive KI-/RAG-Laufzeit;
-- isoliertes Railway-Staging;
-- kontinuierliches Monitoring;
-- Backup-/Restore-Nachweis;
+- kontinuierliches Monitoring / Backup-Restore-Nachweis;
 - Payment, B2B, Multi-Tenant oder White Label;
-- ein freigegebener Production-Deploy-Ablauf.
+- ein freigegebener Production-Deploy-Ablauf jenseits der Concept-Demo.
+
+Lernfortschritt der Concept-Demo bleibt **browser-lokal** (`localStorage` + Sicherungsdatei).
 
 ## 4. Integrierte Architektur- und Plattformschritte
 
