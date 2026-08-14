@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import {
+  buildAbsoluteLessonShareUrl,
   buildLessonShareUrl,
   readLessonIdFromLocation,
 } from "./lesson-share-url.ts";
@@ -34,6 +35,18 @@ assert.equal(
 assert.equal(
   buildLessonShareUrl({ pathname: "/", search: "?lesson=l1" }, "l8"),
   "/?lesson=l8",
+);
+
+assert.equal(
+  buildAbsoluteLessonShareUrl(
+    {
+      origin: "https://web-production-51d3c8.up.railway.app",
+      pathname: "/",
+      search: "",
+    },
+    "l8",
+  ),
+  "https://web-production-51d3c8.up.railway.app/?lesson=l8",
 );
 
 console.log("LESSON_SHARE_URL_SELF_TEST=PASS");

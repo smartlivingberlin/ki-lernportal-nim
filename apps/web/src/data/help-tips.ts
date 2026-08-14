@@ -331,6 +331,7 @@ export const helpTips: HelpTip[] = [
       "Die Mini-Übung wirklich ausfüllen.",
       "Unklare Wörter im Glossar nachschlagen.",
       "Als erledigt markieren und zur nächsten offenen Lektion gehen.",
+      "„Link kopieren“ — teilt nur den Lektions-Link, keinen Lernstand und kein Konto.",
     ],
     example:
       "Lektion „Was ist KI?“ lesen → kurze Übung → Haken setzen → der Pfad zeigt den nächsten Schritt.",

@@ -48,6 +48,16 @@ assert.match(
   read("apps/web/src/components/learning/LessonWorkspace.tsx"),
   /Noch unsicher — Nächster Schritt erinnert dich/,
 );
+const lessonWorkspace = read(
+  "apps/web/src/components/learning/LessonWorkspace.tsx",
+);
+assert.match(lessonWorkspace, /data-testid="lesson-share-copy"/);
+assert.match(lessonWorkspace, /buildAbsoluteLessonShareUrl/);
+assert.match(lessonWorkspace, /Kein Konto, kein Fortschritt/);
+assert.match(
+  read("apps/web/src/lib/lesson-share-url.ts"),
+  /buildAbsoluteLessonShareUrl/,
+);
 assert.match(read("apps/web/src/data/theme-worlds.ts"), /sortThemeWorldsKernwegFirst/);
 assert.match(read("apps/web/src/data/micro-units.ts"), /nextOpenDeepenMicroUnit/);
 assert.match(

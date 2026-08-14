@@ -1,6 +1,10 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { microUnitForLesson } from "../../data/micro-units";
 import { practiceByLessonId } from "../../data/practice";
 import type { Lesson, Source } from "../../data/types";
+import { buildAbsoluteLessonShareUrl } from "../../lib/lesson-share-url";
 import { LearningBlock } from "./LearningBlock";
 import { LessonPracticePanel } from "./LessonPracticePanel";
 
@@ -26,11 +30,18 @@ export function LessonWorkspace({
   onToggleUnsure,
   onOpenLesson,
 }: LessonWorkspaceProps) {
+  const [shareStatus, setShareStatus] = useState<"idle" | "copied" | "failed">(
+    "idle",
+  );
   const practice =
     practiceByLessonId[
       lesson.id as keyof typeof practiceByLessonId
     ];
   const microUnit = microUnitForLesson(lesson.id);
+
+  useEffect(() => {
+    setShareStatus("idle");
+  }, [lesson.id]);
 
   const explainText = microUnit
     ? [
@@ -48,6 +59,25 @@ export function LessonWorkspace({
         `Sicherheit: ${microUnit.safetyNote}`,
       ].join("\n")
     : (lesson.content ?? lesson.description ?? "Diese Lektion wird gerade vorbereitet.");
+
+  const copyLessonLink = async () => {
+    if (typeof window === "undefined") return;
+    const url = buildAbsoluteLessonShareUrl(window.location, lesson.id);
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareStatus("copied");
+      window.setTimeout(
+        () => setShareStatus((current) => (current === "copied" ? "idle" : current)),
+        2000,
+      );
+    } catch {
+      setShareStatus("failed");
+      window.setTimeout(
+        () => setShareStatus((current) => (current === "failed" ? "idle" : current)),
+        3000,
+      );
+    }
+  };
 
   return (
     <article
@@ -178,7 +208,7 @@ export function LessonWorkspace({
             <button
               type="button"
               onClick={onToggleCompleted}
-              className="mt-4 w-full rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-5 py-4 text-sm font-black text-white hover:bg-[var(--nim-primary-strong)]"
+              className="nim-interactive mt-4 w-full min-h-11 rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-5 py-4 text-sm font-black text-white hover:bg-[var(--nim-primary-strong)]"
             >
               {completed ? "Erledigt zurücknehmen" : "Als erledigt markieren"}
             </button>
@@ -187,7 +217,7 @@ export function LessonWorkspace({
               type="button"
               onClick={onToggleUnsure}
               aria-pressed={unsure}
-              className={`mt-3 w-full rounded-[var(--nim-radius-md)] border px-5 py-4 text-sm font-black ${
+              className={`nim-interactive mt-3 w-full min-h-11 rounded-[var(--nim-radius-md)] border px-5 py-4 text-sm font-black ${
                 unsure
                   ? "border-[var(--nim-accent)] bg-[var(--nim-accent-soft)] text-[var(--foreground)]"
                   : "border-[var(--nim-border)] bg-[var(--nim-surface)] text-[var(--nim-primary)] hover:border-[var(--nim-primary)]"
@@ -196,11 +226,30 @@ export function LessonWorkspace({
               {unsure ? "Nicht mehr unsicher" : "Noch unsicher — Nächster Schritt erinnert dich"}
             </button>
 
+            <button
+              type="button"
+              data-testid="lesson-share-copy"
+              onClick={() => {
+                void copyLessonLink();
+              }}
+              className="nim-interactive mt-3 w-full min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface)] px-5 py-4 text-sm font-black text-[var(--nim-primary)] hover:border-[var(--nim-primary)]"
+            >
+              {shareStatus === "copied"
+                ? "Link kopiert"
+                : shareStatus === "failed"
+                  ? "Kopieren nicht möglich"
+                  : "Link kopieren"}
+            </button>
+            <p className="mt-2 text-xs font-semibold leading-5 text-[var(--nim-secondary)]">
+              Öffnet diese Lektion im Portal. Kein Konto, kein Fortschritt wird mitgeschickt —
+              nur der Link.
+            </p>
+
             {nextLesson && (
               <button
                 type="button"
                 onClick={() => onOpenLesson(nextLesson.id)}
-                className="mt-3 w-full rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface)] px-5 py-4 text-sm font-black text-[var(--nim-primary)] hover:border-[var(--nim-primary)]"
+                className="nim-interactive mt-3 w-full min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] bg-[var(--nim-surface)] px-5 py-4 text-sm font-black text-[var(--nim-primary)] hover:border-[var(--nim-primary)]"
               >
                 Danach: Lektion {nextLesson.order}
               </button>
