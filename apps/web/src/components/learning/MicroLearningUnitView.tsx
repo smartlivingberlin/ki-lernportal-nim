@@ -161,7 +161,7 @@ export function MicroLearningUnitView({
           Nur für diese Ansicht — nach Reload weg. Dauerhaft üben unter{" "}
           <a
             href="#wiederholen"
-            className="font-black text-[var(--nim-primary)] underline underline-offset-2"
+            className="inline-flex min-h-11 items-center font-black text-[var(--nim-primary)] underline underline-offset-2"
           >
             Wiederholen
           </a>
