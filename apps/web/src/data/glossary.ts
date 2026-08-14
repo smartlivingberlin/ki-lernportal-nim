@@ -40,7 +40,7 @@ export const seedGlossary: GlossaryTerm[] = [
   {
     id: 'modell',
     term: 'KI-Modell',
-    definition: 'Die „Engine“ hinter einem Chat oder Bildgenerator. Verschiedene Modelle sind für verschiedene Aufgaben besser geeignet.',
+    definition: 'Das Rechenprogramm hinter einem Chat oder Bildgenerator. Verschiedene Modelle sind für verschiedene Aufgaben besser geeignet.',
     example: 'Ein Text-Modell für E-Mails, ein Vision-Modell für Bilderklärungen.',
     priority: 1
   },
@@ -111,8 +111,8 @@ export const seedGlossary: GlossaryTerm[] = [
   },
   {
     id: 'guardrail',
-    term: 'Guardrail',
-    definition: 'Eine Schutzregel oder technische Grenze, die riskante KI-Ausgaben oder -Aktionen verhindern soll.',
+    term: 'Leitplanke',
+    definition: 'Eine Schutzregel oder technische Grenze, die riskante KI-Ausgaben oder -Aktionen verhindern soll (manchmal „Guardrail“ genannt).',
     example: 'Das System darf keine Passwörter speichern und keine Buchungen ohne Freigabe ausführen.',
     priority: 3
   },

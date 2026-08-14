@@ -103,7 +103,7 @@ export const themeWorlds: ThemeWorld[] = [
     shortLabel: "Modelle",
     goalPrompt: "Ich will das passende Modell für meine Aufgabe finden.",
     description:
-      "Chat, Reasoning, Vision, Audio, Video, Embeddings und Open Models verständlich einordnen.",
+      "Chat, Denken Schritt für Schritt, Bilder, Ton, Video und Open-Source-Modelle verständlich einordnen.",
     audienceLevel: 3,
     estimatedUnits: 10,
     status: "active",
@@ -121,7 +121,7 @@ export const themeWorlds: ThemeWorld[] = [
     shortLabel: "Agenten",
     goalPrompt: "Ich will verstehen, was KI-Agenten wirklich tun.",
     description:
-      "Tools, Aktionen, MCP, Workflows und Human-in-the-loop in einfacher Sprache.",
+      "Werkzeuge, Aktionen, Verbindungen und Freigabe durch Menschen — in einfacher Sprache.",
     audienceLevel: 3,
     estimatedUnits: 12,
     status: "active",
@@ -173,18 +173,18 @@ export const themeWorlds: ThemeWorld[] = [
     id: "world-advanced",
     title: "Fortgeschrittene Praxis",
     shortLabel: "Praxis+",
-    goalPrompt: "Ich will RAG, APIs und Evaluation verstehen.",
+    goalPrompt: "Ich will Antworten mit eigenen Unterlagen, Schnittstellen und Prüfung verstehen.",
     description:
-      "APIs, RAG, Evaluation, Kosten, Guardrails und Monitoring — klar und praxisnah.",
+      "Eigene Unterlagen nutzen (oft RAG genannt), Schnittstellen, Prüfung, Kosten, Leitplanken und Betrieb — klar und praxisnah.",
     audienceLevel: 5,
     estimatedUnits: 12,
     status: "active",
     accent: "coral",
     starterLessonId: null,
     learningOutcomes: [
-      "RAG grob erklären",
-      "Evaluation und Kosten einordnen",
-      "Guardrails verstehen",
+      "Antworten mit eigenen Unterlagen grob erklären",
+      "Prüfung und Kosten einordnen",
+      "Leitplanken verstehen",
     ],
   },
 ];
