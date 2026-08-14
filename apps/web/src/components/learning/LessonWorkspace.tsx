@@ -8,8 +8,11 @@ type LessonWorkspaceProps = {
   lesson: Lesson;
   sources: Source[];
   completed: boolean;
+  /** „Noch unsicher“-Markierung — unabhängig vom Erledigt-Haken (S-Product-C4). */
+  unsure: boolean;
   nextLesson: Lesson | null;
   onToggleCompleted: () => void;
+  onToggleUnsure: () => void;
   onOpenLesson: (lessonId: string) => void;
 };
 
@@ -17,8 +20,10 @@ export function LessonWorkspace({
   lesson,
   sources,
   completed,
+  unsure,
   nextLesson,
   onToggleCompleted,
+  onToggleUnsure,
   onOpenLesson,
 }: LessonWorkspaceProps) {
   const practice =
@@ -55,6 +60,7 @@ export function LessonWorkspace({
           <div className="min-w-0">
             <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
               Aktuelle Lektion · {completed ? "erledigt" : "offen"}
+              {unsure ? " · noch unsicher" : ""}
             </p>
             <h2
               id={`lesson-${lesson.id}-title`}
@@ -175,6 +181,19 @@ export function LessonWorkspace({
               className="mt-4 w-full rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-5 py-4 text-sm font-black text-white hover:bg-[var(--nim-primary-strong)]"
             >
               {completed ? "Erledigt zurücknehmen" : "Als erledigt markieren"}
+            </button>
+
+            <button
+              type="button"
+              onClick={onToggleUnsure}
+              aria-pressed={unsure}
+              className={`mt-3 w-full rounded-[var(--nim-radius-md)] border px-5 py-4 text-sm font-black ${
+                unsure
+                  ? "border-[var(--nim-accent)] bg-[var(--nim-accent-soft)] text-[var(--foreground)]"
+                  : "border-[var(--nim-border)] bg-[var(--nim-surface)] text-[var(--nim-primary)] hover:border-[var(--nim-primary)]"
+              }`}
+            >
+              {unsure ? "Nicht mehr unsicher" : "Noch unsicher — später wiederholen"}
             </button>
 
             {nextLesson && (

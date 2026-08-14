@@ -157,6 +157,9 @@ jobs:
       - name: Local progress backup and clarity contract
         run: pnpm test:progress-backup
 
+      - name: Shareable lesson URL contract
+        run: pnpm test:lesson-share-url
+
       - name: Planned Alltag/Prompting path bridges
         run: pnpm test:planned-paths
 

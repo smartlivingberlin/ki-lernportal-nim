@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { seedGlossary } from "../data/glossary";
 import { seedLearningPaths } from "../data/learning-paths";
 import { seedResources } from "../data/resources";
@@ -53,6 +53,8 @@ import { useLocalProgress } from "../hooks/useLocalProgress";
 import { useLocalMicroProgress } from "../hooks/useLocalMicroProgress";
 import { useLocalReviewQueue } from "../hooks/useLocalReviewQueue";
 import { useLiteracyPathProgress } from "../hooks/useLiteracyPathProgress";
+import { useLocalLessonConfidence } from "../hooks/useLocalLessonConfidence";
+import { useSelfCheckProgress } from "../hooks/useSelfCheckProgress";
 import { useSimpleMode } from "../hooks/useSimpleMode";
 import { designSystemMeta } from "../design/tokens";
 import {
@@ -60,6 +62,7 @@ import {
   REVEAL_WORLDS_EVENT,
   type RevealWorldsDetail,
 } from "../lib/portal-hash-nav";
+import { readLessonIdFromLocation, updateLessonUrl } from "../lib/lesson-share-url";
 
 const LocalSearchPanel = dynamic(
   () =>
@@ -238,6 +241,9 @@ export default function Home() {
   const coachDismissed = useFirstStartCoachDismissed();
   const reviewQueue = useLocalReviewQueue();
   const literacyPath = useLiteracyPathProgress();
+  const { unsureLessonIds, setUnsureLessonIds, toggleUnsure } =
+    useLocalLessonConfidence();
+  const selfCheck = useSelfCheckProgress();
   const dueReviews = reviewQueue.countDue();
   const showPortalOnboarding = coachDismissed;
 
@@ -263,13 +269,21 @@ export default function Home() {
   const activeLessonIndex = activeLesson ? allLessons.findIndex((lesson) => lesson.id === activeLesson.id) : -1;
   const nextLesson = activeLessonIndex >= 0 ? allLessons[activeLessonIndex + 1] ?? null : null;
   const nextOpenLesson = allLessons.find((lesson) => !validCompletedLessonIds.includes(lesson.id)) ?? null;
+  /** Als „Noch unsicher“ markierte Lektion mit der kleinsten Reihenfolge (S-Product-C4). */
+  const nextUnsureLesson = useMemo(
+    () =>
+      allLessons
+        .filter((lesson) => unsureLessonIds.includes(lesson.id))
+        .sort((a, b) => a.order - b.order)[0] ?? null,
+    [allLessons, unsureLessonIds],
+  );
   const recommendedModule = nextOpenLesson
     ? learningModules.find((module) => module.lessonIds.includes(nextOpenLesson.id)) ?? fallbackModule
     : null;
   const activeLessonIdForAction = activeLesson?.id ?? null;
   const reviewedSources = publicSources.slice(0, 4);
   const beginnerResources = seedResources.slice(0, 3);
-  const beginnerGlossary = seedGlossary.slice(0, 8);
+  const beginnerGlossary = seedGlossary;
   const lessonChallenges = activeLesson
     ? challengesForLesson(activeLesson.id)
     : interactiveChallenges.slice(0, 1);
@@ -318,6 +332,8 @@ export default function Home() {
         nextDeepenMicroUnitId: nextDeepenMicro?.id ?? null,
         nextDeepenMicroTitle: nextDeepenMicro?.title ?? null,
         nextDeepenWorldId: nextDeepenMicro?.worldId ?? null,
+        nextUnsureLessonId: nextUnsureLesson?.id ?? null,
+        nextUnsureLessonTitle: nextUnsureLesson?.title ?? null,
       }),
     [
       literacyPath.completedStationIds,
@@ -330,6 +346,8 @@ export default function Home() {
       nextDeepenMicro?.id,
       nextDeepenMicro?.title,
       nextDeepenMicro?.worldId,
+      nextUnsureLesson?.id,
+      nextUnsureLesson?.title,
     ],
   );
   const worldUnits = useMemo(
@@ -409,6 +427,27 @@ export default function Home() {
     title?.focus({ preventScroll: true });
   }, [simpleMode, worldsFocusToken]);
 
+  // Teilbare Lektions-URL: `?lesson=lX` oder `#lesson-lX` beim Laden öffnen (S-Product-C2).
+  const sharedLessonAppliedRef = useRef(false);
+  useEffect(() => {
+    if (sharedLessonAppliedRef.current) return;
+    sharedLessonAppliedRef.current = true;
+
+    const requestedLessonId = readLessonIdFromLocation(window.location);
+    if (!requestedLessonId) return;
+
+    const lesson = allLessons.find((item) => item.id === requestedLessonId);
+    if (!lesson) return;
+
+    // Deferred (microtask) so this reads as an external-URL sync, not a
+    // synchronous setState-in-effect cascade.
+    queueMicrotask(() => {
+      setActiveLessonId(requestedLessonId);
+      setLessonFocusRequest({ lessonId: requestedLessonId });
+      setProgressAnnouncement(`${lesson.title} wurde geöffnet.`);
+    });
+  }, [allLessons]);
+
   const revealWorlds = () => {
     setSimpleMode(false);
     setWorldsFocusToken((token) => token + 1);
@@ -439,6 +478,7 @@ export default function Home() {
         ? `${lesson.title} wurde geöffnet.`
         : "Die ausgewählte Lektion wurde geöffnet.",
     );
+    updateLessonUrl(lessonId);
   };
 
   const selectWorld = (world: ThemeWorld) => {
@@ -531,6 +571,18 @@ export default function Home() {
     );
   };
 
+  const toggleLessonUnsure = (lessonId: string) => {
+    const lesson = allLessons.find((item) => item.id === lessonId);
+    const wasUnsure = unsureLessonIds.includes(lessonId);
+
+    toggleUnsure(lessonId);
+    setProgressAnnouncement(
+      lesson
+        ? `${lesson.title} wurde ${wasUnsure ? "nicht mehr als unsicher" : "als noch unsicher"} markiert.`
+        : `Die Lektion wurde ${wasUnsure ? "nicht mehr als unsicher" : "als noch unsicher"} markiert.`,
+    );
+  };
+
   const requestResetProgress = () => {
     setResetConfirmOpen(true);
   };
@@ -544,11 +596,13 @@ export default function Home() {
     setCompletedMicroUnitIds([]);
     literacyPath.reset();
     reviewQueue.resetQueue();
+    setUnsureLessonIds([]);
+    selfCheck.reset();
     setActiveLessonId(allLessons[0]?.id ?? null);
     setLessonFocusRequest(null);
     setResetConfirmOpen(false);
     setProgressAnnouncement(
-      "Der lokale Lernfortschritt wurde zurückgesetzt. Gelöscht: Lektions-Haken, Vertiefungs-Einheiten, Kurzpfad und Wiederholen.",
+      "Der lokale Lernfortschritt wurde zurückgesetzt. Gelöscht: Lektions-Haken, Vertiefungs-Einheiten, Kurzpfad, Wiederholen, „Noch unsicher“-Markierungen und Selbstcheck-Antworten.",
     );
   };
 
@@ -859,8 +913,10 @@ export default function Home() {
               lesson={activeLesson}
               sources={activeLessonSources}
               completed={validCompletedLessonIds.includes(activeLesson.id)}
+              unsure={unsureLessonIds.includes(activeLesson.id)}
               nextLesson={nextLesson}
               onToggleCompleted={() => activeLessonIdForAction && toggleLessonDone(activeLessonIdForAction)}
+              onToggleUnsure={() => activeLessonIdForAction && toggleLessonUnsure(activeLessonIdForAction)}
               onOpenLesson={openLesson}
             />
           ) : (
@@ -991,6 +1047,7 @@ export default function Home() {
                     completedCount={moduleCompleted}
                     activeLessonId={activeLessonIdForAction}
                     completedLessonIds={validCompletedLessonIds}
+                    unsureLessonIds={unsureLessonIds}
                     onOpenLesson={openLesson}
                   />
                 );

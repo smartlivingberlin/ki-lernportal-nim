@@ -20,6 +20,8 @@ assert.match(paths, /bridgeLessonIds: \['l6', 'l11'\]/);
 assert.match(paths, /bridgeLessonIds: \['l4', 'l5'\]/);
 assert.match(paths, /world-work-life/);
 assert.match(paths, /world-chat-prompting/);
+assert.match(paths, /lockedLearningPaths/);
+assert.match(paths, /status === "locked"/);
 
 const panel = read(
   "apps/web/src/components/learning/PlannedPathsPanel.tsx",
@@ -32,6 +34,18 @@ assert.match(panel, /Alltag & Prompting/);
 assert.match(panel, /explainAttrs\("weitere-pfade"\)/);
 assert.match(panel, /tipId="weitere-pfade"/);
 assert.doesNotMatch(panel, /tipId="lernpfad"/);
+
+// S-Product-C5: locked paths show as honest, non-clickable "Demnächst" cards.
+assert.match(panel, /lockedLearningPaths/);
+assert.match(
+  panel,
+  /data-testid=\{`planned-path-locked-\$\{path\.id\}`\}/,
+);
+assert.match(panel, /Demnächst/);
+assert.doesNotMatch(
+  panel,
+  /<button[^>]*data-testid=\{`planned-path-locked/,
+);
 
 const tips = read("apps/web/src/data/help-tips.ts");
 assert.match(tips, /id: "weitere-pfade"/);

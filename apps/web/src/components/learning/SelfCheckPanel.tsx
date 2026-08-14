@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { themeWorlds } from "../../data/theme-worlds";
 import {
   scoreSelfCheck,
@@ -10,6 +10,7 @@ import {
 import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
 import { useLiteracyPathProgress } from "../../hooks/useLiteracyPathProgress";
+import { useSelfCheckProgress } from "../../hooks/useSelfCheckProgress";
 
 type SelfCheckPanelProps = {
   onRecommendWorld: (worldId: string) => void;
@@ -21,8 +22,8 @@ export function SelfCheckPanel({
   onRecommendWorld,
   onRevealWorld,
 }: SelfCheckPanelProps) {
-  const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const { answers, submitted, recommendedWorldId, setAnswer, submit, reset } =
+    useSelfCheckProgress();
   const { markComplete } = useLiteracyPathProgress();
 
   const answeredCount = Object.keys(answers).length;
@@ -36,9 +37,21 @@ export function SelfCheckPanel({
   const topWorld = top ? themeWorlds.find((world) => world.id === top.worldId) : null;
 
   const showRecommendation = () => {
-    setSubmitted(true);
+    const result = scoreSelfCheck(answers);
+    submit(result[0]?.worldId ?? null);
     markComplete("lit-selfcheck");
   };
+
+  // Nach einem Reload eine bereits gespeicherte Empfehlung erneut anwenden,
+  // damit „Nächster Schritt“ konsistent bleibt (S-Product-C3, einmalig).
+  const hydratedRecommendationRef = useRef(false);
+  useEffect(() => {
+    if (hydratedRecommendationRef.current) return;
+    hydratedRecommendationRef.current = true;
+    if (recommendedWorldId) {
+      onRecommendWorld(recommendedWorldId);
+    }
+  }, [recommendedWorldId, onRecommendWorld]);
 
   return (
     <section
@@ -86,9 +99,7 @@ export function SelfCheckPanel({
                         ? "border-[var(--nim-primary)] bg-[var(--nim-primary)] text-white"
                         : "border-[var(--nim-border)] bg-white text-[var(--foreground)]",
                     ].join(" ")}
-                    onClick={() =>
-                      setAnswers((current) => ({ ...current, [question.id]: option.id }))
-                    }
+                    onClick={() => setAnswer(question.id, option.id)}
                   >
                     {option.label}
                   </button>
@@ -111,10 +122,7 @@ export function SelfCheckPanel({
         <button
           type="button"
           className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-4 text-sm font-black text-[var(--nim-primary)]"
-          onClick={() => {
-            setAnswers({});
-            setSubmitted(false);
-          }}
+          onClick={reset}
         >
           Zurücksetzen
         </button>
