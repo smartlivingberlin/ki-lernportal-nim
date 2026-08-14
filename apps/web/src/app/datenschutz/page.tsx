@@ -177,7 +177,7 @@ export default function DatenschutzPage() {
           Der gespeicherte Lernstand kann über die Funktion zum Zurücksetzen des
           Lernstands oder durch das Löschen der Website-Daten im Browser
           entfernt werden. Zusätzlich kannst du den lokalen Stand als
-          JSON-Datei herunterladen und auf demselben oder einem anderen Browser
+          Sicherungsdatei herunterladen und auf demselben oder einem anderen Browser
           wieder einspielen („Fortschritt sichern“). Der Download verlässt nur
           dein Gerät, sofern du die Datei nicht selbst weitergibst.
         </p>

@@ -471,7 +471,7 @@ export default function Home() {
                 <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#suche" {...explainAttrs("suche")}>Suche</a>
               ) : null}
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#wiederholen" {...explainAttrs("wiederholen")}>Wiederholen</a>
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#coach" {...explainAttrs("sicherheit")}>Hilfe</a>
+              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#coach" {...explainAttrs("sicherheit")}>Sicherheit</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#quellen" {...explainAttrs("quellen")}>Quellen</a>
             </nav>
           </div>
@@ -939,7 +939,6 @@ export default function Home() {
             </div>
           </section>
 
-      {!simpleMode ? (
           <section
             id="glossar"
             {...explainAttrs("glossar")}
@@ -951,7 +950,7 @@ export default function Home() {
               </p>
               <p className="mt-2 text-sm font-medium leading-6 text-[var(--nim-secondary)]">
                 Unterstrichene Wörter im Text öffnen sich per Hover oder Tippen — hier findest du
-                die Kurzdefinitionen.
+                die Kurzdefinitionen. Bleibt auch in der Einfachen Ansicht sichtbar.
               </p>
             </ExplainHotspot>
             <div className="mt-4 space-y-3">
@@ -968,7 +967,6 @@ export default function Home() {
               ))}
             </div>
           </section>
-      ) : null}
         </aside>
       </main>
 

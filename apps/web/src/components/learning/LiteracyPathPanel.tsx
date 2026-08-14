@@ -1,15 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import { literacyPathMeta, literacyStations } from "../../data/literacy-path";
 import { literacyStationForMode } from "../../data/next-step";
 import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
+import { ResetProgressConfirm } from "./ResetProgressConfirm";
 import { useLiteracyPathProgress } from "../../hooks/useLiteracyPathProgress";
 import { useSimpleMode } from "../../hooks/useSimpleMode";
 
 export function LiteracyPathPanel() {
   const { completedStationIds, markComplete, unmark, reset } = useLiteracyPathProgress();
   const { enabled: simpleMode } = useSimpleMode();
+  const [resetOpen, setResetOpen] = useState(false);
   const doneCount = completedStationIds.length;
   const total = literacyStations.length;
   const allDone = doneCount === total;
@@ -22,6 +25,11 @@ export function LiteracyPathPanel() {
 
   const printProof = () => {
     window.print();
+  };
+
+  const confirmReset = () => {
+    reset();
+    setResetOpen(false);
   };
 
   return (
@@ -57,11 +65,25 @@ export function LiteracyPathPanel() {
           </p>
           <button
             type="button"
+            data-testid="literacy-path-reset"
             className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-3 text-xs font-black text-[var(--nim-primary)]"
-            onClick={reset}
+            onClick={() => setResetOpen(true)}
+            aria-expanded={resetOpen}
+            aria-controls="literacy-reset-confirm"
           >
             Pfad zurücksetzen
           </button>
+        </div>
+        <div id="literacy-reset-confirm">
+          <ResetProgressConfirm
+            open={resetOpen}
+            onCancel={() => setResetOpen(false)}
+            onConfirm={confirmReset}
+            titleId="literacy-reset-progress-title"
+            title="Kurzpfad wirklich zurücksetzen?"
+            items={["Stationen des 60-Minuten-Kurzpfads (nur dieser Pfad)"]}
+            backupLinkTestId="literacy-reset-progress-backup-link"
+          />
         </div>
         <div
           className="mt-3 h-3 overflow-hidden rounded-full bg-white"
@@ -165,16 +187,16 @@ export function LiteracyPathPanel() {
 
       <div
         id="literacy-nachweis"
-        className="scroll-mt-72 rounded-[var(--nim-radius-lg)] border-2 border-[var(--nim-primary)] bg-[var(--nim-primary-soft)] p-5 sm:scroll-mt-64 lg:scroll-mt-36"
+        className="scroll-mt-72 rounded-[var(--nim-radius-lg)] border-2 border-[var(--nim-primary)] bg-[var(--nim-primary-soft)] p-5 sm:scroll-mt-64 lg:scroll-mt-36 print:border-0 print:bg-white print:p-0 print:shadow-none"
       >
-        <h3 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[var(--foreground)]">
+        <h3 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-[var(--foreground)] print:hidden">
           Lokaler Teilnahme-Nachweis
         </h3>
-        <p className="mt-2 text-sm font-medium leading-7 text-[var(--nim-secondary)]">
+        <p className="mt-2 text-sm font-medium leading-7 text-[var(--nim-secondary)] print:hidden">
           {literacyPathMeta.disclaimer}
         </p>
         {allDone ? (
-          <div className="literacy-proof mt-4 space-y-4 rounded-[var(--nim-radius-md)] bg-[var(--nim-surface)] p-5 print:border-2 print:border-black print:p-8">
+          <div className="literacy-proof mt-4 space-y-4 rounded-[var(--nim-radius-md)] bg-[var(--nim-surface)] p-5 print:mt-0 print:border-2 print:border-black print:p-8">
             <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[var(--nim-border)] pb-4 print:border-black">
               <div>
                 <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary)] print:text-black">
@@ -223,7 +245,7 @@ export function LiteracyPathPanel() {
             </button>
           </div>
         ) : (
-          <p className="mt-3 text-sm font-semibold text-[var(--nim-secondary)]">
+          <p className="mt-3 text-sm font-semibold text-[var(--nim-secondary)] print:hidden">
             Noch {total - doneCount} Station(en) offen — markiere sie, wenn du sie bearbeitet hast.
           </p>
         )}

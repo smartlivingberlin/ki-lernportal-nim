@@ -27,16 +27,24 @@ assert.match(panel, /hashchange/);
 assert.match(panel, /titleRef/);
 assert.match(panel, /Herunterladen/);
 assert.match(panel, /Datei laden/);
+assert.match(panel, /Sicherungsdatei/);
+assert.doesNotMatch(panel, /JSON-Datei/);
+
+const backupErrors = read("apps/web/src/lib/local-progress-backup.ts");
+assert.match(backupErrors, /keine gültige Fortschritts-Datei/);
+assert.doesNotMatch(backupErrors, /kein gültiges JSON/);
 
 const reset = read(
   "apps/web/src/components/learning/ResetProgressConfirm.tsx",
 );
 assert.match(reset, /href="#fortschritt-sichern"/);
-assert.match(reset, /data-testid="reset-progress-backup-link"/);
+assert.match(reset, /data-testid=\{backupLinkTestId\}|data-testid="reset-progress-backup-link"/);
 
 const helpTips = read("apps/web/src/data/help-tips.ts");
 assert.match(helpTips, /href: "#fortschritt-sichern"/);
 assert.match(helpTips, /label: "Fortschritt sichern"/);
+assert.match(helpTips, /Sicherungsdatei herunterladen/);
+assert.doesNotMatch(helpTips, /JSON-Datei/);
 
 const goals = read("apps/web/src/components/learning/GoalNavigation.tsx");
 assert.match(goals, /id="ziele"/);

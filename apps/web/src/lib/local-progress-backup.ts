@@ -134,7 +134,7 @@ export function parseProgressBackup(raw: string): ProgressBackupParseResult {
   try {
     parsed = JSON.parse(raw) as unknown;
   } catch {
-    return { ok: false, error: "Die Datei ist kein gültiges JSON." };
+    return { ok: false, error: "Die Datei ist keine gültige Fortschritts-Datei." };
   }
 
   if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {

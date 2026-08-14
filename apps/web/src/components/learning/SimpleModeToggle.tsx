@@ -40,7 +40,7 @@ export function SimpleModeToggle({ enabled, onChange }: SimpleModeToggleProps) {
         <span>Einfache Ansicht</span>
         {enabled ? (
           <span className="hidden text-[0.7rem] font-bold uppercase tracking-wide text-[var(--nim-secondary)] sm:inline">
-            · Suche & Welten aus
+            · Suche & Welten aus · Begriffe an
           </span>
         ) : null}
       </button>

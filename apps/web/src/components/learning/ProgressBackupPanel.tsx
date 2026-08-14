@@ -15,7 +15,7 @@ type ProgressBackupPanelProps = {
 };
 
 /**
- * Lokaler JSON-Export/Import — kein Server, kein Konto.
+ * Lokaler Export/Import der Fortschritts-Datei — kein Server, kein Konto.
  */
 export function ProgressBackupPanel({ onApplied }: ProgressBackupPanelProps) {
   const inputId = useId();
@@ -110,7 +110,7 @@ export function ProgressBackupPanel({ onApplied }: ProgressBackupPanelProps) {
         Fortschritt sichern
       </h2>
       <p className="mt-2 text-xs font-medium leading-5 text-[var(--nim-secondary)]">
-        Lade deinen lokalen Lernstand als JSON-Datei herunter oder stelle ihn auf
+        Lade deinen lokalen Lernstand als Sicherungsdatei herunter oder stelle ihn auf
         diesem Browser wieder her. Nichts wird an einen Server gesendet.
       </p>
 
