@@ -75,7 +75,7 @@ export const learningMethods: LearningMethod[] = [
     whyItHelps:
       "Metakognition steuert Wiederholung und verhindert falsche Sicherheit.",
     howWeUseIt:
-      "Confidence-Buttons nach Lektion und Challenge — lokal gespeichert.",
+      "Confidence-Buttons in der Wiederholen-Queue — dort lokal gespeichert. Challenges speichern Confidence noch nicht dauerhaft.",
     interactionHint: "Kein Test. Ehrlichkeit hilft dem Lernweg mehr als „perfekt“.",
   },
   {

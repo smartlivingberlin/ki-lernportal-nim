@@ -52,6 +52,15 @@ assert.match(literacyPanel, /ResetProgressConfirm/);
 assert.match(literacyPanel, /data-testid="literacy-path-reset"/);
 assert.match(literacyPanel, /Kurzpfad wirklich zurücksetzen/);
 
+const spacedReview = read(
+  "apps/web/src/components/learning/SpacedReviewQueue.tsx",
+);
+assert.match(spacedReview, /ResetProgressConfirm/);
+assert.match(spacedReview, /data-testid="spaced-review-reset"/);
+assert.match(spacedReview, /Übungen zurücksetzen/);
+assert.match(spacedReview, /Wiederholungs-Übungen wirklich zurücksetzen/);
+assert.doesNotMatch(spacedReview, /Queue zurücksetzen/);
+
 assert.match(read("apps/web/src/app/page.tsx"), /revealWorlds/);
 assert.match(read("apps/web/src/app/page.tsx"), /worldsFocusToken/);
 

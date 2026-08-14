@@ -350,11 +350,11 @@ export default function Home() {
       nextUnsureLesson?.title,
     ],
   );
-  const worldUnits = useMemo(
-    () => (selectedWorldId ? microUnitsForWorld(selectedWorldId) : []),
-    // microUnitsTick invalidates after ensure/preload fills the lazy cache.
-    [selectedWorldId, microUnitsTick],
-  );
+  const worldUnits = useMemo(() => {
+    // Read tick so lazy ensure/preload re-renders recompute from the cache.
+    void microUnitsTick;
+    return selectedWorldId ? microUnitsForWorld(selectedWorldId) : [];
+  }, [selectedWorldId, microUnitsTick]);
   const activeMicroUnit =
     worldUnits.find((unit) => unit.id === activeMicroUnitId) ??
     (activeLesson ? microUnitForLesson(activeLesson.id) : null) ??
