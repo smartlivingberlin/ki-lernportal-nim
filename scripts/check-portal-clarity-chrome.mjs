@@ -34,6 +34,9 @@ assert.match(mobileNav, /data-nav-mode/);
 
 const page = read("apps/web/src/app/page.tsx");
 assert.match(page, /Jetzt starten/);
+assert.match(page, /goToNextStep/);
+assert.match(page, /hero-primary-cta/);
+assert.match(page, /nextStep\.primaryLabel/);
 assert.match(page, /Wiederholen/);
 assert.match(page, /KI-Lernportal NIM/);
 assert.match(page, /hero-today-card/);

@@ -78,22 +78,23 @@ export const helpTips: HelpTip[] = [
   {
     id: "hero",
     label: "Willkommen und Start",
-    short: "Marke, eine Überschrift und „Jetzt starten“ — die heutige Empfehlung folgt darunter.",
+    short: "Marke, eine Überschrift und Start — nach dem Coach folgt der gleiche „Nächste Schritt“ wie in der Heute-Karte.",
     whatIs:
-      "Der Startbereich zeigt zuerst „KI-Lernportal NIM“, dann den Lernraum-Satz und einen klaren Start-Button. Kurzlinks zu Selbstcheck und 60-Minuten-Pfad bleiben sekundär. Daneben (bzw. darunter auf schmalen Screens) steht die Karte „Heute empfohlen“ — einmalig, ohne doppelte Bereiche.",
+      "Der Startbereich zeigt zuerst „KI-Lernportal NIM“, dann den Lernraum-Satz und einen klaren Start-Button. Beim ersten Besuch: „Jetzt starten“. Nach dem Coach: derselbe Nächste-Schritt-Vertrag wie die Heute-Karte (Selbstcheck → Kurzpfad → Wiederholen → Lektion). „Zum Einstieg“ bleibt als Textlink. Daneben steht die Karte „Heute empfohlen“.",
     whatFor:
-      "Sofort Orientierung ohne Überforderung: eine Marke, eine Handlung, eine Empfehlung.",
+      "Sofort Orientierung ohne Überforderung: eine Marke, eine Handlung, eine Empfehlung — Rückkehrer nicht zurück auf die Einstiegskarte schicken.",
     canDo: [
-      "„Jetzt starten“ antippen — Coach oder Einstiegsroute.",
-      "Selbstcheck oder 60-Minuten-Pfad als Textlink wählen.",
-      "Die Karte „Heute empfohlen“ für den nächsten offenen Schritt nutzen.",
+      "Beim ersten Besuch „Jetzt starten“ antippen.",
+      "Nach dem Coach den empfohlenen nächsten Schritt direkt starten.",
+      "Optional „Zum Einstieg“, Selbstcheck oder 60-Minuten-Pfad wählen.",
     ],
     example:
-      "Marke und Start zuerst; die Heute-Karte folgt im gleichen Hero darunter oder daneben.",
+      "Marke und Start zuerst; die Heute-Karte und der Hero-Button teilen sich denselben nächsten Schritt.",
     mistake:
       "Alles gleichzeitig anklicken (Ziele, Werkzeuge, Quellen) und dann die Übersicht verlieren. Besser: eine Tür, ein Schritt.",
     links: [
       { href: "#erststart", label: "Jetzt starten" },
+      { href: "#einstieg-route", label: "Zum Einstieg" },
       { href: "#selbstcheck", label: "Selbstcheck" },
       { href: "#literacy-pfad", label: "60-Minuten-Pfad" },
       { href: "#heute", label: "Heute empfohlen" },

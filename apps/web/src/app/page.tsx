@@ -372,6 +372,32 @@ export default function Home() {
     );
   };
 
+  /** Hero, Heute-Karte und Seitenleiste teilen denselben Nächster-Schritt-Vertrag. */
+  const goToNextStep = () => {
+    if (nextStep.kind === "complete") {
+      revealWorlds();
+      return;
+    }
+    if (nextStep.lessonId) {
+      openLesson(nextStep.lessonId);
+      return;
+    }
+    if (
+      nextStep.kind === "deepen" &&
+      nextStep.microUnitId &&
+      nextStep.worldId
+    ) {
+      openDeepenMicro(nextStep.microUnitId, nextStep.worldId);
+      return;
+    }
+    const id = nextStep.href.replace(/^#/, "");
+    const section = document.getElementById(id);
+    section?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById(`${id}-title`)?.focus({
+      preventScroll: true,
+    });
+  };
+
   const toggleLessonDone = (lessonId: string) => {
     const lesson = allLessons.find((item) => item.id === lessonId);
     const wasCompleted = validCompletedLessonIds.includes(lessonId);
@@ -476,14 +502,41 @@ export default function Home() {
                   Klare Sprache, sichere Übungen, Schritt für Schritt — kostenlos und ohne Druck.
                 </p>
                 <div className="mt-5 flex flex-col gap-3 sm:mt-6">
-                  <a
-                    href={showPortalOnboarding ? "#einstieg-route" : "#erststart"}
-                    {...explainAttrs(showPortalOnboarding ? "einstieg-route" : "erststart")}
-                    className="nim-interactive inline-flex min-h-12 w-fit items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-5 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
-                  >
-                    {showPortalOnboarding ? "Zum Einstieg" : "Jetzt starten"}
-                  </a>
+                  {showPortalOnboarding ? (
+                    <button
+                      type="button"
+                      data-testid="hero-primary-cta"
+                      data-next-step-kind={nextStep.kind}
+                      onClick={goToNextStep}
+                      className="nim-interactive inline-flex min-h-12 w-fit items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-5 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
+                    >
+                      {nextStep.primaryLabel}
+                    </button>
+                  ) : (
+                    <a
+                      href="#erststart"
+                      data-testid="hero-primary-cta"
+                      {...explainAttrs("erststart")}
+                      className="nim-interactive inline-flex min-h-12 w-fit items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-5 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
+                    >
+                      Jetzt starten
+                    </a>
+                  )}
                   <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm font-bold text-white/95">
+                    {showPortalOnboarding ? (
+                      <>
+                        <a
+                          href="#einstieg-route"
+                          {...explainAttrs("einstieg-route")}
+                          className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                        >
+                          Zum Einstieg
+                        </a>
+                        <span aria-hidden="true" className="text-white/50">
+                          ·
+                        </span>
+                      </>
+                    ) : null}
                     <a
                       href="#selbstcheck"
                       {...explainAttrs("self-check")}
@@ -852,30 +905,7 @@ export default function Home() {
             </p>
             <button
               type="button"
-              onClick={() => {
-                if (nextStep.kind === "complete") {
-                  revealWorlds();
-                  return;
-                }
-                if (nextStep.lessonId) {
-                  openLesson(nextStep.lessonId);
-                  return;
-                }
-                if (
-                  nextStep.kind === "deepen" &&
-                  nextStep.microUnitId &&
-                  nextStep.worldId
-                ) {
-                  openDeepenMicro(nextStep.microUnitId, nextStep.worldId);
-                  return;
-                }
-                const id = nextStep.href.replace(/^#/, "");
-                const section = document.getElementById(id);
-                section?.scrollIntoView({ behavior: "smooth", block: "start" });
-                document.getElementById(`${id}-title`)?.focus({
-                  preventScroll: true,
-                });
-              }}
+              onClick={goToNextStep}
               className="mt-4 w-full rounded-[var(--nim-radius-md)] bg-[var(--nim-primary)] px-4 py-3 text-sm font-black text-white hover:bg-[var(--nim-primary-strong)]"
             >
               {nextStep.primaryLabel}
