@@ -54,6 +54,15 @@ export function GuidedStartSteps({
           <p className="mt-2 max-w-3xl text-sm leading-7 text-[var(--nim-secondary)]">
             Das ist der Lektions-Ablauf — getrennt vom Portal-Einstieg
             (Selbstcheck → 60-Minuten-Pfad → Wiederholen). Kein Konto nötig.
+            Bei Gerätwechsel:{" "}
+            <a
+              href="#fortschritt-sichern"
+              data-testid="guided-start-backup-link"
+              className="font-black text-[var(--nim-primary)] underline decoration-[var(--nim-primary)]/40 underline-offset-4 hover:decoration-[var(--nim-primary)]"
+            >
+              Fortschritt sichern
+            </a>
+            .
           </p>
         </div>
 

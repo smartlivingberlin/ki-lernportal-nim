@@ -20,11 +20,15 @@ export default function AnmeldenPage() {
   return (
     <main className="mx-auto flex max-w-lg flex-col gap-6 px-6 py-12 sm:py-16">
       <div className="rounded-[var(--nim-radius-xl)] border border-amber-200 bg-amber-50 p-5 text-sm leading-7 text-amber-950">
-        <p className="font-semibold">Kontrollierte Anmeldung</p>
+        <p className="font-semibold">
+          {enabled
+            ? "Staging / Test only — kein Production-Konto"
+            : "Kontrollierte Anmeldung"}
+        </p>
         <p className="mt-2">
-          Diese Seite gehört zur Auth-Runtime hinter Feature-Flag. Es gibt keine
-          öffentliche Registrierung und keine Production-Nutzer in der
-          Konzeptdemo.
+          {enabled
+            ? "Diese Anmeldung ist nur für freigegebene Staging-Tests. Es gibt keine öffentliche Registrierung und keine Production-Nutzer."
+            : "Diese Seite gehört zur Auth-Runtime hinter Feature-Flag. Es gibt keine öffentliche Registrierung und keine Production-Nutzer in der Konzeptdemo."}
         </p>
       </div>
 

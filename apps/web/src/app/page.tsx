@@ -689,6 +689,12 @@ export default function Home() {
                     ? "Klare Sprache, sichere Übungen, Schritt für Schritt — kostenlos und ohne Druck."
                     : "Kein Konto nötig. Ein klarer nächster Schritt — Fortschritt bleibt in diesem Browser."}
                 </p>
+                <p
+                  data-testid="hero-honesty-line"
+                  className="mt-2 max-w-2xl text-xs font-bold uppercase tracking-wide text-white/85 sm:text-sm sm:normal-case sm:tracking-normal"
+                >
+                  Konzeptdemo · keine Live-KI · Fortschritt nur im Browser
+                </p>
                 <div className="mt-5 flex flex-col gap-3 sm:mt-6">
                   {showPortalOnboarding ? (
                     <button
@@ -712,14 +718,27 @@ export default function Home() {
                   )}
                   <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm font-bold text-white/95">
                     {showPortalOnboarding ? (
-                      <a
-                        href="#einstieg-route"
-                        data-testid="hero-secondary-einstieg"
-                        {...explainAttrs("einstieg-route")}
-                        className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
-                      >
-                        Weitere Einstiege
-                      </a>
+                      <>
+                        <a
+                          href="#einstieg-route"
+                          data-testid="hero-secondary-einstieg"
+                          {...explainAttrs("einstieg-route")}
+                          className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                        >
+                          Weitere Einstiege
+                        </a>
+                        <span aria-hidden="true" className="text-white/50">
+                          ·
+                        </span>
+                        <a
+                          href="#fortschritt-sichern"
+                          data-testid="hero-secondary-backup"
+                          {...explainAttrs("fortschritt")}
+                          className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                        >
+                          Fortschritt sichern
+                        </a>
+                      </>
                     ) : (
                       <a
                         href="#selbstcheck"
@@ -1184,9 +1203,12 @@ export default function Home() {
       <footer className="border-t border-[var(--nim-border)] bg-[var(--nim-surface)] px-4 py-8 lg:px-6">
         <div className="mx-auto flex max-w-[1500px] flex-col gap-4 text-sm text-[var(--nim-secondary)] md:flex-row md:items-center md:justify-between">
           <p className="max-w-3xl leading-7">
-            Öffentlich erreichbare Konzeptdemo mit wachsenden Inhalten. Der Lernfortschritt wird nur lokal im Browser gespeichert. Kein Konto,
-            keine Lerndatenbank, kein Tracking und noch kein öffentlicher Produktlaunch.
-            Barrierefreiheitsziel: {designSystemMeta.accessibilityTarget}.
+            Öffentlich erreichbare Konzeptdemo mit wachsenden Inhalten —{" "}
+            <strong className="font-semibold text-[var(--nim-primary)]">keine Live-KI</strong>
+            , kein Cloud-Konto auf Production. Der Lernfortschritt wird nur lokal
+            im Browser gespeichert. Keine Lerndatenbank, kein Tracking und noch
+            kein öffentlicher Produktlaunch. Barrierefreiheitsziel:{" "}
+            {designSystemMeta.accessibilityTarget}.
           </p>
           <nav className="flex flex-wrap gap-3 font-black text-[var(--nim-primary)]" aria-label="Rechtliche Links">
             <a href="/impressum" className="inline-flex min-h-11 items-center hover:underline">Impressum</a>

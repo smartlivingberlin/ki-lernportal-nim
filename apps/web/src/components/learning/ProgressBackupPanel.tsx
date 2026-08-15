@@ -130,7 +130,7 @@ export function ProgressBackupPanel({ onApplied }: ProgressBackupPanelProps) {
       className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border border-[var(--nim-border)] bg-[var(--nim-surface)] p-4 shadow-[var(--shadow-lift)] sm:scroll-mt-64 lg:scroll-mt-36"
     >
       <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-secondary)]">
-        Gerät wechseln
+        Gerät wechseln · lokal sichern
       </p>
       <h2
         ref={titleRef}
@@ -141,8 +141,10 @@ export function ProgressBackupPanel({ onApplied }: ProgressBackupPanelProps) {
         Fortschritt sichern
       </h2>
       <p className="mt-2 text-xs font-medium leading-5 text-[var(--nim-secondary)]">
-        Lade deinen lokalen Lernstand als Sicherungsdatei herunter oder stelle ihn auf
-        diesem Browser wieder her. Nichts wird an einen Server gesendet.
+        Dein Lernstand liegt nur in diesem Browser. Lade eine Sicherungsdatei
+        herunter oder stelle sie hier wieder her — z.&nbsp;B. vor dem Löschen von
+        Daten oder beim Wechsel auf ein anderes Gerät. Nichts wird an einen Server
+        gesendet.
       </p>
 
       <div className="mt-3 flex flex-wrap gap-2">

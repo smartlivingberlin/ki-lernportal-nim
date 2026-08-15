@@ -28,6 +28,8 @@ assert.match(panel, /titleRef/);
 assert.match(panel, /Herunterladen/);
 assert.match(panel, /Datei laden/);
 assert.match(panel, /Sicherungsdatei/);
+assert.match(panel, /lokal sichern/);
+assert.match(panel, /anderes Gerät/);
 assert.match(panel, /data-testid="progress-backup-import-confirm"/);
 assert.match(panel, /data-testid="progress-backup-import-confirm-yes"/);
 assert.match(panel, /Ja, Stand ersetzen/);
@@ -74,6 +76,14 @@ assert.match(goals, /completedMicroUnitIds/);
 const page = read("apps/web/src/app/page.tsx");
 assert.match(page, /ProgressBackupPanel/);
 assert.match(page, /href="#suche"/);
+assert.match(page, /hero-secondary-backup/);
+assert.match(page, /href="#fortschritt-sichern"/);
+
+const guided = read(
+  "apps/web/src/components/learning/GuidedStartSteps.tsx",
+);
+assert.match(guided, /guided-start-backup-link/);
+assert.match(guided, /href="#fortschritt-sichern"/);
 
 const search = read(
   "apps/web/src/components/learning/LocalSearchPanel.tsx",
