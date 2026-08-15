@@ -109,6 +109,12 @@ export default function ImpressumPage() {
           allgemeinen Information, Orientierung und Lernunterstützung rund um
           grundlegende KI-Kompetenz.
         </p>
+        <p className="mt-4" data-testid="impressum-noindex-note">
+          Die öffentliche Demo ist bewusst nicht für Suchmaschinen indexiert
+          (<code className="font-mono text-xs">noindex</code> /{" "}
+          <code className="font-mono text-xs">robots.txt Disallow: /</code>). Eine
+          spätere Index-Öffnung braucht eine eigene Freigabe.
+        </p>
       </Section>
 
       <Section title="Keine individuelle Beratung">

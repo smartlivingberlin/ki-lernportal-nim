@@ -56,6 +56,8 @@ assert.match(page, /hero-honesty-line/);
 assert.match(page, /keine Live-KI/);
 assert.match(page, /hero-secondary-backup/);
 assert.match(page, /href="#fortschritt-sichern"/);
+assert.match(page, /data-testid="footer-noindex-note"/);
+assert.match(page, /Bewusst nicht für Suchmaschinen indexiert/);
 assert.doesNotMatch(page, /60-Minuten-Pfad/);
 assert.doesNotMatch(page, /hero-today-card-desktop/);
 assert.doesNotMatch(page, /hero-today-card-mobile/);
@@ -81,6 +83,17 @@ assert.match(todayCard, /ein Weg reicht/);
 const anmelden = read("apps/web/src/app/anmelden/page.tsx");
 assert.match(anmelden, /Staging \/ Test only/);
 assert.match(anmelden, /kein Production-Konto/);
+
+const impressum = read("apps/web/src/app/impressum/page.tsx");
+assert.match(impressum, /data-testid="impressum-noindex-note"/);
+assert.match(impressum, /robots\.txt Disallow/);
+assert.match(impressum, /noindex/);
+
+const robots = read("apps/web/src/app/robots.ts");
+assert.match(robots, /disallow:\s*["']\/["']/i);
+
+const layout = read("apps/web/src/app/layout.tsx");
+assert.match(layout, /index:\s*false/);
 
 const literacy = read("apps/web/src/data/literacy-path.ts");
 assert.match(literacy, /60-Minuten KI-Kurzpfad/);

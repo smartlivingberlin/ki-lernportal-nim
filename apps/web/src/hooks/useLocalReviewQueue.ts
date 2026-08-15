@@ -6,6 +6,12 @@ import { reviewCards } from "../data/review-cards";
 
 const STORAGE_KEY = "ki-lernportal-nim:spaced-review:v1";
 const CHANGE_EVENT = "ki-lernportal-nim:spaced-review-change";
+/** First visit: only this many cards are due until the learner answers once. */
+export const REVIEW_SOFT_START_LIMIT = 3;
+
+const SOFT_START_CARD_IDS = new Set(
+  reviewCards.slice(0, REVIEW_SOFT_START_LIMIT).map((card) => card.id),
+);
 
 export type ReviewScheduleEntry = {
   cardId: string;
@@ -77,14 +83,39 @@ function nextInterval(level: ConfidenceLevel, previousDays: number): number {
   return Math.max(3, Math.min(30, previousDays > 0 ? previousDays * 2 : 3));
 }
 
+function softStartStillActive(entries: ReviewScheduleEntry[]): boolean {
+  if (entries.length === 0) return true;
+  // Soft-start parking marker: first answer seeds non-pool cards with repetitions 0.
+  // Legacy queues without that marker stay on the full due set.
+  const hasSoftStartParking = entries.some(
+    (entry) =>
+      !SOFT_START_CARD_IDS.has(entry.cardId) && (entry.repetitions ?? 0) === 0,
+  );
+  if (!hasSoftStartParking) return false;
+  return ![...SOFT_START_CARD_IDS].every((id) =>
+    entries.some((entry) => entry.cardId === id && (entry.repetitions ?? 0) > 0),
+  );
+}
+
+function isCardDue(
+  cardId: string,
+  entries: ReviewScheduleEntry[],
+  nowMs: number,
+): boolean {
+  const entry = entries.find((item) => item.cardId === cardId);
+  return !entry || entry.dueAt <= nowMs;
+}
+
 export function useLocalReviewQueue() {
   const snapshot = useSyncExternalStore(subscribe, readSnapshot, () =>
     JSON.stringify({ entries: [] }),
   );
   const store = useMemo(() => parseStore(snapshot), [snapshot]);
+  const softStartActive = softStartStillActive(store.entries);
 
   const recordConfidence = useCallback((cardId: string, level: ConfidenceLevel, nowMs: number) => {
     const current = parseStore(readSnapshot());
+    const wasEmpty = current.entries.length === 0;
     const existing = current.entries.find((entry) => entry.cardId === cardId);
     const intervalDays = nextInterval(level, existing?.intervalDays ?? 0);
     const nextEntry: ReviewScheduleEntry = {
@@ -93,17 +124,46 @@ export function useLocalReviewQueue() {
       intervalDays,
       repetitions: (existing?.repetitions ?? 0) + 1,
     };
-    writeStore({
-      entries: [
-        ...current.entries.filter((entry) => entry.cardId !== cardId),
-        nextEntry,
-      ],
-    });
+    const entries: ReviewScheduleEntry[] = [
+      ...current.entries.filter((entry) => entry.cardId !== cardId),
+      nextEntry,
+    ];
+    // Soft-start: after the first answer, park cards outside the soft-start pool
+    // for tomorrow so the queue does not jump from 3 to all 15 in one session.
+    // Soft-start siblings that were not answered yet stay virgin (still due).
+    if (wasEmpty) {
+      const known = new Set(entries.map((entry) => entry.cardId));
+      for (const card of reviewCards) {
+        if (known.has(card.id)) continue;
+        if (SOFT_START_CARD_IDS.has(card.id)) continue;
+        entries.push({
+          cardId: card.id,
+          dueAt: nowMs + DAY_MS,
+          intervalDays: 1,
+          repetitions: 0,
+        });
+        known.add(card.id);
+      }
+    }
+    writeStore({ entries });
   }, []);
 
   const resetQueue = useCallback(() => {
     writeStore({ entries: [] });
   }, []);
+
+  const listDueCards = useCallback(
+    (nowMs = Date.now()) => {
+      const due = reviewCards.filter((card) => {
+        if (softStartActive && !SOFT_START_CARD_IDS.has(card.id)) {
+          return false;
+        }
+        return isCardDue(card.id, store.entries, nowMs);
+      });
+      return due;
+    },
+    [softStartActive, store.entries],
+  );
 
   return {
     entries: store.entries,
@@ -111,11 +171,11 @@ export function useLocalReviewQueue() {
     cards: reviewCards,
     recordConfidence,
     resetQueue,
+    listDueCards,
+    softStartActive,
+    softStartLimit: REVIEW_SOFT_START_LIMIT,
     countDue(nowMs = Date.now()) {
-      return reviewCards.filter((card) => {
-        const entry = store.entries.find((item) => item.cardId === card.id);
-        return !entry || entry.dueAt <= nowMs;
-      }).length;
+      return listDueCards(nowMs).length;
     },
   };
 }
