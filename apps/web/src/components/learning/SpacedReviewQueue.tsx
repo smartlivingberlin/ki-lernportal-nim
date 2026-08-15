@@ -14,20 +14,18 @@ import { SourceLinkList } from "./SourceLinkList";
  * Keine Server-DB, kein Tracking.
  */
 export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean }) {
-  const { entries, totalCards, cards, recordConfidence, resetQueue } =
-    useLocalReviewQueue();
+  const {
+    totalCards,
+    recordConfidence,
+    resetQueue,
+    listDueCards,
+    softStartActive,
+  } = useLocalReviewQueue();
   const [revealed, setRevealed] = useState(false);
   const [resetOpen, setResetOpen] = useState(false);
   const [nowMs, setNowMs] = useState(() => Date.now());
 
-  const dueCards = useMemo(
-    () =>
-      cards.filter((card) => {
-        const entry = entries.find((item) => item.cardId === card.id);
-        return !entry || entry.dueAt <= nowMs;
-      }),
-    [cards, entries, nowMs],
-  );
+  const dueCards = useMemo(() => listDueCards(nowMs), [listDueCards, nowMs]);
 
   const card = dueCards[0] ?? null;
   const sources = card
@@ -82,6 +80,15 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
           Tipp: Im 60-Minuten-Pfad ist „Wiederholen“ Station 7 — danach kannst du den lokalen
           Nachweis freischalten.
         </p>
+        {softStartActive ? (
+          <p
+            data-testid="spaced-review-soft-start"
+            className="mt-2 text-xs font-semibold leading-5 text-[var(--nim-secondary)]"
+          >
+            Zum Einstieg nur drei Karten — der Rest kommt nach und nach, damit es nicht
+            überfordert.
+          </p>
+        ) : null}
       </ExplainHotspot>
 
       {!card ? (

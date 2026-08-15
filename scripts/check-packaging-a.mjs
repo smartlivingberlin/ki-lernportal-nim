@@ -57,10 +57,19 @@ const spacedReview = read(
 );
 assert.match(spacedReview, /ResetProgressConfirm/);
 assert.match(spacedReview, /data-testid="spaced-review-reset"/);
+assert.match(spacedReview, /data-testid="spaced-review-soft-start"/);
+assert.match(spacedReview, /listDueCards/);
 assert.match(spacedReview, /Übungen zurücksetzen/);
 assert.match(spacedReview, /Wiederholungs-Übungen wirklich zurücksetzen/);
 assert.doesNotMatch(spacedReview, /Queue zurücksetzen/);
 assert.doesNotMatch(spacedReview, /Confidence-Einträge/);
+
+const reviewHook = read("apps/web/src/hooks/useLocalReviewQueue.ts");
+assert.match(reviewHook, /REVIEW_SOFT_START_LIMIT = 3/);
+assert.match(reviewHook, /SOFT_START_CARD_IDS/);
+assert.match(reviewHook, /softStartStillActive/);
+assert.match(reviewHook, /hasSoftStartParking/);
+assert.match(reviewHook, /softStartActive/);
 
 const selfCheck = read("apps/web/src/components/learning/SelfCheckPanel.tsx");
 assert.match(selfCheck, /ResetProgressConfirm/);

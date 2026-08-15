@@ -1234,8 +1234,11 @@ export default function Home() {
             <strong className="font-semibold text-[var(--nim-primary)]">keine Live-KI</strong>
             , kein Cloud-Konto auf Production. Der Lernfortschritt wird nur lokal
             im Browser gespeichert. Keine Lerndatenbank, kein Tracking und noch
-            kein öffentlicher Produktlaunch. Barrierefreiheitsziel:{" "}
-            {designSystemMeta.accessibilityTarget}.
+            kein öffentlicher Produktlaunch.{" "}
+            <span data-testid="footer-noindex-note">
+              Bewusst nicht für Suchmaschinen indexiert.
+            </span>{" "}
+            Barrierefreiheitsziel: {designSystemMeta.accessibilityTarget}.
           </p>
           <nav className="flex flex-wrap gap-3 font-black text-[var(--nim-primary)]" aria-label="Rechtliche Links">
             <a href="/impressum" className="inline-flex min-h-11 items-center hover:underline">Impressum</a>
