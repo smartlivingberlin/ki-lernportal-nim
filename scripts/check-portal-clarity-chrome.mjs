@@ -52,6 +52,10 @@ assert.match(page, /isFirstVisitSurface/);
 assert.match(page, /showDeferredDiscovery/);
 assert.match(page, /Weitere Einstiege/);
 assert.match(page, /hero-secondary-einstieg/);
+assert.match(page, /hero-honesty-line/);
+assert.match(page, /keine Live-KI/);
+assert.match(page, /hero-secondary-backup/);
+assert.match(page, /href="#fortschritt-sichern"/);
 assert.doesNotMatch(page, /60-Minuten-Pfad/);
 assert.doesNotMatch(page, /hero-today-card-desktop/);
 assert.doesNotMatch(page, /hero-today-card-mobile/);
@@ -73,6 +77,10 @@ const todayCard = read(
 assert.match(todayCard, /quietCta/);
 assert.match(todayCard, /today-quiet-hint/);
 assert.match(todayCard, /ein Weg reicht/);
+
+const anmelden = read("apps/web/src/app/anmelden/page.tsx");
+assert.match(anmelden, /Staging \/ Test only/);
+assert.match(anmelden, /kein Production-Konto/);
 
 const literacy = read("apps/web/src/data/literacy-path.ts");
 assert.match(literacy, /60-Minuten KI-Kurzpfad/);
