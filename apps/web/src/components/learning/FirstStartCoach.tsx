@@ -148,7 +148,7 @@ export function FirstStartCoach({
       </div>
 
       <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
-        Kein langer Rundgang. Nur drei klare Schritte — du kannst jederzeit abbrechen.
+        Ein Weg reicht zum Start. Drei kurze Schritte — du kannst jederzeit abbrechen.
         Ausführliche Hover-Hilfe startet erst, wenn du den Coach ausblendest (oder über die
         kleinen „?“-Buttons, falls vorhanden).
       </p>

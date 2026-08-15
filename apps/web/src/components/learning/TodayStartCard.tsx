@@ -8,6 +8,8 @@ type TodayStartCardProps = {
   onOpenLesson: (lessonId: string) => void;
   onOpenDeepenMicro?: (microUnitId: string, worldId: string) => void;
   onShowMore?: () => void;
+  /** First visit: orient without a second competing primary CTA. */
+  quietCta?: boolean;
 };
 
 export function TodayStartCard({
@@ -16,6 +18,7 @@ export function TodayStartCard({
   onOpenLesson,
   onOpenDeepenMicro,
   onShowMore,
+  quietCta = false,
 }: TodayStartCardProps) {
   const handlePrimary = () => {
     if (nextStep.kind === "complete" && onShowMore) {
@@ -71,23 +74,34 @@ export function TodayStartCard({
         {nextStep.layer === "core" ? "Grundlage" : "Vertiefung"} · {nextStep.chipLabel}
       </p>
 
-      <button
-        type="button"
-        data-testid="today-next-step-cta"
-        onClick={handlePrimary}
-        className="nim-interactive mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-4 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
-      >
-        {nextStep.primaryLabel}
-      </button>
-
-      {nextStep.kind === "lesson" ? (
-        <a
-          href="#literacy-pfad"
-          className="mt-3 inline-flex min-h-11 items-center text-sm font-bold text-white/90 underline decoration-white/45 underline-offset-4 hover:decoration-white"
+      {quietCta ? (
+        <p
+          data-testid="today-quiet-hint"
+          className="mt-4 text-sm font-semibold leading-6 text-white/95"
         >
-          Alternative: 60-Minuten-Kurzpfad
-        </a>
-      ) : null}
+          Starte über „Jetzt starten“ oder den 3-Minuten-Coach darunter — ein Weg reicht.
+        </p>
+      ) : (
+        <>
+          <button
+            type="button"
+            data-testid="today-next-step-cta"
+            onClick={handlePrimary}
+            className="nim-interactive mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-[var(--nim-radius-md)] bg-white px-4 py-3 text-sm font-black text-[var(--nim-primary)] hover:bg-[var(--nim-accent-soft)]"
+          >
+            {nextStep.primaryLabel}
+          </button>
+
+          {nextStep.kind === "lesson" ? (
+            <a
+              href="#literacy-pfad"
+              className="mt-3 inline-flex min-h-11 items-center text-sm font-bold text-white/90 underline decoration-white/45 underline-offset-4 hover:decoration-white"
+            >
+              Alternative: 60-Minuten-Kurzpfad
+            </a>
+          ) : null}
+        </>
+      )}
     </section>
   );
 }
