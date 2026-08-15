@@ -19,9 +19,8 @@ export function SourceLinkList({
   if (sources.length === 0) return null;
 
   return (
-    <section
+    <div
       data-testid={testId}
-      aria-label={heading}
       className={compact ? "mt-3" : "mt-4"}
     >
       <p
@@ -62,6 +61,6 @@ export function SourceLinkList({
           </li>
         ))}
       </ul>
-    </section>
+    </div>
   );
 }
