@@ -103,10 +103,10 @@ Isoliertes Staging-Environment `staging` ist angelegt und HTTP-grün unter
 Nachweise: `docs/architecture/S51D_B_STAGING_EXECUTION.md`.
 
 Live-Probe 2026-08-15: Production und Staging melden Build-SHA
-`8e59f061ab32` (`/version`, nach #212 Forensic-Handoff; Production-Domain
+`1d6cc65b9f1c` (`/version`, nach #215 IA-Trim; Production-Domain
 `web-production-51d3c8.up.railway.app`); Ready-Check `database=not_configured`.
-Datenschutz-/Einstiegs-Klarheit (#213) und Forensic IST-Stand/Handoff (#212) sind
-in `main` integriert. Production-Auth und Railway-DB bleiben gesperrt.
+Docs-Sync (#214) und IA-Trim / Progressive Disclosure v2 (#215) sind in `main`
+integriert. Production-Auth und Railway-DB bleiben gesperrt.
 S52-D2b: Staging `AUTH_RUNTIME` HTTP-verifiziert (Login-Formular + `401`);
 Freigabe D: optionaler Staging-Memory-Seed über `STAGING_BOOTSTRAP_*`
 (Hash only, keine Secrets im Repo, Production unverändert).
@@ -119,7 +119,7 @@ CURRENT_PRODUCTION_AUTODEPLOY=DISABLED
 CURRENT_WAIT_FOR_CI=ON
 CURRENT_CONFIG_SOURCE=DASHBOARD_NO_RAILWAY_JSON
 CURRENT_ROOT_DIRECTORY=apps/web
-LIVE_BUILD_SHA_OBSERVED=8e59f061ab32
+LIVE_BUILD_SHA_OBSERVED=1d6cc65b9f1c
 STAGING_ENVIRONMENT_CREATED=YES
 STAGING_PUBLIC_DOMAIN=ki-lernportal-nim-staging.up.railway.app
 STAGING_AUTODEPLOY=DISABLED
