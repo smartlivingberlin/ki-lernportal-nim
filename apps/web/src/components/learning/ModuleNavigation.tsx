@@ -88,6 +88,7 @@ export function ModuleNavigation({
         <p className="text-xs leading-5 text-[var(--nim-secondary)]">{module.description}</p>
         {lessons.map((lesson) => {
           const lessonUnsure = unsureLessonIds.includes(lesson.id);
+          const lessonCompleted = completedLessonIds.includes(lesson.id);
           return (
             <button
               key={lesson.id}
@@ -103,21 +104,19 @@ export function ModuleNavigation({
             >
               <span
                 className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--nim-radius-sm)] text-xs font-black ${
-                  lessonUnsure
-                    ? "bg-[var(--nim-accent)] text-white"
-                    : completedLessonIds.includes(lesson.id)
-                      ? "bg-[var(--nim-success)] text-white"
+                  lessonCompleted
+                    ? lessonUnsure
+                      ? "bg-[var(--nim-success)] text-white ring-2 ring-[var(--nim-accent)]"
+                      : "bg-[var(--nim-success)] text-white"
+                    : lessonUnsure
+                      ? "bg-[var(--nim-accent)] text-white"
                       : activeLessonId === lesson.id
                         ? "bg-white text-[var(--nim-primary-strong)]"
                         : "bg-[var(--nim-surface-soft)] text-[var(--nim-primary)]"
                 }`}
                 aria-hidden="true"
               >
-                {lessonUnsure
-                  ? "?"
-                  : completedLessonIds.includes(lesson.id)
-                    ? "✓"
-                    : lesson.order}
+                {lessonCompleted ? "✓" : lessonUnsure ? "?" : lesson.order}
               </span>
 
               <span className="min-w-0">

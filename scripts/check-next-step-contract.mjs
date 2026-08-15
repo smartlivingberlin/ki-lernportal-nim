@@ -48,6 +48,42 @@ assert.match(
   read("apps/web/src/components/learning/LessonWorkspace.tsx"),
   /Noch unsicher — Nächster Schritt erinnert dich/,
 );
+assert.match(
+  read("apps/web/src/components/learning/LessonWorkspace.tsx"),
+  /Noch unsicher merken/,
+);
+assert.match(
+  read("apps/web/src/components/learning/LessonWorkspace.tsx"),
+  /lesson-unsure-honesty/,
+);
+assert.match(
+  read("apps/web/src/components/learning/LessonWorkspace.tsx"),
+  /Erinnerung im „Nächsten Schritt“ erst nach/,
+);
+assert.match(
+  read("apps/web/src/components/learning/TodayStartCard.tsx"),
+  /today-unsure-review-link/,
+);
+assert.match(
+  read("apps/web/src/components/learning/TodayStartCard.tsx"),
+  /Nochmal ansehen/,
+);
+assert.match(
+  read("apps/web/src/components/learning/SpacedReviewQueue.tsx"),
+  /spaced-review-empty/,
+);
+assert.match(
+  read("apps/web/src/components/learning/SpacedReviewQueue.tsx"),
+  /getrennt vom Lektions-Haken/,
+);
+assert.match(
+  read("apps/web/src/components/learning/ModuleNavigation.tsx"),
+  /lessonCompleted/,
+);
+assert.match(
+  read("apps/web/src/components/learning/ModuleNavigation.tsx"),
+  /ring-\[var\(--nim-accent\)\]/,
+);
 const lessonWorkspace = read(
   "apps/web/src/components/learning/LessonWorkspace.tsx",
 );

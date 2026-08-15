@@ -93,12 +93,22 @@ export function TodayStartCard({
           </button>
 
           {nextStep.kind === "lesson" ? (
-            <a
-              href="#literacy-pfad"
-              className="mt-3 inline-flex min-h-11 items-center text-sm font-bold text-white/90 underline decoration-white/45 underline-offset-4 hover:decoration-white"
-            >
-              Alternative: 60-Minuten-Kurzpfad
-            </a>
+            nextStep.chipLabel === "Nochmal ansehen" ? (
+              <a
+                href="#wiederholen"
+                data-testid="today-unsure-review-link"
+                className="mt-3 inline-flex min-h-11 items-center text-sm font-bold text-white/90 underline decoration-white/45 underline-offset-4 hover:decoration-white"
+              >
+                Oder kurz wiederholen
+              </a>
+            ) : (
+              <a
+                href="#literacy-pfad"
+                className="mt-3 inline-flex min-h-11 items-center text-sm font-bold text-white/90 underline decoration-white/45 underline-offset-4 hover:decoration-white"
+              >
+                Alternative: 60-Minuten-Kurzpfad
+              </a>
+            )
           ) : null}
         </>
       )}
