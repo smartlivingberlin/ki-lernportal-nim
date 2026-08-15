@@ -84,8 +84,12 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
       </ExplainHotspot>
 
       {!card ? (
-        <p className="mt-5 rounded-[var(--nim-radius-md)] bg-[var(--nim-success-soft)] p-4 text-sm font-bold text-[var(--nim-success)]">
-          Gerade ist nichts fällig. Komm später wieder — oder setze die Übungen zurück, um erneut zu starten.
+        <p
+          data-testid="spaced-review-empty"
+          className="mt-5 rounded-[var(--nim-radius-md)] bg-[var(--nim-success-soft)] p-4 text-sm font-bold text-[var(--nim-success)]"
+        >
+          Gerade ist nichts fällig. Unsichere Karten kommen früher wieder —
+          sichere erst später. Schau später noch einmal vorbei.
         </p>
       ) : (
         <div className="mt-5 rounded-[var(--nim-radius-lg)] bg-[var(--nim-surface-soft)] p-4">
@@ -155,6 +159,7 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
                 </div>
                 <p className="mt-2 text-xs font-semibold leading-5 text-[var(--nim-secondary)]">
                   Wird in diesem Browser gespeichert und steuert, wann die Karte wieder kommt.
+                  Das ist getrennt vom Lektions-Haken „Noch unsicher“.
                 </p>
               </fieldset>
             </div>
@@ -163,16 +168,29 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
       )}
 
       <div className="mt-4 flex flex-wrap gap-2">
-        <button
-          type="button"
-          data-testid="spaced-review-reset"
-          aria-expanded={resetOpen}
-          aria-controls="spaced-review-reset-confirm"
-          onClick={() => setResetOpen(true)}
-          className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-4 text-xs font-black text-[var(--nim-primary)]"
-        >
-          Übungen zurücksetzen
-        </button>
+        {card || resetOpen ? (
+          <button
+            type="button"
+            data-testid="spaced-review-reset"
+            aria-expanded={resetOpen}
+            aria-controls="spaced-review-reset-confirm"
+            onClick={() => setResetOpen(true)}
+            className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] border border-[var(--nim-border)] px-4 text-xs font-black text-[var(--nim-primary)]"
+          >
+            Übungen zurücksetzen
+          </button>
+        ) : (
+          <button
+            type="button"
+            data-testid="spaced-review-reset"
+            aria-expanded={resetOpen}
+            aria-controls="spaced-review-reset-confirm"
+            onClick={() => setResetOpen(true)}
+            className="nim-interactive min-h-11 rounded-[var(--nim-radius-md)] px-2 text-xs font-bold text-[var(--nim-secondary)] underline decoration-[var(--nim-secondary)]/40 underline-offset-4 hover:text-[var(--nim-primary)] hover:decoration-[var(--nim-primary)]"
+          >
+            Alle Karten neu starten
+          </button>
+        )}
       </div>
       <div id="spaced-review-reset-confirm">
         <ResetProgressConfirm

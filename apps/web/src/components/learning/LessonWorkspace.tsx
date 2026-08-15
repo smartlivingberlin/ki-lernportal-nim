@@ -225,14 +225,36 @@ export function LessonWorkspace({
               type="button"
               onClick={onToggleUnsure}
               aria-pressed={unsure}
+              data-testid="lesson-unsure-toggle"
               className={`nim-interactive mt-3 w-full min-h-11 rounded-[var(--nim-radius-md)] border px-5 py-4 text-sm font-black ${
                 unsure
                   ? "border-[var(--nim-accent)] bg-[var(--nim-accent-soft)] text-[var(--foreground)]"
                   : "border-[var(--nim-border)] bg-[var(--nim-surface)] text-[var(--nim-primary)] hover:border-[var(--nim-primary)]"
               }`}
             >
-              {unsure ? "Nicht mehr unsicher" : "Noch unsicher — Nächster Schritt erinnert dich"}
+              {unsure
+                ? "Nicht mehr unsicher"
+                : completed
+                  ? "Noch unsicher — Nächster Schritt erinnert dich"
+                  : "Noch unsicher merken"}
             </button>
+            {!completed && !unsure ? (
+              <p
+                data-testid="lesson-unsure-honesty"
+                className="mt-2 text-xs font-semibold leading-5 text-[var(--nim-secondary)]"
+              >
+                Erinnerung im „Nächsten Schritt“ erst nach „Als erledigt markieren“.
+              </p>
+            ) : null}
+            {completed && unsure ? (
+              <a
+                href="#wiederholen"
+                data-testid="lesson-unsure-review-link"
+                className="nim-interactive mt-2 inline-flex min-h-11 items-center text-sm font-black text-[var(--nim-primary)] underline decoration-[var(--nim-primary)]/40 underline-offset-4 hover:decoration-[var(--nim-primary)]"
+              >
+                Oder kurz wiederholen
+              </a>
+            ) : null}
 
             <button
               type="button"

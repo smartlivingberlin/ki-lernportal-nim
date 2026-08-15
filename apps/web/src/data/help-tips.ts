@@ -126,6 +126,7 @@ export const helpTips: HelpTip[] = [
     links: [
       { href: "#selbstcheck", label: "Selbstcheck" },
       { href: "#literacy-pfad", label: "Kurzpfad" },
+      { href: "#wiederholen", label: "Wiederholen" },
       { href: "#pfad", label: "Lektionen" },
     ],
   },
@@ -276,19 +277,19 @@ export const helpTips: HelpTip[] = [
     label: "Wiederholen",
     short: "Kurze Fragen mit Abstand — so bleibt Wissen besser hängen.",
     whatIs:
-      "Ein kleiner Wiederhol-Bereich. Du siehst eine Frage, denkst nach, deckst die Antwort auf und sagst, wie sicher du warst. Unsicheres kommt früher wieder.",
+      "Ein kleiner Wiederhol-Bereich. Du siehst eine Frage, denkst nach, deckst die Antwort auf und sagst, wie sicher du warst. „Noch unklar“ kommt früher wieder als „Sicher“.",
     whatFor:
       "Aktives Erinnern wirkt stärker als nur Mitlesen. Du merkst, was schon sitzt — und was noch wackelt — ohne Prüfungsdruck.",
     canDo: [
       "Frage lesen und erst selbst antworten (im Kopf oder kurz notieren).",
       "Antwort anzeigen und vergleichen.",
-      "Sicherheit ehrlich wählen (sicher / etwas unsicher / unsicher).",
+      "Sicherheit ehrlich wählen (Sicher / Etwas unsicher / Noch unklar).",
       "Quellennotiz lesen, wenn du unsicher warst.",
     ],
     example:
-      "„Was ist eine Halluzination?“ → nachdenken → Antwort → „etwas unsicher“ → die Karte kommt bald wieder.",
+      "„Was ist eine Halluzination?“ → nachdenken → Antwort → „Etwas unsicher“ → die Karte kommt bald wieder.",
     mistake:
-      "Sofort „Antwort anzeigen“ tippen ohne nachzudenken. Dann trainierst du Klicken, nicht Erinnern.",
+      "Sofort „Antwort anzeigen“ tippen ohne nachzudenken. Dann trainierst du Klicken, nicht Erinnern. Oder Lektions-„Noch unsicher“ mit den Karten-Einschätzungen verwechseln — beides bleibt lokal, aber getrennt.",
     links: [
       { href: "#methoden", label: "Lernmethoden erklären" },
       { href: "#literacy-pfad", label: "Im 60-Minuten-Pfad (Station 7)" },
@@ -331,14 +332,16 @@ export const helpTips: HelpTip[] = [
       "Die Mini-Übung wirklich ausfüllen.",
       "Unklare Wörter im Glossar nachschlagen.",
       "Als erledigt markieren und zur nächsten offenen Lektion gehen.",
+      "„Noch unsicher“ setzen — der Nächste Schritt erinnert dich erst nach Erledigt.",
       "„Link kopieren“ — teilt nur den Lektions-Link, keinen Lernstand und kein Konto.",
     ],
     example:
-      "Lektion „Was ist KI?“ lesen → kurze Übung → Haken setzen → der Pfad zeigt den nächsten Schritt.",
+      "Lektion „Was ist KI?“ lesen → kurze Übung → Haken setzen → optional „Noch unsicher“ → der Pfad zeigt den nächsten Schritt.",
     mistake:
       "Nur die Überschrift lesen und sofort zur nächsten Lektion springen. Dann entsteht ein falsches Gefühl von Fortschritt.",
     links: [
       { href: "#pfad", label: "Andere Lektion im Pfad wählen" },
+      { href: "#wiederholen", label: "Kurz wiederholen" },
       { href: "#quellen", label: "Aussagen nachprüfen" },
       { href: "#coach", label: "Sicherheitsregeln" },
     ],
@@ -505,6 +508,7 @@ export const helpTips: HelpTip[] = [
     links: [
       { href: "#heute", label: "Heute-Karte" },
       { href: "#literacy-pfad", label: "Kurzpfad" },
+      { href: "#wiederholen", label: "Wiederholen" },
     ],
   },
   {
