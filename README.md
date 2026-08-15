@@ -103,10 +103,10 @@ Isoliertes Staging-Environment `staging` ist angelegt und HTTP-grün unter
 Nachweise: `docs/architecture/S51D_B_STAGING_EXECUTION.md`.
 
 Live-Probe 2026-08-15: Production und Staging melden Build-SHA
-`aa21e4e6ffaa` (`/version`, nach #219 Unsicher/Review; Production-Domain
+`c5dd8db75f06` (`/version`, nach #221 Quellenparität; Production-Domain
 `web-production-51d3c8.up.railway.app`); Ready-Check `database=not_configured`.
-Docs-Sync (#218) und Unsicherheitsfluss / Spaced-Review Feinschliff (#219) sind
-in `main` integriert. Production-Auth und Railway-DB bleiben gesperrt.
+Docs-Sync (#220) und Quellenparität über verbliebene Wegweiser (#221) sind in
+`main` integriert. Production-Auth und Railway-DB bleiben gesperrt.
 S52-D2b: Staging `AUTH_RUNTIME` HTTP-verifiziert (Login-Formular + `401`);
 Freigabe D: optionaler Staging-Memory-Seed über `STAGING_BOOTSTRAP_*`
 (Hash only, keine Secrets im Repo, Production unverändert).
