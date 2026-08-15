@@ -44,7 +44,15 @@ Felder (siehe `ThemeWorld` in `apps/web/src/data/types.ts`):
 ## Lernmethoden-Katalog
 
 Seed in `apps/web/src/data/learning-methods.ts` — UI zeigt die Methoden klar
-sichtbar, damit Lernende verstehen *warum* geübt wird.
+sichtbar, damit Lernende verstehen *warum* geübt wird. Jede Methode trägt
+`sourceIds` auf freigegebene `publicSources` (Quellenparität).
+
+## Quellenparität (Wegweiser)
+
+Claim-bearing surfaces (Lektionen, Micro-Einheiten, Review-Karten,
+Lernmethoden, Glossar, Challenges) referenzieren nur freigegebene
+`publicSources` und rendern sie mit `data-source-id` / Publisher /
+Prüfdatum. Gate: `pnpm source:check` + `pnpm test:quellenparitaet`.
 
 ## Migrationspfad
 

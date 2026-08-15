@@ -169,6 +169,9 @@ jobs:
       - name: Source and lesson integrity check
         run: pnpm source:check
 
+      - name: Quellenparität Wegweiser static check
+        run: pnpm test:quellenparitaet
+
       - name: Install Playwright Chromium
         shell: bash
         run: |

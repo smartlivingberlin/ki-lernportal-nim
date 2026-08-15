@@ -2,6 +2,7 @@
 
 import { useId, useState } from "react";
 import type { ConfidenceLevel, MicroLearningUnitV2, Source } from "../../data/types";
+import { SourceLinkList } from "./SourceLinkList";
 
 type MicroLearningUnitViewProps = {
   unit: MicroLearningUnitV2;
@@ -178,25 +179,16 @@ export function MicroLearningUnitView({
       </fieldset>
 
       {sources.length > 0 ? (
-        <section className="mt-5">
-          <h4 className="text-sm font-black text-[var(--nim-primary)]">Quellen</h4>
-          <ul className="mt-3 space-y-2">
-            {sources.map((source) => (
-              <li key={source.id}>
-                <a
-                  href={source.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-11 items-center text-sm font-bold text-[var(--nim-primary)] underline-offset-2 hover:underline"
-                >
-                  {source.name}
-                  <span className="sr-only"> – öffnet in einem neuen Tab</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-2 text-xs text-[var(--nim-secondary)]">Zuletzt geprüft: {unit.lastReviewed}</p>
-        </section>
+        <div className="mt-5">
+          <SourceLinkList
+            sources={sources}
+            heading="Quellen"
+            testId="micro-unit-sources"
+          />
+          <p className="mt-2 text-xs text-[var(--nim-secondary)]">
+            Zuletzt geprüft: {unit.lastReviewed}
+          </p>
+        </div>
       ) : null}
 
       {onToggleCompleted ? (

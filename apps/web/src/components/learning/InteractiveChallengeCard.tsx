@@ -1,7 +1,9 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import type { ConfidenceLevel, InteractiveChallenge } from "../../data/types";
+import { publicSources } from "../../data/sources";
+import { SourceLinkList } from "./SourceLinkList";
 
 type InteractiveChallengeCardProps = {
   challenge: InteractiveChallenge;
@@ -19,6 +21,13 @@ export function InteractiveChallengeCard({
   const [confidence, setConfidence] = useState<ConfidenceLevel | null>(null);
 
   const selected = challenge.options.find((option) => option.id === selectedOptionId) ?? null;
+  const sources = useMemo(
+    () =>
+      challenge.sourceIds
+        .map((id) => publicSources.find((source) => source.id === id))
+        .filter((source): source is NonNullable<typeof source> => Boolean(source)),
+    [challenge.sourceIds],
+  );
 
   const choose = (optionId: string) => {
     setSelectedOptionId(optionId);
@@ -167,6 +176,13 @@ export function InteractiveChallengeCard({
           .
         </p>
       </fieldset>
+
+      <SourceLinkList
+        sources={sources}
+        heading="Quellen zu diesem Wissensblitz"
+        testId="challenge-sources"
+        compact
+      />
     </article>
   );
 }

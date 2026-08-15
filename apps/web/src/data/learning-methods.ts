@@ -2,8 +2,7 @@ import type { LearningMethod } from "./types";
 
 /**
  * Evidenznahe Lernmethoden, die das Portal aktiv einbauen soll.
- * Quellen: Retrieval Practice (Karpicke), Worked Examples + stepwise retrieval,
- * UNESCO AI Competency Frameworks, Gamification für AI Literacy (Pinski et al.).
+ * Quellenparität: nur freigegebene `publicSources` (DigComp, OECD, NIST, WCAG).
  */
 export const learningMethods: LearningMethod[] = [
   {
@@ -17,6 +16,7 @@ export const learningMethods: LearningMethod[] = [
     howWeUseIt:
       "Jede Übung zeigt Hinweis und Beispielweg, bevor du deine eigene Antwort schreibst.",
     interactionHint: "Tipp auf „Beispielweg ansehen“, dann eigene Antwort schreiben.",
+    sourceIds: ["digcomp-30"],
   },
   {
     id: "method-retrieval",
@@ -29,6 +29,7 @@ export const learningMethods: LearningMethod[] = [
     howWeUseIt:
       "Kontrollfragen, Selbstchecks und interaktive Wissensblitze nach dem Lesen.",
     interactionHint: "Beantworte die Frage erst, bevor du die Lösung aufdeckst.",
+    sourceIds: ["digcomp-30"],
   },
   {
     id: "method-spaced",
@@ -41,6 +42,7 @@ export const learningMethods: LearningMethod[] = [
     howWeUseIt:
       "Lokale Wiederholungsübungen: Abruffragen mit Abstand nach Einschätzung (sicher / unsicher / unklar).",
     interactionHint: "Markiere „noch unklar“, damit die Karte früher wiederkommt.",
+    sourceIds: ["digcomp-30"],
   },
   {
     id: "method-teachback",
@@ -53,6 +55,7 @@ export const learningMethods: LearningMethod[] = [
     howWeUseIt:
       "„Erklär es selbst“-Felder in Challenges und Vertiefung — nur für die aktuelle Ansicht, nicht in der Sicherung.",
     interactionHint: "Schreibe einen kurzen Satz ohne Fachwort — oder übersetze das Fachwort.",
+    sourceIds: ["digcomp-30", "oecd-ai-principles"],
   },
   {
     id: "method-scenario",
@@ -65,6 +68,7 @@ export const learningMethods: LearningMethod[] = [
     howWeUseIt:
       "E-Mail, Recherche, Datenschutz und Berufsszenen in Übungen und Challenges.",
     interactionHint: "Wähle die Situation, die zu deinem Alltag passt.",
+    sourceIds: ["digcomp-30", "oecd-ai-principles"],
   },
   {
     id: "method-confidence",
@@ -77,6 +81,7 @@ export const learningMethods: LearningMethod[] = [
     howWeUseIt:
       "Einschätzungs-Buttons in der Wiederholen-Übung — dort lokal gespeichert. In Challenges und Vertiefungs-Einheiten gilt die Einschätzung nur für die aktuelle Ansicht.",
     interactionHint: "Kein Test. Ehrlichkeit hilft dem Lernweg mehr als „perfekt“.",
+    sourceIds: ["digcomp-30", "nist-ai-rmf"],
   },
   {
     id: "method-progressive",
@@ -89,6 +94,7 @@ export const learningMethods: LearningMethod[] = [
     howWeUseIt:
       "Einfache Ansicht, aufklappbare Details und kurze Merksätze vor dem Feinschliff.",
     interactionHint: "Nutze die Einfache Ansicht, wenn dir die Seite zu voll wirkt.",
+    sourceIds: ["digcomp-30", "wcag-22"],
   },
   {
     id: "method-playful",
@@ -101,5 +107,6 @@ export const learningMethods: LearningMethod[] = [
     howWeUseIt:
       "Wissensblitze, Szenario-Entscheidungen und Fortschrittsfeedback statt Highscore-Jagd.",
     interactionHint: "Mach eine Challenge wie ein Mini-Rätsel — Fehler sind erlaubt.",
+    sourceIds: ["digcomp-30", "oecd-ai-principles"],
   },
 ];

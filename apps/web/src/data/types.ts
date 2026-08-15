@@ -87,6 +87,8 @@ export interface GlossaryTerm {
   example: string;
   priority: 1 | 2 | 3;
   category?: string;
+  /** Freigegebene Primärquellen aus `publicSources` (Quellenparität). */
+  sourceIds: string[];
 }
 
 export type ModelCapability =
@@ -193,6 +195,8 @@ export interface LearningMethod {
   whyItHelps: string;
   howWeUseIt: string;
   interactionHint: string;
+  /** Freigegebene Primärquellen aus `publicSources` (Quellenparität). */
+  sourceIds: string[];
 }
 
 export interface ChallengeOption {
@@ -213,6 +217,8 @@ export interface InteractiveChallenge {
   teachBackPrompt: string;
   methodIds: string[];
   scenarioDomain?: "alltag" | "beruf" | "sicherheit" | "grundlagen";
+  /** Freigegebene Primärquellen aus `publicSources` (Quellenparität). */
+  sourceIds: string[];
 }
 
 /**
