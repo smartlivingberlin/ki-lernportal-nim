@@ -219,7 +219,7 @@ async function main() {
 
     await page
       .getByRole("heading", {
-        name: "Dein geführter KI-Lernraum.",
+        name: /KI einfach lernen|Dein geführter KI-Lernraum/,
       })
       .waitFor({
         state: "visible",

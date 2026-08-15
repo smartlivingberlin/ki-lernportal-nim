@@ -34,9 +34,10 @@ export default function DatenschutzPage() {
         </p>
         <p className="mt-2">
           Diese Hinweise beschreiben den aktuellen begrenzten Funktionsstand.
-          Für spätere Funktionen wie Login, Zahlungen, Analytics, Newsletter,
-          Kontaktformular oder KI-Dienste müssen die Hinweise vor deren
-          Aktivierung erneut technisch und rechtlich geprüft werden.
+          Lernen ist ohne Konto möglich. Für spätere produktive Konten,
+          Zahlungen, Analytics, Newsletter, Kontaktformular oder KI-Dienste
+          müssen die Hinweise vor deren Aktivierung erneut technisch und
+          rechtlich geprüft werden.
         </p>
       </div>
 
@@ -92,16 +93,30 @@ export default function DatenschutzPage() {
         </p>
 
         <ul className="list-disc space-y-2 pl-6">
-          <li>kein Nutzerkonto und kein Login</li>
+          <li>
+            kein öffentliches Nutzerkonto und kein Login-Zwang zum Lernen
+          </li>
+          <li>
+            keine produktive Anmeldung in der öffentlichen Konzeptdemo
+            (Production-Auth ist abgeschaltet)
+          </li>
+          <li>
+            optional nur hinter Feature-Flag: Test-Anmeldung unter{" "}
+            <Link href="/anmelden" className="font-medium text-slate-950 underline">
+              /anmelden
+            </Link>{" "}
+            (z.&nbsp;B. Staging) — nicht erforderlich für Lernfortschritt
+          </li>
           <li>kein Mitgliederbereich</li>
           <li>keine Zahlungs- oder Abofunktion</li>
           <li>kein Kontaktformular und kein Newsletter</li>
           <li>keine produktive Analyse- oder Tracking-Funktion</li>
           <li>keine nicht notwendigen Marketing- oder Tracking-Cookies</li>
           <li>
-            lokale Speicherung erledigter Lektionen im Browser
+            lokale Speicherung von Lernfortschritt und Einstellungen im Browser
           </li>
           <li>keine serverseitige Lerndatenbank</li>
+          <li>keine Live-KI-/LLM-Anbindung an Drittanbieter</li>
         </ul>
 
         <p>
@@ -184,6 +199,26 @@ export default function DatenschutzPage() {
             </code>
           </li>
           <li className="min-w-0">
+            <span className="block">Einstiegs-Selbstcheck (Antworten/Empfehlung):</span>
+            <code
+              className="mt-1 block max-w-full rounded bg-slate-100 px-1"
+              style={{ wordBreak: "break-all", overflowWrap: "anywhere" }}
+            >
+              ki-lernportal-nim:self-check:v1
+            </code>
+          </li>
+          <li className="min-w-0">
+            <span className="block">
+              „Noch unsicher“-Markierungen an Lektionen:
+            </span>
+            <code
+              className="mt-1 block max-w-full rounded bg-slate-100 px-1"
+              style={{ wordBreak: "break-all", overflowWrap: "anywhere" }}
+            >
+              ki-lernportal-nim:lesson-confidence:v1
+            </code>
+          </li>
+          <li className="min-w-0">
             <span className="block">Einfache Ansicht (Schalter):</span>
             <code
               className="mt-1 block max-w-full rounded bg-slate-100 px-1"
@@ -204,16 +239,19 @@ export default function DatenschutzPage() {
         </ul>
 
         <p>
-          Die Sicherungsdatei unter „Fortschritt sichern“ enthält die vier
-          Lernstände (Lektionen, Vertiefung, Kurzpfad, Wiederholen). Einfache
-          Ansicht und Einstiegs-Coach bleiben absichtlich außerhalb der
-          Sicherung und außerhalb des globalen Zurücksetzens.
+          Die Sicherungsdatei unter „Fortschritt sichern“ enthält die sechs
+          Lernstände (Lektionen, Vertiefung, Kurzpfad, Wiederholen,
+          Selbstcheck und „Noch unsicher“). Einfache Ansicht und
+          Einstiegs-Coach bleiben absichtlich außerhalb der Sicherung und
+          außerhalb des globalen Zurücksetzens.
         </p>
 
         <p>
           Nach dem aktuellen Code verbleibt dieser Lernstand auf dem verwendeten
-          Endgerät. Er wird nicht mit einem Nutzerkonto verbunden und nicht an
-          eine serverseitige Lerndatenbank übertragen.
+          Endgerät. Er wird nicht mit einem öffentlichen Nutzerkonto verbunden
+          und nicht an eine serverseitige Lerndatenbank übertragen. Eine
+          optionale Test-Anmeldung (siehe Abschnitt 2) speichert keinen
+          Lernfortschritt auf dem Server.
         </p>
 
         <p>
@@ -247,16 +285,27 @@ export default function DatenschutzPage() {
         </p>
 
         <p>
-          Die lokale Fortschrittsspeicherung im Browser wird in Abschnitt 4
-          beschrieben. Sie ist von einer serverseitigen Lerndatenbank zu
-          unterscheiden.
+          Die lokale Fortschrittsspeicherung im Browser (
+          <code className="rounded bg-slate-100 px-1">localStorage</code>,
+          Abschnitt 4) dient der gewünschten Lernfunktion auf diesem Gerät. Sie
+          ist von einer serverseitigen Lerndatenbank zu unterscheiden.
         </p>
 
         <p>
-          Werden später Analytics, Login, Formulare, KI-Dienste oder andere
-          Drittanbieter-Funktionen ergänzt, muss vor der Aktivierung geprüft
-          werden, ob zusätzliche Hinweise, Einwilligungen oder technische
-          Schutzmaßnahmen erforderlich sind.
+          Wenn die Auth-Runtime hinter Feature-Flag aktiv ist (typischerweise
+          nur Staging), kann bei erfolgreicher Test-Anmeldung ein technisches
+          Sitzungs-Cookie{" "}
+          <code className="rounded bg-slate-100 px-1">nim_session</code>{" "}
+          gesetzt werden (HttpOnly, Secure, SameSite=Lax). In der öffentlichen
+          Production-Konzeptdemo ist diese Runtime abgeschaltet; Lernen
+          benötigt kein Cookie.
+        </p>
+
+        <p>
+          Werden später Analytics, produktive Konten, Formulare, KI-Dienste oder
+          andere Drittanbieter-Funktionen ergänzt, muss vor der Aktivierung
+          geprüft werden, ob zusätzliche Hinweise, Einwilligungen oder
+          technische Schutzmaßnahmen erforderlich sind.
         </p>
       </Section>
 
@@ -339,7 +388,7 @@ export default function DatenschutzPage() {
 
       <Section title="13. Änderungsstand">
         <p>
-          Stand: 12. Juli 2026.
+          Stand: 15. August 2026.
         </p>
 
         <p>
