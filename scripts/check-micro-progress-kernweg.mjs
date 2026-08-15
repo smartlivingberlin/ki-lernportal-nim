@@ -47,5 +47,12 @@ assert.match(reset, /Vertiefungs-Einheiten/);
 
 const privacy = read("apps/web/src/app/datenschutz/page.tsx");
 assert.match(privacy, /ki-lernportal-nim:micro-progress:v1/);
+assert.match(privacy, /ki-lernportal-nim:self-check:v1/);
+assert.match(privacy, /ki-lernportal-nim:lesson-confidence:v1/);
+assert.match(privacy, /sechs\s+Lernstände/);
+assert.doesNotMatch(privacy, /vier\s+Lernstände/);
+assert.doesNotMatch(privacy, /kein Nutzerkonto und kein Login</);
+assert.match(privacy, /\/anmelden/);
+assert.match(privacy, /nim_session/);
 
 console.log("MICRO_PROGRESS_KERN_WEG_STATIC_OK=YES");
