@@ -50,6 +50,10 @@ Maßgeblich für den gegenwärtigen Stand sind:
 - [`docs/architecture/S51B_IMPLEMENTATION_SCOPE.md`](docs/architecture/S51B_IMPLEMENTATION_SCOPE.md)
 - [`docs/architecture/S51B_B_IMPLEMENTATION_SCOPE.md`](docs/architecture/S51B_B_IMPLEMENTATION_SCOPE.md)
 - [`docs/architecture/PLATFORM_CONTRACTS.md`](docs/architecture/PLATFORM_CONTRACTS.md)
+- Forensic IST-Stand / Handoff (2026-08-15):
+  [`docs/audit/2026-08-15-forensic/`](docs/audit/2026-08-15-forensic/)
+  (Index: [`docs/audit/README.md`](docs/audit/README.md);
+  Start: [`PROJECT_STATE_HANDOFF.md`](docs/audit/2026-08-15-forensic/PROJECT_STATE_HANDOFF.md))
 
 S50B-R2 bleibt als historische Architekturgrundlage erhalten:
 

@@ -2,6 +2,18 @@
 
 Read-only multidisciplinary product audit of **KI-Lernportal NIM** at commit `5c489c2d1acf…`.
 
+## Open these files
+
+| Where | How |
+|-------|-----|
+| This workspace | `docs/audit/2026-08-15-forensic/` (same folder as this README) |
+| Laptop (branch) | `git checkout cursor/forensic-audit-handoff-b554` then open the paths below |
+| Laptop (after merge) | pull `main`, then same paths |
+| Browser | [PR #212](https://github.com/smartlivingberlin/ki-lernportal-nim/pull/212) · [folder on branch](https://github.com/smartlivingberlin/ki-lernportal-nim/tree/cursor/forensic-audit-handoff-b554/docs/audit/2026-08-15-forensic) |
+| Other models | Point them at `PROJECT_STATE_HANDOFF.md` or `.json` first |
+
+Parent index: [`../README.md`](../README.md)
+
 | File | Purpose |
 |------|---------|
 | [PROJECT_AUDIT_FULL.md](./PROJECT_AUDIT_FULL.md) | Full due-diligence report (§1–§46) |
