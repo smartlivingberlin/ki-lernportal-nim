@@ -58,7 +58,7 @@ export function GuidedStartSteps({
             <a
               href="#fortschritt-sichern"
               data-testid="guided-start-backup-link"
-              className="font-black text-[var(--nim-primary)] underline decoration-[var(--nim-primary)]/40 underline-offset-4 hover:decoration-[var(--nim-primary)]"
+              className="nim-interactive inline-flex min-h-11 items-center font-black text-[var(--nim-primary)] underline decoration-[var(--nim-primary)]/40 underline-offset-4 hover:decoration-[var(--nim-primary)]"
             >
               Fortschritt sichern
             </a>
