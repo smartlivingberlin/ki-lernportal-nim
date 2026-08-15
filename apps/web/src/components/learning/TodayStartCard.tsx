@@ -68,7 +68,7 @@ export function TodayStartCard({
       </p>
       <p className="mt-3 text-sm font-semibold leading-6 text-white">{nextStep.reason}</p>
       <p className="mt-2 text-xs font-semibold text-white/90">
-        Schicht: {nextStep.layer === "core" ? "Kernweg" : "Vertiefung"} · {nextStep.chipLabel}
+        {nextStep.layer === "core" ? "Grundlage" : "Vertiefung"} · {nextStep.chipLabel}
       </p>
 
       <button

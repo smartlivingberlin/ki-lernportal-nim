@@ -36,8 +36,10 @@ export default function KontaktPage() {
         <p className="mt-2">
           Diese Kontaktseite gehört zur öffentlich erreichbaren Konzeptdemo
           „KI-Lernportal NIM“. Es gibt aktuell kein Kontaktformular und in der
-          öffentlichen Konzeptdemo keinen öffentlichen Login, keine Upload-Funktion
-          und kein verbindliches Supportversprechen.
+          öffentlichen Konzeptdemo keinen Login-Zwang zum Lernen, keine
+          Upload-Funktion und kein verbindliches Supportversprechen. Eine
+          optionale Test-Anmeldung kann hinter Feature-Flag existieren und ist
+          für den Lernfortschritt nicht erforderlich.
         </p>
       </div>
 

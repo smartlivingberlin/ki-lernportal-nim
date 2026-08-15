@@ -103,14 +103,17 @@ async function openPortal(page) {
     timeout: navigationTimeout,
   });
 
-  await page
+  // First visit: progressive-disclosure hero copy.
+  // After coach dismiss: returning-user headline.
+  const heroHeading = page
     .getByRole("heading", {
-      name: "Dein geführter KI-Lernraum.",
+      name: /KI einfach lernen|Dein geführter KI-Lernraum/,
     })
-    .waitFor({
-      state: "visible",
-      timeout: navigationTimeout,
-    });
+    .first();
+  await heroHeading.waitFor({
+    state: "visible",
+    timeout: navigationTimeout,
+  });
 }
 
 const sidebarSelectors = [

@@ -24,15 +24,25 @@ async function domClick(locator) {
   });
 }
 
+
+async function waitForPortalHero(page) {
+  await page
+    .getByRole("heading", {
+      name: /KI einfach lernen|Dein geführter KI-Lernraum/,
+    })
+    .first()
+    .waitFor({
+      state: "visible",
+      timeout: navigationTimeout,
+    });
+}
+
 async function openPortal(page) {
   await page.goto(baseUrl, {
     waitUntil: "load",
     timeout: navigationTimeout,
   });
-  await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({
-    state: "visible",
-    timeout: navigationTimeout,
-  });
+  await waitForPortalHero(page);
   await suppressExplainClouds(page);
 }
 
@@ -42,7 +52,7 @@ async function resetBrowserProgress(page) {
     { key: progressStorageKey, value: "[]" },
   );
   await page.reload({ waitUntil: "load", timeout: navigationTimeout });
-  await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({ state: "visible" });
+  await waitForPortalHero(page);
   await page.waitForTimeout(500);
   await suppressExplainClouds(page);
   await waitForStoredLessonIds(page, []);
@@ -261,7 +271,7 @@ const phases = {
   async reload(page) {
     await markFirstLesson(page);
     await page.reload({ waitUntil: "load", timeout: navigationTimeout });
-    await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({ state: "visible" });
+    await waitForPortalHero(page);
     await suppressExplainClouds(page);
     await expectExactText(page, "1/12");
     await page.getByRole("button", { name: "Erledigt zurücknehmen" }).waitFor({ state: "visible" });
@@ -384,9 +394,7 @@ const phases = {
       window.localStorage.setItem("ki-lernportal-nim:first-start-coach:v1", "dismissed");
     });
     await page.reload({ waitUntil: "load", timeout: navigationTimeout });
-    await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({
-      state: "visible",
-    });
+    await waitForPortalHero(page);
     await suppressExplainClouds(page);
 
     await page.getByTestId("simple-mode-pack-hint").waitFor({ state: "visible" });
@@ -421,9 +429,7 @@ const phases = {
       window.localStorage.setItem("ki-lernportal-nim:local-progress:v1", "[]");
     });
     await page.reload({ waitUntil: "load", timeout: navigationTimeout });
-    await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({
-      state: "visible",
-    });
+    await waitForPortalHero(page);
     await suppressExplainClouds(page);
 
     const today = page.getByTestId("today-start-card");
@@ -439,9 +445,7 @@ const phases = {
       window.localStorage.setItem("ki-lernportal-nim:first-start-coach:v1", "dismissed");
     });
     await page.reload({ waitUntil: "load", timeout: navigationTimeout });
-    await page.getByRole("heading", { name: "Dein geführter KI-Lernraum." }).waitFor({
-      state: "visible",
-    });
+    await waitForPortalHero(page);
     await suppressExplainClouds(page);
 
     await page.locator("#ziele").scrollIntoViewIfNeeded();
@@ -493,9 +497,7 @@ const phases = {
       );
     });
     await page.reload({ waitUntil: "load", timeout: navigationTimeout });
-    await page
-      .getByRole("heading", { name: "Dein geführter KI-Lernraum." })
-      .waitFor({ state: "visible" });
+    await waitForPortalHero(page);
     await suppressExplainClouds(page);
 
     await page.locator("#ziele").scrollIntoViewIfNeeded();
@@ -547,9 +549,7 @@ const phases = {
       window.localStorage.setItem("ki-lernportal-nim:local-progress:v1", "[]");
     });
     await page.reload({ waitUntil: "load", timeout: navigationTimeout });
-    await page
-      .getByRole("heading", { name: "Dein geführter KI-Lernraum." })
-      .waitFor({ state: "visible" });
+    await waitForPortalHero(page);
     await suppressExplainClouds(page);
 
     const coach = page.locator("#erststart");
@@ -624,9 +624,7 @@ const phases = {
       );
     });
     await page.reload({ waitUntil: "load", timeout: navigationTimeout });
-    await page
-      .getByRole("heading", { name: "Dein geführter KI-Lernraum." })
-      .waitFor({ state: "visible" });
+    await waitForPortalHero(page);
     await suppressExplainClouds(page);
 
     await page.locator("#weitere-pfade").scrollIntoViewIfNeeded();
@@ -677,9 +675,7 @@ const phases = {
       );
     });
     await page.reload({ waitUntil: "load", timeout: navigationTimeout });
-    await page
-      .getByRole("heading", { name: "Dein geführter KI-Lernraum." })
-      .waitFor({ state: "visible" });
+    await waitForPortalHero(page);
     await suppressExplainClouds(page);
     await expectExactText(page, "12/12");
     await page.getByTestId("kernweg-complete-panel").waitFor({

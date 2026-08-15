@@ -672,10 +672,14 @@ export default function Home() {
                   KI-Lernportal NIM
                 </p>
                 <h2 className="mt-3 max-w-3xl font-[family-name:var(--font-display)] text-3xl font-semibold leading-tight sm:mt-4 sm:text-4xl md:text-5xl">
-                  Dein geführter KI-Lernraum.
+                  {showPortalOnboarding
+                    ? "Dein geführter KI-Lernraum."
+                    : "KI einfach lernen — kostenlos, ohne Vorkenntnisse."}
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm font-semibold leading-7 text-white sm:mt-4 sm:text-base sm:leading-8">
-                  Klare Sprache, sichere Übungen, Schritt für Schritt — kostenlos und ohne Druck.
+                  {showPortalOnboarding
+                    ? "Klare Sprache, sichere Übungen, Schritt für Schritt — kostenlos und ohne Druck."
+                    : "Kein Konto nötig. Ein klarer nächster Schritt — Fortschritt bleibt in diesem Browser."}
                 </p>
                 <div className="mt-5 flex flex-col gap-3 sm:mt-6">
                   {showPortalOnboarding ? (
@@ -711,35 +715,43 @@ export default function Home() {
                         <span aria-hidden="true" className="text-white/50">
                           ·
                         </span>
+                        <a
+                          href="#selbstcheck"
+                          {...explainAttrs("self-check")}
+                          className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                        >
+                          Selbstcheck
+                        </a>
+                        <span aria-hidden="true" className="text-white/50">
+                          ·
+                        </span>
+                        <a
+                          href="#literacy-pfad"
+                          {...explainAttrs("literacy-path")}
+                          className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                        >
+                          60-Minuten-Pfad
+                        </a>
+                        <span aria-hidden="true" className="hidden text-white/50 sm:inline">
+                          ·
+                        </span>
+                        <a
+                          href="#wiederholen"
+                          {...explainAttrs("wiederholen")}
+                          className="nim-interactive hidden min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white sm:inline-flex"
+                        >
+                          Wiederholen{dueReviews > 0 ? ` (${dueReviews})` : ""}
+                        </a>
                       </>
-                    ) : null}
-                    <a
-                      href="#selbstcheck"
-                      {...explainAttrs("self-check")}
-                      className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
-                    >
-                      Selbstcheck
-                    </a>
-                    <span aria-hidden="true" className="text-white/50">
-                      ·
-                    </span>
-                    <a
-                      href="#literacy-pfad"
-                      {...explainAttrs("literacy-path")}
-                      className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
-                    >
-                      60-Minuten-Pfad
-                    </a>
-                    <span aria-hidden="true" className="hidden text-white/50 sm:inline">
-                      ·
-                    </span>
-                    <a
-                      href="#wiederholen"
-                      {...explainAttrs("wiederholen")}
-                      className="nim-interactive hidden min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white sm:inline-flex"
-                    >
-                      Wiederholen{dueReviews > 0 ? ` (${dueReviews})` : ""}
-                    </a>
+                    ) : (
+                      <a
+                        href="#selbstcheck"
+                        {...explainAttrs("self-check")}
+                        className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                      >
+                        Unsicher wo starten? Kurzer Selbstcheck
+                      </a>
+                    )}
                   </p>
                 </div>
               </div>

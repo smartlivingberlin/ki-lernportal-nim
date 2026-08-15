@@ -44,6 +44,8 @@ assert.match(page, /hero-primary-cta/);
 assert.match(page, /nextStep\.primaryLabel/);
 assert.match(page, /Wiederholen/);
 assert.match(page, /KI-Lernportal NIM/);
+assert.match(page, /KI einfach lernen/);
+assert.match(page, /Kurzer Selbstcheck/);
 assert.match(page, /hero-today-card/);
 assert.doesNotMatch(page, /hero-today-card-desktop/);
 assert.doesNotMatch(page, /hero-today-card-mobile/);
