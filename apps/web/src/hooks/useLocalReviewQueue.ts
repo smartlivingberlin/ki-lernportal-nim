@@ -124,7 +124,7 @@ export function useLocalReviewQueue() {
       intervalDays,
       repetitions: (existing?.repetitions ?? 0) + 1,
     };
-    let entries = [
+    const entries: ReviewScheduleEntry[] = [
       ...current.entries.filter((entry) => entry.cardId !== cardId),
       nextEntry,
     ];
