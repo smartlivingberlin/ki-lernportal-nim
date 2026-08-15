@@ -7,7 +7,10 @@ Für den **aktuellen Produktstatus** bleiben `docs/00_PROJECT_STATUS.md` und die
 
 | Datum | Ordner | Einstieg |
 |-------|--------|----------|
-| 2026-08-15 | [`2026-08-15-forensic/`](./2026-08-15-forensic/) | [`PROJECT_STATE_HANDOFF.md`](./2026-08-15-forensic/PROJECT_STATE_HANDOFF.md) · [`PROJECT_AUDIT_FULL.md`](./2026-08-15-forensic/PROJECT_AUDIT_FULL.md) · [`PROJECT_STATE_HANDOFF.json`](./2026-08-15-forensic/PROJECT_STATE_HANDOFF.json) |
+| 2026-08-15 | [`2026-08-15-forensic/`](./2026-08-15-forensic/) | [`PROJECT_STATE_HANDOFF.md`](./2026-08-15-forensic/PROJECT_STATE_HANDOFF.md) |
+| 2026-08-15 | [`2026-08-15-forensic/full-disclosure/`](./2026-08-15-forensic/full-disclosure/) | **External AI master:** [`21_EXTERNAL_AI_MASTER_HANDOFF.md`](./2026-08-15-forensic/full-disclosure/21_EXTERNAL_AI_MASTER_HANDOFF.md) · [`22_…json`](./2026-08-15-forensic/full-disclosure/22_EXTERNAL_AI_MASTER_HANDOFF.json) |
+
+The full-disclosure pass **re-verified** the lighter forensic pack and recorded CONFLICTS (e.g. 36 vs 38 practice checkQuestions).
 
 ## Zugriff
 

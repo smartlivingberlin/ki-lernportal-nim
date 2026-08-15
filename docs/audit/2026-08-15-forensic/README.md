@@ -26,3 +26,9 @@ Parent index: [`../README.md`](../README.md)
 | [ROADMAP_RECOMMENDATIONS.md](./ROADMAP_RECOMMENDATIONS.md) | P0–P3 / quick wins (**not implemented**) |
 
 **Rule:** Evidence > Assumption. No product/runtime changes in this package.
+
+## Full disclosure (deeper second pass)
+
+External-AI package with route/UI/content/API/DB inventories and corrections (e.g. **38** practice `checkQuestions`, **116** micro-units):
+
+→ [`full-disclosure/`](./full-disclosure/) — start [`21_EXTERNAL_AI_MASTER_HANDOFF.md`](./full-disclosure/21_EXTERNAL_AI_MASTER_HANDOFF.md)
