@@ -47,6 +47,12 @@ assert.match(page, /KI-Lernportal NIM/);
 assert.match(page, /KI einfach lernen/);
 assert.match(page, /Kurzer Selbstcheck/);
 assert.match(page, /hero-today-card/);
+assert.match(page, /quietCta=\{isFirstVisitSurface\}/);
+assert.match(page, /isFirstVisitSurface/);
+assert.match(page, /showDeferredDiscovery/);
+assert.match(page, /Weitere Einstiege/);
+assert.match(page, /hero-secondary-einstieg/);
+assert.doesNotMatch(page, /60-Minuten-Pfad/);
 assert.doesNotMatch(page, /hero-today-card-desktop/);
 assert.doesNotMatch(page, /hero-today-card-mobile/);
 assert.doesNotMatch(page, />Abruf</);
@@ -60,6 +66,13 @@ assert.doesNotMatch(
 );
 assert.match(page, /onRevealWorld/);
 assert.match(page, /REVEAL_WORLDS_EVENT/);
+
+const todayCard = read(
+  "apps/web/src/components/learning/TodayStartCard.tsx",
+);
+assert.match(todayCard, /quietCta/);
+assert.match(todayCard, /today-quiet-hint/);
+assert.match(todayCard, /ein Weg reicht/);
 
 const literacy = read("apps/web/src/data/literacy-path.ts");
 assert.match(literacy, /60-Minuten KI-Kurzpfad/);
@@ -85,5 +98,10 @@ const helpTips = read("apps/web/src/data/help-tips.ts");
 assert.match(helpTips, /Echte Hilfe: die kleinen/);
 assert.match(helpTips, /„Regeln“ antippen/);
 assert.match(helpTips, /„Schutz“ öffnet das Scam-Modul/);
+
+const coach = read(
+  "apps/web/src/components/learning/FirstStartCoach.tsx",
+);
+assert.match(coach, /Ein Weg reicht zum Start/);
 
 console.log("PORTAL_CLARITY_CHROME_STATIC_OK=YES");

@@ -246,6 +246,10 @@ export default function Home() {
   const selfCheck = useSelfCheckProgress();
   const dueReviews = reviewQueue.countDue();
   const showPortalOnboarding = coachDismissed;
+  /** First visit: fewer competing CTAs until the 3-minute coach is dismissed. */
+  const isFirstVisitSurface = !coachDismissed;
+  const showDeferredDiscovery =
+    showPortalOnboarding || completedLessonIds.length > 0;
 
   const primaryPath = seedLearningPaths[0];
   const allLessons = primaryPath?.lessons ?? emptyLessons;
@@ -641,12 +645,16 @@ export default function Home() {
             <SimpleModeToggle enabled={simpleMode} onChange={setSimpleMode} />
             <nav className="flex min-w-0 max-w-full flex-wrap gap-2 text-sm font-black text-[var(--nim-primary)]" aria-label="Portalnavigation">
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#lernraum" {...explainAttrs("hero")}>Lernraum</a>
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#literacy-pfad" {...explainAttrs("literacy-path")}>Kurzpfad</a>
+              {!isFirstVisitSurface ? (
+                <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#literacy-pfad" {...explainAttrs("literacy-path")}>Kurzpfad</a>
+              ) : null}
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#pfad" {...explainAttrs("lernpfad")}>Lektionen</a>
-              {!simpleMode ? (
+              {!isFirstVisitSurface && !simpleMode ? (
                 <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#suche" {...explainAttrs("suche")}>Suche</a>
               ) : null}
-              <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#wiederholen" {...explainAttrs("wiederholen")}>Wiederholen</a>
+              {!isFirstVisitSurface ? (
+                <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#wiederholen" {...explainAttrs("wiederholen")}>Wiederholen</a>
+              ) : null}
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#coach" {...explainAttrs("sicherheit")}>Regeln</a>
               <a className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] px-3 py-2 hover:bg-[var(--nim-primary-soft)] sm:px-4" href="#quellen" {...explainAttrs("quellen")}>Quellen</a>
             </nav>
@@ -704,45 +712,14 @@ export default function Home() {
                   )}
                   <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm font-bold text-white/95">
                     {showPortalOnboarding ? (
-                      <>
-                        <a
-                          href="#einstieg-route"
-                          {...explainAttrs("einstieg-route")}
-                          className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
-                        >
-                          Zum Einstieg
-                        </a>
-                        <span aria-hidden="true" className="text-white/50">
-                          ·
-                        </span>
-                        <a
-                          href="#selbstcheck"
-                          {...explainAttrs("self-check")}
-                          className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
-                        >
-                          Selbstcheck
-                        </a>
-                        <span aria-hidden="true" className="text-white/50">
-                          ·
-                        </span>
-                        <a
-                          href="#literacy-pfad"
-                          {...explainAttrs("literacy-path")}
-                          className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
-                        >
-                          60-Minuten-Pfad
-                        </a>
-                        <span aria-hidden="true" className="hidden text-white/50 sm:inline">
-                          ·
-                        </span>
-                        <a
-                          href="#wiederholen"
-                          {...explainAttrs("wiederholen")}
-                          className="nim-interactive hidden min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white sm:inline-flex"
-                        >
-                          Wiederholen{dueReviews > 0 ? ` (${dueReviews})` : ""}
-                        </a>
-                      </>
+                      <a
+                        href="#einstieg-route"
+                        data-testid="hero-secondary-einstieg"
+                        {...explainAttrs("einstieg-route")}
+                        className="nim-interactive inline-flex min-h-11 items-center underline decoration-white/50 underline-offset-4 hover:decoration-white"
+                      >
+                        Weitere Einstiege
+                      </a>
                     ) : (
                       <a
                         href="#selbstcheck"
@@ -762,6 +739,7 @@ export default function Home() {
                   onOpenLesson={openLesson}
                   onOpenDeepenMicro={openDeepenMicro}
                   onShowMore={revealWorlds}
+                  quietCta={isFirstVisitSurface}
                 />
               </div>
             </div>
@@ -789,22 +767,24 @@ export default function Home() {
 
           <LiteracyPathPanel />
 
-          <PlannedPathsPanel
-            simpleMode={simpleMode}
-            onOpenLesson={openLesson}
-            onOpenWorld={(worldId) => {
-              const world = themeWorlds.find((item) => item.id === worldId);
-              if (world) {
-                setSimpleMode(false);
-                selectWorld(world);
-                window.requestAnimationFrame(() => {
-                  document
-                    .getElementById("ziele")
-                    ?.scrollIntoView({ behavior: "smooth", block: "start" });
-                });
-              }
-            }}
-          />
+          {showDeferredDiscovery ? (
+            <PlannedPathsPanel
+              simpleMode={simpleMode}
+              onOpenLesson={openLesson}
+              onOpenWorld={(worldId) => {
+                const world = themeWorlds.find((item) => item.id === worldId);
+                if (world) {
+                  setSimpleMode(false);
+                  selectWorld(world);
+                  window.requestAnimationFrame(() => {
+                    document
+                      .getElementById("ziele")
+                      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  });
+                }
+              }}
+            />
+          ) : null}
 
           <SpacedReviewQueue simpleMode={simpleMode} />
 
