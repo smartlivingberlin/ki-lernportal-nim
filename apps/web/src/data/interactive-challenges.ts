@@ -41,6 +41,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Erklär KI jetzt in deinen Worten in einem Satz (ohne das Wort „Algorithmus“).",
     methodIds: ["method-retrieval", "method-teachback", "method-playful"],
     scenarioDomain: "grundlagen",
+    sourceIds: ["digcomp-30","oecd-ai-principles"],
   },
   {
     id: "challenge-safe-prompt",
@@ -77,6 +78,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Nenne drei Dinge, die du nie in einen Prompt schreiben würdest.",
     methodIds: ["method-scenario", "method-retrieval", "method-playful"],
     scenarioDomain: "sicherheit",
+    sourceIds: ["digcomp-30","eu-gdpr"],
   },
   {
     id: "challenge-hallucination",
@@ -114,6 +116,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Wann würdest du eine KI-Antwort auf keinen Fall ungeprüft weitergeben?",
     methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
     scenarioDomain: "sicherheit",
+    sourceIds: ["nist-genai-profile","nist-ai-rmf"],
   },
   {
     id: "challenge-prompt-formula",
@@ -150,6 +153,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Schreibe die Prompt-Formel in eigenen Worten (4 kurze Bausteine).",
     methodIds: ["method-worked-example", "method-retrieval", "method-playful"],
     scenarioDomain: "grundlagen",
+    sourceIds: ["digcomp-30"],
   },
   {
     id: "challenge-alltag-einkauf",
@@ -187,6 +191,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Schreibe einen Alltags-Prompt für eine Einkaufshilfe ohne persönliche Daten.",
     methodIds: ["method-scenario", "method-playful", "method-worked-example"],
     scenarioDomain: "alltag",
+    sourceIds: ["eu-ai-act","nist-ai-rmf","oecd-ai-principles"],
   },
   {
     id: "challenge-alltag-nachricht",
@@ -224,6 +229,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Welche drei Schritte machst du vor dem Absenden einer KI-formulierten Nachricht?",
     methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
     scenarioDomain: "alltag",
+    sourceIds: ["digcomp-30","eu-gdpr"],
   },
   {
     id: "challenge-beruf-agenda",
@@ -261,6 +267,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Formuliere einen beruflichen Agenda-Prompt ohne Firmengeheimnisse.",
     methodIds: ["method-scenario", "method-worked-example", "method-retrieval"],
     scenarioDomain: "beruf",
+    sourceIds: ["eu-ai-act","nist-ai-rmf","oecd-ai-principles"],
   },
   {
     id: "challenge-beruf-kundenmail",
@@ -298,6 +305,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Welche Kundendaten dürfen nicht in einen öffentlichen Prompt?",
     methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
     scenarioDomain: "beruf",
+    sourceIds: ["eu-gdpr","digcomp-30"],
   },
   {
     id: "challenge-beruf-bericht",
@@ -335,6 +343,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Welche drei Dinge prüfst du nach einer KI-Zusammenfassung im Beruf?",
     methodIds: ["method-scenario", "method-retrieval", "method-teachback"],
     scenarioDomain: "beruf",
+    sourceIds: ["digcomp-30","oecd-ai-principles"],
   },
   {
     id: "challenge-alltag-lernen",
@@ -372,6 +381,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Wie erklärst du denselben Lerninhalt einer Freundin in 30 Sekunden?",
     methodIds: ["method-teachback", "method-retrieval", "method-playful"],
     scenarioDomain: "alltag",
+    sourceIds: ["digcomp-30","nist-ai-rmf"],
   },
   {
     id: "challenge-nofear-stop",
@@ -409,6 +419,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Wann stoppst du bei KI-Antworten und holst echte Hilfe?",
     methodIds: ["method-scenario", "method-confidence", "method-retrieval"],
     scenarioDomain: "sicherheit",
+    sourceIds: ["eu-gdpr","nist-ai-rmf"],
   },
   {
     id: "challenge-nofear-first-step",
@@ -446,6 +457,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Was ist dein persönlicher erster Schritt im Portal — in einem Satz?",
     methodIds: ["method-progressive", "method-playful", "method-teachback"],
     scenarioDomain: "grundlagen",
+    sourceIds: ["digcomp-30","oecd-ai-principles"],
   },
   {
     id: "challenge-truth-hallucination",
@@ -483,6 +495,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Welche zwei Warnsignale erkennst du in „präzisen“ KI-Antworten?",
     methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
     scenarioDomain: "sicherheit",
+    sourceIds: ["nist-genai-profile","nist-ai-rmf"],
   },
   {
     id: "challenge-truth-source",
@@ -519,6 +532,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Erklär den Unterschied zwischen Erklärung und Quelle in einem Satz.",
     methodIds: ["method-retrieval", "method-teachback", "method-scenario"],
     scenarioDomain: "grundlagen",
+    sourceIds: ["digcomp-30","nist-genai-profile"],
   },
   {
     id: "challenge-truth-share",
@@ -556,6 +570,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Welche eine Regel nimmst du dir fürs Teilen von KI-Tipps vor?",
     methodIds: ["method-scenario", "method-retrieval", "method-playful"],
     scenarioDomain: "alltag",
+    sourceIds: ["digcomp-30","eu-gdpr"],
   },
   {
     id: "challenge-safety-placeholder",
@@ -593,6 +608,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Zeig an einem Beispiel: Prompt vorher (riskant) und nachher (sicher).",
     methodIds: ["method-scenario", "method-retrieval", "method-worked-example"],
     scenarioDomain: "sicherheit",
+    sourceIds: ["eu-gdpr","digcomp-30"],
   },
   {
     id: "challenge-safety-risk",
@@ -630,6 +646,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Erklär in einem Satz, warum Risiko die Prüfpflicht steuert.",
     methodIds: ["method-scenario", "method-teachback", "method-confidence"],
     scenarioDomain: "sicherheit",
+    sourceIds: ["digcomp-30","nist-ai-rmf","eu-gdpr"],
   },
   {
     id: "challenge-multi-prompt",
@@ -667,6 +684,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Nenne die drei Bausteine Motiv, Stil und Grenze.",
     methodIds: ["method-worked-example", "method-retrieval", "method-playful"],
     scenarioDomain: "alltag",
+    sourceIds: ["digcomp-30","eu-gdpr"],
   },
   {
     id: "challenge-multi-share",
@@ -704,6 +722,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Welche drei Fragen stellst du vor dem Teilen eines Clips?",
     methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
     scenarioDomain: "sicherheit",
+    sourceIds: ["eu-gdpr","nist-ai-rmf"],
   },
   {
     id: "challenge-models-task",
@@ -741,6 +760,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Erklär die Regel „Aufgabe zuerst“ in eigenen Worten.",
     methodIds: ["method-scenario", "method-retrieval", "method-teachback"],
     scenarioDomain: "grundlagen",
+    sourceIds: ["digcomp-30","oecd-ai-principles"],
   },
   {
     id: "challenge-models-chat",
@@ -778,6 +798,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Wann ist ein Chat-Modell hilfreich — und wann riskant?",
     methodIds: ["method-retrieval", "method-confidence", "method-scenario"],
     scenarioDomain: "beruf",
+    sourceIds: ["digcomp-30","oecd-ai-principles"],
   },
   {
     id: "challenge-agents-rights",
@@ -815,6 +836,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Erklär „minimale Rechte“ an diesem Kalender-Beispiel.",
     methodIds: ["method-scenario", "method-retrieval", "method-progressive"],
     scenarioDomain: "beruf",
+    sourceIds: ["digcomp-30","oecd-ai-principles"],
   },
   {
     id: "challenge-agents-loop",
@@ -852,6 +874,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Sag deine Abbruch-Regel in zwei Sätzen.",
     methodIds: ["method-scenario", "method-playful", "method-confidence"],
     scenarioDomain: "sicherheit",
+    sourceIds: ["eu-gdpr","nist-ai-rmf"],
   },
   {
     id: "challenge-vibe-secrets",
@@ -889,6 +912,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Erklär die Secret-Regel in 20 Sekunden.",
     methodIds: ["method-scenario", "method-retrieval", "method-teachback"],
     scenarioDomain: "sicherheit",
+    sourceIds: ["eu-gdpr","nist-ai-rmf"],
   },
   {
     id: "challenge-vibe-read",
@@ -926,6 +950,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Nenne drei Warnsignale in KI-generiertem Code.",
     methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
     scenarioDomain: "grundlagen",
+    sourceIds: ["digcomp-30","oecd-ai-principles"],
   },
   {
     id: "challenge-advanced-rag",
@@ -963,6 +988,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Erklär RAG in zwei Sätzen ohne das Wort „Vektor“.",
     methodIds: ["method-retrieval", "method-teachback", "method-worked-example"],
     scenarioDomain: "grundlagen",
+    sourceIds: ["digcomp-30","oecd-ai-principles"],
   },
   {
     id: "challenge-advanced-guardrails",
@@ -1000,6 +1026,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Erklär Guardrails mit dem Bild „Leitplanke“ in einem Satz.",
     methodIds: ["method-scenario", "method-retrieval", "method-confidence"],
     scenarioDomain: "beruf",
+    sourceIds: ["digcomp-30","oecd-ai-principles"],
   },
   {
     id: "challenge-chat-02",
@@ -1037,6 +1064,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Schreibe einen Prompt mit Rolle, Zielgruppe und Format zu einem Alltagsthema.",
     methodIds: ["method-worked-example", "method-retrieval", "method-playful"],
     scenarioDomain: "grundlagen",
+    sourceIds: ["digcomp-30"],
   },
   {
     id: "challenge-chat-03",
@@ -1074,6 +1102,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Formuliere eine Nachbesserungs-Anweisung mit zwei klaren Kriterien.",
     methodIds: ["method-scenario", "method-retrieval", "method-progressive"],
     scenarioDomain: "beruf",
+    sourceIds: ["digcomp-30","eu-gdpr"],
   },
   {
     id: "challenge-chat-04",
@@ -1111,6 +1140,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Schreibe einen Alltags-Prompt mit einem Mini-Beispiel und einer Längengrenze.",
     methodIds: ["method-worked-example", "method-scenario", "method-playful"],
     scenarioDomain: "alltag",
+    sourceIds: ["digcomp-30","eu-gdpr"],
   },
   {
     id: "challenge-advanced-eval",
@@ -1148,6 +1178,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Nenne drei Kriterien, mit denen du eine Bot-Antwort bewerten würdest.",
     methodIds: ["method-retrieval", "method-confidence", "method-scenario"],
     scenarioDomain: "beruf",
+    sourceIds: ["digcomp-30","oecd-ai-principles"],
   },
   {
     id: "challenge-school-homework-ai",
@@ -1185,6 +1216,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Erklär in einem Satz, wann KI bei Hausaufgaben helfen darf — und wann nicht.",
     methodIds: ["method-scenario", "method-teachback", "method-playful"],
     scenarioDomain: "alltag",
+    sourceIds: ["digcomp-30","eu-gdpr"],
   },
   {
     id: "challenge-authority-email",
@@ -1221,6 +1253,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
     teachBackPrompt: "Nenne zwei Warnsignale in solchen Behörden-Betrugsmails.",
     methodIds: ["method-scenario", "method-retrieval", "method-playful"],
     scenarioDomain: "sicherheit",
+    sourceIds: ["eu-gdpr","nist-ai-rmf"],
   },
   {
     id: "challenge-boss-voice-ai",
@@ -1258,6 +1291,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Warum reicht „die Stimme klingt echt“ nicht als Beweis?",
     methodIds: ["method-scenario", "method-confidence", "method-playful"],
     scenarioDomain: "sicherheit",
+    sourceIds: ["eu-gdpr","nist-ai-rmf"],
   },
   {
     id: "challenge-health-advice",
@@ -1295,6 +1329,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Wann darf eine KI-Antwort dich nicht allein entscheiden lassen?",
     methodIds: ["method-scenario", "method-retrieval", "method-teachback"],
     scenarioDomain: "alltag",
+    sourceIds: ["digcomp-30","eu-gdpr"],
   },
   {
     id: "challenge-shopping-review-fake",
@@ -1332,6 +1367,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Nenne zwei Zeichen, die auf unnatürliche Bewertungen hindeuten können.",
     methodIds: ["method-scenario", "method-retrieval", "method-playful"],
     scenarioDomain: "alltag",
+    sourceIds: ["digcomp-30","eu-gdpr"],
   },
   {
     id: "challenge-job-ai-disclosure",
@@ -1369,6 +1405,7 @@ export const interactiveChallenges: InteractiveChallenge[] = [
       "Was musst du an einem Bewerbungstext immer selbst prüfen, auch wenn KI half?",
     methodIds: ["method-scenario", "method-teachback", "method-confidence"],
     scenarioDomain: "beruf",
+    sourceIds: ["digcomp-30","oecd-ai-principles"],
   },
 ];
 

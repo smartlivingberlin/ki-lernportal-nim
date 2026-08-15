@@ -97,7 +97,11 @@ try {
     'types.ts',
     'sources.ts',
     'lessons.ts',
-    'practice.ts'
+    'practice.ts',
+    'learning-methods.ts',
+    'glossary.ts',
+    'interactive-challenges.ts',
+    'review-cards.ts'
   ]) {
     transpileDataFile(filename);
   }
@@ -124,9 +128,32 @@ try {
     practiceByLessonId
   } = requireTemp('./practice.js');
 
+  const {
+    learningMethods
+  } = requireTemp('./learning-methods.js');
+
+  const {
+    seedGlossary
+  } = requireTemp('./glossary.js');
+
+  const {
+    interactiveChallenges
+  } = requireTemp('./interactive-challenges.js');
+
+  const {
+    reviewCards
+  } = requireTemp('./review-cards.js');
+
   check(Array.isArray(seedSources), 'seedSources must be an array');
   check(Array.isArray(publicSources), 'publicSources must be an array');
   check(Array.isArray(seedLessons), 'seedLessons must be an array');
+  check(Array.isArray(learningMethods), 'learningMethods must be an array');
+  check(Array.isArray(seedGlossary), 'seedGlossary must be an array');
+  check(
+    Array.isArray(interactiveChallenges),
+    'interactiveChallenges must be an array'
+  );
+  check(Array.isArray(reviewCards), 'reviewCards must be an array');
   check(
     practiceByLessonId &&
       typeof practiceByLessonId === 'object' &&
@@ -239,6 +266,50 @@ try {
     `expected 12 beginner lessons, found ${seedLessons.length}`
   );
 
+  function validatePublicSourceIds(label, sourceIdList) {
+    check(
+      Array.isArray(sourceIdList) && sourceIdList.length > 0,
+      `${label}: no direct sourceIds`
+    );
+
+    const uniqueSources = new Set(sourceIdList || []);
+
+    check(
+      uniqueSources.size === (sourceIdList || []).length,
+      `${label}: duplicate sourceIds`
+    );
+
+    for (const sourceId of uniqueSources) {
+      sourceReferenceCount += 1;
+
+      const source = sourceById.get(sourceId);
+
+      check(
+        Boolean(source),
+        `${label}: unknown source ${sourceId}`
+      );
+
+      if (!source) continue;
+
+      check(
+        source.publicDisplayAllowed,
+        `${label}: source ${sourceId} is not public`
+      );
+
+      check(
+        source.approvalStatus ===
+          ApprovalStatus.Approved,
+        `${label}: source ${sourceId} is not approved`
+      );
+
+      check(
+        source.reviewStatus ===
+          ReviewStatus.Published,
+        `${label}: source ${sourceId} is not published`
+      );
+    }
+  }
+
   const lessonIds = new Set();
   const lessonOrders = new Set();
   let sourceReferenceCount = 0;
@@ -292,51 +363,7 @@ try {
 
     validateDate(lesson.lastReviewed, label);
 
-    check(
-      Array.isArray(lesson.sourceIds) &&
-        lesson.sourceIds.length > 0,
-      `${label}: no direct sourceIds`
-    );
-
-    const uniqueLessonSources = new Set(
-      lesson.sourceIds || []
-    );
-
-    check(
-      uniqueLessonSources.size ===
-        (lesson.sourceIds || []).length,
-      `${label}: duplicate sourceIds`
-    );
-
-    for (const sourceId of uniqueLessonSources) {
-      sourceReferenceCount += 1;
-
-      const source = sourceById.get(sourceId);
-
-      check(
-        Boolean(source),
-        `${label}: unknown source ${sourceId}`
-      );
-
-      if (!source) continue;
-
-      check(
-        source.publicDisplayAllowed,
-        `${label}: source ${sourceId} is not public`
-      );
-
-      check(
-        source.approvalStatus ===
-          ApprovalStatus.Approved,
-        `${label}: source ${sourceId} is not approved`
-      );
-
-      check(
-        source.reviewStatus ===
-          ReviewStatus.Published,
-        `${label}: source ${sourceId} is not published`
-      );
-    }
+    validatePublicSourceIds(label, lesson.sourceIds);
 
     check(
       typeof lesson.title === 'string' &&
@@ -434,10 +461,58 @@ try {
     'lesson orders must be exactly 1 through 12'
   );
 
+  check(
+    learningMethods.length === 8,
+    `expected 8 learning methods, found ${learningMethods.length}`
+  );
+  for (const method of learningMethods) {
+    validatePublicSourceIds(
+      `method ${method.id || '<missing-id>'}`,
+      method.sourceIds
+    );
+  }
+
+  check(
+    seedGlossary.length === 17,
+    `expected 17 glossary terms, found ${seedGlossary.length}`
+  );
+  for (const term of seedGlossary) {
+    validatePublicSourceIds(
+      `glossary ${term.id || '<missing-id>'}`,
+      term.sourceIds
+    );
+  }
+
+  check(
+    interactiveChallenges.length === 37,
+    `expected 37 interactive challenges, found ${interactiveChallenges.length}`
+  );
+  for (const challenge of interactiveChallenges) {
+    validatePublicSourceIds(
+      `challenge ${challenge.id || '<missing-id>'}`,
+      challenge.sourceIds
+    );
+  }
+
+  check(
+    reviewCards.length === 15,
+    `expected 15 review cards, found ${reviewCards.length}`
+  );
+  for (const card of reviewCards) {
+    validatePublicSourceIds(
+      `review ${card.id || '<missing-id>'}`,
+      card.sourceIds
+    );
+  }
+
   console.log('===== Source and Lesson Integrity Check =====');
   console.log(`Sources total: ${seedSources.length}`);
   console.log(`Approved public sources: ${publicSources.length}`);
   console.log(`Lessons total: ${seedLessons.length}`);
+  console.log(`Learning methods: ${learningMethods.length}`);
+  console.log(`Glossary terms: ${seedGlossary.length}`);
+  console.log(`Interactive challenges: ${interactiveChallenges.length}`);
+  console.log(`Review cards: ${reviewCards.length}`);
   console.log(`Direct source references: ${sourceReferenceCount}`);
   console.log(`Maximum review age: ${maxReviewAgeDays} days`);
 

@@ -3,10 +3,11 @@
 import { useMemo, useState } from "react";
 import { publicSources } from "../../data/sources";
 import { useLocalReviewQueue } from "../../hooks/useLocalReviewQueue";
-import type { ConfidenceLevel } from "../../data/types";
+import type { ConfidenceLevel, Source } from "../../data/types";
 import { explainAttrs } from "../../data/help-tips";
 import { ExplainHotspot } from "./ExplainCloud";
 import { ResetProgressConfirm } from "./ResetProgressConfirm";
+import { SourceLinkList } from "./SourceLinkList";
 
 /**
  * Lokale Spaced-Review-Queue auf kuratierter Karten-"Datenbank" mit Quellenangaben.
@@ -30,9 +31,9 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
 
   const card = dueCards[0] ?? null;
   const sources = card
-    ? card.sourceIds
+    ? (card.sourceIds
         .map((id) => publicSources.find((source) => source.id === id))
-        .filter(Boolean)
+        .filter((source): source is Source => Boolean(source)) as Source[])
     : [];
 
   const answer = (level: ConfidenceLevel) => {
@@ -116,25 +117,12 @@ export function SpacedReviewQueue({ simpleMode = false }: { simpleMode?: boolean
                   {card.sourceNote}
                 </p>
               ) : null}
-              {sources.length > 0 ? (
-                <ul className="space-y-1">
-                  {sources.map((source) =>
-                    source ? (
-                      <li key={source.id}>
-                        <a
-                          href={source.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm font-bold text-[var(--nim-primary)] underline-offset-2 hover:underline"
-                        >
-                          {source.name}
-                          <span className="sr-only"> – öffnet in einem neuen Tab</span>
-                        </a>
-                      </li>
-                    ) : null,
-                  )}
-                </ul>
-              ) : null}
+              <SourceLinkList
+                sources={sources}
+                heading="Quellen zu dieser Karte"
+                testId="review-card-sources"
+                compact
+              />
               <fieldset>
                 <legend className="text-sm font-black text-[var(--foreground)]">
                   Wie sicher war das?

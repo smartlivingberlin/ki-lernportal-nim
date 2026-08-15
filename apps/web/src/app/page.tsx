@@ -63,6 +63,7 @@ import {
   type RevealWorldsDetail,
 } from "../lib/portal-hash-nav";
 import { readLessonIdFromLocation, updateLessonUrl } from "../lib/lesson-share-url";
+import { SourceLinkList } from "../components/learning/SourceLinkList";
 
 const LocalSearchPanel = dynamic(
   () =>
@@ -881,15 +882,28 @@ export default function Home() {
                 KI wirklich zu verstehen und sicher anzuwenden.
               </p>
               <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-                {visibleMethods.map((method) => (
+                {visibleMethods.map((method) => {
+                  const methodSources = method.sourceIds
+                    .map((id) => publicSourceById.get(id))
+                    .filter((source): source is NonNullable<typeof source> =>
+                      Boolean(source),
+                    );
+                  return (
                   <li
                     key={method.id}
                     className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] p-4"
                   >
                     <p className="text-sm font-black text-[var(--nim-primary)]">{method.plainName}</p>
                     <p className="mt-2 text-sm leading-6 text-[var(--nim-secondary)]">{method.summary}</p>
+                    <SourceLinkList
+                      sources={methodSources}
+                      heading="Quellen"
+                      testId={`method-sources-${method.id}`}
+                      compact
+                    />
                   </li>
-                ))}
+                  );
+                })}
               </ul>
             </section>
           ) : (
@@ -1165,7 +1179,13 @@ export default function Home() {
               </p>
             </ExplainHotspot>
             <div className="mt-4 space-y-3">
-              {beginnerGlossary.map((item) => (
+              {beginnerGlossary.map((item) => {
+                const termSources = item.sourceIds
+                  .map((id) => publicSourceById.get(id))
+                  .filter((source): source is NonNullable<typeof source> =>
+                    Boolean(source),
+                  );
+                return (
                 <details key={item.id} className="rounded-[var(--nim-radius-md)] bg-[var(--nim-surface-soft)] p-4">
                   <summary className="flex min-h-11 cursor-pointer items-center text-sm font-black text-[var(--nim-primary)]">
                     {item.term}
@@ -1174,8 +1194,15 @@ export default function Home() {
                   <p className="mt-2 text-sm leading-7 text-[var(--nim-secondary)]">
                     <strong>Beispiel:</strong> {item.example}
                   </p>
+                  <SourceLinkList
+                    sources={termSources}
+                    heading="Quellen"
+                    testId={`glossary-sources-${item.id}`}
+                    compact
+                  />
                 </details>
-              ))}
+                );
+              })}
             </div>
           </section>
         </aside>
