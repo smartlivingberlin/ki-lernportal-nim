@@ -1,5 +1,9 @@
 # Projektstatus: KI-Lernportal NIM
 
+**Forensic IST-Stand / Handoff (2026-08-15):**  
+[`docs/audit/2026-08-15-forensic/PROJECT_STATE_HANDOFF.md`](audit/2026-08-15-forensic/PROJECT_STATE_HANDOFF.md)  
+(Index: [`docs/audit/README.md`](audit/README.md); PR #212)
+
 **Stand:** 14. August 2026
 **Baseline `main`:** `33fe1c6dbe4813a11bc0c7175300f344344536a5` (nach #210 Themenwelt-Jargon)
 **Status:** Concept-Demo live inkl. Freigabe A–D (#187), Honesty-Pack (#191),

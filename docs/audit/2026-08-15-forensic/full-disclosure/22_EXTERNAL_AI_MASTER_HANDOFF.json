@@ -1,0 +1,473 @@
+{
+  "audit_metadata": {
+    "timestamp_utc": "2026-08-15T06:12:20Z",
+    "mode": "READ_ONLY_FULL_DISCLOSURE",
+    "package_path": "docs/audit/2026-08-15-forensic/full-disclosure/",
+    "parent_audit_path": "docs/audit/2026-08-15-forensic/",
+    "principle": "EVIDENCE>MEMORY>DOCUMENTATION>ASSUMPTION",
+    "classification_enum": [
+      "VERIFIED_CURRENT",
+      "IMPLEMENTED_NOT_RUNTIME_VERIFIED",
+      "PARTIAL",
+      "HISTORICAL",
+      "PLANNED",
+      "PROPOSED",
+      "ABSENT",
+      "UNKNOWN",
+      "CONFLICT"
+    ]
+  },
+  "project_identity": {
+    "name": "KI-Lernportal NIM",
+    "repository": "https://github.com/smartlivingberlin/ki-lernportal-nim",
+    "organization": "smartlivingberlin",
+    "default_branch": "main",
+    "audit_branch": "cursor/forensic-audit-handoff-b554",
+    "main_sha": "5c489c2d1acf6cf08c3ed9d0c5af22b4aba82fdc",
+    "live_build_sha": "5c489c2d1acf",
+    "package_manager": "pnpm@11.13.0",
+    "node": "22.22.1",
+    "monorepo": true
+  },
+  "repository_state": {
+    "apps": [
+      "web"
+    ],
+    "packages": {
+      "ui": "tokens_only",
+      "contracts": "real",
+      "domain": "real",
+      "db": "real_lazy_mysql_drizzle",
+      "auth": "real_memory_sessions",
+      "admin": "empty_skeleton",
+      "ai-core": "empty_skeleton",
+      "testing": "empty_skeleton"
+    },
+    "absent_packages": [
+      "config",
+      "observability"
+    ],
+    "server_actions": "ABSENT"
+  },
+  "environments": {
+    "production": {
+      "url": "https://web-production-51d3c8.up.railway.app",
+      "build_sha": "5c489c2d1acf",
+      "label": "concept_demo",
+      "database": "not_configured",
+      "auth_runtime": "DISABLED",
+      "status": "VERIFIED_CURRENT"
+    },
+    "staging": {
+      "url": "https://ki-lernportal-nim-staging.up.railway.app",
+      "build_sha": "5c489c2d1acf",
+      "label": "concept_demo",
+      "database": "not_configured",
+      "auth_runtime": "ON_VALIDATION_OBSERVED",
+      "login_success_tested": false,
+      "status": "PARTIAL"
+    }
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/",
+      "auth": false
+    },
+    {
+      "method": "GET",
+      "path": "/anmelden",
+      "auth": false
+    },
+    {
+      "method": "GET",
+      "path": "/impressum",
+      "auth": false
+    },
+    {
+      "method": "GET",
+      "path": "/datenschutz",
+      "auth": false
+    },
+    {
+      "method": "GET",
+      "path": "/kontakt",
+      "auth": false
+    },
+    {
+      "method": "GET",
+      "path": "/robots.txt",
+      "auth": false
+    },
+    {
+      "method": "GET",
+      "path": "/health",
+      "auth": false
+    },
+    {
+      "method": "GET",
+      "path": "/live",
+      "auth": false
+    },
+    {
+      "method": "GET",
+      "path": "/ready",
+      "auth": false
+    },
+    {
+      "method": "GET",
+      "path": "/version",
+      "auth": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "auth": "credentials"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "auth": "session"
+    }
+  ],
+  "pages": {
+    "learning_model": "single_client_page_hash_spa",
+    "hash_sections": [
+      "lernraum",
+      "heute",
+      "erststart",
+      "einstieg-route",
+      "selbstcheck",
+      "literacy-pfad",
+      "weitere-pfade",
+      "wiederholen",
+      "ziele",
+      "themenwelt",
+      "werkzeuge",
+      "prompt-bibliothek",
+      "scam",
+      "methoden",
+      "kernweg-abschluss",
+      "challenge",
+      "szenarien",
+      "suche",
+      "pfad",
+      "fortschritt-sichern",
+      "coach",
+      "naechste",
+      "quellen",
+      "glossar",
+      "modelle",
+      "reset-progress-panel"
+    ]
+  },
+  "ui_elements": {
+    "inventory_file": "04_UI_INTERACTION_INVENTORY.md"
+  },
+  "interactions": {
+    "register_file": "04b_ACTION_REGISTER.md"
+  },
+  "components": {
+    "count_tsx": 33,
+    "inventory_file": "05_COMPONENT_INVENTORY.md"
+  },
+  "content": {
+    "lessons": 12,
+    "practice_check_questions": 38,
+    "practice_self_check_checklist_items": 36,
+    "placement_self_check_questions": 8,
+    "glossary_terms": 17,
+    "interactive_challenges": 37,
+    "theme_worlds": 10,
+    "micro_units": 116,
+    "learning_paths_total": 6,
+    "learning_paths_active": 1,
+    "model_cards": 4,
+    "sources": 8,
+    "review_cards": 15,
+    "literacy_stations": 8,
+    "note": "Prior '36 self-check questions' is CONFLICT if mapped to checkQuestions (actual 38)."
+  },
+  "user_journeys": [
+    "anonymous_local_learning",
+    "share_lesson_link",
+    "staging_auth_partial",
+    "production_auth_disabled"
+  ],
+  "backend_functions": [
+    "ops_routes",
+    "auth_http_login_logout",
+    "db_lazy_runtime_unused_live"
+  ],
+  "APIs": {
+    "present": [
+      "/health",
+      "/live",
+      "/ready",
+      "/version",
+      "POST /api/auth/login",
+      "POST /api/auth/logout"
+    ],
+    "absent": [
+      "/api/auth/me",
+      "graphql",
+      "ai_completion",
+      "progress_sync",
+      "webhooks"
+    ]
+  },
+  "database": {
+    "designed": true,
+    "configured_on_railway": false,
+    "deployed_for_app": false,
+    "actually_used_by_web_requests": false,
+    "orm": "drizzle-orm",
+    "engine": "mysql",
+    "pilot_core_tables": [
+      "users",
+      "auth_credentials",
+      "auth_sessions",
+      "pilot_cohorts",
+      "pilot_invitations",
+      "pilot_memberships",
+      "lesson_progress",
+      "local_progress_imports"
+    ]
+  },
+  "client_storage": {
+    "localStorage_keys": [
+      "ki-lernportal-nim:local-progress:v1",
+      "ki-lernportal-nim:micro-progress:v1",
+      "ki-lernportal-nim:literacy-path:v1",
+      "ki-lernportal-nim:spaced-review:v1",
+      "ki-lernportal-nim:self-check:v1",
+      "ki-lernportal-nim:lesson-confidence:v1",
+      "ki-lernportal-nim:simple-mode:v1",
+      "ki-lernportal-nim:first-start-coach:v1"
+    ],
+    "sessionStorage": [],
+    "cookies": [
+      "nim_session"
+    ]
+  },
+  "authentication": {
+    "production": "DISABLED_FEATURE_FLAG",
+    "staging": "RUNTIME_ON_MEMORY_STORE",
+    "registration": "ABSENT",
+    "password_reset": "ABSENT",
+    "mfa_runtime": "ABSENT",
+    "session_store": "memory",
+    "password_scheme": "nim-scrypt-v1"
+  },
+  "authorization": {
+    "roles_vocabulary_present": true,
+    "enforced_on_learning_content": false,
+    "admin_runtime": false
+  },
+  "security": {
+    "headers_verified_live": true,
+    "csp": "ABSENT",
+    "login_rate_limit": "ABSENT",
+    "pen_test": "NOT_FOUND"
+  },
+  "AI": {
+    "runtime": "NONE",
+    "package_ai_core": "empty",
+    "educational_content_about_ai": true,
+    "prompt_library_static": true
+  },
+  "integrations": {
+    "live": [
+      "Railway",
+      "GitHub Actions",
+      "pnpm/npm registry"
+    ],
+    "placeholders_env_only": [
+      "QDRANT_URL",
+      "NVIDIA_API_KEY",
+      "OPENAI_API_KEY",
+      "ANTHROPIC_API_KEY"
+    ],
+    "absent": [
+      "Stripe",
+      "PostHog",
+      "Sentry",
+      "Resend",
+      "OpenAI SDK",
+      "NVIDIA NIM SDK"
+    ]
+  },
+  "environment_variables_names_only": [
+    "APP_ENV",
+    "DATABASE_URL",
+    "DB_CONNECT_TIMEOUT_MS",
+    "DB_POOL_LIMIT",
+    "DB_QUEUE_LIMIT",
+    "AUTH_RUNTIME",
+    "STAGING_BOOTSTRAP_EMAIL",
+    "STAGING_BOOTSTRAP_PASSWORD_HASH",
+    "STAGING_BOOTSTRAP_SUBJECT_ID",
+    "STAGING_BOOTSTRAP_ROLE",
+    "QDRANT_URL",
+    "NVIDIA_API_KEY",
+    "OPENAI_API_KEY",
+    "ANTHROPIC_API_KEY",
+    "BASE_URL",
+    "RAILWAY_GIT_COMMIT_SHA",
+    "RAILWAY_ENVIRONMENT_NAME",
+    "RAILWAY_ENVIRONMENT"
+  ],
+  "deployment": {
+    "hosting": "Railway",
+    "ci": ".github/workflows/ci.yml",
+    "prod_matches_main_tip": true
+  },
+  "tests": {
+    "executed_and_passed_this_audit": [
+      "test:portal-clarity",
+      "test:packaging-a",
+      "test:next-step-contract",
+      "test:progress-backup",
+      "test:lesson-share-url",
+      "test:s50d2-security-headers",
+      "test:s50d2-security-headers@prod",
+      "test:s52-d2b-staging-auth-docs",
+      "test:s52-a-auth-policy",
+      "test:s52-b-auth-runtime",
+      "test:s51b-b-db-runtime",
+      "packages:boundaries"
+    ],
+    "full_ci_this_pass": "NOT_EXECUTED",
+    "full_web_build_this_pass": "NOT_EXECUTED"
+  },
+  "privacy": {
+    "privacy_page": true,
+    "key_list_complete": false,
+    "analytics_sdk": false,
+    "server_learning_db_live": false
+  },
+  "legal_surface": {
+    "impressum": true,
+    "datenschutz": true,
+    "agb": false,
+    "cookie_cmp": false
+  },
+  "SEO": {
+    "indexable": false,
+    "robots": "Disallow: /",
+    "sitemap": "ABSENT"
+  },
+  "accessibility": {
+    "formal_wcag_certification": "UNKNOWN",
+    "axe_smokes_in_ci": true
+  },
+  "analytics": {
+    "product_analytics": "ABSENT",
+    "error_tracking": "ABSENT"
+  },
+  "monetization": {
+    "current": "NONE"
+  },
+  "affiliate": {
+    "current": "ABSENT"
+  },
+  "operations": {
+    "endpoints": [
+      "health",
+      "live",
+      "ready",
+      "version"
+    ],
+    "apm": "ABSENT"
+  },
+  "git_history": {
+    "approx_main_commits": 177,
+    "detail_file": "17_GIT_PROJECT_HISTORY.md"
+  },
+  "current_features": [
+    "hash_spa_learning_portal",
+    "12_lessons",
+    "localStorage_progress_backup",
+    "theme_worlds_and_micro_units",
+    "ops_endpoints",
+    "security_headers",
+    "noindex_robots"
+  ],
+  "partial_features": [
+    "staging_auth_without_proven_login_success",
+    "db_schema_without_live_db",
+    "privacy_pages_with_drift"
+  ],
+  "historical_features": [
+    "admin_preview_experiments_removed_from_public"
+  ],
+  "planned_features": [
+    "production_auth_db_sessions",
+    "server_progress",
+    "admin_cms",
+    "ai_rag_runtime",
+    "monitoring_provider"
+  ],
+  "absent_features": [
+    "runtime_llm",
+    "payments",
+    "analytics_sdk",
+    "api_auth_me",
+    "server_actions"
+  ],
+  "risks": [
+    "false_maturity_perception",
+    "localStorage_only_progress",
+    "privacy_copy_drift",
+    "no_apm",
+    "staging_auth_surface"
+  ],
+  "gaps": {
+    "p0": [
+      "keep_prod_auth_off",
+      "no_saas_ai_marketing"
+    ],
+    "p1": [
+      "sync_datenschutz_keys",
+      "csp",
+      "monitoring",
+      "staging_hardening"
+    ],
+    "p2": [
+      "a11y_formal",
+      "branch_hygiene",
+      "perf_measure"
+    ],
+    "p3": [
+      "server_progress",
+      "admin",
+      "ai_rag",
+      "monetization"
+    ]
+  },
+  "unknowns": [
+    "railway_dashboard_and_costs",
+    "staging_bootstrap_user_exists",
+    "full_ci_this_branch",
+    "formal_legal_and_wcag",
+    "core_web_vitals_numbers"
+  ],
+  "conflicts": [
+    "36_vs_38_checkQuestions",
+    "datenschutz_no_login_vs_anmelden",
+    "datenschutz_keys_incomplete",
+    "backup_four_vs_six_keys",
+    "docs_live_sha_33fe_vs_http_5c489c2",
+    "stale_cloud_agents_gate_vs_repo_agents"
+  ],
+  "evidence": {
+    "index_file": "20_EVIDENCE_INDEX.md",
+    "master_md": "21_EXTERNAL_AI_MASTER_HANDOFF.md"
+  },
+  "maturity_expert_judgment": {
+    "overall_0_to_10": 4,
+    "label": "early_MVP_concept_demo",
+    "content_depth_note": "content richer than short audits implied (116 micro-units)",
+    "note": "expert judgment not instrumented metric"
+  }
+}

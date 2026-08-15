@@ -1,0 +1,285 @@
+{
+  "project_identity": {
+    "name": "KI-Lernportal NIM",
+    "repository": "https://github.com/smartlivingberlin/ki-lernportal-nim",
+    "organization": "smartlivingberlin",
+    "audit_branch_at_start": "cursor/docs-sync-33fe1c6-b554",
+    "main_commit": "5c489c2d1acf6cf08c3ed9d0c5af22b4aba82fdc",
+    "main_commit_short": "5c489c2",
+    "main_commit_subject": "docs(sync): Baseline und Live-SHA auf 33fe1c6 nach #210 (#211)",
+    "package_manager": "pnpm@11.13.0",
+    "node_engines": "22.22.1"
+  },
+  "audit_timestamp": "2026-08-15T05:47:43Z",
+  "audit_mode": "READ_ONLY_FORENSIC",
+  "repository": {
+    "remote": "github.com/smartlivingberlin/ki-lernportal-nim",
+    "default_branch": "main",
+    "workspace_layout": ["apps/web", "packages/*", "docs", "scripts", ".github/workflows"]
+  },
+  "branch": "main",
+  "commit": "5c489c2d1acf6cf08c3ed9d0c5af22b4aba82fdc",
+  "deployment": {
+    "production_url": "https://web-production-51d3c8.up.railway.app",
+    "staging_url": "https://ki-lernportal-nim-staging.up.railway.app",
+    "production_version_sha": "5c489c2d1acf",
+    "staging_version_sha": "5c489c2d1acf",
+    "environment_label": "concept_demo",
+    "ready_database": "not_configured",
+    "hosting": "Railway",
+    "production_autodeploy": "DISABLED_PER_DOCS",
+    "status": "VERIFIED_HTTP"
+  },
+  "product_description": "Beginner-oriented German AI learning portal concept demo: curated lessons, local browser progress, literacy path, spaced review, challenges, theme worlds, glossary; no production users or paid AI runtime.",
+  "target_users": [
+    "Absolute beginners (non-technical)",
+    "Career switchers",
+    "Digitally cautious / older learners",
+    "Students",
+    "Small business / freelancers (content level)",
+    "Future: education providers / admins (not production-ready)"
+  ],
+  "verified_features": [
+    "Public home learning portal SPA with hash navigation",
+    "12 curated beginner lessons with practice (36 self-check items)",
+    "LocalStorage learning progress + backup export/import with confirm",
+    "60-minute literacy path, spaced review queue, self-check recommendation",
+    "Theme worlds discovery, interactive challenges, glossary (17 terms)",
+    "Ops endpoints /health /live /ready /version on prod+staging",
+    "robots disallow all + meta noindex",
+    "Impressum and Datenschutz pages reachable",
+    "CI workflows present (full suite not re-run entirely in this audit)",
+    "Production auth runtime disabled (POST login 403 FEATURE_DISABLED)",
+    "Staging auth runtime enabled (validation errors without credentials; login/logout routes only — no /api/auth/me)",
+    "Security headers live (HSTS, nosniff, frame deny, referrer, permissions-policy); CSP absent"
+  ],
+  "partially_verified_features": [
+    "S52 login UI and HTTP handlers (code + staging HTTP validation; no end-to-end successful login with real credentials in this audit; no /me route)",
+    "packages/db pilot schema + local migration scripts (authorized disposable local only; Railway DB not configured)",
+    "Accessibility axe smoke in CI (not a full WCAG certification)",
+    "Staging bootstrap seed mechanism (documented; live credentials not exercised)"
+  ],
+  "planned_features": [
+    "Production auth and revocable DB sessions",
+    "Server-side progress / accounts",
+    "Admin publishing workflow",
+    "Provider-neutral AI/RAG runtime (packages/ai-core empty)",
+    "Isolated staging with database",
+    "Monitoring provider selection",
+    "Payments / analytics (explicitly not in scope currently)"
+  ],
+  "unknown_items": [
+    "Railway dashboard settings beyond HTTP-observed behavior",
+    "Exact production env var values (not readable)",
+    "Whether staging bootstrap user currently exists",
+    "Real cost figures for Railway usage",
+    "Full WCAG 2.2 AA conformance",
+    "Penetration test results (none found)",
+    "Legal adequacy of Impressum/Datenschutz for all jurisdictions"
+  ],
+  "architecture": {
+    "pattern": "pnpm monorepo modular Next.js monolith",
+    "frontend": "Next.js 16.2.11 App Router + React 19 + Tailwind 4",
+    "backend": "Next.js Route Handlers in same app",
+    "packages": ["ui", "contracts", "domain", "db", "auth", "admin(empty)", "ai-core(empty)", "testing(empty)"],
+    "database_live": false,
+    "vector_db_live": false
+  },
+  "technology_stack": {
+    "languages": ["TypeScript", "JavaScript"],
+    "runtime": "Node 22",
+    "framework": "Next.js 16.2.11",
+    "ui": "React 19.2.4, Tailwind CSS 4.3.3",
+    "orm": "drizzle-orm (packages/db only)",
+    "db_driver": "mysql2",
+    "auth": "custom packages/auth (memory sessions)",
+    "ci": "GitHub Actions",
+    "hosting": "Railway",
+    "testing": ["node assert scripts", "Playwright", "@axe-core/playwright"]
+  },
+  "integrations": {
+    "live": ["Railway hosting"],
+    "documented_placeholders_not_wired": ["QDRANT_URL", "NVIDIA_API_KEY", "OPENAI_API_KEY", "ANTHROPIC_API_KEY"],
+    "absent": ["Stripe", "PostHog", "Sentry", "Resend", "OpenAI SDK runtime", "NVIDIA NIM runtime"]
+  },
+  "data_model_summary": {
+    "client_localStorage_keys": [
+      "ki-lernportal-nim:local-progress:v1",
+      "ki-lernportal-nim:micro-progress:v1",
+      "ki-lernportal-nim:literacy-path:v1",
+      "ki-lernportal-nim:spaced-review:v1",
+      "ki-lernportal-nim:self-check:v1",
+      "ki-lernportal-nim:lesson-confidence:v1",
+      "ki-lernportal-nim:simple-mode:v1",
+      "ki-lernportal-nim:first-start-coach:v1"
+    ],
+    "server_pilot_tables_in_repo": [
+      "users",
+      "auth_credentials",
+      "auth_sessions",
+      "pilot_cohorts",
+      "pilot_invitations",
+      "pilot_memberships",
+      "lesson_progress",
+      "local_progress_imports"
+    ],
+    "server_tables_live_on_railway": "NOT_CONFIGURED"
+  },
+  "authentication": {
+    "production": "DISABLED_FEATURE_FLAG",
+    "staging": "RUNTIME_ON_MEMORY_STORE",
+    "http_routes": ["POST /api/auth/login", "POST /api/auth/logout"],
+    "http_routes_absent": ["GET /api/auth/me"],
+    "cookie": "nim_session HttpOnly Secure SameSite=Lax",
+    "password_reset": "NOT_FOUND",
+    "mfa": "POLICY_HELPERS_ONLY_NOT_RUNTIME",
+    "production_users": "NO"
+  },
+  "authorization": {
+    "platform_roles_vocabulary": "PRESENT_IN_packages/auth",
+    "enforced_on_learning_content": false,
+    "admin_runtime": false
+  },
+  "security_status": {
+    "headers_verified_live": true,
+    "csp": "ABSENT",
+    "secrets_in_repo": "NONE_FOUND_ONLY_EXAMPLE",
+    "dependency_audit_in_ci": true,
+    "pen_test": "NOT_FOUND"
+  },
+  "privacy_status": {
+    "privacy_page": "PRESENT",
+    "impressum": "PRESENT",
+    "analytics": "NONE_FOUND",
+    "non_essential_cookies": "NONE_CLAIMED_SESSION_COOKIE_GATED",
+    "localStorage_progress": true,
+    "privacy_page_key_list_complete": false,
+    "ai_user_data_to_providers": "NO_RUNTIME_AI"
+  },
+  "legal_review_items": [
+    "Impressum/Datenschutz Stand dates vs current auth surfaces",
+    "Datenschutz localStorage key inventory incomplete vs code",
+    "Concept-demo noindex vs future public launch",
+    "AI Act literacy content vs future AI runtime obligations"
+  ],
+  "ai_components": {
+    "runtime": "NONE",
+    "package": "packages/ai-core empty export",
+    "content_about_ai": true,
+    "rag_runtime_flag": false
+  },
+  "testing_status": {
+    "style": "Static contract scripts + Playwright smokes in CI",
+    "unit_framework": "node:assert / experimental strip-types",
+    "e2e": "Playwright scripts (local progress, a11y, practice)",
+    "sample_gates_run_this_audit": [
+      "test:s52-d2b-staging-auth-docs",
+      "test:portal-clarity",
+      "test:packaging-a",
+      "check-content-wave-c",
+      "test:s50d2-security-headers (local default + BASE_URL prod)"
+    ],
+    "full_ci_suite_this_audit": "NOT_EXECUTED_IN_FULL"
+  },
+  "deployment_status": {
+    "prod_http": "VERIFIED",
+    "staging_http": "VERIFIED",
+    "sha_match_main": true,
+    "database": "not_configured",
+    "autodeploy": "DISABLED_PER_DOCS"
+  },
+  "monitoring_status": {
+    "provider_selected": false,
+    "ops_endpoints": ["health", "live", "ready", "version"],
+    "apm": "NONE_FOUND"
+  },
+  "seo_status": {
+    "indexable": false,
+    "robots": "Disallow: /",
+    "sitemap": "ABSENT",
+    "meta_robots_noindex": true
+  },
+  "analytics_status": {
+    "product_analytics": "NONE_FOUND",
+    "error_tracking": "NONE_FOUND"
+  },
+  "monetization_current": "NONE_FREE_CONCEPT_DEMO",
+  "monetization_options": [
+    "Freemium learning portal",
+    "B2B education license / white-label",
+    "Cohort / course packaging",
+    "Affiliate for tools (requires disclosure) — NOT implemented"
+  ],
+  "major_risks": [
+    "Auth/privacy copy drift vs gated S52 surfaces",
+    "LocalStorage-only progress not portable without backup",
+    "No CSP",
+    "No APM/alerting for production incidents",
+    "Platform packages exist but product still client-demo — false maturity perception"
+  ],
+  "technical_debt": [
+    "packages/admin, ai-core, testing empty skeletons",
+    "AGENTS.md gate block can lag docs/00_PROJECT_STATUS.md",
+    "Vendored packages under apps/web/vendor for Railway isolation",
+    "Datenschutz key list incomplete",
+    "Many long-lived cursor/* branches on remote"
+  ],
+  "maturity_score": {
+    "overall_0_to_10": 4,
+    "label": "fruehes_MVP_concept_demo",
+    "scorecard_expert_judgment": {
+      "product_clarity": 8,
+      "feature_completeness": 4,
+      "architecture": 7,
+      "code_quality": 7,
+      "data_model": 5,
+      "security": 6,
+      "privacy_readiness": 6,
+      "legal_ops_readiness": 5,
+      "ux": 7,
+      "ui": 7,
+      "mobile": 7,
+      "accessibility": 6,
+      "performance": 6,
+      "testing": 7,
+      "deployment": 7,
+      "monitoring": 3,
+      "scalability": 4,
+      "seo": 2,
+      "analytics": 1,
+      "ai_quality": 1,
+      "monetization_readiness": 1,
+      "marketing_readiness": 4,
+      "ops_readiness": 4
+    },
+    "note": "Scores are expert judgments from this audit, not instrumented metrics."
+  },
+  "p0": [
+    "Keep production AUTH_RUNTIME off until DB sessions + privacy copy updated",
+    "Do not market as production SaaS with accounts/AI"
+  ],
+  "p1": [
+    "Align Datenschutz with all localStorage keys and gated login",
+    "Add CSP appropriate for Next static assets",
+    "Decide monitoring provider before broader public traffic",
+    "Document reproducible local setup including optional MySQL gates"
+  ],
+  "p2": [
+    "Reduce remote branch clutter",
+    "Complete packages/ai-core only after privacy/cost review",
+    "Expand a11y beyond smoke to formal checklist",
+    "OpenGraph for future public launch"
+  ],
+  "p3": [
+    "Server progress sync",
+    "Admin publishing",
+    "White-label / B2B",
+    "Paid NIM adapters"
+  ],
+  "quick_wins": [
+    "Update Datenschutz §4 key list (+ self-check, lesson-confidence)",
+    "Clarify Datenschutz §2 regarding gated /anmelden",
+    "Sync AGENTS.md architecture gate with 00_PROJECT_STATUS",
+    "Add short 'concept demo' badge consistency audit on legal pages dates"
+  ]
+}
