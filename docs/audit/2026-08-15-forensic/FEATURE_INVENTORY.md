@@ -26,7 +26,7 @@
 | Datenschutz-Seite | Statische Infos | alle | teilweise (Keys unvollständig) | ja | nein | — | — | ja | Datenschutz-Route |
 | Impressum | Statische Seite | alle | IMPLEMENTIERT | ja | nein | — | — | UNBEKANNT Inhalt | Legal-Routen |
 | `/version` `/live` `/ready` `/health` | Ops | Betreiber | vollständig | — | ja | Flags/Env | Gates | ja HTTP | Route Handlers |
-| Staging Login/Logout/Me | Session Auth | Test/Owner | nur Staging aktiv | ja | ja | Cookie+Memory/Env | Unit | TEILWEISE HTTP | `packages/auth`, auth routes |
+| Staging Login/Logout | Session Auth (kein `/me`) | Test/Owner | nur Staging aktiv | ja | ja | Cookie+Memory/Env | Unit | TEILWEISE HTTP | `packages/auth`, login/logout routes |
 | Production Auth | Gleiche API | — | **deaktiviert** | UI ggf. | 403 | — | — | ja 403 | FEATURE_DISABLED |
 | Server Progress Sync | Cloud-Fortschritt | — | **geplant / nicht** | — | — | — | — | nein | Docs S54 |
 | Admin CMS | Publishing | Admin | **Skeleton/leer** | — | — | — | — | nein | `packages/admin` empty |
