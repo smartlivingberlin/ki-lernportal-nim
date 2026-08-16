@@ -181,6 +181,9 @@ jobs:
       - name: Media M2 video pilot contract
         run: pnpm test:media-m2
 
+      - name: Media M3 guide mascot contract
+        run: pnpm test:media-m3
+
       - name: Install Playwright Chromium
         shell: bash
         run: |

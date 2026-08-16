@@ -63,8 +63,9 @@ Optionale Illustrationen und spätere Clips folgen
 - Lektionen: optionales `mediaIds: string[]`
 - UI: `MediaFigure` (Alt-Text, Lizenzhinweis, Reduced-Motion)
 - Open-Source / ohne Paid-SaaS; Live-LLM und Live-Fotoreal-Avatar gesperrt
-- Gate: `pnpm test:media-m0` / `pnpm test:media-m2`
+- Gate: `pnpm test:media-m0` / `pnpm test:media-m2` / `pnpm test:media-m3`
 - M2: `MediaVideoPlayer`, Captions (`.vtt`), Poster, kein Autoplay-Ton
+- M3: `GuideMascot` im Einstiegs-Coach (scripted, kein Chat)
 
 Medien **ersetzen keine Quellenangaben** und begründen keine Claims allein.
 
