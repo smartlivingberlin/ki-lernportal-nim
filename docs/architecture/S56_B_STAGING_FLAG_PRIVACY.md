@@ -1,7 +1,8 @@
 # S56-B — Staging-Flag-Entscheidung + Privacy-Review (ohne Flip)
 
-**Status:** Scope-Lock + dokumentierte Entscheidung (kein Railway-Flip)  
+**Status:** Scope-Lock + dokumentierte Entscheidung integriert (kein Railway-Flip)  
 **Stand:** 16. August 2026  
+**Merge:** #237 (`a239aa58ea06f97bc7c66bd8a493529a3f2e0906`)  
 **Autorisierung:** menschliche Fortsetzungsfreigabe nach S56-A („weiter“)  
 **Keine Rechtsberatung.**
 
@@ -21,6 +22,7 @@ S56_B_PRODUCT_UI=NO
 S56_B_RAILWAY_CHANGE_IN_REPO=NO
 S56_B_LIVE_LLM=NO
 S56_B_VECTOR_DB=NO
+S56_B_INTEGRATED_TO_MAIN=YES
 FEATURE_FLAG_AI_RAG_RUNTIME_DEFAULT=false
 AI_RAG_RUNTIME_FLAG_FLIP=STAGING_ONLY_FUTURE
 AI_RAG_RUNTIME_FLAG_FLIP_PRODUCTION=NO
