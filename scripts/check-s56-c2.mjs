@@ -24,6 +24,7 @@ assert.match(scope, /S56_C2_STAGING_FLAG_FLIP=NO/);
 assert.match(scope, /S56_C2_PRODUCTION_FLAG_FLIP=NO/);
 assert.match(scope, /S56_C2_RAILWAY_CHANGE_IN_REPO=NO/);
 assert.match(scope, /S56_C2_INTEGRATED_TO_MAIN=YES/);
+assert.match(scope, /Merge:.*#244/);
 assert.match(scope, /FEATURE_FLAG_AI_RAG_RUNTIME_DEFAULT=false/);
 
 const status = read("docs/00_PROJECT_STATUS.md");
@@ -50,6 +51,7 @@ assert.match(workspace, /lesson\.id === "l2"/);
 const stack = read("docs/architecture/MEDIA_OPEN_SOURCE_STACK.md");
 assert.match(stack, /S56_C2_SCOPE_LOCK=YES/);
 assert.match(stack, /S56_C2_CURATED_L2_AUTHORIZED=YES/);
+assert.match(stack, /S56_C2_MERGE_COMMIT=167b3199c03572fbe80cb81bf10f11160ca0a38c/);
 
 const operations = read("packages/contracts/src/operations.ts");
 assert.match(operations, /ai_rag_runtime:\s*false/);
