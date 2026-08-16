@@ -107,8 +107,9 @@ Live-Probe 2026-08-16: Production und Staging melden Build-SHA
 Production-Domain `web-production-51d3c8.up.railway.app`); Ready-Check
 `database=not_configured`.
 Medien M0–M4, M5-A/B, S56-A, S56-B (#237; Privacy/Flag-Entscheidung, kein Flip)
-und S56-C (#239; kuratierte Quellen-Suche UI) sind in `main` integriert
-(`docs/architecture/S56_C_CURATED_RETRIEVAL_UI.md`).
+und S56-C (#239; kuratierte Quellen-Suche UI) sowie S56-C2 (Expansion `l2`)
+sind in `main` integriert
+(`docs/architecture/S56_C2_CURATED_RETRIEVAL_EXPANSION.md`).
 Production-Auth und Railway-DB bleiben gesperrt.
 S52-D2b: Staging `AUTH_RUNTIME` HTTP-verifiziert (Login-Formular + `401`);
 Freigabe D: optionaler Staging-Memory-Seed über `STAGING_BOOTSTRAP_*`

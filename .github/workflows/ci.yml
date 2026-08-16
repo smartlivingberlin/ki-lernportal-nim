@@ -202,6 +202,9 @@ jobs:
       - name: S56-C curated retrieval UI contract
         run: pnpm test:s56-c
 
+      - name: S56-C2 curated retrieval l2 expansion contract
+        run: pnpm test:s56-c2
+
       - name: Install Playwright Chromium
         shell: bash
         run: |

@@ -65,6 +65,7 @@ MEDIA_M5_PRODUCTION_LLM=NO
 | S56-A | Kuratiertes Retrieval | integriert |
 | S56-B | Privacy + Flag-Entscheidung | integriert |
 | S56-C | Curated Retrieval Pilot UI | dieses Dokument |
+| S56-C2 | Expansion auf `l2` | siehe `S56_C2_CURATED_RETRIEVAL_EXPANSION.md` |
 | S56-B2 | Staging-Flag-Flip + HTTP-Probe | **gesperrt** |
 | S56-D | optionale Embeddings/Index (isoliert) | **gesperrt** |
 | M7 | Flag-gated Staging-RAG UI | **gesperrt** |

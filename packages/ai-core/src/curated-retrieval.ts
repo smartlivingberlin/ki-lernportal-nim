@@ -41,7 +41,7 @@ export type CuratedRetrieveResult = {
 const HONESTY =
   "Kuratiertes Retrieval (S56-A) · feste Passagen · keine Embeddings · keine Live-KI.";
 
-/** Frozen pilot corpus — keep aligned with lesson l1 teaching points. */
+/** Frozen pilot corpus — keep aligned with lesson teaching points (l1, l2). */
 export const CURATED_PASSAGES: readonly CuratedPassage[] = [
   {
     passageId: "l1-p-patterns",
@@ -66,6 +66,30 @@ export const CURATED_PASSAGES: readonly CuratedPassage[] = [
     revision: "2026-08-16",
     text: "Nutze KI als Hilfe zum Verstehen und Formulieren. Prüfe wichtige Aussagen trotzdem selbst.",
     keywords: ["sicher", "hilfe", "prüfen", "formulieren", "verstehen"],
+  },
+  {
+    passageId: "l2-p-strengths",
+    lessonId: "l2",
+    sourceId: "digcomp-30",
+    revision: "2026-08-16",
+    text: "KI kann Texte strukturieren, Ideen sammeln, Zusammenfassungen schreiben und Formulierungen verbessern.",
+    keywords: ["strukturieren", "ideen", "zusammenfassung", "formulierungen", "stärken"],
+  },
+  {
+    passageId: "l2-p-limits",
+    lessonId: "l2",
+    sourceId: "nist-ai-rmf",
+    revision: "2026-08-16",
+    text: "KI kann aktuelle Fakten nicht sicher garantieren und keine verbindliche Fachberatung ersetzen.",
+    keywords: ["grenzen", "fakten", "garantieren", "fachberatung", "vorsicht"],
+  },
+  {
+    passageId: "l2-p-safe",
+    lessonId: "l2",
+    sourceId: "digcomp-30",
+    revision: "2026-08-16",
+    text: "Nutze KI für Entwürfe, Erklärungen und Ideen. Bei Recht, Medizin, Steuern oder Verträgen brauchst du geeignete Quellen oder Fachpersonen.",
+    keywords: ["entwürfe", "recht", "medizin", "fachpersonen", "verträge"],
   },
 ] as const;
 
@@ -137,7 +161,7 @@ export type CuratedUiQuery = {
 };
 
 /**
- * S56-C preset queries for the curated retrieval pilot UI.
+ * S56-C / S56-C2 preset queries for the curated retrieval pilot UI.
  * Fixed buttons only — no free-text chat.
  */
 export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
@@ -162,6 +186,30 @@ export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
   {
     id: "l1-q-abstain",
     lessonId: "l1",
+    label: "Beispiel ohne Evidenz",
+    query: "Wie hoch ist der Bitcoin-Kurs heute?",
+  },
+  {
+    id: "l2-q-strengths",
+    lessonId: "l2",
+    label: "Was kann KI gut?",
+    query: "Kann KI Texte strukturieren und Ideen sammeln?",
+  },
+  {
+    id: "l2-q-limits",
+    lessonId: "l2",
+    label: "Wo liegen Grenzen?",
+    query: "Kann KI Fakten garantieren und Fachberatung ersetzen?",
+  },
+  {
+    id: "l2-q-safe",
+    lessonId: "l2",
+    label: "Wann brauche ich Fachpersonen?",
+    query: "Brauche ich bei Recht und Medizin Fachpersonen statt nur KI?",
+  },
+  {
+    id: "l2-q-abstain",
+    lessonId: "l2",
     label: "Beispiel ohne Evidenz",
     query: "Wie hoch ist der Bitcoin-Kurs heute?",
   },
