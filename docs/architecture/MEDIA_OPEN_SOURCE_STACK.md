@@ -167,6 +167,7 @@ Posen idle/point/celebrate, Honesty-Hinweis, kein Chat und keine Live-KI.
 
 **M4 Pilot:** vorproduzierte Piper-Hörfassung + sichtbares Transkript für
 Lektion `l1` — synthetische Stimme gekennzeichnet, kein Laufzeit-TTS, kein Mikrofon.
+Integriert über #229 (`d6b50f2d5566`).
 
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
@@ -176,6 +177,8 @@ MEDIA_M3_PILOT_AUTHORIZED=YES
 MEDIA_M3_CHAT_FORBIDDEN=YES
 MEDIA_M4_PILOT_AUTHORIZED=YES
 MEDIA_M4_RUNTIME_TTS_FORBIDDEN=YES
+MEDIA_M4_INTEGRATED_TO_MAIN=YES
+MEDIA_M4_MERGE_COMMIT=d6b50f2d5566250bff7a8c6b6e99d4afc00f530a
 MEDIA_M5_AI_AUTHORIZED=NO
 ```
 
