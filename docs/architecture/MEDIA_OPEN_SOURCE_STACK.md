@@ -178,7 +178,8 @@ in Lektion `l1` (nur vorgegebene Fragen, keine Live-KI). Scope:
 `MEDIA_M5_B_IMPLEMENTATION_SCOPE.md`. Integriert über #233 (`60b6eae1e10c`).
 
 **S56-A:** kuratiertes Retrieval (`retrieveCurated`) mit Zitaten/Enthaltung —
-Scope `S56_A_RAG_SCOPE_LOCK.md`. Kein Live-LLM, kein Vektorindex, kein Flag-Flip.
+Scope `S56_A_RAG_SCOPE_LOCK.md`. Integriert über #235 (`ffa90f6e9e70`).
+Kein Live-LLM, kein Vektorindex, kein Flag-Flip.
 
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
@@ -213,6 +214,8 @@ S56_A_LIVE_LLM=NO
 S56_A_VECTOR_DB=NO
 S56_A_PRODUCT_UI=NO
 S56_A_STAGING_FLAG_FLIP=NO
+S56_A_INTEGRATED_TO_MAIN=YES
+S56_A_MERGE_COMMIT=ffa90f6e9e704bd83e585361d6ad32d63619df71
 ```
 
 Nächster Schritt nur mit Freigabe: **S56-B** (Staging-Flag/Privacy) oder

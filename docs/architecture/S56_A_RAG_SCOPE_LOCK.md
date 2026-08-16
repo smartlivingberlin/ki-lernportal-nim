@@ -1,7 +1,8 @@
 # S56-A — RAG Scope-Lock + kuratiertes Retrieval (ohne Live-LLM)
 
-**Status:** Scope-Lock + lokale kuratierte Retrieval-Foundation  
+**Status:** Scope-Lock + lokale kuratierte Retrieval-Foundation integriert  
 **Stand:** 16. August 2026  
+**Merge:** #235 (`ffa90f6e9e704bd83e585361d6ad32d63619df71`)  
 **Autorisierung:** menschliche Fortsetzungsfreigabe nach M5-B („durch, weiter“)  
 **Keine Rechtsberatung.**
 
@@ -24,6 +25,7 @@ S56_A_EMBEDDINGS=NO
 S56_A_PRODUCT_UI=NO
 S56_A_STAGING_FLAG_FLIP=NO
 S56_A_PRODUCTION_FLAG_FLIP=NO
+S56_A_INTEGRATED_TO_MAIN=YES
 MEDIA_M5_RAG_AUTHORIZED=NO
 MEDIA_M5_PRODUCTION_LLM=NO
 AI_CORE_LIVE_PROVIDER=NO

@@ -22,6 +22,7 @@ assert.match(scope, /S56_A_EMBEDDINGS=NO/);
 assert.match(scope, /S56_A_PRODUCT_UI=NO/);
 assert.match(scope, /S56_A_STAGING_FLAG_FLIP=NO/);
 assert.match(scope, /S56_A_PRODUCTION_FLAG_FLIP=NO/);
+assert.match(scope, /S56_A_INTEGRATED_TO_MAIN=YES/);
 assert.match(scope, /FEATURE_FLAG_AI_RAG_RUNTIME_DEFAULT=false/);
 
 const status = read("docs/00_PROJECT_STATUS.md");
@@ -29,6 +30,7 @@ assert.match(status, /S56_A_SCOPE_LOCK=YES/);
 assert.match(status, /S56_A_CURATED_RETRIEVAL_AUTHORIZED=YES/);
 assert.match(status, /S56_A_LIVE_LLM=NO/);
 assert.match(status, /S56_A_STAGING_FLAG_FLIP=NO/);
+assert.match(status, /S56_A_INTEGRATED_TO_MAIN=YES/);
 assert.match(status, /MEDIA_M5_RAG_AUTHORIZED=NO/);
 
 const retrieval = read("packages/ai-core/src/curated-retrieval.ts");
