@@ -21,6 +21,7 @@ assert.match(scope, /S56_B_STAGING_FLAG_FLIP_EXECUTED=NO/);
 assert.match(scope, /S56_B_PRODUCTION_FLAG_FLIP=NO/);
 assert.match(scope, /S56_B_PRODUCT_UI=NO/);
 assert.match(scope, /S56_B_RAILWAY_CHANGE_IN_REPO=NO/);
+assert.match(scope, /S56_B_INTEGRATED_TO_MAIN=YES/);
 assert.match(scope, /FEATURE_FLAG_AI_RAG_RUNTIME_DEFAULT=false/);
 assert.match(scope, /AI_RAG_RUNTIME_FLAG_FLIP_PRODUCTION=NO/);
 assert.match(scope, /S56_B_PRIVACY_NO_USER_CORPUS_PII=YES/);
@@ -30,6 +31,7 @@ const status = read("docs/00_PROJECT_STATUS.md");
 assert.match(status, /S56_B_SCOPE_LOCK=YES/);
 assert.match(status, /S56_B_STAGING_FLAG_FLIP_EXECUTED=NO/);
 assert.match(status, /S56_B_PRODUCTION_FLAG_FLIP=NO/);
+assert.match(status, /S56_B_INTEGRATED_TO_MAIN=YES/);
 assert.match(status, /S56_A_INTEGRATED_TO_MAIN=YES/);
 
 const policy = read("packages/ai-core/src/ai-rag-runtime-policy.ts");

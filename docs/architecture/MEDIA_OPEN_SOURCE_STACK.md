@@ -182,7 +182,8 @@ Scope `S56_A_RAG_SCOPE_LOCK.md`. Integriert über #235 (`ffa90f6e9e70`).
 Kein Live-LLM, kein Vektorindex, kein Flag-Flip.
 
 **S56-B:** Privacy-Review + Staging-Flag-Entscheidung ohne Flip —
-`S56_B_STAGING_FLAG_PRIVACY.md`. `ai_rag_runtime` bleibt default `false`.
+`S56_B_STAGING_FLAG_PRIVACY.md`. Integriert über #237 (`a239aa58ea06`).
+`ai_rag_runtime` bleibt default `false`.
 
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
@@ -224,6 +225,8 @@ S56_B_PRIVACY_REVIEW_DOCUMENTED=YES
 S56_B_STAGING_FLAG_DECISION_DOCUMENTED=YES
 S56_B_STAGING_FLAG_FLIP_EXECUTED=NO
 S56_B_PRODUCTION_FLAG_FLIP=NO
+S56_B_INTEGRATED_TO_MAIN=YES
+S56_B_MERGE_COMMIT=a239aa58ea06f97bc7c66bd8a493529a3f2e0906
 ```
 
 Nächster Schritt nur mit Freigabe: **S56-B2** (Staging-Flag-Flip + HTTP-Probe),
