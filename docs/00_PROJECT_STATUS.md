@@ -14,7 +14,8 @@ Datenschutz-/Einstiegs-Klarheit (#213), Forensic IST-Stand/Handoff (#212),
 IA-Trim (#215), Honesty+Backup (#217), Unsicher/Review (#219),
 Quellenparität (#221), noindex/Soft-Start (#223), Datenschutz-Storage-Gate (#225),
 Medien-Stack M0–M4 (#226–#229) und M5-A Mock-Tutor (#231; kuratiert, kein Netz).
-Ollama/RAG nur mit Freigabe. Production-Auth/Live-Railway-DB weiter gesperrt.
+M5-B lokaler Ollama-Proof (Dev only, kein Product-UI); RAG nur mit S56-Freigabe.
+Production-Auth/Live-Railway-DB weiter gesperrt.
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
@@ -224,7 +225,12 @@ MEDIA_M5_A_MOCK_AUTHORIZED=YES
 MEDIA_M5_A_FREE_CHAT_FORBIDDEN=YES
 MEDIA_M5_A_NETWORK_FORBIDDEN=YES
 MEDIA_M5_A_INTEGRATED_TO_MAIN=YES
-MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=NO
+MEDIA_M5_B_SCOPE_LOCK=YES
+MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=YES
+MEDIA_M5_B_DEV_ONLY=YES
+MEDIA_M5_B_LOCALHOST_ONLY=YES
+MEDIA_M5_B_PRODUCT_UI=NO
+MEDIA_M5_B_RAILWAY=NO
 MEDIA_M5_RAG_AUTHORIZED=NO
 MEDIA_M5_PRODUCTION_LLM=NO
 MEDIA_M5_AI_AUTHORIZED=NO

@@ -18,7 +18,7 @@ assert.match(scope, /MEDIA_M5_A_SCOPE_LOCK=YES/);
 assert.match(scope, /MEDIA_M5_A_MOCK_AUTHORIZED=YES/);
 assert.match(scope, /MEDIA_M5_A_FREE_CHAT_FORBIDDEN=YES/);
 assert.match(scope, /MEDIA_M5_A_NETWORK_FORBIDDEN=YES/);
-assert.match(scope, /MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=NO/);
+assert.match(scope, /MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=YES/);
 assert.match(scope, /MEDIA_M5_RAG_AUTHORIZED=NO/);
 assert.match(scope, /MEDIA_M5_PRODUCTION_LLM=NO/);
 
@@ -26,7 +26,7 @@ const stack = read("docs/architecture/MEDIA_OPEN_SOURCE_STACK.md");
 assert.match(stack, /MEDIA_M5_A_SCOPE_LOCK=YES/);
 assert.match(stack, /MEDIA_M5_A_MOCK_AUTHORIZED=YES/);
 assert.match(stack, /MEDIA_M5_A_INTEGRATED_TO_MAIN=YES/);
-assert.match(stack, /MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=NO/);
+assert.match(stack, /MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=YES/);
 assert.match(stack, /MEDIA_M5_AI_AUTHORIZED=NO/);
 
 const mock = read("packages/ai-core/src/mock-tutor.ts");

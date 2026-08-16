@@ -18,7 +18,7 @@ MEDIA_M5_A_SCOPE_LOCK=YES
 MEDIA_M5_A_MOCK_AUTHORIZED=YES
 MEDIA_M5_A_FREE_CHAT_FORBIDDEN=YES
 MEDIA_M5_A_NETWORK_FORBIDDEN=YES
-MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=NO
+MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=YES
 MEDIA_M5_RAG_AUTHORIZED=NO
 MEDIA_M5_PRODUCTION_LLM=NO
 MEDIA_LIVE_LLM_FORBIDDEN_UNTIL_S56_FREIGABE=YES
@@ -36,7 +36,7 @@ MEDIA_LIVE_LLM_FORBIDDEN_UNTIL_S56_FREIGABE=YES
 
 ## 3. Explizit out of scope
 
-- Ollama / lokale Modell-Runtime (→ späteres M5-B nur mit Freigabe)
+- Ollama / lokale Modell-Runtime (→ M5-B Scope-Lock)
 - RAG, Embeddings, Vektordatenbanken
 - Provider-SDKs (OpenAI, Anthropic, NVIDIA NIM Cloud, …)
 - Freier Chat / Streaming
@@ -62,6 +62,6 @@ MEDIA_LIVE_LLM_FORBIDDEN_UNTIL_S56_FREIGABE=YES
 
 | Slice | Inhalt | Status |
 |-------|--------|--------|
-| M5-A | Mock-Tutor + Pilot-UI | dieses Dokument |
-| M5-B | lokaler Ollama-Proof (Dev only) | **gesperrt** |
+| M5-A | Mock-Tutor + Pilot-UI | dieses Dokument (integriert) |
+| M5-B | lokaler Ollama-Proof (Dev only) | siehe `MEDIA_M5_B_IMPLEMENTATION_SCOPE.md` |
 | S56 | Live-RAG / Staging-Flags | **gesperrt** |
