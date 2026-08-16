@@ -161,7 +161,10 @@ export default function DatenschutzPage() {
         <p>
           Dafür werden derzeit folgende technische Schlüssel verwendet:
         </p>
-        <ul className="mt-2 min-w-0 list-disc space-y-3 overflow-x-hidden pl-5">
+        <ul
+          className="mt-2 min-w-0 list-disc space-y-3 overflow-x-hidden pl-5"
+          data-testid="datenschutz-storage-keys"
+        >
           <li className="min-w-0">
             <span className="block">Lektionen:</span>
             <code
@@ -237,6 +240,14 @@ export default function DatenschutzPage() {
             </code>
           </li>
         </ul>
+
+        <p>
+          Nur diese Schlüssel speichern Daten dauerhaft im Browser. Interne
+          Event-Namen (z.&nbsp;B.{" "}
+          <code className="rounded bg-slate-100 px-1">*-change</code>) sind
+          keine Speicher-Keys. Einschätzungen in Challenges/Teachback in der
+          aktuellen Ansicht werden nicht dauerhaft gespeichert.
+        </p>
 
         <p>
           Die Sicherungsdatei unter „Fortschritt sichern“ enthält die sechs
