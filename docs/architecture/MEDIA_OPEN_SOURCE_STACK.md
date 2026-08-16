@@ -191,7 +191,8 @@ Zitate/Enthaltung) — Scope `S56_C_CURATED_RETRIEVAL_UI.md`. Integriert über
 keine Live-KI.
 
 **S56-C2:** Expansion auf Lektion `l2` — Scope
-`S56_C2_CURATED_RETRIEVAL_EXPANSION.md`. Korpus + Preset-UI, gleiche Grenzen.
+`S56_C2_CURATED_RETRIEVAL_EXPANSION.md`. Integriert über #244 (`167b3199c035`).
+Korpus + Preset-UI, gleiche Grenzen.
 
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
@@ -250,6 +251,7 @@ S56_C2_LIVE_LLM=NO
 S56_C2_EMBEDDINGS=NO
 S56_C2_STAGING_FLAG_FLIP=NO
 S56_C2_INTEGRATED_TO_MAIN=YES
+S56_C2_MERGE_COMMIT=167b3199c03572fbe80cb81bf10f11160ca0a38c
 ```
 
 Nächster Schritt nur mit Freigabe: **S56-B2** (Staging-Flag-Flip + HTTP-Probe),

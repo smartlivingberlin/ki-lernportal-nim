@@ -1,7 +1,8 @@
 # S56-C2 — Curated Retrieval Expansion (Lektion l2)
 
-**Status:** Scope-Lock + Korpus-/UI-Erweiterung für Lektion `l2`  
+**Status:** Scope-Lock + Korpus-/UI-Erweiterung für Lektion `l2` integriert  
 **Stand:** 16. August 2026  
+**Merge:** #244 (`167b3199c03572fbe80cb81bf10f11160ca0a38c`)  
 **Autorisierung:** menschliche Fortsetzungsfreigabe nach S56-C („weiter“)  
 **Keine Rechtsberatung.**
 
