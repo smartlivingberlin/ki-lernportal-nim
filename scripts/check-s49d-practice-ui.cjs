@@ -397,8 +397,18 @@ async function runViewport(browser, viewport) {
       return;
     }
 
+    const url = request.url();
+    // Curated static lesson media (mp4/vtt/poster) is same-origin content,
+    // not third-party tracking. Allow it during lesson open/practice flows.
+    if (
+      url.startsWith(baseUrl) &&
+      (url.includes("/media/") || url.includes("/_next/static/"))
+    ) {
+      return;
+    }
+
     interactionRequests.push(
-      `${request.method()} ${request.url()}`
+      `${request.method()} ${url}`
     );
   });
 
