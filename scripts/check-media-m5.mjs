@@ -25,6 +25,7 @@ assert.match(scope, /MEDIA_M5_PRODUCTION_LLM=NO/);
 const stack = read("docs/architecture/MEDIA_OPEN_SOURCE_STACK.md");
 assert.match(stack, /MEDIA_M5_A_SCOPE_LOCK=YES/);
 assert.match(stack, /MEDIA_M5_A_MOCK_AUTHORIZED=YES/);
+assert.match(stack, /MEDIA_M5_A_INTEGRATED_TO_MAIN=YES/);
 assert.match(stack, /MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=NO/);
 assert.match(stack, /MEDIA_M5_AI_AUTHORIZED=NO/);
 
