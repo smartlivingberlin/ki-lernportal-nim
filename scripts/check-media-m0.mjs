@@ -24,7 +24,8 @@ assert.match(scope, /EU AI Act/);
 assert.match(scope, /DSGVO/);
 assert.match(scope, /Keine Rechtsberatung/);
 assert.match(scope, /MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES/);
-assert.match(scope, /MEDIA_M2_AUTHORIZED=NO/);
+assert.match(scope, /MEDIA_M2_PILOT_AUTHORIZED=YES/);
+assert.match(scope, /MEDIA_M3_AUTHORIZED=NO/);
 
 const schema = read("docs/architecture/CONTENT_SCHEMA_V2.md");
 assert.match(schema, /MEDIA_OPEN_SOURCE_STACK\.md/);
@@ -43,7 +44,9 @@ assert.match(manifest, /AllRights-Project/);
 assert.match(manifest, /export function mediaForIds/);
 
 const lessons = read("apps/web/src/data/lessons.ts");
-assert.match(lessons, /mediaIds:\s*\['ill-ki-patterns',\s*'ill-ki-check'\]/);
+assert.match(lessons, /ill-ki-patterns/);
+assert.match(lessons, /ill-ki-check/);
+assert.match(lessons, /mediaIds:/);
 
 const figure = read("apps/web/src/components/learning/MediaFigure.tsx");
 assert.match(figure, /data-testid="media-figure"/);

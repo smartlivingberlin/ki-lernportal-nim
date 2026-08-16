@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { mediaForIds } from "../../data/media-manifest";
+import { mediaForIds, splitMediaByKind } from "../../data/media-manifest";
 import { microUnitForLesson } from "../../data/micro-units";
 import { practiceByLessonId } from "../../data/practice";
 import type { Lesson, Source } from "../../data/types";
@@ -9,6 +9,7 @@ import { buildAbsoluteLessonShareUrl } from "../../lib/lesson-share-url";
 import { LearningBlock } from "./LearningBlock";
 import { LessonPracticePanel } from "./LessonPracticePanel";
 import { MediaFigure } from "./MediaFigure";
+import { MediaVideoPlayer } from "./MediaVideoPlayer";
 
 type LessonWorkspaceProps = {
   lesson: Lesson;
@@ -46,6 +47,7 @@ export function LessonWorkspace({
     ];
   const microUnit = microUnitForLesson(lesson.id);
   const mediaAssets = mediaForIds(lesson.mediaIds);
+  const { illustrations, videos } = splitMediaByKind(mediaAssets);
 
   const explainText = microUnit
     ? [
@@ -142,14 +144,22 @@ export function LessonWorkspace({
             text={explainText}
             large
           />
-          {mediaAssets.length > 0 ? (
-            <div
-              data-testid="lesson-media"
-              className="grid gap-4 sm:grid-cols-2"
-            >
-              {mediaAssets.map((asset) => (
-                <MediaFigure key={asset.id} asset={asset} />
-              ))}
+          {illustrations.length > 0 || videos.length > 0 ? (
+            <div data-testid="lesson-media" className="space-y-4">
+              {videos.length > 0 ? (
+                <div className="grid gap-4">
+                  {videos.map((asset) => (
+                    <MediaVideoPlayer key={asset.id} asset={asset} />
+                  ))}
+                </div>
+              ) : null}
+              {illustrations.length > 0 ? (
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {illustrations.map((asset) => (
+                    <MediaFigure key={asset.id} asset={asset} />
+                  ))}
+                </div>
+              ) : null}
             </div>
           ) : null}
           {practice ? (
