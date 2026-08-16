@@ -85,6 +85,12 @@ const approvedExternalManifestDependencies = new Map([
       "@types/node",
     ]),
   ],
+  [
+    "package:ai-core",
+    new Set([
+      "@types/node",
+    ]),
+  ],
 ]);
 
 const expectedPackages = [
@@ -1607,14 +1613,16 @@ function validatePackageSkeletons() {
           );
         }
       }
-    } else if (pkg.dir === "auth") {
+    } else if (pkg.dir === "auth" || pkg.dir === "ai-core") {
       if (
         Object.keys(manifest.dependencies ?? {}).length > 0
       ) {
         fail(
           `${rel(
             manifestPath,
-          )} must not declare runtime dependencies in S52-B`,
+          )} must not declare runtime dependencies in ${
+            pkg.dir === "auth" ? "S52-B" : "M5-B"
+          }`,
         );
       }
 
@@ -1631,7 +1639,7 @@ function validatePackageSkeletons() {
           `${rel(
             manifestPath,
           )} must declare exactly @types/node as its only ` +
-          "devDependency in S52-B",
+          `devDependency in ${pkg.dir === "auth" ? "S52-B" : "M5-B"}`,
         );
       }
 
@@ -1647,7 +1655,9 @@ function validatePackageSkeletons() {
           fail(
             `${rel(
               manifestPath,
-            )} must not declare ${field} in S52-B`,
+            )} must not declare ${field} in ${
+              pkg.dir === "auth" ? "S52-B" : "M5-B"
+            }`,
           );
         }
       }
@@ -1858,7 +1868,8 @@ function validatePackageSkeletons() {
       } else if (pkg.dir === "ai-core") {
         for (const requiredText of [
           "MEDIA_M5_A_MOCK_AUTHORIZED=YES",
-          "MEDIA_M5_A_NETWORK_FORBIDDEN=YES",
+          "MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=YES",
+          "MEDIA_M5_B_PRODUCT_UI=NO",
           "MEDIA_M5_PRODUCTION_LLM=NO",
           "AI_CORE_LIVE_PROVIDER=NO",
           "Keine produktive",
@@ -1867,7 +1878,7 @@ function validatePackageSkeletons() {
             fail(
               `${rel(
                 readmePath,
-              )} is missing M5-A ai-core status text: ` +
+              )} is missing M5 ai-core status text: ` +
               requiredText,
             );
           }

@@ -1,5 +1,5 @@
 /**
- * S51A package boundary + M5-A mock tutor (no live LLM).
+ * S51A package boundary + M5-A mock tutor + M5-B local Ollama proof.
  */
 export {
   MOCK_TUTOR_MODE,
@@ -14,3 +14,18 @@ export type {
   MockTutorRequest,
   MockTutorResponse,
 } from "./mock-tutor.ts";
+
+export {
+  OLLAMA_PROOF_MODE,
+  assertLocalOllamaBaseUrl,
+  isOllamaProofEnabled,
+  proveOllamaLocal,
+  resolveOllamaProofConfig,
+} from "./ollama-local.ts";
+
+export type {
+  OllamaProofConfig,
+  OllamaProofEnv,
+  OllamaProofMode,
+  OllamaProofResult,
+} from "./ollama-local.ts";
