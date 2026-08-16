@@ -1,5 +1,5 @@
 /**
- * S51A package boundary + M5 mock/ollama proof + S56-A curated retrieval.
+ * S51A package boundary + M5 mock/ollama proof + S56 curated retrieval/UI.
  */
 export {
   MOCK_TUTOR_MODE,
@@ -33,7 +33,9 @@ export type {
 export {
   CURATED_PASSAGES,
   CURATED_RETRIEVAL_MODE,
+  CURATED_UI_QUERIES,
   listCuratedPassages,
+  listCuratedUiQueries,
   retrieveCurated,
 } from "./curated-retrieval.ts";
 
@@ -43,6 +45,7 @@ export type {
   CuratedRetrievalMode,
   CuratedRetrieveRequest,
   CuratedRetrieveResult,
+  CuratedUiQuery,
 } from "./curated-retrieval.ts";
 
 export {

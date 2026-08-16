@@ -128,6 +128,11 @@ export default function DatenschutzPage() {
             Lektionsstoff (kein Netz, kein Freitext-Chat, keine
             Live-KI-/LLM-Anbindung an Drittanbieter)
           </li>
+          <li>
+            optionale kuratierte Quellen-Suche mit festen Fragen und Zitaten
+            aus freigegebenen Passagen (bei fehlender Evidenz Enthaltung; kein
+            Netz, keine Embeddings, keine Live-KI, kein Freitext-Chat)
+          </li>
         </ul>
 
         <p>

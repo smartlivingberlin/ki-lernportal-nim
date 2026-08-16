@@ -83,7 +83,7 @@ S56_B_PRIVACY_CITATION_REQUIRED=YES
 - Railway-/Dashboard-Änderungen
 - `ai_rag_runtime=true` setzen (Staging oder Production)
 - Product-UI / Chat
-- Embeddings / Vektordatenbank (S56-C)
+- Embeddings / Vektordatenbank (S56-D)
 - Live-LLM
 - M7 Staging-RAG-UI
 
@@ -93,6 +93,7 @@ S56_B_PRIVACY_CITATION_REQUIRED=YES
 |-------|--------|--------|
 | S56-A | Kuratiertes Retrieval | integriert |
 | S56-B | Privacy + Flag-Entscheidung | dieses Dokument |
+| S56-C | Curated Retrieval Pilot UI | siehe `S56_C_CURATED_RETRIEVAL_UI.md` |
 | S56-B2 | optionaler Staging-Flag-Flip + HTTP-Probe | **gesperrt** |
-| S56-C | Embeddings/Index | **gesperrt** |
+| S56-D | Embeddings/Index | **gesperrt** |
 | M7 | Flag-gated Staging-RAG UI | **gesperrt** |

@@ -185,6 +185,10 @@ Kein Live-LLM, kein Vektorindex, kein Flag-Flip.
 `S56_B_STAGING_FLAG_PRIVACY.md`. Integriert über #237 (`a239aa58ea06`).
 `ai_rag_runtime` bleibt default `false`.
 
+**S56-C Pilot:** kuratierte Quellen-Suche in Lektion `l1` (Preset-Queries,
+Zitate/Enthaltung) — Scope `S56_C_CURATED_RETRIEVAL_UI.md`. Kein Freitext-Chat,
+kein Flag-Flip, keine Embeddings, keine Live-KI.
+
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
 MEDIA_M2_PILOT_AUTHORIZED=YES
@@ -227,7 +231,14 @@ S56_B_STAGING_FLAG_FLIP_EXECUTED=NO
 S56_B_PRODUCTION_FLAG_FLIP=NO
 S56_B_INTEGRATED_TO_MAIN=YES
 S56_B_MERGE_COMMIT=a239aa58ea06f97bc7c66bd8a493529a3f2e0906
+S56_C_SCOPE_LOCK=YES
+S56_C_CURATED_RETRIEVAL_UI_AUTHORIZED=YES
+S56_C_FREE_CHAT_FORBIDDEN=YES
+S56_C_LIVE_LLM=NO
+S56_C_EMBEDDINGS=NO
+S56_C_STAGING_FLAG_FLIP=NO
+S56_C_INTEGRATED_TO_MAIN=YES
 ```
 
 Nächster Schritt nur mit Freigabe: **S56-B2** (Staging-Flag-Flip + HTTP-Probe),
-**S56-C** (Embeddings/Index) oder **M7** (Staging-RAG UI).
+**S56-D** (Embeddings/Index) oder **M7** (Flag-gated Staging-RAG UI).

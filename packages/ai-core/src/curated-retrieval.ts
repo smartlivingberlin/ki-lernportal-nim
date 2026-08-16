@@ -129,8 +129,50 @@ function scorePassage(passage: CuratedPassage, queryNorm: string): number {
   return score;
 }
 
+export type CuratedUiQuery = {
+  id: string;
+  lessonId: string;
+  label: string;
+  query: string;
+};
+
+/**
+ * S56-C preset queries for the curated retrieval pilot UI.
+ * Fixed buttons only — no free-text chat.
+ */
+export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
+  {
+    id: "l1-q-patterns",
+    lessonId: "l1",
+    label: "Erkennt KI Muster?",
+    query: "Erkennt KI Muster wie Software?",
+  },
+  {
+    id: "l1-q-truth",
+    lessonId: "l1",
+    label: "Kann KI falsch liegen?",
+    query: "Kann KI falsch liegen und überzeugend klingen?",
+  },
+  {
+    id: "l1-q-safe",
+    lessonId: "l1",
+    label: "Wie nutze ich KI sicher?",
+    query: "Wie nutze ich KI sicher als Hilfe zum Verstehen?",
+  },
+  {
+    id: "l1-q-abstain",
+    lessonId: "l1",
+    label: "Beispiel ohne Evidenz",
+    query: "Wie hoch ist der Bitcoin-Kurs heute?",
+  },
+] as const;
+
 export function listCuratedPassages(lessonId: string): CuratedPassage[] {
   return CURATED_PASSAGES.filter((passage) => passage.lessonId === lessonId);
+}
+
+export function listCuratedUiQueries(lessonId: string): CuratedUiQuery[] {
+  return CURATED_UI_QUERIES.filter((entry) => entry.lessonId === lessonId);
 }
 
 /**

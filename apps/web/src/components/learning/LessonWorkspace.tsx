@@ -11,6 +11,7 @@ import { LessonPracticePanel } from "./LessonPracticePanel";
 import { MediaAudioPlayer } from "./MediaAudioPlayer";
 import { MediaFigure } from "./MediaFigure";
 import { MediaVideoPlayer } from "./MediaVideoPlayer";
+import { CuratedRetrievalPanel } from "./CuratedRetrievalPanel";
 import { MockTutorPanel } from "./MockTutorPanel";
 
 type LessonWorkspaceProps = {
@@ -180,6 +181,9 @@ export function LessonWorkspace({
             </div>
           ) : null}
           {lesson.id === "l1" ? <MockTutorPanel lessonId={lesson.id} /> : null}
+          {lesson.id === "l1" ? (
+            <CuratedRetrievalPanel lessonId={lesson.id} />
+          ) : null}
           {practice ? (
             <LessonPracticePanel
               key={lesson.id}
