@@ -56,7 +56,8 @@ FEATURE_FLAG_AI_RAG_RUNTIME_DEFAULT=false
 
 - Mode: `curated_retrieval` (nicht „Live-RAG“).
 - Antworten nur aus kuratierten Passagen; sonst Enthaltung.
-- Concept-Demo-UI bleibt beim M5-A Mock-Tutor.
+- Concept-Demo-UI: M5-A Mock-Tutor; S56-C ergänzt die kuratierte Quellen-Suche
+  (Presets, Zitate/Enthaltung) ohne Flag-Flip.
 - Kein Claim „Live-KI mit Wissensdatenbank“ ohne Flag und Freigabe.
 
 ## 5. Nächste Freigaben
@@ -65,5 +66,6 @@ FEATURE_FLAG_AI_RAG_RUNTIME_DEFAULT=false
 |-------|--------|--------|
 | S56-A | Scope + kuratiertes Retrieval | integriert |
 | S56-B | Staging-Flag-Entscheidung / Privacy-Review | siehe `S56_B_STAGING_FLAG_PRIVACY.md` |
-| S56-C | optionale Embeddings/Index (isoliert) | **gesperrt** |
+| S56-C | Curated Retrieval Pilot UI | siehe `S56_C_CURATED_RETRIEVAL_UI.md` |
+| S56-D | optionale Embeddings/Index (isoliert) | **gesperrt** |
 | M7 | Flag-gated Staging-RAG UI | **gesperrt** |

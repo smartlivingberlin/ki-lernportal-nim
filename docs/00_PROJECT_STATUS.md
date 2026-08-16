@@ -13,8 +13,9 @@ Backup-Import-Confirm (#206), Teachback-Honesty (#208), Themenwelt-Jargon (#210)
 Datenschutz-/Einstiegs-Klarheit (#213), Forensic IST-Stand/Handoff (#212),
 IA-Trim (#215), Honesty+Backup (#217), Unsicher/Review (#219),
 Quellenparität (#221), noindex/Soft-Start (#223), Datenschutz-Storage-Gate (#225),
-Medien M0–M4 (#226–#229), M5-A/B (#231/#233), S56-A (#235) und S56-B (#237;
-Privacy/Flag-Entscheidung, kein Flip). Production-Auth/Live-Railway-DB weiter gesperrt.
+Medien M0–M4 (#226–#229), M5-A/B (#231/#233), S56-A (#235), S56-B (#237;
+Privacy/Flag-Entscheidung, kein Flip) und S56-C (kuratierte Quellen-Suche UI).
+Production-Auth/Live-Railway-DB weiter gesperrt.
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
@@ -264,6 +265,16 @@ S56_B_PRODUCTION_FLAG_FLIP=NO
 S56_B_PRODUCT_UI=NO
 S56_B_RAILWAY_CHANGE_IN_REPO=NO
 S56_B_INTEGRATED_TO_MAIN=YES
+S56_C_SCOPE_LOCK=YES
+S56_C_CURATED_RETRIEVAL_UI_AUTHORIZED=YES
+S56_C_FREE_CHAT_FORBIDDEN=YES
+S56_C_LIVE_LLM=NO
+S56_C_VECTOR_DB=NO
+S56_C_EMBEDDINGS=NO
+S56_C_STAGING_FLAG_FLIP=NO
+S56_C_PRODUCTION_FLAG_FLIP=NO
+S56_C_RAILWAY_CHANGE_IN_REPO=NO
+S56_C_INTEGRATED_TO_MAIN=YES
 FEATURE_FLAG_AI_RAG_RUNTIME_DEFAULT=false
 HUMAN_FREIGABE_A_DOCS_SYNC=YES
 HUMAN_FREIGABE_B_CONNECTION_PROOF=YES

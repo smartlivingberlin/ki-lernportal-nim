@@ -1,7 +1,9 @@
 import {
   CURATED_PASSAGES,
   CURATED_RETRIEVAL_MODE,
+  CURATED_UI_QUERIES,
   listCuratedPassages,
+  listCuratedUiQueries,
   retrieveCurated,
 } from "./curated-retrieval.ts";
 
@@ -44,5 +46,25 @@ const wrongLesson = retrieveCurated({
   query: "Erkennt KI Muster?",
 });
 same(wrongLesson.status, "abstain", "wrong lesson abstains");
+
+ok(CURATED_UI_QUERIES.length >= 4, "ui query bank size");
+same(listCuratedUiQueries("l1").length, 4, "l1 ui queries");
+same(listCuratedUiQueries("l9").length, 0, "unknown lesson ui empty");
+
+const uiHit = retrieveCurated({
+  lessonId: "l1",
+  query: listCuratedUiQueries("l1")[0]!.query,
+});
+same(uiHit.status, "hit", "first ui query hits");
+
+const uiAbstainQuery = listCuratedUiQueries("l1").find(
+  (q) => q.id === "l1-q-abstain",
+);
+ok(uiAbstainQuery != null, "abstain ui query exists");
+const uiAbstain = retrieveCurated({
+  lessonId: "l1",
+  query: uiAbstainQuery.query,
+});
+same(uiAbstain.status, "abstain", "abstain ui query abstains");
 
 console.log("AI_CORE_CURATED_RETRIEVAL_OK=YES");
