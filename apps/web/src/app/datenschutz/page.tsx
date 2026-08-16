@@ -115,6 +115,10 @@ export default function DatenschutzPage() {
           <li>
             lokale Speicherung von Lernfortschritt und Einstellungen im Browser
           </li>
+          <li>
+            optionale, kuratierte Lern-Illustrationen als statische Dateien vom
+            selben Hosting (kein Tracking-Pixel, keine Webcam-/Mikrofon-Nutzung)
+          </li>
           <li>keine serverseitige Lerndatenbank</li>
           <li>keine Live-KI-/LLM-Anbindung an Drittanbieter</li>
         </ul>

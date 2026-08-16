@@ -54,6 +54,19 @@ Lernmethoden, Glossar, Challenges) referenzieren nur freigegebene
 `publicSources` und rendern sie mit `data-source-id` / Publisher /
 Prüfdatum. Gate: `pnpm source:check` + `pnpm test:quellenparitaet`.
 
+## Medien (M0/M1)
+
+Optionale Illustrationen und spätere Clips folgen
+[`MEDIA_OPEN_SOURCE_STACK.md`](MEDIA_OPEN_SOURCE_STACK.md):
+
+- `MediaAsset` im Manifest (`apps/web/src/data/media-manifest.ts`)
+- Lektionen: optionales `mediaIds: string[]`
+- UI: `MediaFigure` (Alt-Text, Lizenzhinweis, Reduced-Motion)
+- Open-Source / ohne Paid-SaaS; Live-LLM und Live-Fotoreal-Avatar gesperrt
+- Gate: `pnpm test:media-m0`
+
+Medien **ersetzen keine Quellenangaben** und begründen keine Claims allein.
+
 ## Migrationspfad
 
 - Bestehende 12 Lektionen bleiben kompatibel.
@@ -65,3 +78,4 @@ Prüfdatum. Gate: `pnpm source:check` + `pnpm test:quellenparitaet`.
 - produktive Publish-Pipeline
 - ungeprüfte Web-Autoupdates
 - Schema-/Migrationscode in `packages/db`
+- Paid-Media-SaaS, Live-LLM-Tutor, Live-Fotoreal-Avatar-Runtime (siehe Media-Stack)
