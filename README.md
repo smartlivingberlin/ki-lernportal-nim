@@ -103,8 +103,9 @@ Isoliertes Staging-Environment `staging` ist angelegt und HTTP-grün unter
 Nachweise: `docs/architecture/S51D_B_STAGING_EXECUTION.md`.
 
 Live-Probe 2026-08-16: Production und Staging melden Build-SHA
-`caf0caf64f20` (`/version`, nach #239 S56-C; Production-Domain
-`web-production-51d3c8.up.railway.app`); Ready-Check `database=not_configured`.
+`62ac1de6edc6` (`/version`, nach #240 Docs-Sync; Live inkl. #239 S56-C;
+Production-Domain `web-production-51d3c8.up.railway.app`); Ready-Check
+`database=not_configured`.
 Medien M0–M4, M5-A/B, S56-A, S56-B (#237; Privacy/Flag-Entscheidung, kein Flip)
 und S56-C (#239; kuratierte Quellen-Suche UI) sind in `main` integriert
 (`docs/architecture/S56_C_CURATED_RETRIEVAL_UI.md`).
@@ -121,7 +122,7 @@ CURRENT_PRODUCTION_AUTODEPLOY=DISABLED
 CURRENT_WAIT_FOR_CI=ON
 CURRENT_CONFIG_SOURCE=DASHBOARD_NO_RAILWAY_JSON
 CURRENT_ROOT_DIRECTORY=apps/web
-LIVE_BUILD_SHA_OBSERVED=caf0caf64f20
+LIVE_BUILD_SHA_OBSERVED=62ac1de6edc6
 STAGING_ENVIRONMENT_CREATED=YES
 STAGING_PUBLIC_DOMAIN=ki-lernportal-nim-staging.up.railway.app
 STAGING_AUTODEPLOY=DISABLED
