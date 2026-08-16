@@ -186,8 +186,9 @@ Kein Live-LLM, kein Vektorindex, kein Flag-Flip.
 `ai_rag_runtime` bleibt default `false`.
 
 **S56-C Pilot:** kuratierte Quellen-Suche in Lektion `l1` (Preset-Queries,
-Zitate/Enthaltung) — Scope `S56_C_CURATED_RETRIEVAL_UI.md`. Kein Freitext-Chat,
-kein Flag-Flip, keine Embeddings, keine Live-KI.
+Zitate/Enthaltung) — Scope `S56_C_CURATED_RETRIEVAL_UI.md`. Integriert über
+#239 (`caf0caf64f20`). Kein Freitext-Chat, kein Flag-Flip, keine Embeddings,
+keine Live-KI.
 
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
@@ -238,6 +239,7 @@ S56_C_LIVE_LLM=NO
 S56_C_EMBEDDINGS=NO
 S56_C_STAGING_FLAG_FLIP=NO
 S56_C_INTEGRATED_TO_MAIN=YES
+S56_C_MERGE_COMMIT=caf0caf64f2042b3de7e13b89cecfe371f8da27b
 ```
 
 Nächster Schritt nur mit Freigabe: **S56-B2** (Staging-Flag-Flip + HTTP-Probe),

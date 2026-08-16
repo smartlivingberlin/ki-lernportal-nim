@@ -24,6 +24,7 @@ assert.match(scope, /S56_C_STAGING_FLAG_FLIP=NO/);
 assert.match(scope, /S56_C_PRODUCTION_FLAG_FLIP=NO/);
 assert.match(scope, /S56_C_RAILWAY_CHANGE_IN_REPO=NO/);
 assert.match(scope, /S56_C_INTEGRATED_TO_MAIN=YES/);
+assert.match(scope, /Merge:.*#239/);
 assert.match(scope, /FEATURE_FLAG_AI_RAG_RUNTIME_DEFAULT=false/);
 assert.match(scope, /S56-D/);
 
@@ -71,5 +72,6 @@ assert.match(datenschutz, /Quellen-Suche|kuratiert/);
 const stack = read("docs/architecture/MEDIA_OPEN_SOURCE_STACK.md");
 assert.match(stack, /S56_C_SCOPE_LOCK=YES/);
 assert.match(stack, /S56_C_CURATED_RETRIEVAL_UI_AUTHORIZED=YES/);
+assert.match(stack, /S56_C_MERGE_COMMIT=caf0caf64f2042b3de7e13b89cecfe371f8da27b/);
 
 console.log("S56_C_STATIC_OK=YES");
