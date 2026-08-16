@@ -41,6 +41,13 @@ Siehe `docs/architecture/S56_B_STAGING_FLAG_PRIVACY.md`.
 
 Siehe `docs/architecture/S56_C_CURATED_RETRIEVAL_UI.md`.
 
+### S56-C2
+
+- Korpus + Preset-Queries für Lektion `l2`
+- Panel-Wiring in `l1` und `l2`
+
+Siehe `docs/architecture/S56_C2_CURATED_RETRIEVAL_EXPANSION.md`.
+
 ## Erlaubte Imports
 
 - `@ki-lernportal-nim/contracts`
@@ -88,13 +95,17 @@ S56_C_SCOPE_LOCK=YES
 S56_C_CURATED_RETRIEVAL_UI_AUTHORIZED=YES
 S56_C_FREE_CHAT_FORBIDDEN=YES
 S56_C_EMBEDDINGS=NO
+S56_C2_SCOPE_LOCK=YES
+S56_C2_CURATED_L2_AUTHORIZED=YES
+S56_C2_FREE_CHAT_FORBIDDEN=YES
 AI_CORE_LIVE_PROVIDER=NO
 ```
 
 M5-A bleibt der Product-Mock. M5-B ist nur der lokale Dev-Proof.
 S56-A ist kuratiertes Retrieval ohne Live-Laufzeit-Flag.
 S56-B dokumentiert Privacy und Flag-Entscheidung ohne Flip.
-S56-C liefert Preset-Queries für die kuratierte Quellen-Suche-UI.
+S56-C liefert Preset-Queries für die kuratierte Quellen-Suche-UI (`l1`).
+S56-C2 erweitert Korpus und UI auf `l2`.
 Keine produktive Provider-Runtime und keine Live-LLM im Portal.
 
 ## Spätere Slices
