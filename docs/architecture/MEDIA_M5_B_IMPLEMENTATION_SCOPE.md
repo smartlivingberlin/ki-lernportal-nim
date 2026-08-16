@@ -1,7 +1,8 @@
 # MEDIA M5-B — lokaler Ollama-Proof (Dev only)
 
-**Status:** Scope-Lock + lokaler Proof-Adapter (kein Production-LLM)  
+**Status:** Scope-Lock + lokaler Proof-Adapter integriert (kein Production-LLM)  
 **Stand:** 16. August 2026  
+**Merge:** #233 (`60b6eae1e10c320d0ff468a4be975cc4363810d8`)  
 **Autorisierung:** menschliche Fortsetzungsfreigabe nach M5-A („ok, weiter“)  
 **Keine Rechtsberatung.**
 
@@ -17,6 +18,7 @@ MEDIA_M5_B_DEV_ONLY=YES
 MEDIA_M5_B_LOCALHOST_ONLY=YES
 MEDIA_M5_B_PRODUCT_UI=NO
 MEDIA_M5_B_RAILWAY=NO
+MEDIA_M5_B_INTEGRATED_TO_MAIN=YES
 MEDIA_M5_RAG_AUTHORIZED=NO
 MEDIA_M5_PRODUCTION_LLM=NO
 MEDIA_LIVE_LLM_FORBIDDEN_UNTIL_S56_FREIGABE=YES

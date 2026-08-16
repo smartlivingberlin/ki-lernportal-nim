@@ -175,7 +175,8 @@ in Lektion `l1` (nur vorgegebene Fragen, keine Live-KI). Scope:
 
 **M5-B Proof:** lokaler Ollama-Adapter + Fake-Tests + optionaler Dev-Skript —
 **kein** Product-UI, **kein** Railway-LLM. Scope:
-`MEDIA_M5_B_IMPLEMENTATION_SCOPE.md`. RAG bleibt gesperrt.
+`MEDIA_M5_B_IMPLEMENTATION_SCOPE.md`. Integriert über #233 (`60b6eae1e10c`).
+RAG bleibt gesperrt.
 
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
@@ -199,6 +200,8 @@ MEDIA_M5_B_DEV_ONLY=YES
 MEDIA_M5_B_LOCALHOST_ONLY=YES
 MEDIA_M5_B_PRODUCT_UI=NO
 MEDIA_M5_B_RAILWAY=NO
+MEDIA_M5_B_INTEGRATED_TO_MAIN=YES
+MEDIA_M5_B_MERGE_COMMIT=60b6eae1e10c320d0ff468a4be975cc4363810d8
 MEDIA_M5_RAG_AUTHORIZED=NO
 MEDIA_M5_PRODUCTION_LLM=NO
 MEDIA_M5_AI_AUTHORIZED=NO
