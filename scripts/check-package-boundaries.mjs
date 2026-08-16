@@ -1871,6 +1871,8 @@ function validatePackageSkeletons() {
           "MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=YES",
           "MEDIA_M5_B_PRODUCT_UI=NO",
           "MEDIA_M5_PRODUCTION_LLM=NO",
+          "S56_A_CURATED_RETRIEVAL_AUTHORIZED=YES",
+          "S56_A_LIVE_LLM=NO",
           "AI_CORE_LIVE_PROVIDER=NO",
           "Keine produktive",
         ]) {

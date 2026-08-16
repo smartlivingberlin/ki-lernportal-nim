@@ -1,5 +1,5 @@
 /**
- * S51A package boundary + M5-A mock tutor + M5-B local Ollama proof.
+ * S51A package boundary + M5 mock/ollama proof + S56-A curated retrieval.
  */
 export {
   MOCK_TUTOR_MODE,
@@ -29,3 +29,18 @@ export type {
   OllamaProofMode,
   OllamaProofResult,
 } from "./ollama-local.ts";
+
+export {
+  CURATED_PASSAGES,
+  CURATED_RETRIEVAL_MODE,
+  listCuratedPassages,
+  retrieveCurated,
+} from "./curated-retrieval.ts";
+
+export type {
+  CuratedCitation,
+  CuratedPassage,
+  CuratedRetrievalMode,
+  CuratedRetrieveRequest,
+  CuratedRetrieveResult,
+} from "./curated-retrieval.ts";

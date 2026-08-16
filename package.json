@@ -32,6 +32,7 @@
     "test:media-m4": "node scripts/check-media-m4.mjs",
     "test:media-m5": "node scripts/check-media-m5.mjs && node --experimental-strip-types packages/ai-core/src/mock-tutor.test.ts",
     "test:media-m5b": "node scripts/check-media-m5b.mjs && node --experimental-strip-types packages/ai-core/src/ollama-local.test.ts",
+    "test:s56-a": "node scripts/check-s56-a.mjs && node --experimental-strip-types packages/ai-core/src/curated-retrieval.test.ts",
     "prove:ollama-local": "bash scripts/ai/prove-ollama-local.sh",
     "test:s48c-sources": "node scripts/check-s48c-source-ui.cjs",
     "test:s49d-practice-ui": "node scripts/check-s49d-practice-ui.cjs",

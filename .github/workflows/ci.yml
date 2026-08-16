@@ -193,6 +193,9 @@ jobs:
       - name: Media M5-B local Ollama proof contract
         run: pnpm test:media-m5b
 
+      - name: S56-A curated retrieval contract
+        run: pnpm test:s56-a
+
       - name: Install Playwright Chromium
         shell: bash
         run: |
