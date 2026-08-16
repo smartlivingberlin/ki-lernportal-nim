@@ -25,7 +25,8 @@ assert.match(scope, /DSGVO/);
 assert.match(scope, /Keine Rechtsberatung/);
 assert.match(scope, /MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES/);
 assert.match(scope, /MEDIA_M2_PILOT_AUTHORIZED=YES/);
-assert.match(scope, /MEDIA_M3_AUTHORIZED=NO/);
+assert.match(scope, /MEDIA_M3_PILOT_AUTHORIZED=YES/);
+assert.match(scope, /MEDIA_M3_CHAT_FORBIDDEN=YES/);
 
 const schema = read("docs/architecture/CONTENT_SCHEMA_V2.md");
 assert.match(schema, /MEDIA_OPEN_SOURCE_STACK\.md/);

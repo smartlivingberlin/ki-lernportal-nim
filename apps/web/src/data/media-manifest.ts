@@ -50,6 +50,21 @@ export const mediaManifest: MediaAsset[] = [
     synthetic: false,
     lastReviewed: "2026-08-16",
   },
+  {
+    id: "mascot-guide-svg",
+    kind: "mascot_state",
+    phase: "m3",
+    title: "Geführter Begleiter",
+    alt: "Einfache Kreisfigur als Begleiter im Einstiegs-Coach — keine Live-KI.",
+    purpose:
+      "Visuelle Führung im 3-Minuten-Coach mit festen Poses (idle/point/celebrate).",
+    src: "component:GuideMascot",
+    license: "AllRights-Project",
+    licenseNote:
+      "Original SVG für KI-Lernportal NIM (2026). Scripted only — kein Chat, kein Avatar-Streaming.",
+    synthetic: false,
+    lastReviewed: "2026-08-16",
+  },
 ];
 
 export function mediaById(id: string): MediaAsset | undefined {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState, useSyncExternalStore } from "react";
+import { GuideMascot, poseForCoachStep } from "./GuideMascot";
 
 export const FIRST_VISIT_KEY = "ki-lernportal-nim:first-start-coach:v1";
 const FIRST_VISIT_EVENT = "ki-lernportal-nim:first-start-coach-change";
@@ -127,16 +128,22 @@ export function FirstStartCoach({
       className="scroll-mt-72 rounded-[var(--nim-radius-xl)] border-2 border-[var(--nim-primary)] bg-[var(--nim-primary-soft)] p-5 shadow-[var(--shadow-lift)] sm:scroll-mt-64 md:p-6 lg:scroll-mt-36"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary-strong)]">
-            Erststart · 3 Minuten
-          </p>
-          <h2
-            id="erststart-title"
-            className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold text-[var(--foreground)] md:text-3xl"
-          >
-            So startest du sicher
-          </h2>
+        <div className="flex min-w-0 flex-1 items-start gap-3">
+          <GuideMascot
+            pose={poseForCoachStep(stepIndex, isLast)}
+            label="Geführter Begleiter (kein freier Chat)"
+          />
+          <div className="min-w-0">
+            <p className="text-xs font-black uppercase tracking-widest text-[var(--nim-primary-strong)]">
+              Erststart · 3 Minuten
+            </p>
+            <h2
+              id="erststart-title"
+              className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold text-[var(--foreground)] md:text-3xl"
+            >
+              So startest du sicher
+            </h2>
+          </div>
         </div>
         <button
           type="button"
@@ -146,6 +153,13 @@ export function FirstStartCoach({
           Später
         </button>
       </div>
+
+      <p
+        data-testid="guide-mascot-honesty"
+        className="mt-3 max-w-2xl text-xs font-semibold leading-5 text-[var(--nim-secondary)]"
+      >
+        Geführter Begleiter mit festen Hilfetexten — keine Live-KI und kein Chat.
+      </p>
 
       <p className="mt-3 max-w-2xl text-sm font-medium leading-7 text-[var(--nim-secondary)]">
         Ein Weg reicht zum Start. Drei kurze Schritte — du kannst jederzeit abbrechen.
