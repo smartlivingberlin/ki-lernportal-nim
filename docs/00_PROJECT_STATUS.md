@@ -14,7 +14,8 @@ Datenschutz-/Einstiegs-Klarheit (#213), Forensic IST-Stand/Handoff (#212),
 IA-Trim (#215), Honesty+Backup (#217), Unsicher/Review (#219),
 Quellenparität (#221), noindex/Soft-Start (#223), Datenschutz-Storage-Gate (#225)
 und Medien-Stack M0–M4 (#226–#229; Open-Source, kein Live-LLM).
-M5+ (AI/RAG) nur mit Freigabe. Production-Auth/Live-Railway-DB weiter gesperrt.
+M5-A Mock-Tutor (kuratiert, kein Netz) in Arbeit/Integration; Ollama/RAG nur mit Freigabe.
+Production-Auth/Live-Railway-DB weiter gesperrt.
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
@@ -215,6 +216,13 @@ MEDIA_M3_CHAT_FORBIDDEN=YES
 MEDIA_M4_PILOT=YES
 MEDIA_M4_RUNTIME_TTS_FORBIDDEN=YES
 MEDIA_M4_INTEGRATED_TO_MAIN=YES
+MEDIA_M5_A_SCOPE_LOCK=YES
+MEDIA_M5_A_MOCK_AUTHORIZED=YES
+MEDIA_M5_A_FREE_CHAT_FORBIDDEN=YES
+MEDIA_M5_A_NETWORK_FORBIDDEN=YES
+MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=NO
+MEDIA_M5_RAG_AUTHORIZED=NO
+MEDIA_M5_PRODUCTION_LLM=NO
 MEDIA_M5_AI_AUTHORIZED=NO
 MEDIA_LIVE_LLM_AUTHORIZED=NO
 HUMAN_FREIGABE_A_DOCS_SYNC=YES

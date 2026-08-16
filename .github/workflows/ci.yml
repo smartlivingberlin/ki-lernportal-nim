@@ -187,6 +187,9 @@ jobs:
       - name: Media M4 audio pilot contract
         run: pnpm test:media-m4
 
+      - name: Media M5-A mock tutor contract
+        run: pnpm test:media-m5
+
       - name: Install Playwright Chromium
         shell: bash
         run: |

@@ -4,7 +4,7 @@
  * folder is in the build context. Local `@ki-lernportal-nim/*` packages must
  * therefore be vendored under apps/web/vendor (not via ../../packages).
  *
- * Canonical sources remain packages/{auth,contracts,domain}.
+ * Canonical sources remain packages/{ai-core,auth,contracts,domain}.
  * Run: node scripts/sync-web-railway-vendor.mjs
  * Check: node scripts/sync-web-railway-vendor.mjs --check
  */
@@ -16,7 +16,6 @@ import {
   readdirSync,
   readFileSync,
   rmSync,
-  statSync,
   writeFileSync,
 } from "node:fs";
 import path from "node:path";
@@ -27,7 +26,7 @@ const repoRoot = path.resolve(
   "..",
 );
 
-const packages = ["auth", "contracts", "domain"];
+const packages = ["ai-core", "auth", "contracts", "domain"];
 const vendorRoot = path.join(repoRoot, "apps", "web", "vendor");
 
 const checkOnly = process.argv.includes("--check");
