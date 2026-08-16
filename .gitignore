@@ -12,3 +12,5 @@ playwright-report/
 test-results/
 *.log
 .DS_Store
+# Local Piper/ONNX voice weights (regenerate audio via scripts/media/)
+scripts/media/models/

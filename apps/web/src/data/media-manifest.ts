@@ -65,6 +65,21 @@ export const mediaManifest: MediaAsset[] = [
     synthetic: false,
     lastReviewed: "2026-08-16",
   },
+  {
+    id: "aud-ki-patterns-pilot",
+    kind: "audio",
+    phase: "m4",
+    title: "Hörclip: Muster, keine Gedanken",
+    alt: "Kurze Hörfassung: KI erkennt Muster, denkt nicht wie ein Mensch, Antworten prüfen.",
+    purpose:
+      "Barrierearme Ergänzung zu Lektion 1 — lokal vorproduzierte Piper-Stimme, kein Laufzeit-TTS.",
+    src: "/media/audio/ki-patterns-pilot.m4a",
+    license: "AllRights-Project",
+    licenseNote:
+      "Skript Original NIM (2026); Stimme Piper de_DE-thorsten-low (Voice-Modell rhasspy/piper-voices). Synthetisch gekennzeichnet.",
+    synthetic: true,
+    lastReviewed: "2026-08-16",
+  },
 ];
 
 export function mediaById(id: string): MediaAsset | undefined {
@@ -82,5 +97,10 @@ export function splitMediaByKind(assets: MediaAsset[]) {
   return {
     illustrations: assets.filter((asset) => asset.kind === "illustration"),
     videos: assets.filter((asset) => asset.kind === "video"),
+    audio: assets.filter((asset) => asset.kind === "audio"),
   };
 }
+
+/** Visible transcript for the M4 pilot (must match rendered audio). */
+export const PILOT_AUDIO_TRANSCRIPT =
+  "KI erkennt Muster. Sie denkt nicht wie ein Mensch. Prüfe Antworten trotzdem selbst.";

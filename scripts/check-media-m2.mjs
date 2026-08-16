@@ -17,6 +17,7 @@ const scope = read("docs/architecture/MEDIA_OPEN_SOURCE_STACK.md");
 assert.match(scope, /MEDIA_M2_PILOT_AUTHORIZED=YES/);
 assert.match(scope, /MEDIA_M2_LIBRARY_EXPANSION=NO/);
 assert.match(scope, /MEDIA_M3_PILOT_AUTHORIZED=YES/);
+assert.match(scope, /MEDIA_M4_PILOT_AUTHORIZED=YES/);
 assert.match(scope, /Captions Pflicht/);
 
 const types = read("apps/web/src/data/types.ts");

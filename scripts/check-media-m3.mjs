@@ -16,6 +16,7 @@ function read(rel) {
 const scope = read("docs/architecture/MEDIA_OPEN_SOURCE_STACK.md");
 assert.match(scope, /MEDIA_M3_PILOT_AUTHORIZED=YES/);
 assert.match(scope, /MEDIA_M3_CHAT_FORBIDDEN=YES/);
+assert.match(scope, /MEDIA_M4_PILOT_AUTHORIZED=YES/);
 assert.match(scope, /MEDIA_M5_AI_AUTHORIZED=NO/);
 
 const mascot = read("apps/web/src/components/learning/GuideMascot.tsx");
