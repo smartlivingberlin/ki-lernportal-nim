@@ -23,7 +23,7 @@ Viele Menschen glauben, KI wisse automatisch die Wahrheit. Das stimmt nicht. KI 
     estimatedMinutes: 5,
     order: 1,
     sourceIds: ['digcomp-30', 'oecd-ai-principles'],
-    mediaIds: ['ill-ki-patterns', 'ill-ki-check'],
+    mediaIds: ['ill-ki-patterns', 'ill-ki-check', 'vid-ki-patterns-pilot'],
     reviewStatus: ReviewStatus.Published,
     lastReviewed: '2026-07-13',
     pathId: 'path-beginner'

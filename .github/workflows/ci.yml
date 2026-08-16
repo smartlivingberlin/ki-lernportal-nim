@@ -178,6 +178,9 @@ jobs:
       - name: Media M0/M1 open-source contract
         run: pnpm test:media-m0
 
+      - name: Media M2 video pilot contract
+        run: pnpm test:media-m2
+
       - name: Install Playwright Chromium
         shell: bash
         run: |

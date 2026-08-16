@@ -26,7 +26,7 @@ MEDIA_BIOMETRIC_TRACKING_FORBIDDEN=YES
 |-------|--------|----------------|----------|
 | **M0** | Scope-Lock, Schema, License-Ledger, Gate | keine | dieses Dokument |
 | **M1** | Statische Illustrationen (SVG/WebP), `MediaFigure` | Build/CDN-Traffic gering | nach M0 |
-| **M2** | Kurze vorproduzierte Videos + VTT-Captions | Storage/Bandwidth | nach M1 Pilot |
+| **M2** | Kurze vorproduzierte Videos + VTT-Captions | Storage/Bandwidth | M2-Pilot freigegeben; Bibliothek gesperrt |
 | **M3** | Scripted Guide-Mascot (SVG/Lottie), kein freier Chat | vernachlässigbar | nach M1 |
 | **M4** | Optional: vorgerenderte Audio-Clips (Piper lokal) | Storage | optional |
 | **M5** | `packages/ai-core` Mock-Tutor + lokaler Ollama-Proof | nur Dev/Staging | **S56 + Privacy** |
@@ -154,14 +154,22 @@ Lektionen dürfen optional `mediaIds: string[]` tragen (Referenzen auf Manifest)
 - Änderung von Production-Autodeploy / SEO-Index  
 - Rechtsverbindliche Claims „haftungsfrei“ — nur **vorsorgeorientierte** Technik
 
-## 9. Nächster Implementierungsschritt
+## 9. Implementierungsstand
 
 **M1 Pilot:** Manifest + `MediaFigure` + eigene SVG-Illustrationen für
-Lektion `l1` („Was ist KI?“), Gate `pnpm test:media-m0`.
+Lektion `l1` — integriert.
+
+**M2 Pilot:** ein kurzer vorproduzierter Clip + VTT + `MediaVideoPlayer`
+für Lektion `l1` — freigegeben als kontrollierter Pilot (kein Autoplay-Ton,
+Captions Pflicht, Reduced-Motion Hinweis).
 
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
-MEDIA_M2_AUTHORIZED=NO
+MEDIA_M2_PILOT_AUTHORIZED=YES
+MEDIA_M2_LIBRARY_EXPANSION=NO
 MEDIA_M3_AUTHORIZED=NO
 MEDIA_M5_AI_AUTHORIZED=NO
 ```
+
+Nächster Schritt nach stabilem M2-Pilot: **M3** scripted Guide-Mascot
+(SVG/Lottie), weiterhin ohne freien Chat und ohne Live-LLM.

@@ -27,6 +27,7 @@
     "test:quellenparitaet": "node scripts/check-quellenparitaet-wegweiser.mjs",
     "test:datenschutz-storage-keys": "node scripts/check-datenschutz-storage-keys.mjs",
     "test:media-m0": "node scripts/check-media-m0.mjs",
+    "test:media-m2": "node scripts/check-media-m2.mjs",
     "test:s48c-sources": "node scripts/check-s48c-source-ui.cjs",
     "test:s49d-practice-ui": "node scripts/check-s49d-practice-ui.cjs",
     "supply-chain:check": "node scripts/check-supply-chain-policy.mjs",

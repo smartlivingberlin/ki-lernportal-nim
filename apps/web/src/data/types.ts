@@ -92,6 +92,8 @@ export interface MediaAsset {
   purpose: string;
   /** Repo-relative public path or stable component key. */
   src: string;
+  /** Poster image for video assets (M2+). */
+  posterSrc?: string;
   license: string;
   licenseNote: string;
   /** True when synthetically generated or heavily AI-assisted. */

@@ -33,6 +33,23 @@ export const mediaManifest: MediaAsset[] = [
     synthetic: false,
     lastReviewed: "2026-08-16",
   },
+  {
+    id: "vid-ki-patterns-pilot",
+    kind: "video",
+    phase: "m2",
+    title: "Kurzclip: Muster, keine Gedanken",
+    alt: "Kurzes Erklärvideo mit Texttafeln: KI erkennt Muster, denkt nicht wie ein Mensch, Antworten prüfen.",
+    purpose:
+      "Ergänzt Lektion 1 in unter 10 Sekunden — ohne Live-KI, mit Untertiteln.",
+    src: "/media/videos/ki-patterns-pilot.mp4",
+    posterSrc: "/media/posters/ki-patterns-pilot.jpg",
+    captionsVtt: "/media/videos/ki-patterns-pilot.vtt",
+    license: "AllRights-Project",
+    licenseNote:
+      "Original FFmpeg-Clip für KI-Lernportal NIM (2026). Stumm + VTT; kein Drittanbieter-SaaS.",
+    synthetic: false,
+    lastReviewed: "2026-08-16",
+  },
 ];
 
 export function mediaById(id: string): MediaAsset | undefined {
@@ -44,4 +61,11 @@ export function mediaForIds(ids: string[] | undefined): MediaAsset[] {
   return ids
     .map((id) => mediaById(id))
     .filter((asset): asset is MediaAsset => Boolean(asset));
+}
+
+export function splitMediaByKind(assets: MediaAsset[]) {
+  return {
+    illustrations: assets.filter((asset) => asset.kind === "illustration"),
+    videos: assets.filter((asset) => asset.kind === "video"),
+  };
 }
