@@ -176,7 +176,9 @@ in Lektion `l1` (nur vorgegebene Fragen, keine Live-KI). Scope:
 **M5-B Proof:** lokaler Ollama-Adapter + Fake-Tests + optionaler Dev-Skript —
 **kein** Product-UI, **kein** Railway-LLM. Scope:
 `MEDIA_M5_B_IMPLEMENTATION_SCOPE.md`. Integriert über #233 (`60b6eae1e10c`).
-RAG bleibt gesperrt.
+
+**S56-A:** kuratiertes Retrieval (`retrieveCurated`) mit Zitaten/Enthaltung —
+Scope `S56_A_RAG_SCOPE_LOCK.md`. Kein Live-LLM, kein Vektorindex, kein Flag-Flip.
 
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
@@ -205,6 +207,13 @@ MEDIA_M5_B_MERGE_COMMIT=60b6eae1e10c320d0ff468a4be975cc4363810d8
 MEDIA_M5_RAG_AUTHORIZED=NO
 MEDIA_M5_PRODUCTION_LLM=NO
 MEDIA_M5_AI_AUTHORIZED=NO
+S56_A_SCOPE_LOCK=YES
+S56_A_CURATED_RETRIEVAL_AUTHORIZED=YES
+S56_A_LIVE_LLM=NO
+S56_A_VECTOR_DB=NO
+S56_A_PRODUCT_UI=NO
+S56_A_STAGING_FLAG_FLIP=NO
 ```
 
-Nächster Schritt nur mit Freigabe: **S56** Live-RAG / Staging-Flags.
+Nächster Schritt nur mit Freigabe: **S56-B** (Staging-Flag/Privacy) oder
+**S56-C** (Embeddings/Index).
