@@ -172,6 +172,9 @@ jobs:
       - name: Quellenparität Wegweiser static check
         run: pnpm test:quellenparitaet
 
+      - name: Datenschutz localStorage key inventory
+        run: pnpm test:datenschutz-storage-keys
+
       - name: Install Playwright Chromium
         shell: bash
         run: |
