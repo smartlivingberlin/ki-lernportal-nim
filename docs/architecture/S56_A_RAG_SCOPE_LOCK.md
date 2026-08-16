@@ -63,7 +63,7 @@ FEATURE_FLAG_AI_RAG_RUNTIME_DEFAULT=false
 
 | Slice | Inhalt | Status |
 |-------|--------|--------|
-| S56-A | Scope + kuratiertes Retrieval | dieses Dokument |
-| S56-B | Staging-Flag-Entscheidung / Privacy-Review | **gesperrt** |
+| S56-A | Scope + kuratiertes Retrieval | integriert |
+| S56-B | Staging-Flag-Entscheidung / Privacy-Review | siehe `S56_B_STAGING_FLAG_PRIVACY.md` |
 | S56-C | optionale Embeddings/Index (isoliert) | **gesperrt** |
 | M7 | Flag-gated Staging-RAG UI | **gesperrt** |

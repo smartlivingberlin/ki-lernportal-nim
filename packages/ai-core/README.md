@@ -27,6 +27,13 @@ Siehe `docs/architecture/MEDIA_M5_B_IMPLEMENTATION_SCOPE.md`.
 
 Siehe `docs/architecture/S56_A_RAG_SCOPE_LOCK.md`.
 
+### S56-B
+
+- Privacy-Review + Staging-Flag-**Entscheidung** (`resolveAiRagRuntimePolicy`)
+- Flag-Flip **nicht** ausgeführt; Production-Flip verboten
+
+Siehe `docs/architecture/S56_B_STAGING_FLAG_PRIVACY.md`.
+
 ## Erlaubte Imports
 
 - `@ki-lernportal-nim/contracts`
@@ -49,6 +56,7 @@ Der kontrollierte Entry-Point ist `src/index.ts`.
 - **M5-A:** `answerMockTutor`, `listMockTutorPrompts`
 - **M5-B:** `proveOllamaLocal`, `assertLocalOllamaBaseUrl`, `resolveOllamaProofConfig`
 - **S56-A:** `retrieveCurated`, `listCuratedPassages`, `CURATED_PASSAGES`
+- **S56-B:** `resolveAiRagRuntimePolicy`, `isAiRagRuntimeDefaultOff`
 
 ## Status
 
@@ -65,16 +73,20 @@ S56_A_SCOPE_LOCK=YES
 S56_A_CURATED_RETRIEVAL_AUTHORIZED=YES
 S56_A_LIVE_LLM=NO
 S56_A_STAGING_FLAG_FLIP=NO
+S56_B_SCOPE_LOCK=YES
+S56_B_STAGING_FLAG_FLIP_EXECUTED=NO
+S56_B_PRODUCTION_FLAG_FLIP=NO
 AI_CORE_LIVE_PROVIDER=NO
 ```
 
 M5-A bleibt der Product-Mock. M5-B ist nur der lokale Dev-Proof.
 S56-A ist nur kuratiertes Retrieval ohne Live-Laufzeit im Portal.
+S56-B dokumentiert Privacy und Flag-Entscheidung ohne Flip.
 Keine produktive Provider-Runtime und keine Live-LLM im Portal.
 
 ## Spätere Slices
 
-- S56-B: Staging-Flag / Privacy-Review — gesperrt
+- S56-B2: optionaler Staging-Flag-Flip + HTTP-Probe — gesperrt
 - S56-C: Embeddings/Index — gesperrt
 - M7: Flag-gated Staging-RAG UI — gesperrt
 

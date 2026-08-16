@@ -1873,6 +1873,7 @@ function validatePackageSkeletons() {
           "MEDIA_M5_PRODUCTION_LLM=NO",
           "S56_A_CURATED_RETRIEVAL_AUTHORIZED=YES",
           "S56_A_LIVE_LLM=NO",
+          "S56_B_STAGING_FLAG_FLIP_EXECUTED=NO",
           "AI_CORE_LIVE_PROVIDER=NO",
           "Keine produktive",
         ]) {

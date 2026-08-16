@@ -196,6 +196,9 @@ jobs:
       - name: S56-A curated retrieval contract
         run: pnpm test:s56-a
 
+      - name: S56-B staging flag privacy contract
+        run: pnpm test:s56-b
+
       - name: Install Playwright Chromium
         shell: bash
         run: |

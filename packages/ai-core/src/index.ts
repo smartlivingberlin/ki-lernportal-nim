@@ -44,3 +44,13 @@ export type {
   CuratedRetrieveRequest,
   CuratedRetrieveResult,
 } from "./curated-retrieval.ts";
+
+export {
+  isAiRagRuntimeDefaultOff,
+  resolveAiRagRuntimePolicy,
+} from "./ai-rag-runtime-policy.ts";
+
+export type {
+  AiRagRuntimeFlags,
+  AiRagRuntimePolicy,
+} from "./ai-rag-runtime-policy.ts";

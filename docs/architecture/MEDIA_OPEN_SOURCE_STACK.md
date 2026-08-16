@@ -181,6 +181,9 @@ in Lektion `l1` (nur vorgegebene Fragen, keine Live-KI). Scope:
 Scope `S56_A_RAG_SCOPE_LOCK.md`. Integriert über #235 (`ffa90f6e9e70`).
 Kein Live-LLM, kein Vektorindex, kein Flag-Flip.
 
+**S56-B:** Privacy-Review + Staging-Flag-Entscheidung ohne Flip —
+`S56_B_STAGING_FLAG_PRIVACY.md`. `ai_rag_runtime` bleibt default `false`.
+
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
 MEDIA_M2_PILOT_AUTHORIZED=YES
@@ -216,7 +219,12 @@ S56_A_PRODUCT_UI=NO
 S56_A_STAGING_FLAG_FLIP=NO
 S56_A_INTEGRATED_TO_MAIN=YES
 S56_A_MERGE_COMMIT=ffa90f6e9e704bd83e585361d6ad32d63619df71
+S56_B_SCOPE_LOCK=YES
+S56_B_PRIVACY_REVIEW_DOCUMENTED=YES
+S56_B_STAGING_FLAG_DECISION_DOCUMENTED=YES
+S56_B_STAGING_FLAG_FLIP_EXECUTED=NO
+S56_B_PRODUCTION_FLAG_FLIP=NO
 ```
 
-Nächster Schritt nur mit Freigabe: **S56-B** (Staging-Flag/Privacy) oder
-**S56-C** (Embeddings/Index).
+Nächster Schritt nur mit Freigabe: **S56-B2** (Staging-Flag-Flip + HTTP-Probe),
+**S56-C** (Embeddings/Index) oder **M7** (Staging-RAG UI).
