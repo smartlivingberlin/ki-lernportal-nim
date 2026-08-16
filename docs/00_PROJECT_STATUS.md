@@ -4,24 +4,25 @@
 [`docs/audit/2026-08-15-forensic/PROJECT_STATE_HANDOFF.md`](audit/2026-08-15-forensic/PROJECT_STATE_HANDOFF.md)  
 (Index: [`docs/audit/README.md`](audit/README.md); PR #212)
 
-**Stand:** 15. August 2026
-**Baseline `main`:** `0a33011519aa876091b52dbf3fedace1f9720bab` (nach #223 noindex/Soft-Start)
+**Stand:** 16. August 2026
+**Baseline `main`:** `9e0814b7beab3607fdd2a39b97a133a411c206a0` (nach #225 Datenschutz-Keys-Gate)
 **Status:** Concept-Demo live inkl. Freigabe A–D (#187), Honesty-Pack (#191),
 Integrity A1–A4 (#193), Product-C (#196), Quality-Followup (#198),
 Challenge-Honesty (#200), Unsure-Midpath (#202), Lesson-Share-Copy (#204),
 Backup-Import-Confirm (#206), Teachback-Honesty (#208), Themenwelt-Jargon (#210),
 Datenschutz-/Einstiegs-Klarheit (#213), Forensic IST-Stand/Handoff (#212),
 IA-Trim (#215), Honesty+Backup (#217), Unsicher/Review (#219),
-Quellenparität (#221) sowie noindex-Honesty und Spaced-Review Soft-Start (#223).
+Quellenparität (#221), noindex/Soft-Start (#223) und Datenschutz-Storage-Gate (#225).
+Medien M0/M1-Pilot (Open-Source-Stack) folgt kontrolliert.
 Production-Auth/Live-Railway-DB weiter gesperrt.
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
 PHASE0A_SOURCE_OF_TRUTH_SYNC=COMPLETE
 BACKLOG_NORMALIZATION=COMPLETE
-BASELINE_MAIN_SHA=0a33011519aa876091b52dbf3fedace1f9720bab
-LIVE_PRODUCTION_BUILD_SHA=0a33011519aa
-LIVE_STAGING_BUILD_SHA=0a33011519aa
+BASELINE_MAIN_SHA=9e0814b7beab3607fdd2a39b97a133a411c206a0
+LIVE_PRODUCTION_BUILD_SHA=9e0814b7beab
+LIVE_STAGING_BUILD_SHA=9e0814b7beab
 LIVE_PUBLIC_URL=https://web-production-51d3c8.up.railway.app
 STAGING_PUBLIC_URL=https://ki-lernportal-nim-staging.up.railway.app
 PR68_MERGED=YES
@@ -193,6 +194,14 @@ PR222_DOCS_SYNC_C5DD8DB_MERGED=YES
 PR222_MERGE_COMMIT=a12598ccfe3746c9d61278a0764997fc6a1fcaa8
 PR223_NOINDEX_REVIEW_SOFTSTART_MERGED=YES
 PR223_MERGE_COMMIT=0a33011519aa876091b52dbf3fedace1f9720bab
+PR224_DOCS_SYNC_0A33011_MERGED=YES
+PR224_MERGE_COMMIT=ec94ea98f535c44da3fe93ed98cd7833c98abc71
+PR225_DATENSCHUTZ_STORAGE_KEYS_MERGED=YES
+PR225_MERGE_COMMIT=9e0814b7beab3607fdd2a39b97a133a411c206a0
+MEDIA_M0_SCOPE_LOCK=YES
+MEDIA_M1_PILOT=YES
+MEDIA_M2_AUTHORIZED=NO
+MEDIA_LIVE_LLM_AUTHORIZED=NO
 HUMAN_FREIGABE_A_DOCS_SYNC=YES
 HUMAN_FREIGABE_B_CONNECTION_PROOF=YES
 HUMAN_FREIGABE_C_SCHEMA_LOCAL_MIGRATE=YES
@@ -284,6 +293,7 @@ zusammen mit den nachfolgenden Integrationsnachweisen beschrieben durch:
 - [S52-D Auth-Web Implementation Scope-Lock](architecture/S52_D_IMPLEMENTATION_SCOPE.md)
 - [S52-D Auth-Web Implementierungsplan](architecture/S52_D_IMPLEMENTATION_PLAN.md)
 - [S52-D2b Staging AUTH_RUNTIME Deploy-Entscheid](architecture/S52_D2B_STAGING_AUTH_RUNTIME.md)
+- [Media Open-Source Stack M0+](architecture/MEDIA_OPEN_SOURCE_STACK.md)
 - [Zielarchitektur](architecture/ARCHITECTURE_TARGET.md)
 - [Package-DAG](architecture/PACKAGE_DAG.md)
 - [Plattformverträge](architecture/PLATFORM_CONTRACTS.md)
@@ -429,15 +439,15 @@ CURRENT_WAIT_FOR_CI=ON
 CURRENT_CONFIG_SOURCE=DASHBOARD_NO_RAILWAY_JSON
 CURRENT_ROOT_DIRECTORY=apps/web
 CURRENT_PUBLIC_DOMAIN=web-production-51d3c8.up.railway.app
-DOCS_BASELINE_MAIN_SHA=0a33011519aa876091b52dbf3fedace1f9720bab
+DOCS_BASELINE_MAIN_SHA=9e0814b7beab3607fdd2a39b97a133a411c206a0
 RAILWAY_PROJECT_ID=f69a0054-8cd9-4481-a461-bd17ddde296d
 RAILWAY_PRODUCTION_ENVIRONMENT_ID=f30e6e3b-60b5-4b3e-8949-2ca868f4e2da
 APPARENT_AUTODEPLOY_ON_MAIN_VIA_GITHUB=EVENTS_STILL_OBSERVED_LIVE_SHA_FOLLOWS_CI_GREEN
 S51D_B_DASHBOARD_REVERIFY_COMPLETE=YES
 STAGING_ENVIRONMENT_CREATED=YES
 STAGING_PUBLIC_DOMAIN=ki-lernportal-nim-staging.up.railway.app
-LIVE_BUILD_SHA_OBSERVED=0a33011519aa
-STAGING_BUILD_SHA_OBSERVED=0a33011519aa
+LIVE_BUILD_SHA_OBSERVED=9e0814b7beab
+STAGING_BUILD_SHA_OBSERVED=9e0814b7beab
 LIVE_READY_DATABASE=not_configured
 PRODUCTION_NPM_VENDOR_PACKAGES=apps/web/vendor
 RAILWAY_WEB_NPM_ISOLATION_GATE=YES

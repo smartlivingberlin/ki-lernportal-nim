@@ -102,11 +102,12 @@ Isoliertes Staging-Environment `staging` ist angelegt und HTTP-grün unter
 `/railway.staging.json`, Staging-Autodeploy disabled, Wait for CI on).
 Nachweise: `docs/architecture/S51D_B_STAGING_EXECUTION.md`.
 
-Live-Probe 2026-08-15: Production und Staging melden Build-SHA
-`0a33011519aa` (`/version`, nach #223 noindex/Soft-Start; Production-Domain
+Live-Probe 2026-08-16: Production und Staging melden Build-SHA
+`9e0814b7beab` (`/version`, nach #225 Datenschutz-Keys-Gate; Production-Domain
 `web-production-51d3c8.up.railway.app`); Ready-Check `database=not_configured`.
-Docs-Sync (#222) und noindex-Honesty / Spaced-Review Soft-Start (#223) sind in
-`main` integriert. Production-Auth und Railway-DB bleiben gesperrt.
+Docs-Sync (#224) und Datenschutz-Storage-Gate (#225) sind in `main` integriert.
+Medien folgen dem Open-Source-Stack (`docs/architecture/MEDIA_OPEN_SOURCE_STACK.md`).
+Production-Auth und Railway-DB bleiben gesperrt.
 S52-D2b: Staging `AUTH_RUNTIME` HTTP-verifiziert (Login-Formular + `401`);
 Freigabe D: optionaler Staging-Memory-Seed über `STAGING_BOOTSTRAP_*`
 (Hash only, keine Secrets im Repo, Production unverändert).

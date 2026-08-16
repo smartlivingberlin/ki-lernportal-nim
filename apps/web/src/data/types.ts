@@ -65,9 +65,39 @@ export interface Lesson {
   estimatedMinutes: number;
   order: number;
   sourceIds: string[];
+  /** Optional curated media from `media-manifest` (illustrations first). */
+  mediaIds?: string[];
   reviewStatus: ReviewStatus;
   lastReviewed: string;
   pathId: string;
+}
+
+/** Curated static/open-source media ledger (see MEDIA_OPEN_SOURCE_STACK.md). */
+export type MediaKind =
+  | "illustration"
+  | "poster"
+  | "video"
+  | "audio"
+  | "mascot_state";
+
+export type MediaPhase = "m1" | "m2" | "m3" | "m4" | "m6";
+
+export interface MediaAsset {
+  id: string;
+  kind: MediaKind;
+  phase: MediaPhase;
+  title: string;
+  /** Required for visible stills; empty only for pure decorative mascot states. */
+  alt: string;
+  purpose: string;
+  /** Repo-relative public path or stable component key. */
+  src: string;
+  license: string;
+  licenseNote: string;
+  /** True when synthetically generated or heavily AI-assisted. */
+  synthetic: boolean;
+  captionsVtt?: string;
+  lastReviewed: string;
 }
 
 export interface LearningPath {
