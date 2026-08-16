@@ -116,10 +116,11 @@ export default function DatenschutzPage() {
             lokale Speicherung von Lernfortschritt und Einstellungen im Browser
           </li>
           <li>
-            optionale, kuratierte Lern-Illustrationen und kurze vorproduzierte
-            Lernclips als statische Dateien vom selben Hosting (Untertitel als
-            VTT; kein Tracking-Pixel, keine Webcam-/Mikrofon-Nutzung, kein
-            Autoplay mit Ton)
+            optionale, kuratierte Lern-Illustrationen, kurze vorproduzierte
+            Lernclips und Hörfassungen als statische Dateien vom selben Hosting
+            (Untertitel als VTT; Transkript bei Audio; synthetische Stimmen
+            gekennzeichnet; kein Tracking-Pixel, keine Webcam-/Mikrofon-Nutzung,
+            kein Autoplay mit Ton, kein Laufzeit-Cloud-TTS)
           </li>
           <li>keine serverseitige Lerndatenbank</li>
           <li>keine Live-KI-/LLM-Anbindung an Drittanbieter</li>

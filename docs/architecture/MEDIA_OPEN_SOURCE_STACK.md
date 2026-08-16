@@ -28,7 +28,7 @@ MEDIA_BIOMETRIC_TRACKING_FORBIDDEN=YES
 | **M1** | Statische Illustrationen (SVG/WebP), `MediaFigure` | Build/CDN-Traffic gering | nach M0 |
 | **M2** | Kurze vorproduzierte Videos + VTT-Captions | Storage/Bandwidth | M2-Pilot freigegeben; Bibliothek gesperrt |
 | **M3** | Scripted Guide-Mascot (SVG/Lottie), kein freier Chat | vernachlässigbar | M3-Pilot freigegeben |
-| **M4** | Optional: vorgerenderte Audio-Clips (Piper lokal) | Storage | optional |
+| **M4** | Optional: vorgerenderte Audio-Clips (Piper lokal) | Storage | M4-Pilot freigegeben |
 | **M5** | `packages/ai-core` Mock-Tutor + lokaler Ollama-Proof | nur Dev/Staging | **S56 + Privacy** |
 | **M6** | Optional: offline gerenderte Talking-Head-Clips (SadTalker/MuseTalk) | GPU lokal, dann static | optional |
 | **M7** | Flag-gated RAG nur Staging | Hosting/GPU | explizite Freigabe |
@@ -165,14 +165,19 @@ für Lektion `l1` — Captions Pflicht, kein Autoplay-Ton, Reduced-Motion-Hinwei
 **M3 Pilot:** scripted Guide-Mascot (SVG) im 3-Minuten-Coach — feste Texte,
 Posen idle/point/celebrate, Honesty-Hinweis, kein Chat und keine Live-KI.
 
+**M4 Pilot:** vorproduzierte Piper-Hörfassung + sichtbares Transkript für
+Lektion `l1` — synthetische Stimme gekennzeichnet, kein Laufzeit-TTS, kein Mikrofon.
+
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
 MEDIA_M2_PILOT_AUTHORIZED=YES
 MEDIA_M2_LIBRARY_EXPANSION=NO
 MEDIA_M3_PILOT_AUTHORIZED=YES
 MEDIA_M3_CHAT_FORBIDDEN=YES
+MEDIA_M4_PILOT_AUTHORIZED=YES
+MEDIA_M4_RUNTIME_TTS_FORBIDDEN=YES
 MEDIA_M5_AI_AUTHORIZED=NO
 ```
 
-Nächster optionaler Schritt: **M4** vorgerenderte Audio-Clips (Piper lokal)
-oder Pause. Live-RAG bleibt S56-Freigabe.
+Nächster Schritt: bewusst **Pause** oder nur nach Freigabe **M5** (`ai-core` Mock /
+lokaler Ollama-Proof). Live-RAG bleibt S56-Freigabe.

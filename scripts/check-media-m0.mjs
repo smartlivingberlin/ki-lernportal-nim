@@ -27,6 +27,7 @@ assert.match(scope, /MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES/);
 assert.match(scope, /MEDIA_M2_PILOT_AUTHORIZED=YES/);
 assert.match(scope, /MEDIA_M3_PILOT_AUTHORIZED=YES/);
 assert.match(scope, /MEDIA_M3_CHAT_FORBIDDEN=YES/);
+assert.match(scope, /MEDIA_M4_PILOT_AUTHORIZED=YES/);
 
 const schema = read("docs/architecture/CONTENT_SCHEMA_V2.md");
 assert.match(schema, /MEDIA_OPEN_SOURCE_STACK\.md/);

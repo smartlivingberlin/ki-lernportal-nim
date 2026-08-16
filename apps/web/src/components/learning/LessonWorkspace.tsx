@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { mediaForIds, splitMediaByKind } from "../../data/media-manifest";
+import { mediaForIds, PILOT_AUDIO_TRANSCRIPT, splitMediaByKind } from "../../data/media-manifest";
 import { microUnitForLesson } from "../../data/micro-units";
 import { practiceByLessonId } from "../../data/practice";
 import type { Lesson, Source } from "../../data/types";
 import { buildAbsoluteLessonShareUrl } from "../../lib/lesson-share-url";
 import { LearningBlock } from "./LearningBlock";
 import { LessonPracticePanel } from "./LessonPracticePanel";
+import { MediaAudioPlayer } from "./MediaAudioPlayer";
 import { MediaFigure } from "./MediaFigure";
 import { MediaVideoPlayer } from "./MediaVideoPlayer";
 
@@ -47,7 +48,7 @@ export function LessonWorkspace({
     ];
   const microUnit = microUnitForLesson(lesson.id);
   const mediaAssets = mediaForIds(lesson.mediaIds);
-  const { illustrations, videos } = splitMediaByKind(mediaAssets);
+  const { illustrations, videos, audio } = splitMediaByKind(mediaAssets);
 
   const explainText = microUnit
     ? [
@@ -144,12 +145,27 @@ export function LessonWorkspace({
             text={explainText}
             large
           />
-          {illustrations.length > 0 || videos.length > 0 ? (
+          {illustrations.length > 0 || videos.length > 0 || audio.length > 0 ? (
             <div data-testid="lesson-media" className="space-y-4">
               {videos.length > 0 ? (
                 <div className="grid gap-4">
                   {videos.map((asset) => (
                     <MediaVideoPlayer key={asset.id} asset={asset} />
+                  ))}
+                </div>
+              ) : null}
+              {audio.length > 0 ? (
+                <div className="grid gap-4">
+                  {audio.map((asset) => (
+                    <MediaAudioPlayer
+                      key={asset.id}
+                      asset={asset}
+                      transcript={
+                        asset.id === "aud-ki-patterns-pilot"
+                          ? PILOT_AUDIO_TRANSCRIPT
+                          : asset.alt
+                      }
+                    />
                   ))}
                 </div>
               ) : null}
