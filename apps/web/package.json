@@ -11,6 +11,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ki-lernportal-nim/ai-core": "file:./vendor/ai-core",
     "@ki-lernportal-nim/auth": "file:./vendor/auth",
     "@ki-lernportal-nim/contracts": "file:./vendor/contracts",
     "@ki-lernportal-nim/domain": "file:./vendor/domain",

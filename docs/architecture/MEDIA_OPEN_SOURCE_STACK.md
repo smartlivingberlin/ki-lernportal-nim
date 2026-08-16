@@ -169,6 +169,10 @@ Posen idle/point/celebrate, Honesty-Hinweis, kein Chat und keine Live-KI.
 Lektion `l1` — synthetische Stimme gekennzeichnet, kein Laufzeit-TTS, kein Mikrofon.
 Integriert über #229 (`d6b50f2d5566`).
 
+**M5-A Pilot:** deterministischer Mock-Tutor in `packages/ai-core` + Pilot-UI
+in Lektion `l1` (nur vorgegebene Fragen, keine Live-KI). Scope:
+`MEDIA_M5_A_IMPLEMENTATION_SCOPE.md`. Ollama/RAG bleiben gesperrt.
+
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
 MEDIA_M2_PILOT_AUTHORIZED=YES
@@ -179,8 +183,15 @@ MEDIA_M4_PILOT_AUTHORIZED=YES
 MEDIA_M4_RUNTIME_TTS_FORBIDDEN=YES
 MEDIA_M4_INTEGRATED_TO_MAIN=YES
 MEDIA_M4_MERGE_COMMIT=d6b50f2d5566250bff7a8c6b6e99d4afc00f530a
+MEDIA_M5_A_SCOPE_LOCK=YES
+MEDIA_M5_A_MOCK_AUTHORIZED=YES
+MEDIA_M5_A_FREE_CHAT_FORBIDDEN=YES
+MEDIA_M5_A_NETWORK_FORBIDDEN=YES
+MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=NO
+MEDIA_M5_RAG_AUTHORIZED=NO
+MEDIA_M5_PRODUCTION_LLM=NO
 MEDIA_M5_AI_AUTHORIZED=NO
 ```
 
-Nächster Schritt: bewusst **Pause** oder nur nach Freigabe **M5** (`ai-core` Mock /
-lokaler Ollama-Proof). Live-RAG bleibt S56-Freigabe.
+Nächster Schritt nur mit Freigabe: **M5-B** (lokaler Ollama-Proof, Dev only)
+oder **S56** Live-RAG.

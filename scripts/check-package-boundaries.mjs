@@ -1752,7 +1752,7 @@ function validatePackageSkeletons() {
         );
       }
 
-      if (pkg.dir === "auth") {
+      if (pkg.dir === "auth" || pkg.dir === "ai-core") {
         if (
           JSON.stringify(tsconfig?.exclude) !==
           JSON.stringify(["src/**/*.test.ts"])
@@ -1851,6 +1851,23 @@ function validatePackageSkeletons() {
               `${rel(
                 readmePath,
               )} is missing S52-B auth runtime status text: ` +
+              requiredText,
+            );
+          }
+        }
+      } else if (pkg.dir === "ai-core") {
+        for (const requiredText of [
+          "MEDIA_M5_A_MOCK_AUTHORIZED=YES",
+          "MEDIA_M5_A_NETWORK_FORBIDDEN=YES",
+          "MEDIA_M5_PRODUCTION_LLM=NO",
+          "AI_CORE_LIVE_PROVIDER=NO",
+          "Keine produktive",
+        ]) {
+          if (!readme.includes(requiredText)) {
+            fail(
+              `${rel(
+                readmePath,
+              )} is missing M5-A ai-core status text: ` +
               requiredText,
             );
           }

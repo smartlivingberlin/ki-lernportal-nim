@@ -27,6 +27,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@ki-lernportal-nim/ai-core':
+        specifier: file:./vendor/ai-core
+        version: file:apps/web/vendor/ai-core
       '@ki-lernportal-nim/auth':
         specifier: file:./vendor/auth
         version: file:apps/web/vendor/auth
@@ -757,6 +760,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@ki-lernportal-nim/ai-core@file:apps/web/vendor/ai-core':
+    resolution: {directory: apps/web/vendor/ai-core, type: directory}
 
   '@ki-lernportal-nim/auth@file:apps/web/vendor/auth':
     resolution: {directory: apps/web/vendor/auth, type: directory}
@@ -3083,6 +3089,8 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  '@ki-lernportal-nim/ai-core@file:apps/web/vendor/ai-core': {}
 
   '@ki-lernportal-nim/auth@file:apps/web/vendor/auth': {}
 

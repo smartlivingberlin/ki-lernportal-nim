@@ -27,6 +27,7 @@ const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
   transpilePackages: [
+    "@ki-lernportal-nim/ai-core",
     "@ki-lernportal-nim/auth",
     "@ki-lernportal-nim/contracts",
     "@ki-lernportal-nim/domain",

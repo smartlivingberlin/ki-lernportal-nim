@@ -123,7 +123,11 @@ export default function DatenschutzPage() {
             kein Autoplay mit Ton, kein Laufzeit-Cloud-TTS)
           </li>
           <li>keine serverseitige Lerndatenbank</li>
-          <li>keine Live-KI-/LLM-Anbindung an Drittanbieter</li>
+          <li>
+            optionaler Mock-Tutor mit fest kuratierten Antworten aus dem
+            Lektionsstoff (kein Netz, kein Freitext-Chat, keine
+            Live-KI-/LLM-Anbindung an Drittanbieter)
+          </li>
         </ul>
 
         <p>
