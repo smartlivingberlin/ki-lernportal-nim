@@ -1,7 +1,8 @@
 # S56-C — Curated Retrieval Pilot UI (ohne Flag-Flip, ohne Embeddings)
 
-**Status:** Scope-Lock + Pilot-UI für Lektion `l1`  
+**Status:** Scope-Lock + Pilot-UI für Lektion `l1` integriert  
 **Stand:** 16. August 2026  
+**Merge:** #239 (`caf0caf64f2042b3de7e13b89cecfe371f8da27b`)  
 **Autorisierung:** menschliche Fortsetzungsfreigabe („ok, du entscheidest“)  
 **Keine Rechtsberatung.**
 
