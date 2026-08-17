@@ -35,7 +35,7 @@ export type MockTutorPrompt = {
 const HONESTY =
   "Feste, kuratierte Antwort aus dem Lektionsstoff · kein Netz · keine Live-KI.";
 
-/** Curated bank — keep in sync with lesson l1, l2 and l3 teaching points. */
+/** Curated bank — keep in sync with lesson l1–l4 teaching points. */
 export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
   {
     id: "l1-what-is-ai",
@@ -108,6 +108,30 @@ export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
     answer:
       "Kopiere keine privaten Daten in den Prompt, wenn eine allgemeine Beschreibung reichen würde. Eine freundliche Erinnerung an Person A braucht keinen echten Namen, keine Adresse und keine privaten Details.",
     sourceNote: "Lektion l3 · Abschnitt „Typischer Fehler“",
+  },
+  {
+    id: "l4-what-is-prompt",
+    lessonId: "l4",
+    question: "Was ist ein Prompt?",
+    answer:
+      "Ein Prompt ist deine Frage oder Aufgabe an die KI. Je klarer du sagst, was du brauchst, desto nützlicher wird die Antwort.",
+    sourceNote: "Lektion l4 · Abschnitt „Einfach erklärt“",
+  },
+  {
+    id: "l4-clear",
+    lessonId: "l4",
+    question: "Warum klare Anweisungen?",
+    answer:
+      "Nenne Ziel, Zielgruppe, Länge und Stil. Füge eine Grenze hinzu, wenn die KI etwas nicht tun soll.",
+    sourceNote: "Lektion l4 · Abschnitt „Sicher arbeiten“",
+  },
+  {
+    id: "l4-vague",
+    lessonId: "l4",
+    question: "Was passiert bei einem ungenauen Prompt?",
+    answer:
+      "Der Prompt ist zu ungenau. Dann muss die KI raten, welches Ziel, welche Länge und welcher Stil gemeint sind.",
+    sourceNote: "Lektion l4 · Abschnitt „Typischer Fehler“",
   },
 ] as const;
 
