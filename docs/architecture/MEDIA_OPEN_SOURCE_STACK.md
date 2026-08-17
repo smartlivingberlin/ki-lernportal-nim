@@ -202,6 +202,10 @@ Korpus + Preset-UI, gleiche Grenzen.
 `S56_C3_CURATED_RETRIEVAL_EXPANSION.md`. Integriert über #248 (`6cac7a22d40d`).
 Korpus + Preset-UI, gleiche Grenzen.
 
+**S56-C4:** Expansion auf Lektion `l4` — Scope
+`S56_C4_CURATED_RETRIEVAL_EXPANSION.md`. Korpus + Preset-UI, gleiche Grenzen
+(kein Flag-Flip, keine Embeddings, keine Live-KI).
+
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
 MEDIA_M2_PILOT_AUTHORIZED=YES
@@ -273,6 +277,13 @@ S56_C3_EMBEDDINGS=NO
 S56_C3_STAGING_FLAG_FLIP=NO
 S56_C3_INTEGRATED_TO_MAIN=YES
 S56_C3_MERGE_COMMIT=6cac7a22d40d4dd9ff99ac924b61880a95299be1
+S56_C4_SCOPE_LOCK=YES
+S56_C4_CURATED_L4_AUTHORIZED=YES
+S56_C4_FREE_CHAT_FORBIDDEN=YES
+S56_C4_LIVE_LLM=NO
+S56_C4_EMBEDDINGS=NO
+S56_C4_STAGING_FLAG_FLIP=NO
+S56_C4_INTEGRATED_TO_MAIN=YES
 ```
 
 Nächster Schritt nur mit Freigabe: **S56-B2** (Staging-Flag-Flip + HTTP-Probe),
