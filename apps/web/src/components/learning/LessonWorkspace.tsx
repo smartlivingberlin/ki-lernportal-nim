@@ -180,7 +180,9 @@ export function LessonWorkspace({
               ) : null}
             </div>
           ) : null}
-          {lesson.id === "l1" ? <MockTutorPanel lessonId={lesson.id} /> : null}
+          {lesson.id === "l1" || lesson.id === "l2" ? (
+            <MockTutorPanel lessonId={lesson.id} />
+          ) : null}
           {lesson.id === "l1" ||
           lesson.id === "l2" ||
           lesson.id === "l3" ? (
