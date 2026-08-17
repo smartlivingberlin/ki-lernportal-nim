@@ -16,9 +16,10 @@ function same(actual: unknown, expected: unknown, message: string): void {
   );
 }
 
-ok(MOCK_TUTOR_PROMPTS.length >= 6, "l1+l2 bank has prompts");
+ok(MOCK_TUTOR_PROMPTS.length >= 9, "l1+l2+l3 bank has prompts");
 same(listMockTutorPrompts("l1").length, 3, "list l1 prompts");
 same(listMockTutorPrompts("l2").length, 3, "list l2 prompts");
+same(listMockTutorPrompts("l3").length, 3, "list l3 prompts");
 same(listMockTutorPrompts("l9").length, 0, "unknown lesson empty");
 
 const hit = answerMockTutor({ lessonId: "l1", promptId: "l1-what-is-ai" });
@@ -47,5 +48,18 @@ const l2WrongBank = answerMockTutor({
   promptId: "l1-what-is-ai",
 });
 same(l2WrongBank.status, "abstain", "l1 prompt abstains on l2");
+
+const l3Hit = answerMockTutor({
+  lessonId: "l3",
+  promptId: "l3-safe-question",
+});
+same(l3Hit.status, "answered", "l3 prompt answered");
+ok(l3Hit.answer.includes("privaten"), "l3 answer from curated text");
+
+const l3WrongBank = answerMockTutor({
+  lessonId: "l3",
+  promptId: "l2-strengths",
+});
+same(l3WrongBank.status, "abstain", "l2 prompt abstains on l3");
 
 console.log("AI_CORE_MOCK_TUTOR_OK=YES");

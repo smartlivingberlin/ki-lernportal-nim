@@ -35,7 +35,7 @@ export type MockTutorPrompt = {
 const HONESTY =
   "Feste, kuratierte Antwort aus dem Lektionsstoff · kein Netz · keine Live-KI.";
 
-/** Curated bank — keep in sync with lesson l1 and l2 teaching points. */
+/** Curated bank — keep in sync with lesson l1, l2 and l3 teaching points. */
 export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
   {
     id: "l1-what-is-ai",
@@ -84,6 +84,30 @@ export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
     answer:
       "Bei Recht, Medizin, Steuern, Finanzen oder Verträgen brauchst du geeignete Quellen oder Fachpersonen. KI darf dort nur Entwurf oder Erklärung sein, keine Entscheidung.",
     sourceNote: "Lektion l2 · Abschnitt „Sicher arbeiten“",
+  },
+  {
+    id: "l3-safe-question",
+    lessonId: "l3",
+    question: "Was macht eine KI-Frage sicher?",
+    answer:
+      "Eine sichere KI-Frage ist klar, aber enthält keine privaten oder vertraulichen Daten. Du musst also nicht deinen Namen, deine Adresse, Telefonnummern, Passwörter, Kundendaten oder ganze Dokumente eingeben.",
+    sourceNote: "Lektion l3 · Abschnitt „Einfach erklärt“",
+  },
+  {
+    id: "l3-placeholders",
+    lessonId: "l3",
+    question: "Warum Platzhalter statt echter Namen?",
+    answer:
+      "Ersetze Namen durch neutrale Platzhalter. Beschreibe die Aufgabe allgemein. Teile nur so viel Kontext, wie wirklich nötig ist.",
+    sourceNote: "Lektion l3 · Abschnitt „Sicher arbeiten“",
+  },
+  {
+    id: "l3-no-copy",
+    lessonId: "l3",
+    question: "Warum keine privaten Daten in den Prompt kopieren?",
+    answer:
+      "Kopiere keine privaten Daten in den Prompt, wenn eine allgemeine Beschreibung reichen würde. Eine freundliche Erinnerung an Person A braucht keinen echten Namen, keine Adresse und keine privaten Details.",
+    sourceNote: "Lektion l3 · Abschnitt „Typischer Fehler“",
   },
 ] as const;
 
