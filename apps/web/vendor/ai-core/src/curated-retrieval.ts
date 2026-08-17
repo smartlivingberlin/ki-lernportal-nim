@@ -41,7 +41,7 @@ export type CuratedRetrieveResult = {
 const HONESTY =
   "Kuratiertes Retrieval (S56-A) · feste Passagen · keine Embeddings · keine Live-KI.";
 
-/** Frozen pilot corpus — keep aligned with lesson teaching points (l1–l4). */
+/** Frozen pilot corpus — keep aligned with lesson teaching points (l1–l5). */
 export const CURATED_PASSAGES: readonly CuratedPassage[] = [
   {
     passageId: "l1-p-patterns",
@@ -139,6 +139,30 @@ export const CURATED_PASSAGES: readonly CuratedPassage[] = [
     text: "Ein zu ungenauer Prompt zwingt die KI zu raten, welches Ziel, welche Länge und welcher Stil gemeint sind.",
     keywords: ["ungenau", "raten", "ziel", "länge", "stil"],
   },
+  {
+    passageId: "l5-p-formula",
+    lessonId: "l5",
+    sourceId: "digcomp-30",
+    revision: "2026-08-17",
+    text: "Eine gute Grundformel lautet: Rolle + Aufgabe + Kontext + Format + Grenze. Du musst nicht immer alle Teile nutzen, aber die Formel hilft dir, genauer zu fragen.",
+    keywords: ["formel", "rolle", "aufgabe", "kontext", "format", "grenze"],
+  },
+  {
+    passageId: "l5-p-one",
+    lessonId: "l5",
+    sourceId: "digcomp-30",
+    revision: "2026-08-17",
+    text: "Schreibe lieber eine klare Aufgabe als fünf Aufgaben auf einmal. Sage auch, was die KI nicht tun soll.",
+    keywords: ["klare", "einmal", "fünf", "nicht"],
+  },
+  {
+    passageId: "l5-p-many",
+    lessonId: "l5",
+    sourceId: "digcomp-30",
+    revision: "2026-08-17",
+    text: "Man schreibt zu viele Themen in einen Prompt. Die Antwort wird dann lang, ungenau oder schwer prüfbar.",
+    keywords: ["themen", "lang", "ungenau", "prüfbar"],
+  },
 ] as const;
 
 function normalize(value: string): string {
@@ -209,7 +233,7 @@ export type CuratedUiQuery = {
 };
 
 /**
- * S56-C bis S56-C4 preset queries for the curated retrieval pilot UI.
+ * S56-C bis S56-C5 preset queries for the curated retrieval pilot UI.
  * Fixed buttons only — no free-text chat.
  */
 export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
@@ -306,6 +330,30 @@ export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
   {
     id: "l4-q-abstain",
     lessonId: "l4",
+    label: "Beispiel ohne Evidenz",
+    query: "Wie hoch ist der Bitcoin-Kurs heute?",
+  },
+  {
+    id: "l5-q-formula",
+    lessonId: "l5",
+    label: "Was ist die Prompt-Formel?",
+    query: "Was ist die Prompt-Formel mit Rolle Aufgabe Kontext Format und Grenze?",
+  },
+  {
+    id: "l5-q-one",
+    lessonId: "l5",
+    label: "Warum nur eine Aufgabe?",
+    query: "Warum lieber eine klare Aufgabe statt fünf Aufgaben auf einmal?",
+  },
+  {
+    id: "l5-q-many",
+    lessonId: "l5",
+    label: "Was bei zu vielen Themen?",
+    query: "Was passiert wenn zu viele Themen in einen Prompt kommen und die Antwort ungenau wird?",
+  },
+  {
+    id: "l5-q-abstain",
+    lessonId: "l5",
     label: "Beispiel ohne Evidenz",
     query: "Wie hoch ist der Bitcoin-Kurs heute?",
   },
