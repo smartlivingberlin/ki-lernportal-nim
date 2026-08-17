@@ -41,7 +41,7 @@ export type CuratedRetrieveResult = {
 const HONESTY =
   "Kuratiertes Retrieval (S56-A) · feste Passagen · keine Embeddings · keine Live-KI.";
 
-/** Frozen pilot corpus — keep aligned with lesson teaching points (l1–l3). */
+/** Frozen pilot corpus — keep aligned with lesson teaching points (l1–l4). */
 export const CURATED_PASSAGES: readonly CuratedPassage[] = [
   {
     passageId: "l1-p-patterns",
@@ -115,6 +115,30 @@ export const CURATED_PASSAGES: readonly CuratedPassage[] = [
     text: "Kopiere keine privaten Daten in den Prompt, wenn eine allgemeine Beschreibung reicht.",
     keywords: ["kopieren", "prompt", "privaten", "beschreibung"],
   },
+  {
+    passageId: "l4-p-what",
+    lessonId: "l4",
+    sourceId: "digcomp-30",
+    revision: "2026-08-17",
+    text: "Ein Prompt ist deine Frage oder Aufgabe an die KI.",
+    keywords: ["prompt", "aufgabe", "frage"],
+  },
+  {
+    passageId: "l4-p-clear",
+    lessonId: "l4",
+    sourceId: "digcomp-30",
+    revision: "2026-08-17",
+    text: "Je klarer du sagst, was du brauchst, desto nützlicher wird die Antwort. Nenne Ziel, Zielgruppe, Länge und Stil.",
+    keywords: ["klarer", "nützlicher", "zielgruppe", "länge", "stil"],
+  },
+  {
+    passageId: "l4-p-vague",
+    lessonId: "l4",
+    sourceId: "digcomp-30",
+    revision: "2026-08-17",
+    text: "Ein zu ungenauer Prompt zwingt die KI zu raten, welches Ziel, welche Länge und welcher Stil gemeint sind.",
+    keywords: ["ungenau", "raten", "ziel", "länge", "stil"],
+  },
 ] as const;
 
 function normalize(value: string): string {
@@ -185,7 +209,7 @@ export type CuratedUiQuery = {
 };
 
 /**
- * S56-C / S56-C2 / S56-C3 preset queries for the curated retrieval pilot UI.
+ * S56-C bis S56-C4 preset queries for the curated retrieval pilot UI.
  * Fixed buttons only — no free-text chat.
  */
 export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
@@ -258,6 +282,30 @@ export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
   {
     id: "l3-q-abstain",
     lessonId: "l3",
+    label: "Beispiel ohne Evidenz",
+    query: "Wie hoch ist der Bitcoin-Kurs heute?",
+  },
+  {
+    id: "l4-q-what",
+    lessonId: "l4",
+    label: "Was ist ein Prompt?",
+    query: "Was ist ein Prompt als Aufgabe an die KI?",
+  },
+  {
+    id: "l4-q-clear",
+    lessonId: "l4",
+    label: "Warum klare Anweisungen?",
+    query: "Warum wird die Antwort nützlicher wenn ich klarer Ziel und Stil nenne?",
+  },
+  {
+    id: "l4-q-vague",
+    lessonId: "l4",
+    label: "Was bei ungenauem Prompt?",
+    query: "Was passiert wenn der Prompt zu ungenau ist und die KI raten muss?",
+  },
+  {
+    id: "l4-q-abstain",
+    lessonId: "l4",
     label: "Beispiel ohne Evidenz",
     query: "Wie hoch ist der Bitcoin-Kurs heute?",
   },
