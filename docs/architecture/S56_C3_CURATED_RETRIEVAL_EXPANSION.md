@@ -58,6 +58,7 @@ MEDIA_M5_RAG_AUTHORIZED=NO
 |-------|--------|--------|
 | S56-C2 | Expansion auf `l2` | integriert |
 | S56-C3 | Expansion auf `l3` | dieses Dokument |
+| S56-C4 | Expansion auf `l4` | siehe `S56_C4_CURATED_RETRIEVAL_EXPANSION.md` |
 | S56-B2 | Staging-Flag-Flip + HTTP-Probe | **gesperrt** |
 | S56-D | Embeddings/Index | **gesperrt** |
 | M7 | Flag-gated Staging-RAG UI | **gesperrt** |

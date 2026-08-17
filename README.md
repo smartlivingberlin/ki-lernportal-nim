@@ -108,8 +108,9 @@ Production-Domain `web-production-51d3c8.up.railway.app`); Ready-Check
 `database=not_configured`.
 Medien M0–M4, M5-A/B, S56-A, S56-B (#237; Privacy/Flag-Entscheidung, kein Flip)
 S56-C3 (#248, Quellen-Suche `l3`), M5-A2 (#249, Mock-Tutor `l2`) und
-mysql2 3.23.3 (#250) sind in `main` integriert
-(`docs/architecture/S56_C3_CURATED_RETRIEVAL_EXPANSION.md`).
+mysql2 3.23.3 (#250) sind in `main` integriert.
+S56-C4 erweitert die Quellen-Suche auf Lektion `l4`
+(`docs/architecture/S56_C4_CURATED_RETRIEVAL_EXPANSION.md`).
 Production-Auth und Railway-DB bleiben gesperrt.
 S52-D2b: Staging `AUTH_RUNTIME` HTTP-verifiziert (Login-Formular + `401`);
 Freigabe D: optionaler Staging-Memory-Seed über `STAGING_BOOTSTRAP_*`

@@ -14,8 +14,9 @@ Datenschutz-/Einstiegs-Klarheit (#213), Forensic IST-Stand/Handoff (#212),
 IA-Trim (#215), Honesty+Backup (#217), Unsicher/Review (#219),
 Quellenparität (#221), noindex/Soft-Start (#223), Datenschutz-Storage-Gate (#225),
 Medien M0–M4 (#226–#229), M5-A/B (#231/#233), S56-A (#235), S56-B (#237)
-S56-C (#239), S56-C2 (#244), S56-C3 (#248, Quellen-Suche `l3`), M5-A2 (#249,
-Mock-Tutor `l2`) und mysql2 3.23.3 (#250). Production-Auth/Live-Railway-DB weiter gesperrt.
+S56-C (#239), S56-C2 (#244), S56-C3 (#248, Quellen-Suche `l3`), S56-C4
+(Quellen-Suche `l4`), M5-A2 (#249, Mock-Tutor `l2`) und mysql2 3.23.3 (#250).
+Production-Auth/Live-Railway-DB weiter gesperrt.
 
 ~~~text
 PHASE0_MASTER_BASELINE=PASS_WITH_BLOCKERS
@@ -324,6 +325,16 @@ S56_C3_STAGING_FLAG_FLIP=NO
 S56_C3_PRODUCTION_FLAG_FLIP=NO
 S56_C3_RAILWAY_CHANGE_IN_REPO=NO
 S56_C3_INTEGRATED_TO_MAIN=YES
+S56_C4_SCOPE_LOCK=YES
+S56_C4_CURATED_L4_AUTHORIZED=YES
+S56_C4_FREE_CHAT_FORBIDDEN=YES
+S56_C4_LIVE_LLM=NO
+S56_C4_VECTOR_DB=NO
+S56_C4_EMBEDDINGS=NO
+S56_C4_STAGING_FLAG_FLIP=NO
+S56_C4_PRODUCTION_FLAG_FLIP=NO
+S56_C4_RAILWAY_CHANGE_IN_REPO=NO
+S56_C4_INTEGRATED_TO_MAIN=YES
 FEATURE_FLAG_AI_RAG_RUNTIME_DEFAULT=false
 HUMAN_FREIGABE_A_DOCS_SYNC=YES
 HUMAN_FREIGABE_B_CONNECTION_PROOF=YES
