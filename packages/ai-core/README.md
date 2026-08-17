@@ -48,6 +48,13 @@ Siehe `docs/architecture/S56_C_CURATED_RETRIEVAL_UI.md`.
 
 Siehe `docs/architecture/S56_C2_CURATED_RETRIEVAL_EXPANSION.md`.
 
+### S56-C3
+
+- Korpus + Preset-Queries für Lektion `l3`
+- Panel-Wiring in `l1`, `l2` und `l3`
+
+Siehe `docs/architecture/S56_C3_CURATED_RETRIEVAL_EXPANSION.md`.
+
 ## Erlaubte Imports
 
 - `@ki-lernportal-nim/contracts`
@@ -98,6 +105,9 @@ S56_C_EMBEDDINGS=NO
 S56_C2_SCOPE_LOCK=YES
 S56_C2_CURATED_L2_AUTHORIZED=YES
 S56_C2_FREE_CHAT_FORBIDDEN=YES
+S56_C3_SCOPE_LOCK=YES
+S56_C3_CURATED_L3_AUTHORIZED=YES
+S56_C3_FREE_CHAT_FORBIDDEN=YES
 AI_CORE_LIVE_PROVIDER=NO
 ```
 
@@ -106,6 +116,7 @@ S56-A ist kuratiertes Retrieval ohne Live-Laufzeit-Flag.
 S56-B dokumentiert Privacy und Flag-Entscheidung ohne Flip.
 S56-C liefert Preset-Queries für die kuratierte Quellen-Suche-UI (`l1`).
 S56-C2 erweitert Korpus und UI auf `l2`.
+S56-C3 erweitert Korpus und UI auf `l3`.
 Keine produktive Provider-Runtime und keine Live-LLM im Portal.
 
 ## Spätere Slices

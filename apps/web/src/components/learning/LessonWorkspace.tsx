@@ -181,7 +181,9 @@ export function LessonWorkspace({
             </div>
           ) : null}
           {lesson.id === "l1" ? <MockTutorPanel lessonId={lesson.id} /> : null}
-          {lesson.id === "l1" || lesson.id === "l2" ? (
+          {lesson.id === "l1" ||
+          lesson.id === "l2" ||
+          lesson.id === "l3" ? (
             <CuratedRetrievalPanel lessonId={lesson.id} />
           ) : null}
           {practice ? (

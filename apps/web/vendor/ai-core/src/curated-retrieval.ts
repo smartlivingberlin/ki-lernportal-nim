@@ -41,7 +41,7 @@ export type CuratedRetrieveResult = {
 const HONESTY =
   "Kuratiertes Retrieval (S56-A) · feste Passagen · keine Embeddings · keine Live-KI.";
 
-/** Frozen pilot corpus — keep aligned with lesson teaching points (l1, l2). */
+/** Frozen pilot corpus — keep aligned with lesson teaching points (l1–l3). */
 export const CURATED_PASSAGES: readonly CuratedPassage[] = [
   {
     passageId: "l1-p-patterns",
@@ -90,6 +90,30 @@ export const CURATED_PASSAGES: readonly CuratedPassage[] = [
     revision: "2026-08-16",
     text: "Nutze KI für Entwürfe, Erklärungen und Ideen. Bei Recht, Medizin, Steuern oder Verträgen brauchst du geeignete Quellen oder Fachpersonen.",
     keywords: ["entwürfe", "recht", "medizin", "fachpersonen", "verträge"],
+  },
+  {
+    passageId: "l3-p-private",
+    lessonId: "l3",
+    sourceId: "eu-gdpr",
+    revision: "2026-08-17",
+    text: "Eine sichere KI-Frage ist klar, enthält aber keine privaten Daten wie Namen, Adresse, Telefonnummern oder Passwörter.",
+    keywords: ["sichere", "private", "namen", "adresse", "passwort"],
+  },
+  {
+    passageId: "l3-p-placeholder",
+    lessonId: "l3",
+    sourceId: "digcomp-30",
+    revision: "2026-08-17",
+    text: "Ersetze Namen durch neutrale Platzhalter. Beschreibe die Aufgabe allgemein und teile nur so viel Kontext, wie wirklich nötig ist.",
+    keywords: ["platzhalter", "ersetzen", "allgemein", "kontext", "namen"],
+  },
+  {
+    passageId: "l3-p-copy",
+    lessonId: "l3",
+    sourceId: "eu-gdpr",
+    revision: "2026-08-17",
+    text: "Kopiere keine privaten Daten in den Prompt, wenn eine allgemeine Beschreibung reicht.",
+    keywords: ["kopieren", "prompt", "privaten", "beschreibung"],
   },
 ] as const;
 
@@ -161,7 +185,7 @@ export type CuratedUiQuery = {
 };
 
 /**
- * S56-C / S56-C2 preset queries for the curated retrieval pilot UI.
+ * S56-C / S56-C2 / S56-C3 preset queries for the curated retrieval pilot UI.
  * Fixed buttons only — no free-text chat.
  */
 export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
@@ -210,6 +234,30 @@ export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
   {
     id: "l2-q-abstain",
     lessonId: "l2",
+    label: "Beispiel ohne Evidenz",
+    query: "Wie hoch ist der Bitcoin-Kurs heute?",
+  },
+  {
+    id: "l3-q-private",
+    lessonId: "l3",
+    label: "Was ist eine sichere Frage?",
+    query: "Was ist eine sichere KI-Frage ohne private Daten?",
+  },
+  {
+    id: "l3-q-placeholder",
+    lessonId: "l3",
+    label: "Warum Platzhalter?",
+    query: "Warum soll ich Namen durch Platzhalter ersetzen?",
+  },
+  {
+    id: "l3-q-copy",
+    lessonId: "l3",
+    label: "Was nicht in den Prompt?",
+    query: "Warum soll ich keine privaten Daten in den Prompt kopieren?",
+  },
+  {
+    id: "l3-q-abstain",
+    lessonId: "l3",
     label: "Beispiel ohne Evidenz",
     query: "Wie hoch ist der Bitcoin-Kurs heute?",
   },
