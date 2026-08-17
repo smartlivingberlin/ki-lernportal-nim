@@ -1,7 +1,8 @@
 # MEDIA M5-A2 — Mock-Tutor Expansion (Lektion l2)
 
-**Status:** Scope-Lock + Mock-Tutor-Erweiterung für Lektion `l2`  
+**Status:** Scope-Lock + Mock-Tutor-Erweiterung für Lektion `l2` integriert  
 **Stand:** 17. August 2026  
+**Merge:** #249 (`e34ee929bc6a35965c9bdcedfc4409d9699030cb`)  
 **Autorisierung:** menschliche Fortsetzungsfreigabe nach S56-C2 („weiter“, parallel zu S56-C3)  
 **Keine Rechtsberatung.**
 

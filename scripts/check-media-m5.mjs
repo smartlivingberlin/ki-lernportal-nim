@@ -61,6 +61,7 @@ assert.match(m5a2, /MEDIA_M5_A2_MOCK_L2_AUTHORIZED=YES/);
 assert.match(m5a2, /MEDIA_M5_A2_FREE_CHAT_FORBIDDEN=YES/);
 assert.match(m5a2, /MEDIA_M5_A2_NETWORK_FORBIDDEN=YES/);
 assert.match(m5a2, /MEDIA_M5_A2_LIVE_LLM=NO/);
+assert.match(m5a2, /Merge:.*#249/);
 
 const status = read("docs/00_PROJECT_STATUS.md");
 assert.match(status, /MEDIA_M5_A2_SCOPE_LOCK=YES/);

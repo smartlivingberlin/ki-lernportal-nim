@@ -1,7 +1,8 @@
 # S56-C3 — Curated Retrieval Expansion (Lektion l3)
 
-**Status:** Scope-Lock + Korpus-/UI-Erweiterung für Lektion `l3`  
+**Status:** Scope-Lock + Korpus-/UI-Erweiterung für Lektion `l3` integriert  
 **Stand:** 17. August 2026  
+**Merge:** #248 (`6cac7a22d40d4dd9ff99ac924b61880a95299be1`)  
 **Autorisierung:** menschliche Fortsetzungsfreigabe nach S56-C2 („weiter“ / S56-C3)  
 **Keine Rechtsberatung.**
 
