@@ -34,7 +34,7 @@ MEDIA_M5_PRODUCTION_LLM=NO
 - Quellen-Suche (S56-C / C2 / C3 / C4)
 - Ollama / Live-LLM
 - Embeddings / Flag-Flip
-- Mock-Tutor für `l4+` (später)
+- Mock-Tutor für `l4+` (siehe `MEDIA_M5_A4_MOCK_TUTOR_L4.md`)
 
 ## 4. Honesty
 

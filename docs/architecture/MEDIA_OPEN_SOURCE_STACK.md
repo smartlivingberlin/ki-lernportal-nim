@@ -178,7 +178,11 @@ in Lektion `l1` (nur vorgegebene Fragen, keine Live-KI). Scope:
 Weiterhin Preset-Fragen, kein Freitext, keine Live-KI.
 
 **M5-A3:** Mock-Tutor-Expansion auf Lektion `l3` — Scope
-`MEDIA_M5_A3_MOCK_TUTOR_L3.md`. Weiterhin Preset-Fragen, kein Freitext, keine Live-KI.
+`MEDIA_M5_A3_MOCK_TUTOR_L3.md`. Integriert über #254 (`677c9f88fb37`).
+Weiterhin Preset-Fragen, kein Freitext, keine Live-KI.
+
+**M5-A4:** Mock-Tutor-Expansion auf Lektion `l4` — Scope
+`MEDIA_M5_A4_MOCK_TUTOR_L4.md`. Weiterhin Preset-Fragen, kein Freitext, keine Live-KI.
 
 **M5-B Proof:** lokaler Ollama-Adapter + Fake-Tests + optionaler Dev-Skript —
 **kein** Product-UI, **kein** Railway-LLM. Scope:
@@ -233,6 +237,9 @@ MEDIA_M5_A2_MERGE_COMMIT=e34ee929bc6a35965c9bdcedfc4409d9699030cb
 MEDIA_M5_A3_SCOPE_LOCK=YES
 MEDIA_M5_A3_MOCK_L3_AUTHORIZED=YES
 MEDIA_M5_A3_FREE_CHAT_FORBIDDEN=YES
+MEDIA_M5_A4_SCOPE_LOCK=YES
+MEDIA_M5_A4_MOCK_L4_AUTHORIZED=YES
+MEDIA_M5_A4_FREE_CHAT_FORBIDDEN=YES
 MEDIA_M5_B_SCOPE_LOCK=YES
 MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=YES
 MEDIA_M5_B_DEV_ONLY=YES

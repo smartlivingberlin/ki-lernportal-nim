@@ -28,6 +28,7 @@ assert.match(stack, /MEDIA_M5_A_MOCK_AUTHORIZED=YES/);
 assert.match(stack, /MEDIA_M5_A_INTEGRATED_TO_MAIN=YES/);
 assert.match(stack, /MEDIA_M5_A2_MOCK_L2_AUTHORIZED=YES/);
 assert.match(stack, /MEDIA_M5_A3_MOCK_L3_AUTHORIZED=YES/);
+assert.match(stack, /MEDIA_M5_A4_MOCK_L4_AUTHORIZED=YES/);
 assert.match(stack, /MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=YES/);
 assert.match(stack, /MEDIA_M5_AI_AUTHORIZED=NO/);
 
@@ -38,6 +39,7 @@ assert.match(mock, /listMockTutorPrompts/);
 assert.match(mock, /l1-what-is-ai/);
 assert.match(mock, /l2-strengths/);
 assert.match(mock, /l3-safe-question/);
+assert.match(mock, /l4-what-is-prompt/);
 assert.doesNotMatch(mock, /fetch\(|openai|anthropic|ollama|huggingface/i);
 
 const index = read("packages/ai-core/src/index.ts");
@@ -56,7 +58,8 @@ const workspace = read(
 assert.match(workspace, /MockTutorPanel/);
 assert.match(workspace, /lesson\.id === "l1"/);
 assert.match(workspace, /lesson\.id === "l2"/);
-assert.match(workspace, /lesson\.id === "l3" \? \(\s*<MockTutorPanel/);
+assert.match(workspace, /lesson\.id === "l3"/);
+assert.match(workspace, /lesson\.id === "l4" \? \(\s*<MockTutorPanel/);
 
 const m5a2 = read("docs/architecture/MEDIA_M5_A2_MOCK_TUTOR_L2.md");
 assert.match(m5a2, /MEDIA_M5_A2_SCOPE_LOCK=YES/);
@@ -73,6 +76,13 @@ assert.match(m5a3, /MEDIA_M5_A3_FREE_CHAT_FORBIDDEN=YES/);
 assert.match(m5a3, /MEDIA_M5_A3_NETWORK_FORBIDDEN=YES/);
 assert.match(m5a3, /MEDIA_M5_A3_LIVE_LLM=NO/);
 
+const m5a4 = read("docs/architecture/MEDIA_M5_A4_MOCK_TUTOR_L4.md");
+assert.match(m5a4, /MEDIA_M5_A4_SCOPE_LOCK=YES/);
+assert.match(m5a4, /MEDIA_M5_A4_MOCK_L4_AUTHORIZED=YES/);
+assert.match(m5a4, /MEDIA_M5_A4_FREE_CHAT_FORBIDDEN=YES/);
+assert.match(m5a4, /MEDIA_M5_A4_NETWORK_FORBIDDEN=YES/);
+assert.match(m5a4, /MEDIA_M5_A4_LIVE_LLM=NO/);
+
 const status = read("docs/00_PROJECT_STATUS.md");
 assert.match(status, /MEDIA_M5_A2_SCOPE_LOCK=YES/);
 assert.match(status, /MEDIA_M5_A2_MOCK_L2_AUTHORIZED=YES/);
@@ -80,6 +90,9 @@ assert.match(status, /MEDIA_M5_A2_FREE_CHAT_FORBIDDEN=YES/);
 assert.match(status, /MEDIA_M5_A3_SCOPE_LOCK=YES/);
 assert.match(status, /MEDIA_M5_A3_MOCK_L3_AUTHORIZED=YES/);
 assert.match(status, /MEDIA_M5_A3_FREE_CHAT_FORBIDDEN=YES/);
+assert.match(status, /MEDIA_M5_A4_SCOPE_LOCK=YES/);
+assert.match(status, /MEDIA_M5_A4_MOCK_L4_AUTHORIZED=YES/);
+assert.match(status, /MEDIA_M5_A4_FREE_CHAT_FORBIDDEN=YES/);
 
 const vendorSync = read("scripts/sync-web-railway-vendor.mjs");
 assert.match(vendorSync, /"ai-core"/);
