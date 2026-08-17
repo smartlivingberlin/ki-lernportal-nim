@@ -103,12 +103,12 @@ Isoliertes Staging-Environment `staging` ist angelegt und HTTP-grün unter
 Nachweise: `docs/architecture/S51D_B_STAGING_EXECUTION.md`.
 
 Live-Probe 2026-08-16: Production und Staging melden Build-SHA
-`167b3199c035` (`/version`, nach #244 S56-C2; Live inkl. #239/#244;
+`7920f40ea7e3` (`/version`, nach #250 mysql2; Live inkl. #248/#249/#250;
 Production-Domain `web-production-51d3c8.up.railway.app`); Ready-Check
 `database=not_configured`.
 Medien M0–M4, M5-A/B, S56-A, S56-B (#237; Privacy/Flag-Entscheidung, kein Flip)
-und S56-C (#239; kuratierte Quellen-Suche UI), S56-C2 (Expansion `l2`)
-sowie S56-C3 (Expansion `l3`) sind in `main` integriert
+S56-C3 (#248, Quellen-Suche `l3`), M5-A2 (#249, Mock-Tutor `l2`) und
+mysql2 3.23.3 (#250) sind in `main` integriert
 (`docs/architecture/S56_C3_CURATED_RETRIEVAL_EXPANSION.md`).
 Production-Auth und Railway-DB bleiben gesperrt.
 S52-D2b: Staging `AUTH_RUNTIME` HTTP-verifiziert (Login-Formular + `401`);
@@ -123,7 +123,7 @@ CURRENT_PRODUCTION_AUTODEPLOY=DISABLED
 CURRENT_WAIT_FOR_CI=ON
 CURRENT_CONFIG_SOURCE=DASHBOARD_NO_RAILWAY_JSON
 CURRENT_ROOT_DIRECTORY=apps/web
-LIVE_BUILD_SHA_OBSERVED=167b3199c035
+LIVE_BUILD_SHA_OBSERVED=7920f40ea7e3
 STAGING_ENVIRONMENT_CREATED=YES
 STAGING_PUBLIC_DOMAIN=ki-lernportal-nim-staging.up.railway.app
 STAGING_AUTODEPLOY=DISABLED

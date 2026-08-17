@@ -174,7 +174,8 @@ in Lektion `l1` (nur vorgegebene Fragen, keine Live-KI). Scope:
 `MEDIA_M5_A_IMPLEMENTATION_SCOPE.md`. Integriert über #231 (`021791469980`).
 
 **M5-A2:** Mock-Tutor-Expansion auf Lektion `l2` — Scope
-`MEDIA_M5_A2_MOCK_TUTOR_L2.md`. Weiterhin Preset-Fragen, kein Freitext, keine Live-KI.
+`MEDIA_M5_A2_MOCK_TUTOR_L2.md`. Integriert über #249 (`e34ee929bc6a`).
+Weiterhin Preset-Fragen, kein Freitext, keine Live-KI.
 
 **M5-B Proof:** lokaler Ollama-Adapter + Fake-Tests + optionaler Dev-Skript —
 **kein** Product-UI, **kein** Railway-LLM. Scope:
@@ -198,7 +199,8 @@ keine Live-KI.
 Korpus + Preset-UI, gleiche Grenzen.
 
 **S56-C3:** Expansion auf Lektion `l3` — Scope
-`S56_C3_CURATED_RETRIEVAL_EXPANSION.md`. Korpus + Preset-UI, gleiche Grenzen.
+`S56_C3_CURATED_RETRIEVAL_EXPANSION.md`. Integriert über #248 (`6cac7a22d40d`).
+Korpus + Preset-UI, gleiche Grenzen.
 
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
@@ -219,6 +221,8 @@ MEDIA_M5_A_MERGE_COMMIT=0217914699804bafd36015c74b2f0ab73afe4c4c
 MEDIA_M5_A2_SCOPE_LOCK=YES
 MEDIA_M5_A2_MOCK_L2_AUTHORIZED=YES
 MEDIA_M5_A2_FREE_CHAT_FORBIDDEN=YES
+MEDIA_M5_A2_INTEGRATED_TO_MAIN=YES
+MEDIA_M5_A2_MERGE_COMMIT=e34ee929bc6a35965c9bdcedfc4409d9699030cb
 MEDIA_M5_B_SCOPE_LOCK=YES
 MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=YES
 MEDIA_M5_B_DEV_ONLY=YES
@@ -268,6 +272,7 @@ S56_C3_LIVE_LLM=NO
 S56_C3_EMBEDDINGS=NO
 S56_C3_STAGING_FLAG_FLIP=NO
 S56_C3_INTEGRATED_TO_MAIN=YES
+S56_C3_MERGE_COMMIT=6cac7a22d40d4dd9ff99ac924b61880a95299be1
 ```
 
 Nächster Schritt nur mit Freigabe: **S56-B2** (Staging-Flag-Flip + HTTP-Probe),
