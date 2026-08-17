@@ -103,15 +103,13 @@ Isoliertes Staging-Environment `staging` ist angelegt und HTTP-grün unter
 Nachweise: `docs/architecture/S51D_B_STAGING_EXECUTION.md`.
 
 Live-Probe 2026-08-17: Production und Staging melden Build-SHA
-`cbc7c435e112` (`/version`, nach #256; Live inkl. #253/#254/#255/#256;
+`2aa0c76d0c71` (`/version`, nach #259; Live inkl. #257/#258/#259;
 Production-Domain `web-production-51d3c8.up.railway.app`); Ready-Check
 `database=not_configured`.
 Medien M0–M4, M5-A/B, S56-A, S56-B (#237; Privacy/Flag-Entscheidung, kein Flip)
-S56-C3 (#248), S56-C4 (#253, Quellen-Suche `l4`), S56-C5 (#255, Quellen-Suche `l5`),
-M5-A2 (#249), M5-A3 (#254, Mock-Tutor `l3`), M5-A4 (#256, Mock-Tutor `l4`) und
+S56-C3 (#248), S56-C4 (#253), S56-C5 (#255), S56-C6 (#258, Quellen-Suche `l6`),
+M5-A2 (#249), M5-A3 (#254), M5-A4 (#256), M5-A5 (#259, Mock-Tutor `l5`) und
 mysql2 3.23.3 (#250) sind in `main` integriert.
-S56-C6 erweitert die Quellen-Suche auf Lektion `l6`
-(`docs/architecture/S56_C6_CURATED_RETRIEVAL_EXPANSION.md`).
 Production-Auth und Railway-DB bleiben gesperrt.
 S52-D2b: Staging `AUTH_RUNTIME` HTTP-verifiziert (Login-Formular + `401`);
 Freigabe D: optionaler Staging-Memory-Seed über `STAGING_BOOTSTRAP_*`
@@ -125,7 +123,7 @@ CURRENT_PRODUCTION_AUTODEPLOY=DISABLED
 CURRENT_WAIT_FOR_CI=ON
 CURRENT_CONFIG_SOURCE=DASHBOARD_NO_RAILWAY_JSON
 CURRENT_ROOT_DIRECTORY=apps/web
-LIVE_BUILD_SHA_OBSERVED=cbc7c435e112
+LIVE_BUILD_SHA_OBSERVED=2aa0c76d0c71
 STAGING_ENVIRONMENT_CREATED=YES
 STAGING_PUBLIC_DOMAIN=ki-lernportal-nim-staging.up.railway.app
 STAGING_AUTODEPLOY=DISABLED
