@@ -41,7 +41,7 @@ export type CuratedRetrieveResult = {
 const HONESTY =
   "Kuratiertes Retrieval (S56-A) · feste Passagen · keine Embeddings · keine Live-KI.";
 
-/** Frozen pilot corpus — keep aligned with lesson teaching points (l1–l5). */
+/** Frozen pilot corpus — keep aligned with lesson teaching points (l1–l6). */
 export const CURATED_PASSAGES: readonly CuratedPassage[] = [
   {
     passageId: "l1-p-patterns",
@@ -163,6 +163,30 @@ export const CURATED_PASSAGES: readonly CuratedPassage[] = [
     text: "Man schreibt zu viele Themen in einen Prompt. Die Antwort wird dann lang, ungenau oder schwer prüfbar.",
     keywords: ["themen", "lang", "ungenau", "prüfbar"],
   },
+  {
+    passageId: "l6-p-help",
+    lessonId: "l6",
+    sourceId: "digcomp-30",
+    revision: "2026-08-17",
+    text: "KI kann helfen, einen Text freundlicher, kürzer, klarer oder sachlicher zu machen. Du bleibst aber verantwortlich dafür, ob der Inhalt stimmt.",
+    keywords: ["freundlicher", "kürzer", "klarer", "verantwortlich", "inhalt"],
+  },
+  {
+    passageId: "l6-p-private",
+    lessonId: "l6",
+    sourceId: "eu-gdpr",
+    revision: "2026-08-17",
+    text: "Entferne Namen, Adressen, Kundendaten und vertrauliche Details. Prüfe danach, ob die KI etwas erfunden oder verändert hat.",
+    keywords: ["namen", "adressen", "kundendaten", "vertrauliche", "prüfen"],
+  },
+  {
+    passageId: "l6-p-check",
+    lessonId: "l6",
+    sourceId: "digcomp-30",
+    revision: "2026-08-17",
+    text: "Man übernimmt den fertigen Text sofort und merkt nicht, dass ein Detail geändert wurde.",
+    keywords: ["übernimmt", "sofort", "detail", "geändert"],
+  },
 ] as const;
 
 function normalize(value: string): string {
@@ -233,7 +257,7 @@ export type CuratedUiQuery = {
 };
 
 /**
- * S56-C bis S56-C5 preset queries for the curated retrieval pilot UI.
+ * S56-C bis S56-C6 preset queries for the curated retrieval pilot UI.
  * Fixed buttons only — no free-text chat.
  */
 export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
@@ -354,6 +378,30 @@ export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
   {
     id: "l5-q-abstain",
     lessonId: "l5",
+    label: "Beispiel ohne Evidenz",
+    query: "Wie hoch ist der Bitcoin-Kurs heute?",
+  },
+  {
+    id: "l6-q-help",
+    lessonId: "l6",
+    label: "Was kann KI am Text?",
+    query: "Kann KI einen Text freundlicher kürzer und klarer machen?",
+  },
+  {
+    id: "l6-q-private",
+    lessonId: "l6",
+    label: "Was vor dem Prompt entfernen?",
+    query: "Warum Namen Adressen und Kundendaten vor dem Prompt entfernen?",
+  },
+  {
+    id: "l6-q-check",
+    lessonId: "l6",
+    label: "Warum den Text prüfen?",
+    query: "Warum nicht den fertigen Text sofort übernehmen wenn ein Detail geändert wurde?",
+  },
+  {
+    id: "l6-q-abstain",
+    lessonId: "l6",
     label: "Beispiel ohne Evidenz",
     query: "Wie hoch ist der Bitcoin-Kurs heute?",
   },

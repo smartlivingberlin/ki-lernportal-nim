@@ -18,12 +18,13 @@ function same(actual: unknown, expected: unknown, message: string): void {
   );
 }
 
-ok(CURATED_PASSAGES.length >= 15, "corpus size");
+ok(CURATED_PASSAGES.length >= 18, "corpus size");
 same(listCuratedPassages("l1").length, 3, "l1 passages");
 same(listCuratedPassages("l2").length, 3, "l2 passages");
 same(listCuratedPassages("l3").length, 3, "l3 passages");
 same(listCuratedPassages("l4").length, 3, "l4 passages");
 same(listCuratedPassages("l5").length, 3, "l5 passages");
+same(listCuratedPassages("l6").length, 3, "l6 passages");
 same(listCuratedPassages("l9").length, 0, "unknown lesson empty");
 
 const hit = retrieveCurated({
@@ -51,12 +52,13 @@ const crossLesson = retrieveCurated({
 });
 same(crossLesson.status, "abstain", "l1 query abstains on l2 corpus");
 
-ok(CURATED_UI_QUERIES.length >= 20, "ui query bank size");
+ok(CURATED_UI_QUERIES.length >= 24, "ui query bank size");
 same(listCuratedUiQueries("l1").length, 4, "l1 ui queries");
 same(listCuratedUiQueries("l2").length, 4, "l2 ui queries");
 same(listCuratedUiQueries("l3").length, 4, "l3 ui queries");
 same(listCuratedUiQueries("l4").length, 4, "l4 ui queries");
 same(listCuratedUiQueries("l5").length, 4, "l5 ui queries");
+same(listCuratedUiQueries("l6").length, 4, "l6 ui queries");
 same(listCuratedUiQueries("l9").length, 0, "unknown lesson ui empty");
 
 const uiHit = retrieveCurated({
@@ -142,5 +144,22 @@ const l5Abstain = retrieveCurated({
   query: l5AbstainQuery.query,
 });
 same(l5Abstain.status, "abstain", "l5 abstain ui query abstains");
+
+const l6Hit = retrieveCurated({
+  lessonId: "l6",
+  query: listCuratedUiQueries("l6")[0]!.query,
+});
+same(l6Hit.status, "hit", "l6 ui query hits");
+ok(l6Hit.citations[0]?.passageId.startsWith("l6-"), "l6 citation");
+
+const l6AbstainQuery = listCuratedUiQueries("l6").find(
+  (q) => q.id === "l6-q-abstain",
+);
+ok(l6AbstainQuery != null, "l6 abstain ui query exists");
+const l6Abstain = retrieveCurated({
+  lessonId: "l6",
+  query: l6AbstainQuery.query,
+});
+same(l6Abstain.status, "abstain", "l6 abstain ui query abstains");
 
 console.log("AI_CORE_CURATED_RETRIEVAL_OK=YES");
