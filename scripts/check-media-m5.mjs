@@ -26,6 +26,7 @@ const stack = read("docs/architecture/MEDIA_OPEN_SOURCE_STACK.md");
 assert.match(stack, /MEDIA_M5_A_SCOPE_LOCK=YES/);
 assert.match(stack, /MEDIA_M5_A_MOCK_AUTHORIZED=YES/);
 assert.match(stack, /MEDIA_M5_A_INTEGRATED_TO_MAIN=YES/);
+assert.match(stack, /MEDIA_M5_A2_MOCK_L2_AUTHORIZED=YES/);
 assert.match(stack, /MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=YES/);
 assert.match(stack, /MEDIA_M5_AI_AUTHORIZED=NO/);
 
@@ -34,6 +35,7 @@ assert.match(mock, /mock_curated/);
 assert.match(mock, /answerMockTutor/);
 assert.match(mock, /listMockTutorPrompts/);
 assert.match(mock, /l1-what-is-ai/);
+assert.match(mock, /l2-strengths/);
 assert.doesNotMatch(mock, /fetch\(|openai|anthropic|ollama|huggingface/i);
 
 const index = read("packages/ai-core/src/index.ts");
@@ -51,6 +53,19 @@ const workspace = read(
 );
 assert.match(workspace, /MockTutorPanel/);
 assert.match(workspace, /lesson\.id === "l1"/);
+assert.match(workspace, /lesson\.id === "l2"/);
+
+const m5a2 = read("docs/architecture/MEDIA_M5_A2_MOCK_TUTOR_L2.md");
+assert.match(m5a2, /MEDIA_M5_A2_SCOPE_LOCK=YES/);
+assert.match(m5a2, /MEDIA_M5_A2_MOCK_L2_AUTHORIZED=YES/);
+assert.match(m5a2, /MEDIA_M5_A2_FREE_CHAT_FORBIDDEN=YES/);
+assert.match(m5a2, /MEDIA_M5_A2_NETWORK_FORBIDDEN=YES/);
+assert.match(m5a2, /MEDIA_M5_A2_LIVE_LLM=NO/);
+
+const status = read("docs/00_PROJECT_STATUS.md");
+assert.match(status, /MEDIA_M5_A2_SCOPE_LOCK=YES/);
+assert.match(status, /MEDIA_M5_A2_MOCK_L2_AUTHORIZED=YES/);
+assert.match(status, /MEDIA_M5_A2_FREE_CHAT_FORBIDDEN=YES/);
 
 const vendorSync = read("scripts/sync-web-railway-vendor.mjs");
 assert.match(vendorSync, /"ai-core"/);

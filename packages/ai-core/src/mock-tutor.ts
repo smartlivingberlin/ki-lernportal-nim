@@ -35,7 +35,7 @@ export type MockTutorPrompt = {
 const HONESTY =
   "Feste, kuratierte Antwort aus dem Lektionsstoff · kein Netz · keine Live-KI.";
 
-/** Curated bank — keep in sync with lesson l1 teaching points. */
+/** Curated bank — keep in sync with lesson l1 and l2 teaching points. */
 export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
   {
     id: "l1-what-is-ai",
@@ -60,6 +60,30 @@ export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
     answer:
       "Nutze KI als Hilfe zum Verstehen und Formulieren. Prüfe wichtige Aussagen trotzdem selbst — besonders bei Fakten, Entscheidungen und persönlichen Themen.",
     sourceNote: "Lektion l1 · Abschnitt „Sicher arbeiten“",
+  },
+  {
+    id: "l2-strengths",
+    lessonId: "l2",
+    question: "Was kann KI gut?",
+    answer:
+      "KI kann Texte strukturieren, Ideen sammeln, Zusammenfassungen schreiben, Formulierungen verbessern und einfache Erklärungen geben.",
+    sourceNote: "Lektion l2 · Abschnitt „Einfach erklärt“",
+  },
+  {
+    id: "l2-limits",
+    lessonId: "l2",
+    question: "Was kann KI nicht sicher?",
+    answer:
+      "KI kann aktuelle Fakten nicht sicher garantieren, persönliche Situationen nicht vollständig beurteilen und keine verbindliche Fachberatung ersetzen.",
+    sourceNote: "Lektion l2 · Abschnitt „Einfach erklärt“",
+  },
+  {
+    id: "l2-experts",
+    lessonId: "l2",
+    question: "Wann brauche ich Fachpersonen?",
+    answer:
+      "Bei Recht, Medizin, Steuern, Finanzen oder Verträgen brauchst du geeignete Quellen oder Fachpersonen. KI darf dort nur Entwurf oder Erklärung sein, keine Entscheidung.",
+    sourceNote: "Lektion l2 · Abschnitt „Sicher arbeiten“",
   },
 ] as const;
 
