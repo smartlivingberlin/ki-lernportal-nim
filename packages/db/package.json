@@ -13,7 +13,7 @@
   "dependencies": {
     "@ki-lernportal-nim/domain": "workspace:*",
     "drizzle-orm": "0.45.2",
-    "mysql2": "3.23.2"
+    "mysql2": "3.23.3"
   },
   "devDependencies": {
     "drizzle-kit": "0.31.10"
