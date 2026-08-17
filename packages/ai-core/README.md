@@ -8,7 +8,7 @@ Providerneutrale AI-, Retrieval-, Citation-, Abstention- und Adapterverträge.
 
 ### M5-A
 
-- Deterministischer **Mock-Tutor** (`answerMockTutor`, kuratierte Bank für `l1`/`l2`)
+- Deterministischer **Mock-Tutor** (`answerMockTutor`, kuratierte Bank für `l1`/`l2`/`l3`)
 - Kein Netz, kein Freitext-Chat
 
 Siehe `docs/architecture/MEDIA_M5_A_IMPLEMENTATION_SCOPE.md`.
@@ -96,6 +96,8 @@ MEDIA_M5_A_FREE_CHAT_FORBIDDEN=YES
 MEDIA_M5_A_NETWORK_FORBIDDEN=YES
 MEDIA_M5_A2_SCOPE_LOCK=YES
 MEDIA_M5_A2_MOCK_L2_AUTHORIZED=YES
+MEDIA_M5_A3_SCOPE_LOCK=YES
+MEDIA_M5_A3_MOCK_L3_AUTHORIZED=YES
 MEDIA_M5_B_SCOPE_LOCK=YES
 MEDIA_M5_OLLAMA_PROOF_AUTHORIZED=YES
 MEDIA_M5_B_PRODUCT_UI=NO
