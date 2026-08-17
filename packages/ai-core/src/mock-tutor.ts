@@ -35,7 +35,7 @@ export type MockTutorPrompt = {
 const HONESTY =
   "Feste, kuratierte Antwort aus dem Lektionsstoff · kein Netz · keine Live-KI.";
 
-/** Curated bank — keep in sync with lesson l1–l4 teaching points. */
+/** Curated bank — keep in sync with lesson l1–l5 teaching points. */
 export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
   {
     id: "l1-what-is-ai",
@@ -132,6 +132,30 @@ export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
     answer:
       "Der Prompt ist zu ungenau. Dann muss die KI raten, welches Ziel, welche Länge und welcher Stil gemeint sind.",
     sourceNote: "Lektion l4 · Abschnitt „Typischer Fehler“",
+  },
+  {
+    id: "l5-formula",
+    lessonId: "l5",
+    question: "Welche Teile hat die einfache Prompt-Formel?",
+    answer:
+      "Eine gute Grundformel lautet: Rolle + Aufgabe + Kontext + Format + Grenze. Du musst nicht immer alle Teile nutzen, aber die Formel hilft dir, genauer zu fragen.",
+    sourceNote: "Lektion l5 · Abschnitt „Einfach erklärt“",
+  },
+  {
+    id: "l5-one-task",
+    lessonId: "l5",
+    question: "Warum lieber eine klare Aufgabe als fünf auf einmal?",
+    answer:
+      "Schreibe lieber eine klare Aufgabe als fünf Aufgaben auf einmal. Sage auch, was die KI nicht tun soll.",
+    sourceNote: "Lektion l5 · Abschnitt „Sicher arbeiten“",
+  },
+  {
+    id: "l5-too-many",
+    lessonId: "l5",
+    question: "Was passiert bei zu vielen Themen in einem Prompt?",
+    answer:
+      "Man schreibt zu viele Themen in einen Prompt. Die Antwort wird dann lang, ungenau oder schwer prüfbar.",
+    sourceNote: "Lektion l5 · Abschnitt „Typischer Fehler“",
   },
 ] as const;
 
