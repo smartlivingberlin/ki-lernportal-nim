@@ -1881,6 +1881,7 @@ function validatePackageSkeletons() {
           "S56_C5_CURATED_L5_AUTHORIZED=YES",
           "S56_C6_CURATED_L6_AUTHORIZED=YES",
           "S56_C7_CURATED_L7_AUTHORIZED=YES",
+          "S56_C8_CURATED_L8_AUTHORIZED=YES",
           "AI_CORE_LIVE_PROVIDER=NO",
           "Keine produktive",
         ]) {
