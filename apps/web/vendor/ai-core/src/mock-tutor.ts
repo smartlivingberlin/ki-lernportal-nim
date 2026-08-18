@@ -35,7 +35,7 @@ export type MockTutorPrompt = {
 const HONESTY =
   "Feste, kuratierte Antwort aus dem Lektionsstoff · kein Netz · keine Live-KI.";
 
-/** Curated bank — keep in sync with lesson l1–l6 teaching points. */
+/** Curated bank — keep in sync with lesson l1–l7 teaching points. */
 export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
   {
     id: "l1-what-is-ai",
@@ -180,6 +180,30 @@ export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
     answer:
       "Man übernimmt den fertigen Text sofort und merkt nicht, dass ein Detail geändert wurde. Prüfe den Entwurf, bevor du ihn verwendest.",
     sourceNote: "Lektion l6 · Abschnitt „Typischer Fehler“",
+  },
+  {
+    id: "l7-ideas",
+    lessonId: "l7",
+    question: "Was sind KI-Vorschläge in dieser Lektion?",
+    answer:
+      "KI kann dir schnell mehrere Vorschläge geben. Diese Vorschläge sind aber nur Möglichkeiten. Du entscheidest, was passt, was falsch ist und was verbessert werden muss.",
+    sourceNote: "Lektion l7 · Abschnitt „Einfach erklärt“",
+  },
+  {
+    id: "l7-drafts",
+    lessonId: "l7",
+    question: "Wie soll ich mit KI-Ideen umgehen?",
+    answer:
+      "Behandle Ideen als Entwürfe. Streiche schlechte Vorschläge. Verbessere gute Vorschläge. Prüfe Fakten, bevor du etwas veröffentlichst oder weitergibst.",
+    sourceNote: "Lektion l7 · Abschnitt „Sicher arbeiten“",
+  },
+  {
+    id: "l7-first",
+    lessonId: "l7",
+    question: "Warum nicht die erste Liste als fertige Lösung nehmen?",
+    answer:
+      "Man nimmt die erste Liste der KI als fertige Lösung, obwohl manche Ideen unpassend oder oberflächlich sind.",
+    sourceNote: "Lektion l7 · Abschnitt „Typischer Fehler“",
   },
 ] as const;
 
