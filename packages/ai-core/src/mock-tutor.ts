@@ -35,7 +35,7 @@ export type MockTutorPrompt = {
 const HONESTY =
   "Feste, kuratierte Antwort aus dem Lektionsstoff · kein Netz · keine Live-KI.";
 
-/** Curated bank — keep in sync with lesson l1–l5 teaching points. */
+/** Curated bank — keep in sync with lesson l1–l6 teaching points. */
 export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
   {
     id: "l1-what-is-ai",
@@ -156,6 +156,30 @@ export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
     answer:
       "Man schreibt zu viele Themen in einen Prompt. Die Antwort wird dann lang, ungenau oder schwer prüfbar.",
     sourceNote: "Lektion l5 · Abschnitt „Typischer Fehler“",
+  },
+  {
+    id: "l6-help",
+    lessonId: "l6",
+    question: "Was kann KI an einem kurzen Text tun?",
+    answer:
+      "KI kann helfen, einen Text freundlicher, kürzer, klarer oder sachlicher zu machen. Du bleibst aber verantwortlich dafür, ob der Inhalt stimmt.",
+    sourceNote: "Lektion l6 · Abschnitt „Einfach erklärt“",
+  },
+  {
+    id: "l6-private",
+    lessonId: "l6",
+    question: "Was soll ich vor dem Prompt entfernen?",
+    answer:
+      "Entferne Namen, Adressen, Kundendaten und vertrauliche Details. Prüfe danach, ob die KI etwas erfunden oder verändert hat.",
+    sourceNote: "Lektion l6 · Abschnitt „Sicher arbeiten“",
+  },
+  {
+    id: "l6-check",
+    lessonId: "l6",
+    question: "Warum den fertigen Text nicht sofort übernehmen?",
+    answer:
+      "Man übernimmt den fertigen Text sofort und merkt nicht, dass ein Detail geändert wurde. Prüfe den Entwurf, bevor du ihn verwendest.",
+    sourceNote: "Lektion l6 · Abschnitt „Typischer Fehler“",
   },
 ] as const;
 
