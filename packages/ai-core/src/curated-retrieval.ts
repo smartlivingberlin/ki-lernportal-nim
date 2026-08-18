@@ -211,6 +211,30 @@ export const CURATED_PASSAGES: readonly CuratedPassage[] = [
     text: "Man nimmt die erste Liste der KI als fertige Lösung, obwohl manche Ideen unpassend oder oberflächlich sind.",
     keywords: ["erste", "liste", "fertige", "unpassend", "oberflächlich"],
   },
+  {
+    passageId: "l8-p-what",
+    lessonId: "l8",
+    sourceId: "nist-genai-profile",
+    revision: "2026-08-18",
+    text: "Eine Halluzination ist eine Antwort, die plausibel klingt, aber falsch oder unbelegt ist. Die KI kann Namen, Zahlen, Quellen oder Regeln erfinden.",
+    keywords: ["halluzination", "plausibel", "unbelegt", "erfinden", "quellen"],
+  },
+  {
+    passageId: "l8-p-signs",
+    lessonId: "l8",
+    sourceId: "nist-ai-rmf",
+    revision: "2026-08-18",
+    text: "Achte auf sehr genaue Zahlen ohne Quelle, erfundene Links, zu sichere Aussagen und Widersprüche zu bekannten Fakten.",
+    keywords: ["zahlen", "quelle", "erfundene", "aussagen", "widersprüche", "fakten"],
+  },
+  {
+    passageId: "l8-p-sure",
+    lessonId: "l8",
+    sourceId: "nist-genai-profile",
+    revision: "2026-08-18",
+    text: "Man fragt die KI, ob sie sicher ist, und glaubt dann der Bestätigung. Besser ist echte Quellenprüfung.",
+    keywords: ["sicher", "bestätigung", "quellenprüfung"],
+  },
 ] as const;
 
 function normalize(value: string): string {
@@ -450,6 +474,30 @@ export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
   {
     id: "l7-q-abstain",
     lessonId: "l7",
+    label: "Beispiel ohne Evidenz",
+    query: "Wie hoch ist der Bitcoin-Kurs heute?",
+  },
+  {
+    id: "l8-q-what",
+    lessonId: "l8",
+    label: "Was ist eine Halluzination?",
+    query: "Was ist eine Halluzination bei KI-Antworten die plausibel klingt aber unbelegt ist?",
+  },
+  {
+    id: "l8-q-signs",
+    lessonId: "l8",
+    label: "Woran erkenne ich Warnzeichen?",
+    query: "Woran erkenne ich genaue Zahlen ohne Quelle und zu sichere Aussagen?",
+  },
+  {
+    id: "l8-q-sure",
+    lessonId: "l8",
+    label: "Hilft Bist du sicher?",
+    query: "Warum hilft Bist du sicher nicht und echte Quellenprüfung besser ist?",
+  },
+  {
+    id: "l8-q-abstain",
+    lessonId: "l8",
     label: "Beispiel ohne Evidenz",
     query: "Wie hoch ist der Bitcoin-Kurs heute?",
   },

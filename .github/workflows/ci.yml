@@ -220,6 +220,9 @@ jobs:
       - name: S56-C7 curated retrieval l7 expansion contract
         run: pnpm test:s56-c7
 
+      - name: S56-C8 curated retrieval l8 expansion contract
+        run: pnpm test:s56-c8
+
       - name: Install Playwright Chromium
         shell: bash
         run: |
