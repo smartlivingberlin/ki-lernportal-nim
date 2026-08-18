@@ -112,6 +112,8 @@ S56-C7 (#261, Quellen-Suche `l7`), S56-C8 (#265, Quellen-Suche `l8`),
 M5-A2 (#249), M5-A3 (#254), M5-A4 (#256), M5-A5 (#259),
 M5-A6 (#262, Mock-Tutor `l6`), M5-A7 (#266, Mock-Tutor `l7`) und
 mysql2 3.23.3 (#250) sind in `main` integriert.
+S56-C9 erweitert die Quellen-Suche auf Lektion `l9`
+(`docs/architecture/S56_C9_CURATED_RETRIEVAL_EXPANSION.md`).
 Production-Auth und Railway-DB bleiben gesperrt.
 S52-D2b: Staging `AUTH_RUNTIME` HTTP-verifiziert (Login-Formular + `401`);
 Freigabe D: optionaler Staging-Memory-Seed über `STAGING_BOOTSTRAP_*`

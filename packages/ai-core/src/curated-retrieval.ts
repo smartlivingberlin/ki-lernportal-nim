@@ -235,6 +235,30 @@ export const CURATED_PASSAGES: readonly CuratedPassage[] = [
     text: "Man fragt die KI, ob sie sicher ist, und glaubt dann der Bestätigung. Besser ist echte Quellenprüfung.",
     keywords: ["sicher", "bestätigung", "quellenprüfung"],
   },
+  {
+    passageId: "l9-p-what",
+    lessonId: "l9",
+    sourceId: "digcomp-30",
+    revision: "2026-08-18",
+    text: "Eine Quelle zeigt, woher eine Information kommt. Ohne Quelle kannst du schwer beurteilen, ob eine Aussage aktuell, richtig oder vollständig ist.",
+    keywords: ["quelle", "information", "beurteilen", "aktuell", "vollständig"],
+  },
+  {
+    passageId: "l9-p-check",
+    lessonId: "l9",
+    sourceId: "nist-genai-profile",
+    revision: "2026-08-18",
+    text: "Prüfe: Wer veröffentlicht die Information? Wann wurde sie aktualisiert? Passt die Quelle wirklich zur Aussage?",
+    keywords: ["veröffentlicht", "aktualisiert", "quelle", "aussage"],
+  },
+  {
+    passageId: "l9-p-proof",
+    lessonId: "l9",
+    sourceId: "digcomp-30",
+    revision: "2026-08-18",
+    text: "Man verwechselt eine schöne Erklärung mit einem Beleg. Eine Erklärung ist hilfreich, aber noch kein Nachweis.",
+    keywords: ["erklärung", "beleg", "nachweis"],
+  },
 ] as const;
 
 function normalize(value: string): string {
@@ -498,6 +522,30 @@ export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
   {
     id: "l8-q-abstain",
     lessonId: "l8",
+    label: "Beispiel ohne Evidenz",
+    query: "Wie hoch ist der Bitcoin-Kurs heute?",
+  },
+  {
+    id: "l9-q-what",
+    lessonId: "l9",
+    label: "Was ist eine Quelle?",
+    query: "Was ist eine Quelle und warum ohne Quelle schwer zu beurteilen ist ob eine Aussage aktuell richtig oder vollständig ist?",
+  },
+  {
+    id: "l9-q-check",
+    lessonId: "l9",
+    label: "Wie prüfe ich Quellen?",
+    query: "Wie prüfe ich ob jemand die Information veröffentlicht hat wann sie aktualisiert wurde und ob die Quelle zur Aussage passt?",
+  },
+  {
+    id: "l9-q-proof",
+    lessonId: "l9",
+    label: "Erklärung oder Beleg?",
+    query: "Warum ist eine schöne Erklärung kein Beleg und noch kein Nachweis?",
+  },
+  {
+    id: "l9-q-abstain",
+    lessonId: "l9",
     label: "Beispiel ohne Evidenz",
     query: "Wie hoch ist der Bitcoin-Kurs heute?",
   },
