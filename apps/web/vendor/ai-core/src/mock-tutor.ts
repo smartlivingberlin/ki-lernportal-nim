@@ -205,6 +205,30 @@ export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
       "Man nimmt die erste Liste der KI als fertige Lösung, obwohl manche Ideen unpassend oder oberflächlich sind.",
     sourceNote: "Lektion l7 · Abschnitt „Typischer Fehler“",
   },
+  {
+    id: "l8-what",
+    lessonId: "l8",
+    question: "Was ist eine Halluzination bei KI-Antworten?",
+    answer:
+      "Eine Halluzination ist eine Antwort, die plausibel klingt, aber falsch oder unbelegt ist. Die KI kann Namen, Zahlen, Quellen oder Regeln erfinden.",
+    sourceNote: "Lektion l8 · Abschnitt „Einfach erklärt“",
+  },
+  {
+    id: "l8-signs",
+    lessonId: "l8",
+    question: "Woran erkenne ich unsichere KI-Antworten?",
+    answer:
+      "Achte auf sehr genaue Zahlen ohne Quelle, erfundene Links, zu sichere Aussagen und Widersprüche zu bekannten Fakten.",
+    sourceNote: "Lektion l8 · Abschnitt „Sicher arbeiten“",
+  },
+  {
+    id: "l8-sure",
+    lessonId: "l8",
+    question: "Warum hilft Bist du sicher nicht?",
+    answer:
+      "Man fragt die KI, ob sie sicher ist, und glaubt dann der Bestätigung. Besser ist echte Quellenprüfung.",
+    sourceNote: "Lektion l8 · Abschnitt „Typischer Fehler“",
+  },
 ] as const;
 
 export function listMockTutorPrompts(lessonId: string): MockTutorPrompt[] {

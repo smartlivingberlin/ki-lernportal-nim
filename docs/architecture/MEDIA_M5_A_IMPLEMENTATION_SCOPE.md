@@ -69,5 +69,6 @@ MEDIA_LIVE_LLM_FORBIDDEN_UNTIL_S56_FREIGABE=YES
 | M5-A5 | Mock-Tutor Expansion `l5` | siehe `MEDIA_M5_A5_MOCK_TUTOR_L5.md` |
 | M5-A6 | Mock-Tutor Expansion `l6` | siehe `MEDIA_M5_A6_MOCK_TUTOR_L6.md` |
 | M5-A7 | Mock-Tutor Expansion `l7` | siehe `MEDIA_M5_A7_MOCK_TUTOR_L7.md` |
+| M5-A8 | Mock-Tutor Expansion `l8` | siehe `MEDIA_M5_A8_MOCK_TUTOR_L8.md` |
 | M5-B | lokaler Ollama-Proof (Dev only) | siehe `MEDIA_M5_B_IMPLEMENTATION_SCOPE.md` |
 | S56 | Live-RAG / Staging-Flags | **gesperrt** |
