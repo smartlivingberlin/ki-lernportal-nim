@@ -52,6 +52,7 @@ Mode bleibt `curated_retrieval`. Preset-Buttons only. Kein Claim „Live-Wissens
 |-------|--------|--------|
 | S56-C6 | Expansion auf `l6` | integriert |
 | S56-C7 | Expansion auf `l7` | dieses Dokument |
+| S56-C8 | Expansion auf `l8` | siehe `S56_C8_CURATED_RETRIEVAL_EXPANSION.md` |
 | S56-B2 | Staging-Flag-Flip + HTTP-Probe | **gesperrt** |
 | S56-D | Embeddings/Index | **gesperrt** |
 | M7 | Flag-gated Staging-RAG UI | **gesperrt** |
