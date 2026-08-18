@@ -110,6 +110,8 @@ Medien M0–M4, M5-A/B, S56-A, S56-B (#237; Privacy/Flag-Entscheidung, kein Flip
 S56-C3 (#248), S56-C4 (#253), S56-C5 (#255), S56-C6 (#258, Quellen-Suche `l6`),
 M5-A2 (#249), M5-A3 (#254), M5-A4 (#256), M5-A5 (#259, Mock-Tutor `l5`) und
 mysql2 3.23.3 (#250) sind in `main` integriert.
+S56-C7 erweitert die Quellen-Suche auf Lektion `l7`
+(`docs/architecture/S56_C7_CURATED_RETRIEVAL_EXPANSION.md`).
 Production-Auth und Railway-DB bleiben gesperrt.
 S52-D2b: Staging `AUTH_RUNTIME` HTTP-verifiziert (Login-Formular + `401`);
 Freigabe D: optionaler Staging-Memory-Seed über `STAGING_BOOTSTRAP_*`

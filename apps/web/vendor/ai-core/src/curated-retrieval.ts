@@ -187,6 +187,30 @@ export const CURATED_PASSAGES: readonly CuratedPassage[] = [
     text: "Man übernimmt den fertigen Text sofort und merkt nicht, dass ein Detail geändert wurde.",
     keywords: ["übernimmt", "sofort", "detail", "geändert"],
   },
+  {
+    passageId: "l7-p-ideas",
+    lessonId: "l7",
+    sourceId: "digcomp-30",
+    revision: "2026-08-18",
+    text: "KI kann dir schnell mehrere Vorschläge geben. Diese Vorschläge sind aber nur Möglichkeiten. Du entscheidest, was passt, was falsch ist und was verbessert werden muss.",
+    keywords: ["vorschläge", "möglichkeiten", "entscheidest", "verbessert"],
+  },
+  {
+    passageId: "l7-p-drafts",
+    lessonId: "l7",
+    sourceId: "oecd-ai-principles",
+    revision: "2026-08-18",
+    text: "Behandle Ideen als Entwürfe. Streiche schlechte Vorschläge. Verbessere gute Vorschläge. Prüfe Fakten, bevor du etwas veröffentlichst oder weitergibst.",
+    keywords: ["entwürfe", "streiche", "verbessere", "fakten", "veröffentlichst"],
+  },
+  {
+    passageId: "l7-p-first",
+    lessonId: "l7",
+    sourceId: "digcomp-30",
+    revision: "2026-08-18",
+    text: "Man nimmt die erste Liste der KI als fertige Lösung, obwohl manche Ideen unpassend oder oberflächlich sind.",
+    keywords: ["erste", "liste", "fertige", "unpassend", "oberflächlich"],
+  },
 ] as const;
 
 function normalize(value: string): string {
@@ -402,6 +426,30 @@ export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
   {
     id: "l6-q-abstain",
     lessonId: "l6",
+    label: "Beispiel ohne Evidenz",
+    query: "Wie hoch ist der Bitcoin-Kurs heute?",
+  },
+  {
+    id: "l7-q-ideas",
+    lessonId: "l7",
+    label: "Was sind KI-Vorschläge?",
+    query: "Sind KI-Vorschläge nur Möglichkeiten und entscheide ich selbst?",
+  },
+  {
+    id: "l7-q-drafts",
+    lessonId: "l7",
+    label: "Wie mit Ideen umgehen?",
+    query: "Warum Ideen als Entwürfe behandeln und Fakten prüfen?",
+  },
+  {
+    id: "l7-q-first",
+    lessonId: "l7",
+    label: "Warum nicht die erste Liste?",
+    query: "Warum nicht die erste Liste als fertige Lösung nehmen?",
+  },
+  {
+    id: "l7-q-abstain",
+    lessonId: "l7",
     label: "Beispiel ohne Evidenz",
     query: "Wie hoch ist der Bitcoin-Kurs heute?",
   },
