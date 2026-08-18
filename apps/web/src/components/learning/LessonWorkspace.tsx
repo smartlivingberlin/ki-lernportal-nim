@@ -185,7 +185,8 @@ export function LessonWorkspace({
           lesson.id === "l3" ||
           lesson.id === "l4" ||
           lesson.id === "l5" ||
-          lesson.id === "l6" ? (
+          lesson.id === "l6" ||
+          lesson.id === "l7" ? (
             <MockTutorPanel lessonId={lesson.id} />
           ) : null}
           {lesson.id === "l1" ||
