@@ -249,6 +249,10 @@ Korpus + Preset-UI, gleiche Grenzen.
 `S56_C9_CURATED_RETRIEVAL_EXPANSION.md`. Korpus + Preset-UI, gleiche Grenzen
 (kein Flag-Flip, keine Embeddings, keine Live-KI).
 
+**S56-C10:** Expansion auf Lektion `l10` — Scope
+`S56_C10_CURATED_RETRIEVAL_EXPANSION.md`. Korpus + Preset-UI, gleiche Grenzen
+(kein Flag-Flip, keine Embeddings, keine Live-KI).
+
 ```text
 MEDIA_M1_PILOT_AUTHORIZED_BY_M0=YES
 MEDIA_M2_PILOT_AUTHORIZED=YES
@@ -380,6 +384,13 @@ S56_C9_LIVE_LLM=NO
 S56_C9_EMBEDDINGS=NO
 S56_C9_STAGING_FLAG_FLIP=NO
 S56_C9_INTEGRATED_TO_MAIN=YES
+S56_C10_SCOPE_LOCK=YES
+S56_C10_CURATED_L10_AUTHORIZED=YES
+S56_C10_FREE_CHAT_FORBIDDEN=YES
+S56_C10_LIVE_LLM=NO
+S56_C10_EMBEDDINGS=NO
+S56_C10_STAGING_FLAG_FLIP=NO
+S56_C10_INTEGRATED_TO_MAIN=NO
 ```
 
 Nächster Schritt nur mit Freigabe: **S56-B2** (Staging-Flag-Flip + HTTP-Probe),
