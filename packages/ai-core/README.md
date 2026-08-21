@@ -97,6 +97,13 @@ Siehe `docs/architecture/S56_C8_CURATED_RETRIEVAL_EXPANSION.md`.
 
 Siehe `docs/architecture/S56_C9_CURATED_RETRIEVAL_EXPANSION.md`.
 
+### S56-C10
+
+- Korpus + Preset-Queries für Lektion `l10`
+- Panel-Wiring in `l1`–`l10`
+
+Siehe `docs/architecture/S56_C10_CURATED_RETRIEVAL_EXPANSION.md`.
+
 ## Erlaubte Imports
 
 - `@ki-lernportal-nim/contracts`
@@ -182,6 +189,9 @@ S56_C8_FREE_CHAT_FORBIDDEN=YES
 S56_C9_SCOPE_LOCK=YES
 S56_C9_CURATED_L9_AUTHORIZED=YES
 S56_C9_FREE_CHAT_FORBIDDEN=YES
+S56_C10_SCOPE_LOCK=YES
+S56_C10_CURATED_L10_AUTHORIZED=YES
+S56_C10_FREE_CHAT_FORBIDDEN=YES
 AI_CORE_LIVE_PROVIDER=NO
 ```
 
@@ -197,6 +207,7 @@ S56-C6 erweitert Korpus und UI auf `l6`.
 S56-C7 erweitert Korpus und UI auf `l7`.
 S56-C8 erweitert Korpus und UI auf `l8`.
 S56-C9 erweitert Korpus und UI auf `l9`.
+S56-C10 erweitert Korpus und UI auf `l10`.
 Keine produktive Provider-Runtime und keine Live-LLM im Portal.
 
 ## Spätere Slices

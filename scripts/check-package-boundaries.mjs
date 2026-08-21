@@ -1883,6 +1883,7 @@ function validatePackageSkeletons() {
           "S56_C7_CURATED_L7_AUTHORIZED=YES",
           "S56_C8_CURATED_L8_AUTHORIZED=YES",
           "S56_C9_CURATED_L9_AUTHORIZED=YES",
+          "S56_C10_CURATED_L10_AUTHORIZED=YES",
           "AI_CORE_LIVE_PROVIDER=NO",
           "Keine produktive",
         ]) {

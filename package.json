@@ -43,6 +43,7 @@
     "test:s56-c7": "node scripts/check-s56-c7.mjs && node --experimental-strip-types packages/ai-core/src/curated-retrieval.test.ts",
     "test:s56-c8": "node scripts/check-s56-c8.mjs && node --experimental-strip-types packages/ai-core/src/curated-retrieval.test.ts",
     "test:s56-c9": "node scripts/check-s56-c9.mjs && node --experimental-strip-types packages/ai-core/src/curated-retrieval.test.ts",
+    "test:s56-c10": "node scripts/check-s56-c10.mjs && node --experimental-strip-types packages/ai-core/src/curated-retrieval.test.ts",
     "prove:ollama-local": "bash scripts/ai/prove-ollama-local.sh",
     "test:s48c-sources": "node scripts/check-s48c-source-ui.cjs",
     "test:s49d-practice-ui": "node scripts/check-s49d-practice-ui.cjs",

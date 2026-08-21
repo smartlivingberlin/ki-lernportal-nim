@@ -28,7 +28,8 @@ same(listCuratedPassages("l6").length, 3, "l6 passages");
 same(listCuratedPassages("l7").length, 3, "l7 passages");
 same(listCuratedPassages("l8").length, 3, "l8 passages");
 same(listCuratedPassages("l9").length, 3, "l9 passages");
-same(listCuratedPassages("l10").length, 0, "unknown lesson empty");
+same(listCuratedPassages("l10").length, 3, "l10 passages");
+same(listCuratedPassages("l11").length, 0, "unknown lesson empty");
 
 const hit = retrieveCurated({
   lessonId: "l1",
@@ -65,7 +66,8 @@ same(listCuratedUiQueries("l6").length, 4, "l6 ui queries");
 same(listCuratedUiQueries("l7").length, 4, "l7 ui queries");
 same(listCuratedUiQueries("l8").length, 4, "l8 ui queries");
 same(listCuratedUiQueries("l9").length, 4, "l9 ui queries");
-same(listCuratedUiQueries("l10").length, 0, "unknown lesson ui empty");
+same(listCuratedUiQueries("l10").length, 4, "l10 ui queries");
+same(listCuratedUiQueries("l11").length, 0, "unknown lesson ui empty");
 
 const uiHit = retrieveCurated({
   lessonId: "l1",
@@ -218,5 +220,22 @@ const l9Abstain = retrieveCurated({
   query: l9AbstainQuery.query,
 });
 same(l9Abstain.status, "abstain", "l9 abstain ui query abstains");
+
+const l10Hit = retrieveCurated({
+  lessonId: "l10",
+  query: listCuratedUiQueries("l10")[0]!.query,
+});
+same(l10Hit.status, "hit", "l10 ui query hits");
+ok(l10Hit.citations[0]?.passageId.startsWith("l10-"), "l10 citation");
+
+const l10AbstainQuery = listCuratedUiQueries("l10").find(
+  (q) => q.id === "l10-q-abstain",
+);
+ok(l10AbstainQuery != null, "l10 abstain ui query exists");
+const l10Abstain = retrieveCurated({
+  lessonId: "l10",
+  query: l10AbstainQuery.query,
+});
+same(l10Abstain.status, "abstain", "l10 abstain ui query abstains");
 
 console.log("AI_CORE_CURATED_RETRIEVAL_OK=YES");

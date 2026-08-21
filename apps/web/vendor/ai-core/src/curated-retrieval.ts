@@ -259,6 +259,30 @@ export const CURATED_PASSAGES: readonly CuratedPassage[] = [
     text: "Man verwechselt eine schöne Erklärung mit einem Beleg. Eine Erklärung ist hilfreich, aber noch kein Nachweis.",
     keywords: ["erklärung", "beleg", "nachweis"],
   },
+  {
+    passageId: "l10-p-data",
+    lessonId: "l10",
+    sourceId: "eu-gdpr",
+    revision: "2026-08-19",
+    text: "Ein Prompt kann persönliche oder vertrauliche Daten enthalten. Dazu gehören Namen, Adressen, Telefonnummern, Passwörter, Kundendaten, Gesundheitsdaten oder Vertragsdetails.",
+    keywords: ["prompt", "persönliche", "vertrauliche", "passwörter", "kundendaten", "gesundheitsdaten"],
+  },
+  {
+    passageId: "l10-p-placeholder",
+    lessonId: "l10",
+    sourceId: "digcomp-30",
+    revision: "2026-08-19",
+    text: "Entferne Namen und ersetze sie durch Platzhalter. Kürze Dokumente auf das Nötigste. Gib keine Passwörter, Zugangsdaten oder Bankdaten ein.",
+    keywords: ["platzhalter", "namen", "dokumente", "passwörter", "zugangsdaten", "bankdaten"],
+  },
+  {
+    passageId: "l10-p-copy",
+    lessonId: "l10",
+    sourceId: "eu-gdpr",
+    revision: "2026-08-19",
+    text: "Man kopiert ganze Dokumente in einen Chat, obwohl nur ein kleiner Ausschnitt gebraucht wird.",
+    keywords: ["dokumente", "chat", "ausschnitt", "kopiert"],
+  },
 ] as const;
 
 function normalize(value: string): string {
@@ -546,6 +570,30 @@ export const CURATED_UI_QUERIES: readonly CuratedUiQuery[] = [
   {
     id: "l9-q-abstain",
     lessonId: "l9",
+    label: "Beispiel ohne Evidenz",
+    query: "Wie hoch ist der Bitcoin-Kurs heute?",
+  },
+  {
+    id: "l10-q-data",
+    lessonId: "l10",
+    label: "Was gehört nicht in den Prompt?",
+    query: "Welche persönlichen oder vertraulichen Daten wie Namen Adressen Passwörter Kundendaten oder Vertragsdetails gehören nicht unüberlegt in einen Prompt?",
+  },
+  {
+    id: "l10-q-placeholder",
+    lessonId: "l10",
+    label: "Platzhalter statt Namen",
+    query: "Wie entferne ich Namen und ersetze sie durch Platzhalter und kürze Dokumente ohne Passwörter oder Bankdaten?",
+  },
+  {
+    id: "l10-q-copy",
+    lessonId: "l10",
+    label: "Ganze Dokumente kopieren?",
+    query: "Warum soll ich nicht ganze Dokumente in einen Chat kopieren wenn nur ein kleiner Ausschnitt gebraucht wird?",
+  },
+  {
+    id: "l10-q-abstain",
+    lessonId: "l10",
     label: "Beispiel ohne Evidenz",
     query: "Wie hoch ist der Bitcoin-Kurs heute?",
   },

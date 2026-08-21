@@ -198,7 +198,8 @@ export function LessonWorkspace({
           lesson.id === "l6" ||
           lesson.id === "l7" ||
           lesson.id === "l8" ||
-          lesson.id === "l9" ? (
+          lesson.id === "l9" ||
+          lesson.id === "l10" ? (
             <CuratedRetrievalPanel lessonId={lesson.id} />
           ) : null}
           {practice ? (
