@@ -16,7 +16,7 @@ function same(actual: unknown, expected: unknown, message: string): void {
   );
 }
 
-ok(MOCK_TUTOR_PROMPTS.length >= 24, "l1–l8 bank has prompts");
+ok(MOCK_TUTOR_PROMPTS.length >= 27, "l1–l9 bank has prompts");
 same(listMockTutorPrompts("l1").length, 3, "list l1 prompts");
 same(listMockTutorPrompts("l2").length, 3, "list l2 prompts");
 same(listMockTutorPrompts("l3").length, 3, "list l3 prompts");
@@ -25,7 +25,8 @@ same(listMockTutorPrompts("l5").length, 3, "list l5 prompts");
 same(listMockTutorPrompts("l6").length, 3, "list l6 prompts");
 same(listMockTutorPrompts("l7").length, 3, "list l7 prompts");
 same(listMockTutorPrompts("l8").length, 3, "list l8 prompts");
-same(listMockTutorPrompts("l9").length, 0, "unknown lesson empty");
+same(listMockTutorPrompts("l9").length, 3, "list l9 prompts");
+same(listMockTutorPrompts("l10").length, 0, "unknown lesson empty");
 
 const hit = answerMockTutor({ lessonId: "l1", promptId: "l1-what-is-ai" });
 same(hit.status, "answered", "known prompt answered");
@@ -39,7 +40,7 @@ same(miss.status, "abstain", "unknown prompt abstains");
 ok(miss.sourceNote.includes("Enthaltung"), "abstain labeled");
 
 const wrongLesson = answerMockTutor({
-  lessonId: "l9",
+  lessonId: "l10",
   promptId: "l1-what-is-ai",
 });
 same(wrongLesson.status, "abstain", "wrong lesson abstains");
@@ -131,5 +132,18 @@ const l8WrongBank = answerMockTutor({
   promptId: "l7-ideas",
 });
 same(l8WrongBank.status, "abstain", "l7 prompt abstains on l8");
+
+const l9Hit = answerMockTutor({
+  lessonId: "l9",
+  promptId: "l9-what",
+});
+same(l9Hit.status, "answered", "l9 prompt answered");
+ok(l9Hit.answer.includes("Quelle"), "l9 answer from curated text");
+
+const l9WrongBank = answerMockTutor({
+  lessonId: "l9",
+  promptId: "l8-what",
+});
+same(l9WrongBank.status, "abstain", "l8 prompt abstains on l9");
 
 console.log("AI_CORE_MOCK_TUTOR_OK=YES");

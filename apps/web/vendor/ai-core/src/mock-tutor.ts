@@ -35,7 +35,7 @@ export type MockTutorPrompt = {
 const HONESTY =
   "Feste, kuratierte Antwort aus dem Lektionsstoff · kein Netz · keine Live-KI.";
 
-/** Curated bank — keep in sync with lesson l1–l7 teaching points. */
+/** Curated bank — keep in sync with lesson l1–l9 teaching points. */
 export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
   {
     id: "l1-what-is-ai",
@@ -228,6 +228,30 @@ export const MOCK_TUTOR_PROMPTS: readonly MockTutorPrompt[] = [
     answer:
       "Man fragt die KI, ob sie sicher ist, und glaubt dann der Bestätigung. Besser ist echte Quellenprüfung.",
     sourceNote: "Lektion l8 · Abschnitt „Typischer Fehler“",
+  },
+  {
+    id: "l9-what",
+    lessonId: "l9",
+    question: "Was ist eine Quelle?",
+    answer:
+      "Eine Quelle zeigt, woher eine Information kommt. Ohne Quelle kannst du schwer beurteilen, ob eine Aussage aktuell, richtig oder vollständig ist.",
+    sourceNote: "Lektion l9 · Abschnitt „Einfach erklärt“",
+  },
+  {
+    id: "l9-check",
+    lessonId: "l9",
+    question: "Wie prüfe ich Quellen?",
+    answer:
+      "Prüfe: Wer veröffentlicht die Information? Wann wurde sie aktualisiert? Passt die Quelle wirklich zur Aussage?",
+    sourceNote: "Lektion l9 · Abschnitt „Sicher arbeiten“",
+  },
+  {
+    id: "l9-proof",
+    lessonId: "l9",
+    question: "Warum ist eine Erklärung kein Beleg?",
+    answer:
+      "Man verwechselt eine schöne Erklärung mit einem Beleg. Eine Erklärung ist hilfreich, aber noch kein Nachweis.",
+    sourceNote: "Lektion l9 · Abschnitt „Typischer Fehler“",
   },
 ] as const;
 
