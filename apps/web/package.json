@@ -15,9 +15,9 @@
     "@ki-lernportal-nim/auth": "file:./vendor/auth",
     "@ki-lernportal-nim/contracts": "file:./vendor/contracts",
     "@ki-lernportal-nim/domain": "file:./vendor/domain",
-    "next": "16.2.11",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "next": "16.2.12",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   },
   "overrides": {
     "postcss": "8.5.26",
@@ -34,8 +34,8 @@
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "20.19.43",
-    "@types/react": "19.2.17",
-    "@types/react-dom": "19.2.3",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
     "eslint": "9.39.5",
     "eslint-config-next": "16.2.12",
     "tailwindcss": "4.3.3",
