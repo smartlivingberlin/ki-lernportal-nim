@@ -15,7 +15,7 @@
     "@ki-lernportal-nim/auth": "file:./vendor/auth",
     "@ki-lernportal-nim/contracts": "file:./vendor/contracts",
     "@ki-lernportal-nim/domain": "file:./vendor/domain",
-    "next": "16.2.11",
+    "next": "16.3.3",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
